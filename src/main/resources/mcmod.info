@@ -1,0 +1,16 @@
+[
+{
+  "modid": "blockrenderer",
+  "name": "BlockRenderer",
+  "description": "It renders blocks and items.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "https://unascribed.com",
+  "updateUrl": "",
+  "authorList": ["Una"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
