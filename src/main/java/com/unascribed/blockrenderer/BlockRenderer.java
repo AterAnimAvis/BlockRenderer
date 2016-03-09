@@ -306,7 +306,7 @@ public class BlockRenderer {
 	}
 	
 	private String sanitize(String str) {
-		return str.replaceAll("[^A-Za-z0-9-_]", "_");
+		return str.replaceAll("[^A-Za-z0-9-_ ]", "_");
 	}
 
 	public BufferedImage readPixels(int width, int height) throws InterruptedException {
