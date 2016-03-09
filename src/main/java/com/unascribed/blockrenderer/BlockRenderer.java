@@ -75,11 +75,18 @@ public class BlockRenderer {
 	
 	@SubscribeEvent(priority=EventPriority.HIGHEST)
 	public void onFrameStart(RenderTickEvent e) {
+		/**
+		 * Quick primer: OpenGL is double-buffered. This means, where we draw to is
+		 * /not/ on the screen. As such, we are free to do whatever we like before
+		 * Minecraft renders, as long as we put everything back the way it was.
+		 */
 		if (e.phase == Phase.START) {
 			if (pendingBulkRender != null) {
+				// We *must* call render code in pre-render. If we don't, it won't work right.
 				bulkRender(pendingBulkRender);
 				pendingBulkRender = null;
 			}
+			// XXX is this really neccessary? I forget why I made it unwrap the binding...
 			int code = bind.getKeyCode();
 			if (code > 256) {
 				return;
@@ -96,6 +103,8 @@ public class BlockRenderer {
 							int w = currentScreen.width;
 							int h = currentScreen.height;
 							final int x = Mouse.getX() * w / mc.displayWidth;
+							// OpenGL's Y-zero is at the *bottom* of the window.
+							// Minecraft's Y-zero is at the top. So, we need to flip it.
 							final int y = h - Mouse.getY() * h / mc.displayHeight - 1;
 							Slot s = ((GuiContainer)currentScreen).getSlotAtPosition(x, y);
 							if (s != null) {
@@ -133,7 +142,14 @@ public class BlockRenderer {
 				Item i = Item.itemRegistry.getObject(resloc);
 				try {
 					i.getSubItems(i, i.getCreativeTab(), li);
-				} catch (Throwable t) {}
+				} catch (Throwable t) {
+					/*
+					 * Some mods may throw exceptions in here, either due to a
+					 * bug on their part or us passing unexpected values. Either
+					 * way, we don't want rendering to crash in such an event,
+					 * so just swallow it.
+					 */
+				}
 				toRender.addAll(li);
 			}
 		}
@@ -143,8 +159,12 @@ public class BlockRenderer {
 		for (ItemStack is : toRender) {
 			render(is, folder, false);
 			rendered++;
+			// 33 milliseconds is 30.303030303030303¯ FPS.
 			if (Minecraft.getSystemTime()-lastUpdate > 33) {
-				renderLoading(I18n.format("gui.rendering", toRender.size(), Joiner.on(", ").join(modids)), I18n.format("gui.progress", rendered, toRender.size(), (toRender.size()-rendered)), is, (float)rendered/toRender.size());
+				renderLoading(I18n.format("gui.rendering", toRender.size(),
+						Joiner.on(", ").join(modids)),
+						I18n.format("gui.progress", rendered, toRender.size(), (toRender.size()-rendered)),
+						is, (float)rendered/toRender.size());
 				lastUpdate = Minecraft.getSystemTime();
 			}
 		}
@@ -159,7 +179,12 @@ public class BlockRenderer {
 		mc.getFramebuffer().unbindFramebuffer();
 		GlStateManager.pushMatrix();
 			ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft());
+			/*
+			 * If you're not familiar, this call switches the rendering mode from
+			 * 3D perspective to 2D orthogonal.
+			 */
 			mc.entityRenderer.setupOverlayRendering();
+			// Draw the dirt background and status text...
 			Rendering.drawBackground(res.getScaledWidth(), res.getScaledHeight());
 			Rendering.drawCenteredString(mc.fontRendererObj, title, res.getScaledWidth()/2, res.getScaledHeight()/2-24, -1);
 			Rendering.drawRect(res.getScaledWidth()/2-50, res.getScaledHeight()/2-1, res.getScaledWidth()/2+50, res.getScaledHeight()/2+1, 0xFF001100);
@@ -167,10 +192,12 @@ public class BlockRenderer {
 			GlStateManager.pushMatrix();
 				GlStateManager.scale(0.5f, 0.5f, 1);
 				Rendering.drawCenteredString(mc.fontRendererObj, subtitle, res.getScaledWidth(), res.getScaledHeight()-20, -1);
+				// ...and draw the tooltip.
 				if (is != null) {
 					try {
 						List<String> list = is.getTooltip(mc.thePlayer, true);
 			
+						// This code is copied from the tooltip renderer, so we can properly center it.
 						for (int i = 0; i < list.size(); ++i) {
 							if (i == 0) {
 								list.set(i, is.getRarity().rarityColor + list.get(i));
@@ -192,6 +219,7 @@ public class BlockRenderer {
 								width = j;
 							}
 						}
+						// End copied code.
 						GlStateManager.translate((res.getScaledWidth()-width/2)-12, res.getScaledHeight()+30, 0);
 						Rendering.drawHoveringText(list, 0, 0, font);
 					} catch (Throwable t) {}
@@ -199,6 +227,12 @@ public class BlockRenderer {
 			GlStateManager.popMatrix();
 		GlStateManager.popMatrix();
 		mc.updateDisplay();
+		/*
+		 * While OpenGL itself is double-buffered, Minecraft is actually *triple*-buffered.
+		 * This is to allow shaders to work, as shaders are only available in "modern" GL.
+		 * Minecraft uses "legacy" GL, so it renders using a separate GL context to this
+		 * third buffer, which is then flipped to the back buffer with this call.
+		 */
 		mc.getFramebuffer().bindFramebuffer(false);
 	}
 
@@ -209,20 +243,35 @@ public class BlockRenderer {
 		if (GuiScreen.isShiftKeyDown()) {
 			size = 16*res.getScaleFactor();
 		} else {
+			/*
+			 * As we render to the back-buffer, we need to cap our render size
+			 * to be within the window's bounds. If we didn't do this, the results
+			 * of our readPixels up ahead would be undefined. And nobody likes
+			 * undefined behavior.
+			 */
 			size = Math.min(Math.min(mc.displayHeight, mc.displayWidth), 512);
 		}
 		String filename = (includeDateInFilename ? dateFormat.format(new Date())+"_" : "")+sanitize(is.getDisplayName())+".png";
 		GlStateManager.pushMatrix();
 			GlStateManager.clearColor(0, 0, 0, 0);
 			GlStateManager.clear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
+			// Again, switches from 3D to 2D
 			mc.entityRenderer.setupOverlayRendering();
 			RenderHelper.enableGUIStandardItemLighting();
+			/*
+			 * The GUI scale affects us due to the position in the render pipeline
+			 * that our hook is at. As such, we need to counteract this to always
+			 * get a 512x512 render.
+			 */
 			float scale = size/(16f*res.getScaleFactor());
 			GlStateManager.translate(0, 0, -(scale*100));
 			
 			GlStateManager.scale(scale, scale, scale);
 			GlStateManager.translate(0, 0, -50);
 			
+			/*
+			 * All these enables/disables are to get the state into what the item/block renderer expects.
+			 */
 			GlStateManager.enableDepth();
 			GlStateManager.enableAlpha();
 			GlStateManager.enableBlend();
@@ -235,6 +284,13 @@ public class BlockRenderer {
 			GlStateManager.disableDepth();
 		GlStateManager.popMatrix();
 		try {
+			/*
+			 * We need to flip the image over here, because again, GL Y-zero is
+			 * the bottom, so it's "Y-up". Minecraft's Y-zero is the top, so it's
+			 * "Y-down". Since readPixels is Y-up, our Y-down render is flipped.
+			 * It's easier to do this operation on the resulting image than to
+			 * do it with GL transforms. Not faster, just easier.
+			 */
 			BufferedImage img = createFlipped(readPixels(size, size));
 			
 			File f = new File(folder, filename);
@@ -253,9 +309,17 @@ public class BlockRenderer {
 	}
 
 	public BufferedImage readPixels(int width, int height) throws InterruptedException {
+		/*
+		 * Make sure we're reading from the back buffer, not the front buffer.
+		 * The front buffer is what is currently on-screen, and is useful for
+		 * screenshots.
+		 */
 		GL11.glReadBuffer(GL11.GL_BACK);
+		// Allocate a native data array to fit our pixels
 		ByteBuffer buf = BufferUtils.createByteBuffer(width * height * 4);
+		// And finally read the pixel data from the GPU...
 		GL11.glReadPixels(0, 0, width, height, GL12.GL_BGRA, GL11.GL_UNSIGNED_BYTE, buf);
+		// ...and turn it into a Java object we can do things to.
 		BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		int[] pixels = new int[width*height];
 		buf.asIntBuffer().get(pixels);
