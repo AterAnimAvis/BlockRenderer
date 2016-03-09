@@ -56,7 +56,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 public class BlockRenderer {
 	public static final String MODID = "blockrenderer";
 	public static final String NAME = "BlockRenderer";
-	public static final String VERSION = "0.3.1";
+	public static final String VERSION = "0.3.2";
 	
 	@Instance
 	public static BlockRenderer inst;
