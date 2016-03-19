@@ -33,7 +33,8 @@ public class GuiEnterModId extends GuiScreen implements GuiResponder {
 		buttonList.add(new GuiButton(2, width/2-100, height/6+120, 98, 20, I18n.format("gui.cancel")));
 		GuiButton render = new GuiButton(1, width/2+2, height/6+120, 98, 20, I18n.format("gui.render"));
 		buttonList.add(render);
-		size = new GuiSlider(this, 3, width/2-100, height/6+80, I18n.format("gui.rendersize"), 16, Math.min(2048, mc.displayHeight), Math.min(oldSize, mc.displayHeight), (id, name, value) -> {
+		int minSize = Math.min(mc.displayWidth, mc.displayHeight);
+		size = new GuiSlider(this, 3, width/2-100, height/6+80, I18n.format("gui.rendersize"), 16, Math.min(2048, minSize), Math.min(oldSize, minSize), (id, name, value) -> {
 			String px = Integer.toString(round(value));
 			return name+": "+px+"x"+px;
 		});
@@ -52,10 +53,11 @@ public class GuiEnterModId extends GuiScreen implements GuiResponder {
 		int val = (int)value;
 		// There's a more efficient method in MathHelper, but it rounds up. We want the nearest.
 		int nearestPowerOfTwo = (int)Math.pow(2, Math.ceil(Math.log(val)/Math.log(2)));
-		if (Math.abs(val-nearestPowerOfTwo) < 32) {
+		int minSize = Math.min(mc.displayHeight, mc.displayWidth);
+		if (nearestPowerOfTwo < minSize && Math.abs(val-nearestPowerOfTwo) < 32) {
 			val = nearestPowerOfTwo;
 		}
-		return val;
+		return Math.min(val, minSize);
 	}
 	
 	@Override
