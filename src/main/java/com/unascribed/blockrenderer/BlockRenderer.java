@@ -13,6 +13,8 @@ import java.util.Set;
 
 import javax.imageio.ImageIO;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -26,6 +28,7 @@ import com.google.common.io.Files;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -33,7 +36,6 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -65,6 +67,9 @@ public class BlockRenderer {
 	protected boolean down = false;
 	protected static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss");
 	protected String pendingBulkRender;
+	protected int pendingBulkRenderSize;
+	
+	protected final Logger log = LogManager.getLogger("BlockRenderer");
 	
 	@EventHandler
 	public void onPreInit(FMLPreInitializationEvent e) {
@@ -83,7 +88,7 @@ public class BlockRenderer {
 		if (e.phase == Phase.START) {
 			if (pendingBulkRender != null) {
 				// We *must* call render code in pre-render. If we don't, it won't work right.
-				bulkRender(pendingBulkRender);
+				bulkRender(pendingBulkRender, pendingBulkRenderSize);
 				pendingBulkRender = null;
 			}
 			// XXX is this really neccessary? I forget why I made it unwrap the binding...
@@ -110,7 +115,7 @@ public class BlockRenderer {
 							if (s != null) {
 								ItemStack is = s.getStack();
 								if (is != null) {
-									mc.ingameGUI.getChatGUI().printChatMessage(new ChatComponentText(render(is, new File("renders"), true)));
+									mc.ingameGUI.getChatGUI().printChatMessage(new ChatComponentText(render(is, new File("renders"), 512, true)));
 								} else {
 									mc.ingameGUI.getChatGUI().printChatMessage(new ChatComponentTranslation("msg.slot.empty"));
 								}
@@ -128,7 +133,8 @@ public class BlockRenderer {
 		}
 	}
 
-	private void bulkRender(String modidSpec) {
+	private void bulkRender(String modidSpec, int size) {
+		Minecraft.getMinecraft().displayGuiScreen(new GuiIngameMenu());
 		Set<String> modids = Sets.newHashSet();
 		for (String str : modidSpec.split(",")) {
 			modids.add(str.trim());
@@ -143,26 +149,20 @@ public class BlockRenderer {
 				try {
 					i.getSubItems(i, i.getCreativeTab(), li);
 				} catch (Throwable t) {
-					/*
-					 * Some mods may throw exceptions in here, either due to a
-					 * bug on their part or us passing unexpected values. Either
-					 * way, we don't want rendering to crash in such an event,
-					 * so just swallow it.
-					 */
+					log.warn("Failed to get renderable items for "+resloc, t);
 				}
 				toRender.addAll(li);
 			}
 		}
-		toRender.add(new ItemStack(Blocks.chest));
 		File folder = new File("renders/"+dateFormat.format(new Date())+"_"+sanitize(modidSpec)+"/");
 		long lastUpdate = 0;
+		String joined = Joiner.on(", ").join(modids);
 		for (ItemStack is : toRender) {
-			render(is, folder, false);
+			render(is, folder, size, false);
 			rendered++;
 			// 33 milliseconds is 30.303030303030303¯ FPS.
 			if (Minecraft.getSystemTime()-lastUpdate > 33) {
-				renderLoading(I18n.format("gui.rendering", toRender.size(),
-						Joiner.on(", ").join(modids)),
+				renderLoading(I18n.format("gui.rendering", toRender.size(), joined),
 						I18n.format("gui.progress", rendered, toRender.size(), (toRender.size()-rendered)),
 						is, (float)rendered/toRender.size());
 				lastUpdate = Minecraft.getSystemTime();
@@ -236,7 +236,7 @@ public class BlockRenderer {
 		mc.getFramebuffer().bindFramebuffer(false);
 	}
 
-	private String render(ItemStack is, File folder, boolean includeDateInFilename) {
+	private String render(ItemStack is, File folder, int desiredSize, boolean includeDateInFilename) {
 		Minecraft mc = Minecraft.getMinecraft();
 		ScaledResolution res = new ScaledResolution(mc);
 		int size;
@@ -249,7 +249,7 @@ public class BlockRenderer {
 			 * of our readPixels up ahead would be undefined. And nobody likes
 			 * undefined behavior.
 			 */
-			size = Math.min(Math.min(mc.displayHeight, mc.displayWidth), 512);
+			size = Math.min(Math.min(mc.displayHeight, mc.displayWidth), desiredSize);
 		}
 		String filename = (includeDateInFilename ? dateFormat.format(new Date())+"_" : "")+sanitize(is.getDisplayName())+".png";
 		GlStateManager.pushMatrix();
@@ -270,9 +270,7 @@ public class BlockRenderer {
 			GlStateManager.scale(scale, scale, scale);
 			GlStateManager.translate(0, 0, -50);
 			
-			/*
-			 * All these enables/disables are to get the state into what the item/block renderer expects.
-			 */
+			// All these enables/disables are to get the state into what the item/block renderer expects.
 			GlStateManager.enableDepth();
 			GlStateManager.enableAlpha();
 			GlStateManager.enableBlend();
