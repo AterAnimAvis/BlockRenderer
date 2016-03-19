@@ -133,7 +133,9 @@ public class GuiEnterModId extends GuiScreen implements GuiResponder {
 	public void func_175321_a(int p_175321_1_, boolean p_175321_2_) {}
 
 	@Override
-	public void onTick(int id, float value) {}
+	public void onTick(int id, float value) {
+		size.func_175218_a(round(value), false);
+	}
 
 	@Override
 	public void func_175319_a(int p_175319_1_, String p_175319_2_) {}
