@@ -319,7 +319,7 @@ public class BlockRenderer {
 		// Allocate a native data array to fit our pixels
 		ByteBuffer buf = BufferUtils.createByteBuffer(width * height * 4);
 		// And finally read the pixel data from the GPU...
-		GL11.glReadPixels(0, 0, width, height, GL12.GL_BGRA, GL11.GL_UNSIGNED_BYTE, buf);
+		GL11.glReadPixels(0, Minecraft.getMinecraft().displayHeight-height, width, height, GL12.GL_BGRA, GL11.GL_UNSIGNED_BYTE, buf);
 		// ...and turn it into a Java object we can do things to.
 		BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		int[] pixels = new int[width*height];
