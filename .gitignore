@@ -8,6 +8,9 @@ build/
 .metadata
 .gradle
 eclipse/
-minecraft/
+run/
 .pmd
 .DS_Store
+
+.idea/
+hidden/
