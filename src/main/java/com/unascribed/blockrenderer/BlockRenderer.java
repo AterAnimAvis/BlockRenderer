@@ -62,7 +62,7 @@ public class BlockRenderer {
 
 	public static BlockRenderer inst;
 	
-	protected KeyBinding bind = new KeyBinding("key.render", GLFW.GLFW_KEY_GRAVE_ACCENT, "key.categories.blockrenderer");
+	protected KeyBinding bind = new KeyBinding("key.blockrenderer.render", GLFW.GLFW_KEY_GRAVE_ACCENT, "key.categories.blockrenderer");
 	protected boolean down = false;
 	protected static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss");
 	protected String pendingBulkRender;
@@ -124,13 +124,13 @@ public class BlockRenderer {
 								mc.ingameGUI.getChatGUI().printChatMessage(new StringTextComponent(render(is, new File("renders"), true)));
 								tearDownRenderState();
 							} else {
-								mc.ingameGUI.getChatGUI().printChatMessage(new TranslationTextComponent("msg.slot.empty"));
+								mc.ingameGUI.getChatGUI().printChatMessage(new TranslationTextComponent("msg.blockrenderer.slot.empty"));
 							}
 						} else {
-							mc.ingameGUI.getChatGUI().printChatMessage(new TranslationTextComponent("msg.slot.absent"));
+							mc.ingameGUI.getChatGUI().printChatMessage(new TranslationTextComponent("msg.blockrenderer.slot.absent"));
 						}
 					} else {
-						mc.ingameGUI.getChatGUI().printChatMessage(new TranslationTextComponent("msg.notcontainer"));
+						mc.ingameGUI.getChatGUI().printChatMessage(new TranslationTextComponent("msg.blockrenderer.notContainer"));
 					}
 				}
 			} else {
@@ -174,18 +174,18 @@ public class BlockRenderer {
 			rendered++;
 			if (Util.milliTime()-lastUpdate > 33) {
 				tearDownRenderState();
-				renderLoading(I18n.format("gui.rendering", toRender.size(), joined),
-						I18n.format("gui.progress", rendered, toRender.size(), (toRender.size()-rendered)),
+				renderLoading(I18n.format("blockrenderer.gui.rendering", toRender.size(), joined),
+						I18n.format("blockrenderer.gui.progress", rendered, toRender.size(), (toRender.size()-rendered)),
 						is, (float)rendered/toRender.size());
 				lastUpdate = Util.milliTime();
 				setUpRenderState(size);
 			}
 		}
 		if (rendered >= toRender.size()) {
-			renderLoading(I18n.format("gui.rendered", toRender.size(), Joiner.on(", ").join(modids)), "", null, 1);
+			renderLoading(I18n.format("blockrenderer.gui.rendered", toRender.size(), Joiner.on(", ").join(modids)), "", null, 1);
 		} else {
-			renderLoading(I18n.format("gui.renderCancelled"),
-					I18n.format("gui.progress", rendered, toRender.size(), (toRender.size()-rendered)),
+			renderLoading(I18n.format("blockrenderer.gui.renderCancelled"),
+					I18n.format("blockrenderer.gui.progress", rendered, toRender.size(), (toRender.size()-rendered)),
 					null, (float)rendered/toRender.size());
 		}
 		tearDownRenderState();
@@ -275,10 +275,10 @@ public class BlockRenderer {
 			Files.createParentDirs(f);
 			f.createNewFile();
 			ImageIO.write(img, "PNG", f);
-			return I18n.format("msg.render.success", f.getPath());
+			return I18n.format("msg.blockrenderer.render.success", f.getPath());
 		} catch (Exception ex) {
 			ex.printStackTrace();
-			return I18n.format("msg.render.fail");
+			return I18n.format("msg.blockrenderer.render.fail");
 		}
 	}
 	

@@ -12,7 +12,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 
 public class GuiEnterModId extends Screen {
 
-	private static final TranslationTextComponent TITLE = new TranslationTextComponent("gui.entermodid");
+	private static final TranslationTextComponent TITLE = new TranslationTextComponent("blockrenderer.gui.enterModId");
 
 	private String prefill;
 	private TextFieldWidget text;
@@ -32,7 +32,7 @@ public class GuiEnterModId extends Screen {
 
 		String oldText = (text == null ? prefill : text.getText());
 
-		text = addButton(new TextFieldWidget(minecraft.fontRenderer, width/2-100, height/6+50, 200, 20, I18n.format("gui.entermodid")));
+		text = addButton(new TextFieldWidget(minecraft.fontRenderer, width/2-100, height/6+50, 200, 20, I18n.format("blockrenderer.gui.enterModId")));
 		text.setText(oldText);
 		text.setFocused2(true);
 		text.setCanLoseFocus(false);
@@ -42,7 +42,7 @@ public class GuiEnterModId extends Screen {
 		
 		addButton(new Button(width/2-100, height/6+120, 98, 20, I18n.format("gui.cancel"), button -> minecraft.displayGuiScreen(old)));
 
-		Button render = addButton(new Button(width/2+2, height/6+120, 98, 20, I18n.format("gui.render"), button -> {
+		Button render = addButton(new Button(width/2+2, height/6+120, 98, 20, I18n.format("blockrenderer.gui.render"), button -> {
 			minecraft.displayGuiScreen(old);
 			if (minecraft.world == null) return;
 
@@ -55,7 +55,7 @@ public class GuiEnterModId extends Screen {
 
 		int minSize = Math.min(displayWidth, displayHeight);
 
-		SliderPercentageOption option = new SliderPercentageOption(I18n.format("gui.rendersize"), 16, Math.min(2048, minSize), 1, (settings) -> size, (settings, value) -> size = round(value), this::getSliderDisplay);
+		SliderPercentageOption option = new SliderPercentageOption(I18n.format("blockrenderer.gui.renderSize"), 16, Math.min(2048, minSize), 1, (settings) -> size, (settings, value) -> size = round(value), this::getSliderDisplay);
 		OptionSlider slider = addButton(new OptionSlider(minecraft.gameSettings, width/2-100, height/6+80, 200, 20, option));
 
 		text.active = enabled;
@@ -90,9 +90,9 @@ public class GuiEnterModId extends Screen {
 
 		super.render(mouseX, mouseY, partialTicks);
 
-		drawCenteredString(minecraft.fontRenderer, I18n.format("gui.entermodid"), width/2, height/6, -1);
+		drawCenteredString(minecraft.fontRenderer, I18n.format("blockrenderer.gui.enterModId"), width/2, height/6, -1);
 		if (minecraft.world == null) {
-			drawCenteredString(minecraft.fontRenderer, I18n.format("gui.noworld"), width/2, height/6+30, 0xFF5555);
+			drawCenteredString(minecraft.fontRenderer, I18n.format("blockrenderer.gui.noWorld"), width/2, height/6+30, 0xFF5555);
 		} else {
 			int displayWidth = minecraft.getMainWindow().getFramebufferWidth();
 			int displayHeight = minecraft.getMainWindow().getFramebufferHeight();
@@ -102,16 +102,16 @@ public class GuiEnterModId extends Screen {
 			String str = null;
 			if (widthCap && heightCap) {
 				if (displayWidth > displayHeight) {
-					str = "gui.cappedheight";
+					str = "blockrenderer.gui.cappedHeight";
 				} else if (displayWidth == displayHeight) {
-					str = "gui.cappedboth";
+					str = "blockrenderer.gui.cappedBoth";
 				} else {
-					str = "gui.cappedwidth";
+					str = "blockrenderer.gui.cappedWidth";
 				}
 			} else if (widthCap) {
-				str = "gui.cappedwidth";
+				str = "blockrenderer.gui.cappedWidth";
 			} else if (heightCap) {
-				str = "gui.cappedheight";
+				str = "blockrenderer.gui.cappedHeight";
 			}
 			if (str != null) {
 				drawCenteredString(minecraft.fontRenderer, I18n.format(str, Math.min(displayHeight, displayWidth)), width/2, height/6+104, 0xFFFFFF);
