@@ -12,6 +12,7 @@
   "msg.blockrenderer.slot.absent":"There's no slot there",
   "msg.blockrenderer.notContainer":"Can't find an item to render",
 
+  "blockrenderer.gui.renderItem":"Render Item",
   "blockrenderer.gui.namespace":"Enter Namespace",
   "blockrenderer.gui.noWorld":"You must be in a world to render items",
 

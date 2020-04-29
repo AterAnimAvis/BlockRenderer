@@ -2,7 +2,9 @@ package com.unascribed.blockrenderer;
 
 import com.unascribed.blockrenderer.init.Keybindings;
 import com.unascribed.blockrenderer.render.ItemStackRenderer;
+import com.unascribed.blockrenderer.render.request.IRequest;
 import com.unascribed.blockrenderer.screens.EnterNamespaceScreen;
+import com.unascribed.blockrenderer.screens.EnterSizeScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
@@ -29,8 +31,7 @@ public class BlockRenderer {
 
 	private boolean down = false;
 
-	public static String pendingBulkRender;
-	public static int pendingBulkRenderSize;
+	public static IRequest pendingRequest;
 
 	public BlockRenderer() {
 		MinecraftForge.EVENT_BUS.register(this);
@@ -46,12 +47,10 @@ public class BlockRenderer {
 		 * Minecraft renders, as long as we put everything back the way it was.
 		 */
 
-		if (pendingBulkRender != null) {
+		if (pendingRequest != null) {
 			// We *must* call render code in pre-render. If we don't, it won't work right.
-
-			ItemStackRenderer.bulkRender(pendingBulkRenderSize, pendingBulkRender);
-
-			pendingBulkRender = null;
+			pendingRequest.render();
+			pendingRequest = null;
 		}
 
 		if (!Keybindings.render.isKeyDown()) {
@@ -113,6 +112,13 @@ public class BlockRenderer {
 	}
 
 	private static void renderStack(ItemStack stack) {
+		Minecraft client = Minecraft.getInstance();
+
+		if (Screen.hasAltDown()) {
+			client.displayGuiScreen(new EnterSizeScreen(client.currentScreen, stack));
+			return;
+		}
+
 		int size = Screen.hasShiftDown() ? (int) Minecraft.getInstance().getMainWindow().getGuiScaleFactor() * 16 : 512;
 
 		ItemStackRenderer.renderItem(size, stack);
