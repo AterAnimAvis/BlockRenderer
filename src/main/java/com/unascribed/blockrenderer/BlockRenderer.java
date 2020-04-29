@@ -6,6 +6,7 @@ import com.unascribed.blockrenderer.screens.EnterNamespaceScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -75,11 +76,23 @@ public class BlockRenderer {
 				if (identifier != null) namespace = identifier.getNamespace();
 			}
 
+			PlayerEntity player = client.player;
+			if (!isContainerScreen && player != null && !player.getHeldItemMainhand().isEmpty()) {
+				ResourceLocation identifier = ForgeRegistries.ITEMS.getKey(player.getHeldItemMainhand().getItem());
+				if (identifier != null) namespace = identifier.getNamespace();
+			}
+
 			client.displayGuiScreen(new EnterNamespaceScreen(client.currentScreen, namespace.trim()));
 			return;
 		}
 
 		if (!isContainerScreen) {
+			PlayerEntity player = client.player;
+
+			if (player != null && !player.getHeldItemMainhand().isEmpty()) {
+				renderStack(player.getHeldItemMainhand());
+				return;
+			}
 			addMessage(new TranslationTextComponent("msg.blockrenderer.notContainer"));
 			return;
 		}
@@ -96,6 +109,10 @@ public class BlockRenderer {
 			return;
 		}
 
+		renderStack(stack);
+	}
+
+	private static void renderStack(ItemStack stack) {
 		int size = Screen.hasShiftDown() ? (int) Minecraft.getInstance().getMainWindow().getGuiScaleFactor() * 16 : 512;
 
 		ItemStackRenderer.renderItem(size, stack);
