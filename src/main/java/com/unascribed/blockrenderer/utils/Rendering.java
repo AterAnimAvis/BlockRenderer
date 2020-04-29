@@ -1,6 +1,7 @@
 package com.unascribed.blockrenderer.utils;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.unascribed.blockrenderer.lib.TileRenderer;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
@@ -58,10 +59,25 @@ public interface Rendering {
 		RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC);
 		RenderSystem.matrixMode(GL11.GL_PROJECTION);
 		RenderSystem.loadIdentity();
-		RenderSystem.ortho(0.0D, (double)mainwindow.getFramebufferWidth() / scaleFactor, (double)mainwindow.getFramebufferHeight() / scaleFactor, 0.0D, 1000.0D, 3000.0D);
+		RenderSystem.ortho(0.0D, mainwindow.getFramebufferWidth() / scaleFactor, mainwindow.getFramebufferHeight() / scaleFactor, 0.0D, 1000.0D, 3000.0D);
 		RenderSystem.matrixMode(GL11.GL_MODELVIEW);
 		RenderSystem.loadIdentity();
 		RenderSystem.translatef(0.0F, 0.0F, -2000.0F);
 	}
+
+	static void setupOverlayRendering(TileRenderer renderer) {
+		Minecraft mc = Minecraft.getInstance();
+		MainWindow mainwindow = mc.getMainWindow();
+		double scaleFactor = mainwindow.getGuiScaleFactor();
+
+		RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC);
+		RenderSystem.matrixMode(GL11.GL_PROJECTION);
+		RenderSystem.loadIdentity();
+		renderer.ortho(0.0D, renderer.imageWidth / scaleFactor, renderer.imageHeight / scaleFactor, 0.0D, 1000.0D, 3000.0D);
+		RenderSystem.matrixMode(GL11.GL_MODELVIEW);
+		RenderSystem.loadIdentity();
+		RenderSystem.translatef(0.0F, 0.0F, -2000.0F);
+	}
+
 
 }

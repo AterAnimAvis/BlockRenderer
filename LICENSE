@@ -1,21 +1,102 @@
-The MIT License (MIT)
+The source code is mostly licensed under 'The MIT License',
+however it contains other licensed material as well.
 
-Copyright (c) 2016-2017 Una Thompson (unascribed) and contributors
+Below you find a detailed list of licenses used in this project.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of 
-this software and associated documentation files (the "Software"), to deal in 
-the Software without restriction, including without limitation the rights to 
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies 
-of the Software, and to permit persons to whom the Software is furnished to do 
-so, subject to the following conditions:
++++
 
-The above copyright notice and this permission notice shall be included in all 
-copies or substantial portions of the Software.
+L.1) Code which is covered by the MIT license:
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
-SOFTWARE.
+    The MIT License (MIT)
+
+    Copyright (c) 2016-2020 Una Thompson (unascribed) and contributors
+
+    Permission is hereby granted, free of charge, to any person obtaining a copy of
+    this software and associated documentation files (the "Software"), to deal in
+    the Software without restriction, including without limitation the rights to
+    use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+    of the Software, and to permit persons to whom the Software is furnished to do
+    so, subject to the following conditions:
+
+    The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.
+
+    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+    SOFTWARE.
+
+L.2) Code from the JogAmp Community which is covered by the Simplified BSD 2-clause
+     license:
+
+   Copyright 2013 JogAmp Community. All rights reserved.
+
+   Redistribution and use in source and binary forms, with or without modification, are
+   permitted provided that the following conditions are met:
+
+      1. Redistributions of source code must retain the above copyright notice, this list of
+         conditions and the following disclaimer.
+
+      2. Redistributions in binary form must reproduce the above copyright notice, this list
+         of conditions and the following disclaimer in the documentation and/or other materials
+         provided with the distribution.
+
+   THIS SOFTWARE IS PROVIDED BY JogAmp Community ``AS IS'' AND ANY EXPRESS OR IMPLIED
+   WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+   FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL JogAmp Community OR
+   CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+   SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON
+   ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+   NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
+   ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+   The views and conclusions contained in the software and documentation are those of the
+   authors and should not be interpreted as representing official policies, either expressed
+   or implied, of JogAmp Community.
+
+   You can address the JogAmp Community via:
+       Web                http://jogamp.org/
+       Forum/Mailinglist  http://forum.jogamp.org
+       Chatrooms
+         IRC              irc.freenode.net #jogamp
+         Jabber           conference.jabber.org room: jogamp (deprecated!)
+       Repository         http://jogamp.org/git/
+       Email              mediastream _at_ jogamp _dot_ org
+
+L.3) A Java Port of Brian Paul's Tile Rendering library under the New BSD 3-clause
+     license instead of the original LGPL (From JogAmp Community):
+
+   Copyright (c) 1997-2005 Brian Paul. All Rights Reserved.
+
+   Redistribution and use in source and binary forms, with or without
+   modification, are permitted provided that the following conditions are
+   met:
+
+   - Redistribution of source code must retain the above copyright
+     notice, this list of conditions and the following disclaimer.
+
+   - Redistribution in binary form must reproduce the above copyright
+     notice, this list of conditions and the following disclaimer in the
+     documentation and/or other materials provided with the distribution.
+
+   Neither the name of Brian Paul or the names of contributors may be
+   used to endorse or promote products derived from this software
+   without specific prior written permission.
+
+   This software is provided "AS IS," without a warranty of any
+   kind. ALL EXPRESS OR IMPLIED CONDITIONS, REPRESENTATIONS AND
+   WARRANTIES, INCLUDING ANY IMPLIED WARRANTY OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE OR NON-INFRINGEMENT, ARE HEREBY
+   EXCLUDED. THE COPYRIGHT HOLDERS AND CONTRIBUTORS SHALL NOT BE
+   LIABLE FOR ANY DAMAGES SUFFERED BY LICENSEE AS A RESULT OF USING,
+   MODIFYING OR DISTRIBUTING THIS SOFTWARE OR ITS DERIVATIVES. IN NO
+   EVENT WILL THE COPYRIGHT HOLDERS OR CONTRIBUTORS BE LIABLE FOR ANY
+   LOST REVENUE, PROFIT OR DATA, OR FOR DIRECT, INDIRECT, SPECIAL,
+   CONSEQUENTIAL, INCIDENTAL OR PUNITIVE DAMAGES, HOWEVER CAUSED AND
+   REGARDLESS OF THE THEORY OF LIABILITY, ARISING OUT OF THE USE OF OR
+   INABILITY TO USE THIS SOFTWARE, EVEN IF THE COPYRIGHT HOLDERS OR
+   CONTRIBUTORS HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.

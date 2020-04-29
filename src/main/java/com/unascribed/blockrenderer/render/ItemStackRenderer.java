@@ -3,6 +3,7 @@ package com.unascribed.blockrenderer.render;
 import com.google.common.base.Joiner;
 import com.google.common.io.Files;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.unascribed.blockrenderer.lib.TileRenderer;
 import com.unascribed.blockrenderer.utils.ImageUtils;
 import com.unascribed.blockrenderer.utils.Rendering;
 import net.minecraft.client.MainWindow;
@@ -37,7 +38,8 @@ public class ItemStackRenderer {
     private static final ItemRenderer itemRenderer = client.getItemRenderer();
 
     private float oldZLevel;
-    private int   size;
+
+    private TileRenderer renderer;
 
     public void setup(int desiredSize) {
         int displayWidth = window.getFramebufferWidth();
@@ -49,10 +51,11 @@ public class ItemStackRenderer {
          * of our readPixels up ahead would be undefined. And nobody likes
          * undefined behavior.
          */
-        size = Math.min(Math.min(displayHeight, displayWidth), desiredSize);
+        int size = Math.min(Math.min(displayHeight, displayWidth), desiredSize);
+        renderer = TileRenderer.forSize(desiredSize, size);
 
         // Switches from 3D to 2D
-        Rendering.setupOverlayRendering();
+        Rendering.setupOverlayRendering(renderer);
         RenderHelper.setupGui3DDiffuseLighting();
 
         /*
@@ -61,7 +64,7 @@ public class ItemStackRenderer {
          * render. We could manually switch to orthogonal mode, but it's just
          * more convenient to leverage setupOverlayRendering.
          */
-        float scale = size/(16f*(float)window.getGuiScaleFactor());
+        float scale = desiredSize / (16f * (float) window.getGuiScaleFactor());
         RenderSystem.translatef(0, 0, -(scale*100));
 
         RenderSystem.scalef(scale, scale, scale);
@@ -79,13 +82,20 @@ public class ItemStackRenderer {
     }
 
     public void render(ItemStack stack) {
-        RenderSystem.pushMatrix();
+        renderer.buffer.clear();
 
-            RenderSystem.clearColor(0, 0, 0, 0);
-            RenderSystem.clear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC);
-            itemRenderer.renderItemAndEffectIntoGUI(stack, 0, 0);
+        do {
+            renderer.beginTile();
 
-        RenderSystem.popMatrix();
+            RenderSystem.pushMatrix();
+
+                RenderSystem.clearColor(0, 0, 0, 0);
+                RenderSystem.clear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC);
+                itemRenderer.renderItemAndEffectIntoGUI(stack, 0, 0);
+
+            RenderSystem.popMatrix();
+        } while (renderer.endTile());
+
     }
 
     @SuppressWarnings("UnstableApiUsage")
@@ -98,7 +108,7 @@ public class ItemStackRenderer {
              * It's easier to do this operation on the resulting image than to
              * do it with GL transforms. Not faster, just easier.
              */
-            BufferedImage img = ImageUtils.createFlipped(ImageUtils.readPixels(size, size));
+            BufferedImage img = ImageUtils.createFlipped(ImageUtils.readPixels(renderer));
 
             File file = getFile(folder, filename);
             Files.createParentDirs(file);

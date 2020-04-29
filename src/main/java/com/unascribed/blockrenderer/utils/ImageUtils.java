@@ -1,29 +1,25 @@
 package com.unascribed.blockrenderer.utils;
 
-import net.minecraft.client.Minecraft;
-import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
+import com.unascribed.blockrenderer.lib.TileRenderer;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.nio.ByteBuffer;
 
 public interface ImageUtils {
 
-    static BufferedImage readPixels(int width, int height) {
-        int displayHeight = Minecraft.getInstance().getMainWindow().getFramebufferHeight();
+    static BufferedImage readPixels(TileRenderer renderer) {
+        int width  = renderer.imageWidth;
+        int height = renderer.imageHeight;
 
-        // Allocate a native data array to fit our pixels
-        ByteBuffer buf = BufferUtils.createByteBuffer(width * height * 4);
-        // And finally read the pixel data from the GPU...
-        GL11.glReadPixels(0, displayHeight-height, width, height, GL12.GL_BGRA, GL11.GL_UNSIGNED_BYTE, buf);
-        // ...and turn it into a Java object we can do things to.
+        // Turn a bytebuffer into a Java object we can do things to.
         BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
         int[] pixels = new int[width*height];
-        buf.asIntBuffer().get(pixels);
+        renderer.buffer.asIntBuffer().get(pixels);
+
         img.setRGB(0, 0, width, height, pixels, 0, width);
+
         return img;
     }
 

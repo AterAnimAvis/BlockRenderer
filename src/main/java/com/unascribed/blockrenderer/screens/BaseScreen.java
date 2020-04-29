@@ -37,13 +37,9 @@ public abstract class BaseScreen extends Screen {
 
         addButton(new Button(width/2+2, height/6+120, 98, 20, I18n.format("blockrenderer.gui.render"), this::onRender), enabled);
 
-        int displayWidth = minecraft.getMainWindow().getFramebufferWidth();
-        int displayHeight = minecraft.getMainWindow().getFramebufferHeight();
+        size = MathHelper.clamp(size, MIN_SIZE, MAX_SIZE);
 
-        int maxSize = Math.min(Math.min(displayWidth, displayHeight), MAX_SIZE);
-        size = MathHelper.clamp(size, MIN_SIZE, maxSize);
-
-        SliderPercentageOption option = new SliderPercentageOption(I18n.format("blockrenderer.gui.renderSize"), MIN_SIZE, maxSize, 1, (settings) -> size, (settings, value) -> size = round(value), this::getSliderDisplay);
+        SliderPercentageOption option = new SliderPercentageOption(I18n.format("blockrenderer.gui.renderSize"), MIN_SIZE, MAX_SIZE, 1, (settings) -> size, (settings, value) -> size = round(value), this::getSliderDisplay);
         slider = addButton(new OptionSlider(minecraft.gameSettings, width/2-100, height/6+80, 200, 20, option), enabled);
     }
 
@@ -52,16 +48,12 @@ public abstract class BaseScreen extends Screen {
 
         int val = (int)value;
 
-        int displayWidth = minecraft.getMainWindow().getFramebufferWidth();
-        int displayHeight = minecraft.getMainWindow().getFramebufferHeight();
-
         // There's a more efficient method in MathHelper, but it rounds up. We want the nearest.
         int nearestPowerOfTwo = (int)Math.pow(2, Math.ceil(Math.log(val)/Math.log(2)));
-        int maxSize = Math.min(Math.min(displayHeight, displayWidth), MAX_SIZE);
 
-        if (nearestPowerOfTwo < maxSize && Math.abs(val-nearestPowerOfTwo) < 32) val = nearestPowerOfTwo;
+        if (nearestPowerOfTwo < MAX_SIZE && Math.abs(val-nearestPowerOfTwo) < 32) val = nearestPowerOfTwo;
 
-        return MathHelper.clamp(val, MIN_SIZE, maxSize);
+        return MathHelper.clamp(val, MIN_SIZE, MAX_SIZE);
     }
 
     @Override
@@ -74,36 +66,9 @@ public abstract class BaseScreen extends Screen {
 
         drawCenteredString(minecraft.fontRenderer, title.getFormattedText(), width/2, height/6, -1);
 
-        if (minecraft.world == null) {
-            drawCenteredString(minecraft.fontRenderer, I18n.format("blockrenderer.gui.noWorld"), width/2, height/6+30, 0xFF5555);
-            return;
-        }
+        if (minecraft.world != null) return;
 
-        int displayWidth = minecraft.getMainWindow().getFramebufferWidth();
-        int displayHeight = minecraft.getMainWindow().getFramebufferHeight();
-
-        boolean widthCap = (displayWidth < 2048);
-        boolean heightCap = (displayHeight < 2048);
-
-        String str = null;
-
-        if (widthCap && heightCap) {
-            if (displayWidth > displayHeight) {
-                str = "blockrenderer.gui.cappedHeight";
-            } else if (displayWidth == displayHeight) {
-                str = "blockrenderer.gui.cappedBoth";
-            } else {
-                str = "blockrenderer.gui.cappedWidth";
-            }
-        } else if (widthCap) {
-            str = "blockrenderer.gui.cappedWidth";
-        } else if (heightCap) {
-            str = "blockrenderer.gui.cappedHeight";
-        }
-
-        if (str == null) return;
-
-        drawCenteredString(minecraft.fontRenderer, I18n.format(str, Math.min(displayHeight, displayWidth)), width/2, height/6+104, 0xFFFFFF);
+        drawCenteredString(minecraft.fontRenderer, I18n.format("blockrenderer.gui.noWorld"), width/2, height/6+30, 0xFF5555);
     }
 
     abstract void onRender(Button button);

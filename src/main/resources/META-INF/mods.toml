@@ -7,7 +7,7 @@ version="${file.jarVersion}"
 displayName="BlockRenderer"
 displayURL="https://unascribed.com"
 logoFile="logo-blockrenderer.png"
-credits="Una, xbony2, modmuss50, AterAnimAvis"
+credits="Una, xbony2, modmuss50, AterAnimAvis, Brian Paul (TR Library)"
 authors="Una"
 description="It renders blocks and items."
 
