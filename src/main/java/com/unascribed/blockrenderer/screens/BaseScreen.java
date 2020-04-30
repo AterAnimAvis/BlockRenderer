@@ -39,7 +39,7 @@ public abstract class BaseScreen extends Screen {
 
         size = MathHelper.clamp(size, MIN_SIZE, MAX_SIZE);
 
-        SliderPercentageOption option = new SliderPercentageOption(I18n.format("blockrenderer.gui.renderSize"), MIN_SIZE, MAX_SIZE, 1, (settings) -> size, (settings, value) -> size = round(value), this::getSliderDisplay);
+        SliderPercentageOption option = new SliderPercentageOption("blockrenderer.gui.renderSize", MIN_SIZE, MAX_SIZE, 1, (settings) -> size, (settings, value) -> size = round(value), this::getSliderDisplay);
         slider = addButton(new OptionSlider(minecraft.gameSettings, width/2-100, height/6+80, 200, 20, option), enabled);
     }
 

@@ -46,10 +46,10 @@ public interface StringUtils {
         return str.replaceAll("[^A-Za-z0-9-_ ]", "_");
     }
 
-    static List<String> getTooltipFromItem(ItemStack p_getTooltipFromItem_1_) {
+    static List<String> getTooltipFromItem(ItemStack stack) {
         Minecraft minecraft = Minecraft.getInstance();
 
-        List<ITextComponent> texts = p_getTooltipFromItem_1_.getTooltip(minecraft.player, ITooltipFlag.TooltipFlags.NORMAL);
+        List<ITextComponent> texts = stack.getTooltip(minecraft.player, ITooltipFlag.TooltipFlags.NORMAL);
         List<String> tooltip = Lists.newArrayList();
 
         for(ITextComponent itextcomponent : texts) tooltip.add(itextcomponent.getFormattedText());
