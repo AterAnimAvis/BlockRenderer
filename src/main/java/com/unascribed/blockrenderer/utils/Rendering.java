@@ -59,8 +59,8 @@ public interface Rendering {
 
 	static void setupOverlayRendering(TileRenderer renderer) {
 		Minecraft client = Minecraft.getInstance();
-		MainWindow mainwindow = client.mainWindow;
-		double scaleFactor = mainwindow.getGuiScaleFactor();
+		MainWindow window = client.mainWindow;
+		double scaleFactor = window.getGuiScaleFactor();
 
 		GlStateManager.clear(GL11.GL_DEPTH_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC);
 		GlStateManager.matrixMode(GL11.GL_PROJECTION);
