@@ -27,6 +27,7 @@ public class EnterNamespaceScreen extends BaseScreen {
 	public void init() {
 		assert minecraft != null;
 
+		minecraft.keyboardListener.enableRepeatEvents(true);
 		boolean enabled = minecraft.world != null;
 
 		String oldText = (text == null ? prefill : text.getText());
@@ -44,6 +45,12 @@ public class EnterNamespaceScreen extends BaseScreen {
 	public void tick() {
 		super.tick();
 		text.tick();
+	}
+
+	@Override
+	public void removed() {
+		assert minecraft != null;
+		minecraft.keyboardListener.enableRepeatEvents(false);
 	}
 
 	@Override
