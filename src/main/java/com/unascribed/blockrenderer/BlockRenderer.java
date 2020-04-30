@@ -119,7 +119,7 @@ public class BlockRenderer {
 			return;
 		}
 
-		int size = Screen.hasShiftDown() ? (int) Minecraft.getInstance().getMainWindow().getGuiScaleFactor() * 16 : 512;
+		int size = Screen.hasShiftDown() ? (int) Minecraft.getInstance().mainWindow.getGuiScaleFactor() * 16 : 512;
 
 		ItemStackRenderer.renderItem(size, stack);
 	}

@@ -20,7 +20,7 @@ import static com.unascribed.blockrenderer.BlockRenderer.LOGGER;
 public interface MiscUtils {
 
     static boolean isEscapePressed() {
-        return InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), GLFW.GLFW_KEY_ESCAPE);
+        return InputMappings.isKeyDown(Minecraft.getInstance().mainWindow.getHandle(), GLFW.GLFW_KEY_ESCAPE);
     }
 
     static List<ItemStack> collectStacks(Set<String> namespaces) {

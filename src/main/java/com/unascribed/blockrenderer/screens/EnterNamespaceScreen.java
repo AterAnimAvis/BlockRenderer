@@ -35,7 +35,7 @@ public class EnterNamespaceScreen extends BaseScreen {
 		text.setText(oldText);
 		text.setFocused2(true);
 		text.setCanLoseFocus(false);
-		setFocusedDefault(text);
+		setFocused(text);
 
 		super.init();
 	}

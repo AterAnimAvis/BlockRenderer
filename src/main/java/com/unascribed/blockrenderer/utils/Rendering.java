@@ -1,6 +1,6 @@
 package com.unascribed.blockrenderer.utils;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.unascribed.blockrenderer.lib.TileRenderer;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
@@ -52,31 +52,23 @@ public interface Rendering {
 	}
 
 	static void setupOverlayRendering() {
-		Minecraft mc = Minecraft.getInstance();
-		MainWindow mainwindow = mc.getMainWindow();
-		double scaleFactor = mainwindow.getGuiScaleFactor();
-
-		RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC);
-		RenderSystem.matrixMode(GL11.GL_PROJECTION);
-		RenderSystem.loadIdentity();
-		RenderSystem.ortho(0.0D, mainwindow.getFramebufferWidth() / scaleFactor, mainwindow.getFramebufferHeight() / scaleFactor, 0.0D, 1000.0D, 3000.0D);
-		RenderSystem.matrixMode(GL11.GL_MODELVIEW);
-		RenderSystem.loadIdentity();
-		RenderSystem.translatef(0.0F, 0.0F, -2000.0F);
+		Minecraft client = Minecraft.getInstance();
+		MainWindow mainwindow = client.mainWindow;
+		mainwindow.loadGUIRenderMatrix(Minecraft.IS_RUNNING_ON_MAC);
 	}
 
 	static void setupOverlayRendering(TileRenderer renderer) {
-		Minecraft mc = Minecraft.getInstance();
-		MainWindow mainwindow = mc.getMainWindow();
+		Minecraft client = Minecraft.getInstance();
+		MainWindow mainwindow = client.mainWindow;
 		double scaleFactor = mainwindow.getGuiScaleFactor();
 
-		RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC);
-		RenderSystem.matrixMode(GL11.GL_PROJECTION);
-		RenderSystem.loadIdentity();
+		GlStateManager.clear(GL11.GL_DEPTH_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC);
+		GlStateManager.matrixMode(GL11.GL_PROJECTION);
+		GlStateManager.loadIdentity();
 		renderer.ortho(0.0D, renderer.imageWidth / scaleFactor, renderer.imageHeight / scaleFactor, 0.0D, 1000.0D, 3000.0D);
-		RenderSystem.matrixMode(GL11.GL_MODELVIEW);
-		RenderSystem.loadIdentity();
-		RenderSystem.translatef(0.0F, 0.0F, -2000.0F);
+		GlStateManager.matrixMode(GL11.GL_MODELVIEW);
+		GlStateManager.loadIdentity();
+		GlStateManager.translatef(0.0F, 0.0F, -2000.0F);
 	}
 
 

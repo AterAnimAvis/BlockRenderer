@@ -2,7 +2,7 @@ package com.unascribed.blockrenderer.render;
 
 import com.google.common.base.Joiner;
 import com.google.common.io.Files;
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.unascribed.blockrenderer.lib.TileRenderer;
 import com.unascribed.blockrenderer.utils.ImageUtils;
 import com.unascribed.blockrenderer.utils.Rendering;
@@ -34,7 +34,7 @@ public class ItemStackRenderer {
     public static final File DEFAULT_FOLDER = new File("renders");
 
     private static final Minecraft client = Minecraft.getInstance();
-    private static final MainWindow window = client.getMainWindow();
+    private static final MainWindow window = client.mainWindow;
     private static final ItemRenderer itemRenderer = client.getItemRenderer();
 
     private float oldZLevel;
@@ -56,7 +56,7 @@ public class ItemStackRenderer {
 
         // Switches from 3D to 2D
         Rendering.setupOverlayRendering(renderer);
-        RenderHelper.setupGui3DDiffuseLighting();
+        RenderHelper.enableGUIStandardItemLighting();
 
         /*
          * The GUI scale affects us due to the call to setupOverlayRendering
@@ -65,20 +65,20 @@ public class ItemStackRenderer {
          * more convenient to leverage setupOverlayRendering.
          */
         float scale = desiredSize / (16f * (float) window.getGuiScaleFactor());
-        RenderSystem.translatef(0, 0, -(scale*100));
+        GlStateManager.translatef(0, 0, -(scale*100));
 
-        RenderSystem.scalef(scale, scale, scale);
+        GlStateManager.scalef(scale, scale, scale);
 
         oldZLevel = itemRenderer.zLevel;
         itemRenderer.zLevel = -50;
 
-        RenderSystem.enableRescaleNormal();
-        RenderSystem.enableColorMaterial();
-        RenderSystem.enableDepthTest();
-        RenderSystem.enableBlend();
-        RenderSystem.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-        RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        RenderSystem.disableAlphaTest();
+        GlStateManager.enableRescaleNormal();
+        GlStateManager.enableColorMaterial();
+        GlStateManager.enableDepthTest();
+        GlStateManager.enableBlend();
+        GlStateManager.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_SRC_ALPHA, GL11.GL_ONE);
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GlStateManager.disableAlphaTest();
     }
 
     public void render(ItemStack stack) {
@@ -87,13 +87,13 @@ public class ItemStackRenderer {
         do {
             renderer.beginTile();
 
-            RenderSystem.pushMatrix();
+            GlStateManager.pushMatrix();
 
-                RenderSystem.clearColor(0, 0, 0, 0);
-                RenderSystem.clear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC);
+                GlStateManager.clearColor(0, 0, 0, 0);
+                GlStateManager.clear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC);
                 itemRenderer.renderItemAndEffectIntoGUI(stack, 0, 0);
 
-            RenderSystem.popMatrix();
+            GlStateManager.popMatrix();
         } while (renderer.endTile());
 
     }
@@ -122,10 +122,10 @@ public class ItemStackRenderer {
     }
 
     public void teardown() {
-        RenderSystem.disableLighting();
-        RenderSystem.disableColorMaterial();
-        RenderSystem.disableDepthTest();
-        RenderSystem.disableBlend();
+        GlStateManager.disableLighting();
+        GlStateManager.disableColorMaterial();
+        GlStateManager.disableDepthTest();
+        GlStateManager.disableBlend();
 
         itemRenderer.zLevel = oldZLevel;
     }
@@ -198,7 +198,7 @@ public class ItemStackRenderer {
 
     private static void renderLoading(String title, String subtitle, @Nullable ItemStack is, float progress) {
         client.getFramebuffer().unbindFramebuffer();
-        RenderSystem.pushMatrix();
+        GlStateManager.pushMatrix();
 
         {
             int displayWidth = window.getScaledWidth();
@@ -215,10 +215,10 @@ public class ItemStackRenderer {
             Rendering.drawRect(displayWidth / 2 - 50, displayHeight / 2 - 1, displayWidth / 2 + 50, displayHeight / 2 + 1, 0xFF001100);
             Rendering.drawRect(displayWidth / 2 - 50, displayHeight / 2 - 1, (displayWidth / 2 - 50) + (int) (progress * 100), displayHeight / 2 + 1, 0xFF55FF55);
 
-            RenderSystem.pushMatrix();
+            GlStateManager.pushMatrix();
 
             {
-                RenderSystem.scalef(0.5f, 0.5f, 1);
+                GlStateManager.scalef(0.5f, 0.5f, 1);
 
                 // ...and the subtitle
                 Rendering.drawCenteredString(client.fontRenderer, subtitle, displayWidth, displayHeight - 20, -1);
@@ -239,18 +239,18 @@ public class ItemStackRenderer {
                         }
                         // End copied code.
 
-                        RenderSystem.translatef((displayWidth - width / 2f) - 12, displayHeight + 30, 0);
+                        GlStateManager.translatef((displayWidth - width / 2f) - 12, displayHeight + 30, 0);
                         Rendering.drawHoveringText(list, 0, 0, font);
                     } catch (Throwable ignored) {}
                 }
             }
 
-            RenderSystem.popMatrix();
+            GlStateManager.popMatrix();
         }
 
-        RenderSystem.popMatrix();
+        GlStateManager.popMatrix();
 
-        window.flipFrame();
+        client.updateDisplay(false);
 
         /*
          * While OpenGL itself is double-buffered, Minecraft is actually *triple*-buffered.
