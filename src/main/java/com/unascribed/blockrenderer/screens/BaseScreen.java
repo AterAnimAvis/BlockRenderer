@@ -1,14 +1,17 @@
 package com.unascribed.blockrenderer.screens;
 
-import net.minecraft.client.GameSettings;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.OptionSlider;
-import net.minecraft.client.gui.widget.Widget;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.client.settings.SliderPercentageOption;
+import net.minecraft.client.gui.widget.AbstractButtonWidget;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.DoubleOptionSliderWidget;
+import net.minecraft.client.options.DoubleOption;
+import net.minecraft.client.options.GameOptions;
+import net.minecraft.client.resource.language.I18n;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.text.ITextComponent;
 
 import javax.annotation.Nullable;
 
@@ -17,34 +20,35 @@ public abstract class BaseScreen extends Screen {
     private static final int MIN_SIZE = 16;
     private static final int MAX_SIZE = 2048;
 
+    @Nullable
     protected final Screen old;
 
     protected double size = 512;
 
-    protected OptionSlider slider;
+    protected DoubleOptionSliderWidget slider;
 
-    public BaseScreen(ITextComponent title, @Nullable Screen old) {
+    public BaseScreen(Text title, @Nullable Screen old) {
         super(title);
         this.old = old;
     }
 
     @Override
     public void init() {
-        assert minecraft != null;
-        boolean enabled = minecraft.world != null;
+        assert client != null;
+        boolean enabled = client.world != null;
 
-        addButton(new Button(width/2-100, height/6+120, 98, 20, I18n.format("gui.cancel"), button -> minecraft.displayGuiScreen(old)));
+        addButton(new ButtonWidget(width/2-100, height/6+120, 98, 20, new TranslatableText("gui.cancel"), button -> client.openScreen(old)));
 
-        addButton(new Button(width/2+2, height/6+120, 98, 20, I18n.format("blockrenderer.gui.render"), this::onRender), enabled);
+        addButton(new ButtonWidget(width/2+2, height/6+120, 98, 20, new TranslatableText("blockrenderer.gui.render"), this::onRender), enabled);
 
         size = MathHelper.clamp(size, MIN_SIZE, MAX_SIZE);
 
-        SliderPercentageOption option = new SliderPercentageOption("blockrenderer.gui.renderSize", MIN_SIZE, MAX_SIZE, 1, (settings) -> size, (settings, value) -> size = round(value), this::getSliderDisplay);
-        slider = addButton(new OptionSlider(minecraft.gameSettings, width/2-100, height/6+80, 200, 20, option), enabled);
+        DoubleOption option = new DoubleOption("blockrenderer.gui.renderSize", MIN_SIZE, MAX_SIZE, 1, (settings) -> size, (settings, value) -> size = round(value), this::getSliderDisplay);
+        slider = addButton(new DoubleOptionSliderWidget(client.options, width/2-100, height/6+80, 200, 20, option), enabled);
     }
 
     protected int round(double value) {
-        assert minecraft != null;
+        assert client != null;
 
         int val = (int)value;
 
@@ -57,28 +61,28 @@ public abstract class BaseScreen extends Screen {
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float partialTicks) {
-        assert minecraft != null;
+    public void render(MatrixStack matrices, int mouseX, int mouseY, float partialTicks) {
+        assert client != null;
 
-        renderBackground();
+        renderBackground(matrices);
 
-        super.render(mouseX, mouseY, partialTicks);
+        super.render(matrices, mouseX, mouseY, partialTicks);
 
-        drawCenteredString(minecraft.fontRenderer, title.getFormattedText(), width/2, height/6, -1);
+        drawCenteredString(matrices, client.textRenderer, title.getString(), width/2, height/6, -1);
 
-        if (minecraft.world != null) return;
+        if (client.world != null) return;
 
-        drawCenteredString(minecraft.fontRenderer, I18n.format("blockrenderer.gui.noWorld"), width/2, height/6+30, 0xFF5555);
+        drawCenteredString(matrices, client.textRenderer, I18n.translate("blockrenderer.gui.noWorld"), width/2, height/6+30, 0xFF5555);
     }
 
-    abstract void onRender(Button button);
+    abstract void onRender(AbstractButtonWidget button);
 
-    public String getSliderDisplay(GameSettings settings, SliderPercentageOption option) {
+    public MutableText getSliderDisplay(GameOptions settings, DoubleOption option) {
         int px = round(size);
-        return option.getDisplayString() + px + "x" + px;
+        return option.getDisplayPrefix().append(px + "x" + px);
     }
 
-    protected <T extends Widget> T addButton(T button, boolean active) {
+    protected <T extends AbstractButtonWidget> T addButton(T button, boolean active) {
         addButton(button);
 
         button.active = active;

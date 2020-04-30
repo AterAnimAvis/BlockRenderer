@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "id": "blockrenderer",
+  "version": "${version}",
+
+  "name": "BlockRenderer",
+  "description": "It renders blocks and items.",
+  "authors": [
+    "Una",
+    "xbony2",
+    "modmuss50",
+    "AterAnimAvis",
+    "Brian Paul (TR Library)"
+  ],
+  "contact": {
+    "homepage": "https://unascribed.com",
+    "sources": "https://github.com/unascribed/BlockRenderer/",
+    "issues": "https://github.com/unascribed/BlockRenderer/issues"
+  },
+
+  "license": "MIT",
+  "icon": "logo-blockrenderer.png",
+
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "com.unascribed.blockrenderer.BlockRenderer"
+    ]
+  },
+  "mixins": [
+    "blockrenderer.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.8.2",
+    "fabric": "*",
+    "minecraft": ">=1.16-alpha.20.18"
+  }
+
+}

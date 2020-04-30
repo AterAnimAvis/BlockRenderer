@@ -1,23 +1,18 @@
 package com.unascribed.blockrenderer.init;
 
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.fabricmc.fabric.api.client.keybinding.FabricKeyBinding;
+import net.fabricmc.fabric.api.client.keybinding.KeyBindingRegistry;
+import net.minecraft.client.util.InputUtil;
+import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 
-import static com.unascribed.blockrenderer.Reference.MOD_ID;
-
-@Mod.EventBusSubscriber(modid = MOD_ID, bus = Bus.MOD)
 public interface Keybindings {
 
-    KeyBinding render = new KeyBinding("key.blockrenderer.render", GLFW.GLFW_KEY_GRAVE_ACCENT, "key.categories.blockrenderer");
+    FabricKeyBinding render = FabricKeyBinding.Builder.create(new Identifier("blockrenderer:render"), InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_GRAVE_ACCENT, "key.categories.blockrenderer").build();
 
-    @SubscribeEvent
-    static void register(FMLClientSetupEvent event) {
-        ClientRegistry.registerKeyBinding(render);
+    static void register() {
+        KeyBindingRegistry.INSTANCE.addCategory("key.categories.blockrenderer");
+        KeyBindingRegistry.INSTANCE.register(render);
     }
 
 }

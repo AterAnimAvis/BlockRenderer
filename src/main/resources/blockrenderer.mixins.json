@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.unascribed.blockrenderer.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "client": [
+    "MixinMinecraftClient",
+    "accessor.IHoveredSlot",
+    "accessor.ISearchField"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

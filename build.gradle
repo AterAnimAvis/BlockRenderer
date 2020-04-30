@@ -2,62 +2,47 @@ import java.time.Instant
 
 buildscript {
 	repositories {
-		maven { url = 'https://files.minecraftforge.net/maven' }
+		maven { url = 'https://maven.fabricmc.net/' }
 		jcenter()
 		mavenCentral()
 	}
 	dependencies {
-		classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+		classpath group: 'fabric-loom', name: 'fabric-loom.gradle.plugin', version: '0.2.+', changing: true
 	}
 }
 
-apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'fabric-loom'
 
 group = "com.unascribed"
 archivesBaseName = "BlockRenderer"
-version = "1.15.2-1.0.0"
+version = "20w18a-1.0.0"
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = JavaVersion.VERSION_1_8
 
-minecraft {
-	mappings channel: 'snapshot', version: '20200225-1.15.1'
+dependencies {
+	// https://modmuss50.me/fabric.html
+	minecraft 'com.mojang:minecraft:20w18a'
+	mappings 'net.fabricmc:yarn:20w18a+build.9:v2'
+	modImplementation 'net.fabricmc:fabric-loader:0.8.2+build.194'
 
-	// accessTransformer = file('src/main/resources/META-INF/block_renderer_at.cfg')
+	//Fabric api
+	modImplementation "net.fabricmc.fabric-api:fabric-api:0.10.1+build.336-1.16"
 
-	runs {
-		client {
-			workingDirectory project.file('run')
-
-			property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-			property 'forge.logging.console.level', 'debug'
-
-			mods {
-				blockrenderer {
-					source sourceSets.main
-				}
-			}
-		}
-
-		server {
-			workingDirectory project.file('run')
-
-			property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-			property 'forge.logging.console.level', 'debug'
-
-			mods {
-				blockrenderer {
-					source sourceSets.main
-				}
-			}
-		}
-	}
+	// Javax Annotations
+	modImplementation 'com.google.code.findbugs:jsr305:3+'
 }
 
-dependencies {
-	minecraft 'net.minecraftforge:forge:1.15.2-31.1.49'
+processResources {
+	inputs.property "version", project.version
 
-	// Javax Annotations (N.B. ForgeGradle currently provides this)
-	implementation 'com.google.code.findbugs:jsr305:3+'
+	from(sourceSets.main.resources.srcDirs) {
+		include "fabric.mod.json"
+		expand "version": project.version
+	}
+
+	from(sourceSets.main.resources.srcDirs) {
+		exclude "fabric.mod.json"
+	}
 }
 
 jar {
@@ -74,13 +59,10 @@ jar {
 	}
 }
 
-jar.finalizedBy('reobfJar')
-
 task sourcesJar(type: Jar, dependsOn: classes) {
 	classifier = 'sources'
 	from sourceSets.main.allSource
 }
-build.dependsOn sourcesJar
 
 artifacts {
 	archives sourcesJar

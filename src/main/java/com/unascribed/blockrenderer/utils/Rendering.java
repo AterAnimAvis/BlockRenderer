@@ -2,13 +2,15 @@ package com.unascribed.blockrenderer.utils;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.unascribed.blockrenderer.lib.TileRenderer;
-import net.minecraft.client.MainWindow;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.util.Window;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import org.lwjgl.opengl.GL11;
 
 import java.util.List;
@@ -22,11 +24,11 @@ public interface Rendering {
 	class DummyScreen extends Screen {
 
 		protected DummyScreen() {
-			super(new StringTextComponent(NAME + " Dummy Screen"));
+			super(new LiteralText(NAME + " Dummy Screen"));
 		}
 
 		@Override
-		public List<String> getTooltipFromItem(ItemStack stack) {
+		public List<Text> getTooltipFromItem(ItemStack stack) {
 			return super.getTooltipFromItem(stack);
 		}
 	}
@@ -34,29 +36,29 @@ public interface Rendering {
 	DummyScreen GUI = new DummyScreen();
 
 	
-	static void drawCenteredString(FontRenderer fontRendererIn, String text, int x, int y, int color) {
-		GUI.drawCenteredString(fontRendererIn, text, x, y, color);
+	static void drawCenteredString(MatrixStack matrices, TextRenderer fontRendererIn, String text, int x, int y, int color) {
+		GUI.drawCenteredString(matrices, fontRendererIn, text, x, y, color);
 	}
 	
-	static void drawRect(int left, int top, int right, int bottom, int color) {
-		AbstractGui.fill(left, top, right, bottom, color);
+	static void drawRect(MatrixStack matrices, int left, int top, int right, int bottom, int color) {
+		DrawableHelper.fill(matrices, left, top, right, bottom, color);
 	}
 	
-	static void drawHoveringText(List<String> textLines, int x, int y, FontRenderer font) {
-		GUI.renderTooltip(textLines, x, y, font);
+	static void drawHoveringText(MatrixStack matrices, List<Text> textLines, int x, int y) {
+		GUI.renderTooltip(matrices, textLines, x, y);
 	}
 	
 	static void drawBackground(int width, int height) {
-		GUI.init(Minecraft.getInstance(), width, height);
+		GUI.init(MinecraftClient.getInstance(), width, height);
 		GUI.renderDirtBackground(0);
 	}
 
 	static void setupOverlayRendering() {
-		Minecraft client = Minecraft.getInstance();
-		MainWindow window = client.getMainWindow();
-		double scaleFactor = window.getGuiScaleFactor();
+		MinecraftClient client = MinecraftClient.getInstance();
+		Window window = client.getWindow();
+		double scaleFactor = window.getScaleFactor();
 
-		RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC);
+		RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, MinecraftClient.IS_SYSTEM_MAC);
 		RenderSystem.matrixMode(GL11.GL_PROJECTION);
 		RenderSystem.loadIdentity();
 		RenderSystem.ortho(0.0D, window.getFramebufferWidth() / scaleFactor, window.getFramebufferHeight() / scaleFactor, 0.0D, 1000.0D, 3000.0D);
@@ -66,11 +68,11 @@ public interface Rendering {
 	}
 
 	static void setupOverlayRendering(TileRenderer renderer) {
-		Minecraft client = Minecraft.getInstance();
-		MainWindow window = client.getMainWindow();
-		double scaleFactor = window.getGuiScaleFactor();
+		MinecraftClient client = MinecraftClient.getInstance();
+		Window window = client.getWindow();
+		double scaleFactor = window.getScaleFactor();
 
-		RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC);
+		RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, MinecraftClient.IS_SYSTEM_MAC);
 		RenderSystem.matrixMode(GL11.GL_PROJECTION);
 		RenderSystem.loadIdentity();
 		renderer.ortho(0.0D, renderer.imageWidth / scaleFactor, renderer.imageHeight / scaleFactor, 0.0D, 1000.0D, 3000.0D);

@@ -1,46 +1,43 @@
 package com.unascribed.blockrenderer;
 
 import com.unascribed.blockrenderer.init.Keybindings;
+import com.unascribed.blockrenderer.mixin.accessor.IHoveredSlot;
 import com.unascribed.blockrenderer.render.ItemStackRenderer;
 import com.unascribed.blockrenderer.render.request.IRequest;
 import com.unascribed.blockrenderer.screens.EnterNamespaceScreen;
 import com.unascribed.blockrenderer.screens.EnterSizeScreen;
-import net.minecraft.client.Minecraft;
+import net.fabricmc.api.ClientModInitializer;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.screen.slot.Slot;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.annotation.Nullable;
+
 import static com.unascribed.blockrenderer.utils.StringUtils.addMessage;
 
-@Mod(Reference.MOD_ID)
-public class BlockRenderer {
+public class BlockRenderer implements ClientModInitializer {
 
 	public static final Logger LOGGER = LogManager.getLogger("BlockRenderer");
 
-	private boolean down = false;
+	private static boolean down = false;
 
+	@Nullable
 	public static IRequest pendingRequest;
 
-	public BlockRenderer() {
-		MinecraftForge.EVENT_BUS.register(this);
+	@Override
+	public void onInitializeClient() {
+		Keybindings.register();
 	}
 
-	@SubscribeEvent(priority= EventPriority.HIGHEST)
-	public void onFrameStart(TickEvent.RenderTickEvent e) {
-		if (e.phase != TickEvent.Phase.START) return;
 
+	public static void onFrameStart() {
 		/*
 		 * Quick primer: OpenGL is double-buffered. This means, where we draw to is
 		 * /not/ on the screen. As such, we are free to do whatever we like before
@@ -53,7 +50,7 @@ public class BlockRenderer {
 			pendingRequest = null;
 		}
 
-		if (!Keybindings.render.isKeyDown()) {
+		if (!Keybindings.render.isPressed()) {
 			down = false;
 			return;
 		}
@@ -61,50 +58,50 @@ public class BlockRenderer {
 		if (down) return;
 		down = true;
 
-		Minecraft client = Minecraft.getInstance();
+		MinecraftClient client = MinecraftClient.getInstance();
 		Slot hovered = null;
 		Screen currentScreen = client.currentScreen;
-		boolean isContainerScreen = currentScreen instanceof ContainerScreen;
+		boolean isContainerScreen = currentScreen instanceof IHoveredSlot;
 
-		if (isContainerScreen) hovered = ((ContainerScreen<?>) currentScreen).getSlotUnderMouse();
+		if (isContainerScreen) hovered = ((IHoveredSlot) currentScreen).getHoveredSlot();
 
 		if (Screen.hasControlDown()) {
 			String namespace = "";
-			if (hovered != null && hovered.getHasStack()) {
-				ResourceLocation identifier = ForgeRegistries.ITEMS.getKey(hovered.getStack().getItem());
-				if (identifier != null) namespace = identifier.getNamespace();
+			if (hovered != null && hovered.hasStack()) {
+				Identifier identifier = Registry.ITEM.getId(hovered.getStack().getItem());
+				if (identifier != Registry.ITEM.getDefaultId()) namespace = identifier.getNamespace();
 			}
 
 			PlayerEntity player = client.player;
-			if (!isContainerScreen && player != null && !player.getHeldItemMainhand().isEmpty()) {
-				ResourceLocation identifier = ForgeRegistries.ITEMS.getKey(player.getHeldItemMainhand().getItem());
-				if (identifier != null) namespace = identifier.getNamespace();
+			if (!isContainerScreen && player != null && !player.getMainHandStack().isEmpty()) {
+				Identifier identifier = Registry.ITEM.getId(player.getMainHandStack().getItem());
+				if (identifier != Registry.ITEM.getDefaultId()) namespace = identifier.getNamespace();
 			}
 
-			client.displayGuiScreen(new EnterNamespaceScreen(client.currentScreen, namespace.trim()));
+			client.openScreen(new EnterNamespaceScreen(client.currentScreen, namespace.trim()));
 			return;
 		}
 
 		if (!isContainerScreen) {
 			PlayerEntity player = client.player;
 
-			if (player != null && !player.getHeldItemMainhand().isEmpty()) {
-				renderStack(player.getHeldItemMainhand());
+			if (player != null && !player.getMainHandStack().isEmpty()) {
+				renderStack(player.getMainHandStack());
 				return;
 			}
-			addMessage(new TranslationTextComponent("msg.blockrenderer.notContainer"));
+			addMessage(new TranslatableText("msg.blockrenderer.notContainer"));
 			return;
 		}
 
 		if (hovered == null) {
-			addMessage(new TranslationTextComponent("msg.blockrenderer.slot.absent"));
+			addMessage(new TranslatableText("msg.blockrenderer.slot.absent"));
 			return;
 		}
 
 		ItemStack stack = hovered.getStack();
 
 		if (stack.isEmpty()) {
-			addMessage(new TranslationTextComponent("msg.blockrenderer.slot.empty"));
+			addMessage(new TranslatableText("msg.blockrenderer.slot.empty"));
 			return;
 		}
 
@@ -112,17 +109,16 @@ public class BlockRenderer {
 	}
 
 	private static void renderStack(ItemStack stack) {
-		Minecraft client = Minecraft.getInstance();
+		MinecraftClient client = MinecraftClient.getInstance();
 
 		if (Screen.hasAltDown()) {
-			client.displayGuiScreen(new EnterSizeScreen(client.currentScreen, stack));
+			client.openScreen(new EnterSizeScreen(client.currentScreen, stack));
 			return;
 		}
 
-		int size = Screen.hasShiftDown() ? (int) client.getMainWindow().getGuiScaleFactor() * 16 : 512;
+		int size = Screen.hasShiftDown() ? (int) client.getWindow().getScaleFactor() * 16 : 512;
 
 		ItemStackRenderer.renderItem(size, stack);
 	}
-
 
 }

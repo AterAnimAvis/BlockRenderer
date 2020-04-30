@@ -3,15 +3,15 @@ package com.unascribed.blockrenderer.screens;
 import com.unascribed.blockrenderer.BlockRenderer;
 import com.unascribed.blockrenderer.render.request.ItemRequest;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.text.TranslatableText;
 
 import javax.annotation.Nullable;
 
 public class EnterSizeScreen extends BaseScreen {
 
-	private static final TranslationTextComponent TITLE = new TranslationTextComponent("blockrenderer.gui.renderItem");
+	private static final TranslatableText TITLE = new TranslatableText("blockrenderer.gui.renderItem");
 
 	private final ItemStack stack;
 
@@ -27,11 +27,11 @@ public class EnterSizeScreen extends BaseScreen {
 	}
 
 	@Override
-	void onRender(Button button) {
-		assert minecraft != null;
+	void onRender(AbstractButtonWidget button) {
+		assert client != null;
 
-		minecraft.displayGuiScreen(old);
-		if (minecraft.world == null) return;
+		client.openScreen(old);
+		if (client.world == null) return;
 
 		BlockRenderer.pendingRequest = new ItemRequest(round(size), stack);
 	}

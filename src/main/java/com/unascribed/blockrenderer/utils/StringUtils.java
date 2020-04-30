@@ -1,12 +1,11 @@
 package com.unascribed.blockrenderer.utils;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -27,34 +26,28 @@ public interface StringUtils {
     }
 
     static void addMessage(String text) {
-        Minecraft.getInstance().ingameGUI.getChatGUI().printChatMessage(new StringTextComponent(text));
+        MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(new LiteralText(text));
     }
 
-    static void addMessage(ITextComponent text) {
-        Minecraft.getInstance().ingameGUI.getChatGUI().printChatMessage(text);
+    static void addMessage(Text text) {
+        MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(text);
     }
 
     static String dateTime() {
         return DATETIME_FORMAT.format(new Date());
     }
 
-    static String sanitize(ITextComponent text) {
-        return sanitize(text.getUnformattedComponentText());
+    static String sanitize(Text text) {
+        return sanitize(text.getString());
     }
 
     static String sanitize(String str) {
         return str.replaceAll("[^A-Za-z0-9-_ ]", "_");
     }
 
-    static List<String> getTooltipFromItem(ItemStack stack) {
-        Minecraft minecraft = Minecraft.getInstance();
-
-        List<ITextComponent> texts = stack.getTooltip(minecraft.player, ITooltipFlag.TooltipFlags.NORMAL);
-        List<String> tooltip = Lists.newArrayList();
-
-        for(ITextComponent itextcomponent : texts) tooltip.add(itextcomponent.getFormattedText());
-
-        return tooltip;
+    static List<Text> getTooltipFromItem(ItemStack stack) {
+        MinecraftClient client = MinecraftClient.getInstance();
+        return stack.getTooltip(client.player, TooltipContext.Default.NORMAL);
     }
 
 }

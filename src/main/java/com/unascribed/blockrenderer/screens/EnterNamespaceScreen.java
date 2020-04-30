@@ -3,20 +3,19 @@ package com.unascribed.blockrenderer.screens;
 import com.unascribed.blockrenderer.BlockRenderer;
 import com.unascribed.blockrenderer.render.request.BulkRequest;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.text.TranslatableText;
 
 import javax.annotation.Nullable;
 
 public class EnterNamespaceScreen extends BaseScreen {
 
-	private static final TranslationTextComponent TITLE = new TranslationTextComponent("blockrenderer.gui.namespace");
+	private static final TranslatableText TITLE = new TranslatableText("blockrenderer.gui.namespace");
 
 	private final String prefill;
 
-	private TextFieldWidget text;
+	private @Nullable TextFieldWidget text;
 	
 	public EnterNamespaceScreen(@Nullable Screen old, String prefill) {
 		super(TITLE, old);
@@ -25,33 +24,40 @@ public class EnterNamespaceScreen extends BaseScreen {
 	
 	@Override
 	public void init() {
-		assert minecraft != null;
+		assert client != null;
+		client.keyboard.enableRepeatEvents(true);
 
-		boolean enabled = minecraft.world != null;
+		boolean enabled = client.world != null;
 
 		String oldText = (text == null ? prefill : text.getText());
 
-		text = addButton(new TextFieldWidget(minecraft.fontRenderer, width/2-100, height/6+50, 200, 20, I18n.format("blockrenderer.gui.namespace")), enabled);
+		text = addButton(new TextFieldWidget(client.textRenderer, width/2-100, height/6+50, 200, 20, new TranslatableText("blockrenderer.gui.namespace")), enabled);
 		text.setText(oldText);
-		text.setFocused2(true);
-		text.setCanLoseFocus(false);
-		setFocusedDefault(text);
+		text.setSelected(true);
+		text.setFocusUnlocked(false);
+		setFocused(text);
 
 		super.init();
 	}
 
 	@Override
 	public void tick() {
-		super.tick();
-		text.tick();
+		if (text != null) text.tick();
 	}
 
 	@Override
-	void onRender(Button button) {
-		assert minecraft != null;
+	public void removed() {
+		assert client != null;
+		client.keyboard.enableRepeatEvents(false);
+	}
 
-		minecraft.displayGuiScreen(old);
-		if (minecraft.world == null) return;
+	@Override
+	void onRender(AbstractButtonWidget button) {
+		assert client != null;
+		assert text != null;
+
+		client.openScreen(old);
+		if (client.world == null) return;
 
 		BlockRenderer.pendingRequest = new BulkRequest(round(size), text.getText());
 	}
