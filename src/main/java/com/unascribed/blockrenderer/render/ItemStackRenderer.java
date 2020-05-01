@@ -14,7 +14,9 @@ import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.lwjgl.opengl.GL11;
 
 import javax.annotation.Nullable;
@@ -137,16 +139,22 @@ public class ItemStackRenderer {
         itemRenderer.zLevel = oldZLevel;
     }
 
-    public static void renderItem(int size, ItemStack stack) {
+    public static void renderItem(int size, ItemStack stack, boolean useId, boolean addSize) {
         ItemStackRenderer renderer = new ItemStackRenderer();
+
+        ResourceLocation identifier = ForgeRegistries.ITEMS.getKey(stack.getItem());
+        if (identifier == null) identifier = new ResourceLocation("air");
+
+        String sizeString = addSize ? size + "x" + size + "_" : "";
+        String fileName = useId ? sanitize(identifier.toString()) : sanitize(stack.getDisplayName());
 
         renderer.setup(size);
         renderer.render(stack);
-        addMessage(renderer.save(DEFAULT_FOLDER, dateTime() + "_" + sanitize(stack.getDisplayName())));
+        addMessage(renderer.save(DEFAULT_FOLDER, dateTime() + "_" + sizeString + fileName));
         renderer.teardown();
     }
 
-    public static void bulkRender(int size, String namespaceSpec) {
+    public static void bulkRender(int size, String namespaceSpec, boolean useId, boolean addSize) {
         client.displayGuiScreen(new IngameMenuScreen(false));
 
         Set<String> namespaces = getNamespaces(namespaceSpec);
@@ -156,7 +164,8 @@ public class ItemStackRenderer {
         long lastUpdate = 0;
         int total = renders.size();
 
-        File folder = new File(DEFAULT_FOLDER, dateTime() + "_" + sanitize(namespaceSpec) + "/");
+        String sizeString = addSize ? size + "x" + size + "_" : "";
+        File folder = new File(DEFAULT_FOLDER, dateTime() + "_" + sizeString + sanitize(namespaceSpec) + "/");
         String joined = Joiner.on(", ").join(namespaces);
         String title = I18n.format("blockrenderer.gui.rendering", total, joined);
 
@@ -168,8 +177,13 @@ public class ItemStackRenderer {
         for (ItemStack stack : renders) {
             if (isEscapePressed()) break;
 
+            ResourceLocation identifier = ForgeRegistries.ITEMS.getKey(stack.getItem());
+            if (identifier == null) identifier = new ResourceLocation("air");
+
+            String fileName = useId ? sanitize(identifier.toString()) : sanitize(stack.getDisplayName());
+
             renderer.render(stack);
-            renderer.save(folder, sanitize(stack.getDisplayName()));
+            renderer.save(folder, fileName);
             rendered++;
 
             if (Util.milliTime() - lastUpdate > 33) {

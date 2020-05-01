@@ -45,6 +45,11 @@ public interface Rendering {
 	static void drawHoveringText(List<String> textLines, int x, int y, FontRenderer font) {
 		GUI.renderTooltip(textLines, x, y, font);
 	}
+
+	static void drawHoveringText(Screen owner, List<String> textLines, int x, int y) {
+		GUI.init(Minecraft.getInstance(), owner.width, owner.height);
+		GUI.renderTooltip(textLines, x, y);
+	}
 	
 	static void drawBackground(int width, int height) {
 		GUI.init(Minecraft.getInstance(), width, height);

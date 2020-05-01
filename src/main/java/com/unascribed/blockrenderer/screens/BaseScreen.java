@@ -1,10 +1,12 @@
 package com.unascribed.blockrenderer.screens;
 
+import com.unascribed.blockrenderer.screens.widgets.HoverableCheckboxWidget;
 import net.minecraft.client.GameSettings;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.OptionSlider;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.gui.widget.button.CheckboxButton;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.SliderPercentageOption;
 import net.minecraft.util.math.MathHelper;
@@ -22,6 +24,8 @@ public abstract class BaseScreen extends Screen {
     protected double size = 512;
 
     protected OptionSlider slider;
+    protected CheckboxButton useId;
+    protected CheckboxButton addSize;
 
     public BaseScreen(ITextComponent title, @Nullable Screen old) {
         super(title);
@@ -41,6 +45,9 @@ public abstract class BaseScreen extends Screen {
 
         SliderPercentageOption option = new SliderPercentageOption("blockrenderer.gui.renderSize", MIN_SIZE, MAX_SIZE, 1, (settings) -> size, (settings, value) -> size = round(value), this::getSliderDisplay);
         slider = addButton(new OptionSlider(minecraft.gameSettings, width/2-100, height/6+80, 200, 20, option), enabled);
+
+        useId = addButton(new HoverableCheckboxWidget(this, width/2-100, height / 6 + 144, 98, 20, I18n.format("blockrenderer.gui.useId"), I18n.format("blockrenderer.gui.useId.tooltip"), false), enabled);
+        addSize = addButton(new HoverableCheckboxWidget(this, width/2+2, height / 6 + 144, 98, 20, I18n.format("blockrenderer.gui.addSize"), I18n.format("blockrenderer.gui.addSize.tooltip"), false), enabled);
     }
 
     protected int round(double value) {
@@ -65,6 +72,10 @@ public abstract class BaseScreen extends Screen {
         super.render(mouseX, mouseY, partialTicks);
 
         drawCenteredString(minecraft.fontRenderer, title.getFormattedText(), width/2, height/6, -1);
+
+        for (Widget widget : buttons)
+            if (widget.isHovered())
+                widget.renderToolTip(mouseX, mouseY);
 
         if (minecraft.world != null) return;
 
