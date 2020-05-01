@@ -6,8 +6,12 @@ import com.unascribed.blockrenderer.render.request.IRequest;
 import com.unascribed.blockrenderer.screens.EnterNamespaceScreen;
 import com.unascribed.blockrenderer.screens.EnterSizeScreen;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.recipebook.IRecipeShownListener;
+import net.minecraft.client.gui.recipebook.RecipeBookGui;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
@@ -53,7 +57,7 @@ public class BlockRenderer {
 			pendingRequest = null;
 		}
 
-		if (!Keybindings.render.isKeyDown()) {
+		if (!isKeyDown()) {
 			down = false;
 			return;
 		}
@@ -122,6 +126,36 @@ public class BlockRenderer {
 		int size = Screen.hasShiftDown() ? (int) client.mainWindow.getGuiScaleFactor() * 16 : 512;
 
 		ItemStackRenderer.renderItem(size, stack);
+	}
+
+	private static boolean isKeyDown() {
+		Minecraft client = Minecraft.getInstance();
+		Screen currentScreen = client.currentScreen;
+
+		/* Unbound key */
+		if (Keybindings.render.isInvalid()) return false;
+
+		/* Has the Keybinding been triggered? */
+		if (Keybindings.render.isPressed()) return true;
+
+		/* Not in Screen so we should be ok */
+		if (currentScreen == null) return false;
+
+		/* Non Containers seem to behave ok */
+		boolean hasSlots = currentScreen instanceof ContainerScreen;
+		if (!hasSlots) return false;
+
+		/* TextFieldWidgets */
+		if (currentScreen.getFocused() instanceof TextFieldWidget) return false;
+
+		/* Recipe Books */
+		if (currentScreen instanceof IRecipeShownListener) {
+			RecipeBookGui recipeBook = ((IRecipeShownListener) currentScreen).func_194310_f();
+			if (recipeBook.isVisible()) return false;
+		}
+
+		/* Actually Check to see if the key is down */
+		return InputMappings.isKeyDown(client.mainWindow.getHandle(), Keybindings.render.getKey().getKeyCode());
 	}
 
 
