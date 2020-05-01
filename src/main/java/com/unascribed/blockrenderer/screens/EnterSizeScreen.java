@@ -33,6 +33,6 @@ public class EnterSizeScreen extends BaseScreen {
 		minecraft.displayGuiScreen(old);
 		if (minecraft.world == null) return;
 
-		BlockRenderer.pendingRequest = new ItemRequest(round(size), stack);
+		BlockRenderer.pendingRequest = new ItemRequest(round(size), stack, useId.isChecked(), addSize.isChecked());
 	}
 }

@@ -60,6 +60,6 @@ public class EnterNamespaceScreen extends BaseScreen {
 		minecraft.displayGuiScreen(old);
 		if (minecraft.world == null) return;
 
-		BlockRenderer.pendingRequest = new BulkRequest(round(size), text.getText());
+		BlockRenderer.pendingRequest = new BulkRequest(round(size), text.getText(), useId.isChecked(), addSize.isChecked());
 	}
 }
