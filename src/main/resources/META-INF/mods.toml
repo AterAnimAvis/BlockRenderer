@@ -1,6 +1,6 @@
 modLoader="javafml"
 loaderVersion="[31,)"
-issueTrackerURL="https://github.com/unascribed/BlockRenderer/issues"
+issueTrackerURL="https://github.com/AterAnimAvis/BlockRenderer/issues"
 [[mods]]
 modId="blockrenderer"
 version="${file.jarVersion}"
