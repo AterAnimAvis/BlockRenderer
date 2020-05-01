@@ -25,6 +25,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.List;
 import java.util.Set;
+import java.util.function.LongSupplier;
 
 import static com.unascribed.blockrenderer.utils.FileUtils.getFile;
 import static com.unascribed.blockrenderer.utils.MiscUtils.collectStacks;
@@ -86,6 +87,10 @@ public class ItemStackRenderer {
     public void render(ItemStack stack) {
         renderer.buffer.clear();
 
+        // Force Glint to be the same between renders
+        LongSupplier oldSupplier = Util.nanoTimeSupplier;
+        Util.nanoTimeSupplier = () -> 0L;
+
         do {
             renderer.beginTile();
 
@@ -97,6 +102,8 @@ public class ItemStackRenderer {
 
             RenderSystem.popMatrix();
         } while (renderer.endTile());
+
+        Util.nanoTimeSupplier = oldSupplier;
 
     }
 
