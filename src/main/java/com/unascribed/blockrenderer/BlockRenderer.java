@@ -9,6 +9,10 @@ import com.unascribed.blockrenderer.screens.EnterSizeScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.recipebook.RecipeBookProvider;
+import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
+import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.util.InputUtil;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.Slot;
@@ -50,7 +54,7 @@ public class BlockRenderer implements ClientModInitializer {
 			pendingRequest = null;
 		}
 
-		if (!Keybindings.render.isPressed()) {
+		if (!isKeyDown()) {
 			down = false;
 			return;
 		}
@@ -120,5 +124,36 @@ public class BlockRenderer implements ClientModInitializer {
 
 		ItemStackRenderer.renderItem(size, stack);
 	}
+
+	private static boolean isKeyDown() {
+		MinecraftClient client = MinecraftClient.getInstance();
+		Screen currentScreen = client.currentScreen;
+
+		/* Unbound key */
+		if (Keybindings.render.isNotBound()) return false;
+
+		/* Has the Keybinding been triggered? */
+		if (Keybindings.render.isPressed()) return true;
+
+		/* Not in Screen so we should be ok */
+		if (currentScreen == null) return false;
+
+		/* Non Containers seem to behave ok */
+		boolean hasSlots = currentScreen instanceof IHoveredSlot;
+		if (!hasSlots) return false;
+
+		/* TextFieldWidgets */
+		if (currentScreen.getFocused() instanceof TextFieldWidget) return false;
+
+		/* Recipe Books */
+		if (currentScreen instanceof RecipeBookProvider) {
+			RecipeBookWidget recipeBook = ((RecipeBookProvider) currentScreen).getRecipeBookWidget();
+			if (recipeBook.isOpen()) return false;
+		}
+
+		/* Actually Check to see if the key is down */
+		return InputUtil.isKeyPressed(client.getWindow().getHandle(), Keybindings.render.getBoundKey().getKeyCode());
+	}
+
 
 }
