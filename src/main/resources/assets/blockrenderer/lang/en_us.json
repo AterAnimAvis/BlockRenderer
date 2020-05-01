@@ -19,6 +19,11 @@
   "blockrenderer.gui.render":"Render",
   "blockrenderer.gui.renderSize":"Size",
 
+  "blockrenderer.gui.useId":"Identifier",
+  "blockrenderer.gui.addSize":"Size",
+  "blockrenderer.gui.useId.tooltip":"Use Identifier for Filename",
+  "blockrenderer.gui.addSize.tooltip":"Add Size to Filename",
+
   "blockrenderer.gui.rendering":"Rendering %1$s items from %2$s",
   "blockrenderer.gui.rendered":"Rendered %1$s items from %2$s",
   "blockrenderer.gui.renderCancelled":"Operation cancelled",

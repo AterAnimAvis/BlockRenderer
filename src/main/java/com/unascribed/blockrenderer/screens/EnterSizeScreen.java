@@ -33,6 +33,6 @@ public class EnterSizeScreen extends BaseScreen {
 		client.openScreen(old);
 		if (client.world == null) return;
 
-		BlockRenderer.pendingRequest = new ItemRequest(round(size), stack);
+		BlockRenderer.pendingRequest = new ItemRequest(round(size), stack, useId.isChecked(), addSize.isChecked());
 	}
 }

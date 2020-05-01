@@ -122,7 +122,7 @@ public class BlockRenderer implements ClientModInitializer {
 
 		int size = Screen.hasShiftDown() ? (int) client.getWindow().getScaleFactor() * 16 : 512;
 
-		ItemStackRenderer.renderItem(size, stack);
+		ItemStackRenderer.renderItem(size, stack, false, true);
 	}
 
 	private static boolean isKeyDown() {

@@ -17,6 +17,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Util;
+import net.minecraft.util.registry.Registry;
 import org.lwjgl.opengl.GL11;
 
 import javax.annotation.Nullable;
@@ -139,16 +140,19 @@ public class ItemStackRenderer {
         itemRenderer.zOffset = oldZLevel;
     }
 
-    public static void renderItem(int size, ItemStack stack) {
+    public static void renderItem(int size, ItemStack stack, boolean useId, boolean addSize) {
         ItemStackRenderer renderer = new ItemStackRenderer();
+
+        String sizeString = addSize ? size + "x" + size + "_" : "";
+        String fileName = useId ? sanitize(Registry.ITEM.getId(stack.getItem()).toString()) : sanitize(stack.getName());
 
         renderer.setup(size);
         renderer.render(stack);
-        addMessage(renderer.save(DEFAULT_FOLDER, dateTime() + "_" + sanitize(stack.getName())));
+        addMessage(renderer.save(DEFAULT_FOLDER, dateTime() + "_" + sizeString + fileName));
         renderer.teardown();
     }
 
-    public static void bulkRender(int size, String namespaceSpec) {
+    public static void bulkRender(int size, String namespaceSpec, boolean useId, boolean addSize) {
         client.openScreen(new GameMenuScreen(false));
 
         Set<String> namespaces = getNamespaces(namespaceSpec);
@@ -158,7 +162,8 @@ public class ItemStackRenderer {
         long lastUpdate = 0;
         int total = renders.size();
 
-        File folder = new File(DEFAULT_FOLDER, dateTime() + "_" + sanitize(namespaceSpec) + "/");
+        String sizeString = addSize ? size + "x" + size + "_" : "";
+        File folder = new File(DEFAULT_FOLDER, dateTime() + "_" + sizeString + sanitize(namespaceSpec) + "/");
         String joined = Joiner.on(", ").join(namespaces);
         String title = I18n.translate("blockrenderer.gui.rendering", total, joined);
 
@@ -170,8 +175,10 @@ public class ItemStackRenderer {
         for (ItemStack stack : renders) {
             if (isEscapePressed()) break;
 
+            String fileName = useId ? sanitize(Registry.ITEM.getId(stack.getItem()).toString()) : sanitize(stack.getName());
+
             renderer.render(stack);
-            renderer.save(folder, sanitize(stack.getName()));
+            renderer.save(folder, fileName);
             rendered++;
 
             if (Util.getMeasuringTimeMs() - lastUpdate > 33) {

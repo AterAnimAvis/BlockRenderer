@@ -1,8 +1,10 @@
 package com.unascribed.blockrenderer.screens;
 
+import com.unascribed.blockrenderer.screens.widgets.HoverableCheckboxWidget;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.CheckboxWidget;
 import net.minecraft.client.gui.widget.DoubleOptionSliderWidget;
 import net.minecraft.client.options.DoubleOption;
 import net.minecraft.client.options.GameOptions;
@@ -26,6 +28,8 @@ public abstract class BaseScreen extends Screen {
     protected double size = 512;
 
     protected DoubleOptionSliderWidget slider;
+    protected CheckboxWidget useId;
+    protected CheckboxWidget addSize;
 
     public BaseScreen(Text title, @Nullable Screen old) {
         super(title);
@@ -45,6 +49,9 @@ public abstract class BaseScreen extends Screen {
 
         DoubleOption option = new DoubleOption("blockrenderer.gui.renderSize", MIN_SIZE, MAX_SIZE, 1, (settings) -> size, (settings, value) -> size = round(value), this::getSliderDisplay);
         slider = addButton(new DoubleOptionSliderWidget(client.options, width/2-100, height/6+80, 200, 20, option), enabled);
+
+        useId = addButton(new HoverableCheckboxWidget(this, width/2-100, height / 6 + 144, 98, 20, new TranslatableText("blockrenderer.gui.useId"), new TranslatableText("blockrenderer.gui.useId.tooltip"), false), enabled);
+        addSize = addButton(new HoverableCheckboxWidget(this, width/2+2, height / 6 + 144, 98, 20, new TranslatableText("blockrenderer.gui.addSize"), new TranslatableText("blockrenderer.gui.addSize.tooltip"), false), enabled);
     }
 
     protected int round(double value) {
@@ -69,6 +76,10 @@ public abstract class BaseScreen extends Screen {
         super.render(matrices, mouseX, mouseY, partialTicks);
 
         drawCenteredString(matrices, client.textRenderer, title.getString(), width/2, height/6, -1);
+
+        for (AbstractButtonWidget widget : buttons)
+            if (widget.isHovered())
+                widget.renderToolTip(matrices, mouseX, mouseY);
 
         if (client.world != null) return;
 

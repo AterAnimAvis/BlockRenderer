@@ -47,6 +47,11 @@ public interface Rendering {
 	static void drawHoveringText(MatrixStack matrices, List<Text> textLines, int x, int y) {
 		GUI.renderTooltip(matrices, textLines, x, y);
 	}
+
+	static void drawHoveringText(Screen owner, MatrixStack matrices, List<Text> textLines, int x, int y) {
+		GUI.init(MinecraftClient.getInstance(), owner.width, owner.height);
+		GUI.renderTooltip(matrices, textLines, x, y);
+	}
 	
 	static void drawBackground(int width, int height) {
 		GUI.init(MinecraftClient.getInstance(), width, height);

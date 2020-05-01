@@ -59,6 +59,6 @@ public class EnterNamespaceScreen extends BaseScreen {
 		client.openScreen(old);
 		if (client.world == null) return;
 
-		BlockRenderer.pendingRequest = new BulkRequest(round(size), text.getText());
+		BlockRenderer.pendingRequest = new BulkRequest(round(size), text.getText(), useId.isChecked(), addSize.isChecked());
 	}
 }
