@@ -119,14 +119,12 @@ public class BlockRenderer {
 	private static void renderStack(ItemStack stack) {
 		Minecraft client = Minecraft.getInstance();
 
-		if (Screen.hasAltDown()) {
+		if (Screen.hasShiftDown()) {
 			client.displayGuiScreen(new EnterSizeScreen(client.currentScreen, stack));
 			return;
 		}
 
-		int size = Screen.hasShiftDown() ? (int) client.mainWindow.getGuiScaleFactor() * 16 : 512;
-
-		ItemStackRenderer.renderItem(size, stack, false, false);
+		ItemStackRenderer.renderItem(512, stack, false, false);
 	}
 
 	private static boolean isKeyDown() {
