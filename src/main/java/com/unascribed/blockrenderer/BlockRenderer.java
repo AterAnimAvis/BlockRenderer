@@ -125,7 +125,7 @@ public class BlockRenderer {
 
 		int size = Screen.hasShiftDown() ? (int) client.getMainWindow().getGuiScaleFactor() * 16 : 512;
 
-		ItemStackRenderer.renderItem(size, stack, false, true);
+		ItemStackRenderer.renderItem(size, stack, false, false);
 	}
 
 	private static boolean isKeyDown() {
