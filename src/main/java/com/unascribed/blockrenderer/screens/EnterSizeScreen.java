@@ -24,6 +24,7 @@ public class EnterSizeScreen extends BaseScreen {
 	public void init() {
 		super.init();
 		slider.y = height / 6 + 50;
+		actualSize.y = height / 6 + 50;
 	}
 
 	@Override
