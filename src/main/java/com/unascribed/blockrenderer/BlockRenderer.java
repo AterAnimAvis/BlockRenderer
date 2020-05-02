@@ -25,6 +25,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.lwjgl.glfw.GLFW;
 
 import static com.unascribed.blockrenderer.utils.StringUtils.addMessage;
 
@@ -155,7 +156,13 @@ public class BlockRenderer {
 		}
 
 		/* Actually Check to see if the key is down */
-		return InputMappings.isKeyDown(client.getMainWindow().getHandle(), Keybindings.render.getKey().getKeyCode());
+		InputMappings.Input key = Keybindings.render.getKey();
+
+		if (key.getType() == InputMappings.Type.MOUSE) {
+			return GLFW.glfwGetMouseButton(client.getMainWindow().getHandle(), key.getKeyCode()) == GLFW.GLFW_PRESS;
+		}
+
+		return InputMappings.isKeyDown(client.getMainWindow().getHandle(), key.getKeyCode());
 	}
 
 
