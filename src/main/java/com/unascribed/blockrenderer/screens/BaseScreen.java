@@ -1,9 +1,10 @@
 package com.unascribed.blockrenderer.screens;
 
 import com.unascribed.blockrenderer.screens.widgets.HoverableCheckboxWidget;
+import com.unascribed.blockrenderer.screens.widgets.HoverableTinyButtonWidget;
+import com.unascribed.blockrenderer.screens.widgets.UpdateableSliderWidget;
 import net.minecraft.client.GameSettings;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.OptionSlider;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.button.CheckboxButton;
@@ -23,7 +24,8 @@ public abstract class BaseScreen extends Screen {
 
     protected double size = 512;
 
-    protected OptionSlider slider;
+    protected UpdateableSliderWidget slider;
+    protected Button actualSize;
     protected CheckboxButton useId;
     protected CheckboxButton addSize;
 
@@ -44,8 +46,9 @@ public abstract class BaseScreen extends Screen {
         size = MathHelper.clamp(size, MIN_SIZE, MAX_SIZE);
 
         SliderPercentageOption option = new SliderPercentageOption("blockrenderer.gui.renderSize", MIN_SIZE, MAX_SIZE, 1, (settings) -> size, (settings, value) -> size = round(value), this::getSliderDisplay);
-        slider = addButton(new OptionSlider(minecraft.gameSettings, width/2-100, height/6+80, 200, 20, option), enabled);
+        slider = addButton(new UpdateableSliderWidget(minecraft.gameSettings, width/2-100, height/6+80, 200, 20, option), enabled);
 
+        actualSize = addButton(new HoverableTinyButtonWidget(this, width/2+104, height/6+80, I18n.format("blockrenderer.gui.actualSize"), I18n.format("blockrenderer.gui.actualSize.tooltip"), button -> slider.update((int) minecraft.mainWindow.getGuiScaleFactor() * 16)), enabled);
         useId = addButton(new HoverableCheckboxWidget(this, width/2-100, height / 6 + 144, 98, 20, I18n.format("blockrenderer.gui.useId"), I18n.format("blockrenderer.gui.useId.tooltip"), false), enabled);
         addSize = addButton(new HoverableCheckboxWidget(this, width/2+2, height / 6 + 144, 98, 20, I18n.format("blockrenderer.gui.addSize"), I18n.format("blockrenderer.gui.addSize.tooltip"), false), enabled);
     }
