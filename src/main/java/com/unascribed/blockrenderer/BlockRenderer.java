@@ -21,6 +21,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.lwjgl.glfw.GLFW;
 
 import javax.annotation.Nullable;
 
@@ -152,7 +153,13 @@ public class BlockRenderer implements ClientModInitializer {
 		}
 
 		/* Actually Check to see if the key is down */
-		return InputUtil.isKeyPressed(client.getWindow().getHandle(), Keybindings.render.getBoundKey().getKeyCode());
+		InputUtil.KeyCode key = Keybindings.render.getBoundKey();
+
+		if (key.getCategory() == InputUtil.Type.MOUSE) {
+			return GLFW.glfwGetMouseButton(client.getWindow().getHandle(), key.getKeyCode()) == GLFW.GLFW_PRESS;
+		}
+
+		return InputUtil.isKeyPressed(client.getWindow().getHandle(), key.getKeyCode());
 	}
 
 
