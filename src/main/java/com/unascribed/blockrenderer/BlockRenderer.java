@@ -116,14 +116,12 @@ public class BlockRenderer implements ClientModInitializer {
 	private static void renderStack(ItemStack stack) {
 		MinecraftClient client = MinecraftClient.getInstance();
 
-		if (Screen.hasAltDown()) {
+		if (Screen.hasShiftDown()) {
 			client.openScreen(new EnterSizeScreen(client.currentScreen, stack));
 			return;
 		}
 
-		int size = Screen.hasShiftDown() ? (int) client.getWindow().getScaleFactor() * 16 : 512;
-
-		ItemStackRenderer.renderItem(size, stack, false, false);
+		ItemStackRenderer.renderItem(512, stack, false, false);
 	}
 
 	private static boolean isKeyDown() {
