@@ -1,11 +1,12 @@
 package com.unascribed.blockrenderer.screens;
 
 import com.unascribed.blockrenderer.screens.widgets.HoverableCheckboxWidget;
+import com.unascribed.blockrenderer.screens.widgets.HoverableTinyButtonWidget;
+import com.unascribed.blockrenderer.screens.widgets.UpdateableSliderWidget;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.CheckboxWidget;
-import net.minecraft.client.gui.widget.DoubleOptionSliderWidget;
 import net.minecraft.client.options.DoubleOption;
 import net.minecraft.client.options.GameOptions;
 import net.minecraft.client.resource.language.I18n;
@@ -27,7 +28,8 @@ public abstract class BaseScreen extends Screen {
 
     protected double size = 512;
 
-    protected DoubleOptionSliderWidget slider;
+    protected UpdateableSliderWidget slider;
+    protected ButtonWidget actualSize;
     protected CheckboxWidget useId;
     protected CheckboxWidget addSize;
 
@@ -48,8 +50,9 @@ public abstract class BaseScreen extends Screen {
         size = MathHelper.clamp(size, MIN_SIZE, MAX_SIZE);
 
         DoubleOption option = new DoubleOption("blockrenderer.gui.renderSize", MIN_SIZE, MAX_SIZE, 1, (settings) -> size, (settings, value) -> size = round(value), this::getSliderDisplay);
-        slider = addButton(new DoubleOptionSliderWidget(client.options, width/2-100, height/6+80, 200, 20, option), enabled);
+        slider = addButton(new UpdateableSliderWidget(client.options, width/2-100, height/6+80, 200, 20, option), enabled);
 
+        actualSize = addButton(new HoverableTinyButtonWidget(this, width/2+104, height/6+80, new TranslatableText("blockrenderer.gui.actualSize"), new TranslatableText("blockrenderer.gui.actualSize.tooltip"), button -> slider.update((int) client.getWindow().getScaleFactor() * 16)), enabled);
         useId = addButton(new HoverableCheckboxWidget(this, width/2-100, height / 6 + 144, 98, 20, new TranslatableText("blockrenderer.gui.useId"), new TranslatableText("blockrenderer.gui.useId.tooltip"), false), enabled);
         addSize = addButton(new HoverableCheckboxWidget(this, width/2+2, height / 6 + 144, 98, 20, new TranslatableText("blockrenderer.gui.addSize"), new TranslatableText("blockrenderer.gui.addSize.tooltip"), false), enabled);
     }

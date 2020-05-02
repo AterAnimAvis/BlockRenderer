@@ -30,11 +30,6 @@ public class HoverableCheckboxWidget extends CheckboxWidget {
     }
 
     @Override
-    public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        super.renderButton(matrices, mouseX, mouseY, delta);
-    }
-
-    @Override
     public void renderToolTip(MatrixStack matrixStack, int mouseX, int mouseY) {
         Rendering.drawHoveringText(owner, matrixStack, tooltip.get(), mouseX, mouseY);
     }
