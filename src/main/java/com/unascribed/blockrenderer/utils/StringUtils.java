@@ -7,7 +7,11 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.util.text.event.HoverEvent;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -55,6 +59,32 @@ public interface StringUtils {
         for(ITextComponent itextcomponent : texts) tooltip.add(itextcomponent.getFormattedText());
 
         return tooltip;
+    }
+
+    static ITextComponent getRenderSuccess(File folder, File file) {
+        return new TranslationTextComponent("msg.blockrenderer.render.success", asClickable(folder), asClickable(file));
+    }
+
+    static ITextComponent asClickable(File file) {
+        StringTextComponent component = new StringTextComponent(file.getName());
+
+        String path;
+
+        try {
+            path = file.getAbsoluteFile().getCanonicalPath();
+        } catch (Exception ignored) {
+            try {
+                path = file.getCanonicalPath();
+            } catch (Exception ignored2) {
+                return component;
+            }
+        }
+
+        component.getStyle().setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslationTextComponent("blockrenderer.file.tooltip")));
+        component.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, path));
+        component.getStyle().setUnderlined(true);
+
+        return component;
     }
 
 }

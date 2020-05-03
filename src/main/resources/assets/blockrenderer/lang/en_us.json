@@ -3,18 +3,23 @@
   "key.categories.blockrenderer":"BlockRenderer",
 
   "msg.blockrenderer.render.fail":"Rendering failed, see game output for details",
-  "msg.blockrenderer.render.success":"Successfully rendered to %s",
+  "msg.blockrenderer.render.success":"Successfully rendered to %2$s in %1$s",
 
-  "msg.blockrenderer.bulk.cancelled": "Operation cancelled, rendered %1$s from a total of %4$s items from %2$s for %3$s seconds.",
-  "msg.blockrenderer.bulk.finished": "Rendered %1$s items from %2$s for %3$s seconds.",
+  "msg.blockrenderer.bulk.cancelled":"Operation cancelled, rendered %1$s from a total of %4$s items from %2$s in %3$s",
+  "msg.blockrenderer.bulk.finished":"Rendered %1$s items from %2$s in %3$s",
+  "msg.blockrenderer.bulk.time":"Total time: %1$s seconds",
+  "msg.blockrenderer.bulk.noItems":"No items for Namespace '%1$s'",
 
   "msg.blockrenderer.slot.empty":"That slot has no item",
   "msg.blockrenderer.slot.absent":"There's no slot there",
   "msg.blockrenderer.notContainer":"Can't find an item to render",
 
+  "blockrenderer.file.tooltip":"Click to Open",
+
   "blockrenderer.gui.renderItem":"Render Item",
   "blockrenderer.gui.namespace":"Enter Namespace",
   "blockrenderer.gui.noWorld":"You must be in a world to render items",
+  "blockrenderer.gui.emptySpec":"You need to enter a Namespace",
 
   "blockrenderer.gui.render":"Render",
   "blockrenderer.gui.renderSize":"Size",

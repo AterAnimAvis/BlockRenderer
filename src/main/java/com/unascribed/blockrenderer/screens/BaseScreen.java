@@ -13,6 +13,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.SliderPercentageOption;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
+import org.lwjgl.glfw.GLFW;
 
 import javax.annotation.Nullable;
 
@@ -28,6 +29,7 @@ public abstract class BaseScreen extends Screen {
 
     protected UpdateableSliderWidget slider;
     protected Button actualSize;
+    protected Button renderButton;
     protected CheckboxButton useId;
     protected CheckboxButton addSize;
 
@@ -43,7 +45,7 @@ public abstract class BaseScreen extends Screen {
 
         addButton(new Button(width/2-100, height/6+120, 98, 20, I18n.format("gui.cancel"), button -> minecraft.displayGuiScreen(old)));
 
-        addButton(new Button(width/2+2, height/6+120, 98, 20, I18n.format("blockrenderer.gui.render"), this::onRender), enabled);
+        renderButton = addButton(new Button(width/2+2, height/6+120, 98, 20, I18n.format("blockrenderer.gui.render"), this::onRender), enabled);
 
         size = MathHelper.clamp(size, MIN_SIZE, MAX_SIZE);
 
@@ -57,6 +59,16 @@ public abstract class BaseScreen extends Screen {
 
     protected int round(double value) {
         return MathUtils.roundAndClamp(value, MIN_SIZE, MAX_SIZE, THRESHOLD);
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (keyCode == GLFW.GLFW_KEY_ENTER && renderButton.visible) {
+            onRender(renderButton);
+            return true;
+        }
+
+        return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     @Override
