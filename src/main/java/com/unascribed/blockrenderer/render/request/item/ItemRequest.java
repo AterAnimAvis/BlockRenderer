@@ -1,6 +1,7 @@
-package com.unascribed.blockrenderer.render.request;
+package com.unascribed.blockrenderer.render.request.item;
 
 import com.unascribed.blockrenderer.render.ItemStackRenderer;
+import com.unascribed.blockrenderer.render.request.IRequest;
 import net.minecraft.item.ItemStack;
 
 public class ItemRequest implements IRequest {

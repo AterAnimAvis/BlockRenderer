@@ -28,6 +28,7 @@ import java.util.Set;
 import java.util.function.LongSupplier;
 
 import static com.unascribed.blockrenderer.utils.FileUtils.getFile;
+import static com.unascribed.blockrenderer.utils.MathUtils.minimum;
 import static com.unascribed.blockrenderer.utils.MiscUtils.collectStacks;
 import static com.unascribed.blockrenderer.utils.MiscUtils.isEscapePressed;
 import static com.unascribed.blockrenderer.utils.StringUtils.*;
@@ -54,7 +55,7 @@ public class ItemStackRenderer {
          * of our readPixels up ahead would be undefined. And nobody likes
          * undefined behavior.
          */
-        int size = Math.min(Math.min(displayHeight, displayWidth), desiredSize);
+        int size = minimum(displayHeight, displayWidth, desiredSize);
         renderer = TileRenderer.forSize(desiredSize, size);
 
         // Switches from 3D to 2D
