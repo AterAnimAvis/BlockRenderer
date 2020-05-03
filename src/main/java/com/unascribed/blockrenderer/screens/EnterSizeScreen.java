@@ -1,7 +1,7 @@
 package com.unascribed.blockrenderer.screens;
 
 import com.unascribed.blockrenderer.BlockRenderer;
-import com.unascribed.blockrenderer.render.request.ItemRequest;
+import com.unascribed.blockrenderer.render.request.item.ItemRequest;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import net.minecraft.item.ItemStack;

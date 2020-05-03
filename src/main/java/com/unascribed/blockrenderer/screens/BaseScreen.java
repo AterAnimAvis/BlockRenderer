@@ -3,6 +3,7 @@ package com.unascribed.blockrenderer.screens;
 import com.unascribed.blockrenderer.screens.widgets.HoverableCheckboxWidget;
 import com.unascribed.blockrenderer.screens.widgets.HoverableTinyButtonWidget;
 import com.unascribed.blockrenderer.screens.widgets.UpdateableSliderWidget;
+import com.unascribed.blockrenderer.utils.MathUtils;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -20,8 +21,9 @@ import javax.annotation.Nullable;
 
 public abstract class BaseScreen extends Screen {
 
-    private static final int MIN_SIZE = 16;
-    private static final int MAX_SIZE = 2048;
+    private static final int MIN_SIZE  = 16;
+    private static final int THRESHOLD = 32;
+    private static final int MAX_SIZE  = 2048;
 
     @Nullable
     protected final Screen old;
@@ -58,16 +60,7 @@ public abstract class BaseScreen extends Screen {
     }
 
     protected int round(double value) {
-        assert client != null;
-
-        int val = (int)value;
-
-        // There's a more efficient method in MathHelper, but it rounds up. We want the nearest.
-        int nearestPowerOfTwo = (int)Math.pow(2, Math.ceil(Math.log(val)/Math.log(2)));
-
-        if (nearestPowerOfTwo < MAX_SIZE && Math.abs(val-nearestPowerOfTwo) < 32) val = nearestPowerOfTwo;
-
-        return MathHelper.clamp(val, MIN_SIZE, MAX_SIZE);
+        return MathUtils.roundAndClamp(value, MIN_SIZE, MAX_SIZE, THRESHOLD);
     }
 
     @Override
