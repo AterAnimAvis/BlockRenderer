@@ -51,46 +51,36 @@ public class ItemStackRenderer {
         int displayWidth = window.getFramebufferWidth();
         int displayHeight = window.getFramebufferHeight();
 
-        /*
-         * As we render to the back-buffer, we need to cap our render size
-         * to be within the window's bounds. If we didn't do this, the results
-         * of our readPixels up ahead would be undefined. And nobody likes
-         * undefined behavior.
-         */
+
         int size = minimum(displayHeight, displayWidth, desiredSize);
         renderer = TileRenderer.forSize(desiredSize, size);
 
-        // Switches from 3D to 2D
+        /* Push Stack */
+        RenderSystem.pushMatrix();
+
+        /* Setup Projection */
         Rendering.setupOverlayRendering(renderer);
+
+        /* Setup Lighting */
         DiffuseLighting.enableGuiDepthLighting();
 
-        /*
-         * The GUI scale affects us due to the call to setupOverlayRendering
-         * above. As such, we need to counteract this to always get a 512x512
-         * render. We could manually switch to orthogonal mode, but it's just
-         * more convenient to leverage setupOverlayRendering.
-         */
-        float scale = desiredSize / (16f * (float) window.getScaleFactor());
-        RenderSystem.translatef(0, 0, -(scale*100));
-
+        /* Scale based on desired size */
+        float scale = desiredSize / 16f;
+        RenderSystem.translatef(0, 0, -scale * 100);
         RenderSystem.scalef(scale, scale, scale);
+
+        /* Flip culling due to the flipped projection */
+        GL11.glCullFace(GL11.GL_FRONT);
 
         oldZLevel = itemRenderer.zOffset;
         itemRenderer.zOffset = -50;
-
-        RenderSystem.enableRescaleNormal();
-        RenderSystem.enableColorMaterial();
-        RenderSystem.enableDepthTest();
-        RenderSystem.enableBlend();
-        RenderSystem.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_SRC_ALPHA, GL11.GL_ONE);
-        RenderSystem.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        RenderSystem.disableAlphaTest();
     }
 
     public void render(ItemStack stack) {
+        /* Clear Pixel Buffer */
         renderer.buffer.clear();
 
-        // Force Glint to be the same between renders
+        /* Force Glint to be the same between renders by changing nano supplier */
         LongSupplier oldSupplier = Util.nanoTimeSupplier;
         Util.nanoTimeSupplier = () -> 0L;
 
@@ -99,13 +89,17 @@ public class ItemStackRenderer {
 
             RenderSystem.pushMatrix();
 
+                /* Clear Framebuffer */
                 RenderSystem.clearColor(0, 0, 0, 0);
                 RenderSystem.clear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT, MinecraftClient.IS_SYSTEM_MAC);
+
+                /* Render */
                 itemRenderer.renderGuiItem(stack, 0, 0);
 
             RenderSystem.popMatrix();
         } while (renderer.endTile());
 
+        /* Reset nano supplier */
         Util.nanoTimeSupplier = oldSupplier;
 
     }
@@ -113,14 +107,7 @@ public class ItemStackRenderer {
     @SuppressWarnings("UnstableApiUsage")
     public Text save(File folder, String filename) {
         try {
-            /*
-             * We need to flip the image over here, because again, GL Y-zero is
-             * the bottom, so it's "Y-up". Minecraft's Y-zero is the top, so it's
-             * "Y-down". Since readPixels is Y-up, our Y-down render is flipped.
-             * It's easier to do this operation on the resulting image than to
-             * do it with GL transforms. Not faster, just easier.
-             */
-            BufferedImage img = ImageUtils.createFlipped(ImageUtils.readPixels(renderer));
+            BufferedImage img = ImageUtils.readPixels(renderer);
 
             File file = getFile(folder, filename);
             Files.createParentDirs(file);
@@ -134,12 +121,14 @@ public class ItemStackRenderer {
     }
 
     public void teardown() {
-        RenderSystem.disableLighting();
-        RenderSystem.disableColorMaterial();
-        RenderSystem.disableDepthTest();
-        RenderSystem.disableBlend();
-
+        /* Reset zLevel */
         itemRenderer.zOffset = oldZLevel;
+
+        /* Reset Culling */
+        GL11.glCullFace(GL11.GL_BACK);
+
+        /* Pop Stack */
+        RenderSystem.popMatrix();
     }
 
     public static void renderItem(int size, ItemStack stack, boolean useId, boolean addSize) {
