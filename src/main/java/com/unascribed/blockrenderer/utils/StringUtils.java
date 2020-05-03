@@ -5,6 +5,7 @@ import com.google.common.collect.Sets;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -44,6 +45,10 @@ public interface StringUtils {
 
     static String sanitize(ITextComponent text) {
         return sanitize(text.getUnformattedComponentText());
+    }
+
+    static String sanitize(ResourceLocation identifier) {
+        return sanitize(identifier.toString());
     }
 
     static String sanitize(String str) {
