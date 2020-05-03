@@ -2,7 +2,8 @@ package com.unascribed.blockrenderer;
 
 import com.unascribed.blockrenderer.init.Keybindings;
 import com.unascribed.blockrenderer.mixin.accessor.IHoveredSlot;
-import com.unascribed.blockrenderer.render.ItemStackRenderer;
+import com.unascribed.blockrenderer.render.SingleRenderer;
+import com.unascribed.blockrenderer.render.impl.ItemStackRenderer;
 import com.unascribed.blockrenderer.render.request.IRequest;
 import com.unascribed.blockrenderer.screens.EnterNamespaceScreen;
 import com.unascribed.blockrenderer.screens.EnterSizeScreen;
@@ -43,14 +44,7 @@ public class BlockRenderer implements ClientModInitializer {
 
 
 	public static void onFrameStart() {
-		/*
-		 * Quick primer: OpenGL is double-buffered. This means, where we draw to is
-		 * /not/ on the screen. As such, we are free to do whatever we like before
-		 * Minecraft renders, as long as we put everything back the way it was.
-		 */
-
 		if (pendingRequest != null) {
-			// We *must* call render code in pre-render. If we don't, it won't work right.
 			pendingRequest.render();
 			pendingRequest = null;
 		}
@@ -121,7 +115,7 @@ public class BlockRenderer implements ClientModInitializer {
 			return;
 		}
 
-		ItemStackRenderer.renderItem(512, stack, false, false);
+		SingleRenderer.render(new ItemStackRenderer(), stack, 512, false, false);
 	}
 
 	private static boolean isKeyDown() {

@@ -5,8 +5,9 @@
   "msg.blockrenderer.render.fail":"Rendering failed, see game output for details",
   "msg.blockrenderer.render.success":"Successfully rendered to %2$s in %1$s",
 
-  "msg.blockrenderer.bulk.cancelled":"Operation cancelled, rendered %1$s from a total of %4$s items from %2$s in %3$s",
-  "msg.blockrenderer.bulk.finished":"Rendered %1$s items from %2$s in %3$s",
+  "msg.blockrenderer.bulk.cancelled":"Operation cancelled, rendered %1$s from a total of %4$s entries from %2$s in %3$s",
+  "msg.blockrenderer.bulk.finished":"Rendered %1$s entries from %2$s in %3$s",
+  "msg.blockrenderer.bulk.errored":"%1$s entries errored, See game output for details",
   "msg.blockrenderer.bulk.time":"Total time: %1$s seconds",
   "msg.blockrenderer.bulk.noItems":"No items for Namespace '%1$s'",
 
@@ -31,8 +32,8 @@
   "blockrenderer.gui.addSize.tooltip":"Add Size to Filename",
   "blockrenderer.gui.actualSize.tooltip":"Set to actual size (Based on GUI Scale)",
 
-  "blockrenderer.gui.rendering":"Rendering %1$s items from %2$s",
-  "blockrenderer.gui.rendered":"Rendered %1$s items from %2$s",
+  "blockrenderer.gui.rendering":"Rendering %1$s entries from %2$s",
+  "blockrenderer.gui.rendered":"Rendered %1$s entries from %2$s",
   "blockrenderer.gui.renderCancelled":"Operation cancelled",
   "blockrenderer.gui.progress":"(%1$s/%2$s, %3$s to go)"
 }

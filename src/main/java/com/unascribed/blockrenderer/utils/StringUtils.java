@@ -6,6 +6,7 @@ import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.*;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.Identifier;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -40,6 +41,10 @@ public interface StringUtils {
 
     static String sanitize(Text text) {
         return sanitize(text.getString());
+    }
+
+    static String sanitize(Identifier identifier) {
+        return sanitize(identifier.toString());
     }
 
     static String sanitize(String str) {
