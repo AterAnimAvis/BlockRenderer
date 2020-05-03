@@ -51,46 +51,45 @@ public class ItemStackRenderer {
         int displayWidth = window.getFramebufferWidth();
         int displayHeight = window.getFramebufferHeight();
 
-        /*
-         * As we render to the back-buffer, we need to cap our render size
-         * to be within the window's bounds. If we didn't do this, the results
-         * of our readPixels up ahead would be undefined. And nobody likes
-         * undefined behavior.
-         */
+
         int size = minimum(displayHeight, displayWidth, desiredSize);
         renderer = TileRenderer.forSize(desiredSize, size);
 
-        // Switches from 3D to 2D
+        /* Push Stack */
+        GlStateManager.pushMatrix();
+
+        /* Setup Projection */
         Rendering.setupOverlayRendering(renderer);
+
+        /* Setup Lighting */
         RenderHelper.enableGUIStandardItemLighting();
 
-        /*
-         * The GUI scale affects us due to the call to setupOverlayRendering
-         * above. As such, we need to counteract this to always get a 512x512
-         * render. We could manually switch to orthogonal mode, but it's just
-         * more convenient to leverage setupOverlayRendering.
-         */
-        float scale = desiredSize / (16f * (float) window.getGuiScaleFactor());
-        GlStateManager.translatef(0, 0, -(scale*100));
-
+        /* Scale based on desired size */
+        float scale = desiredSize / 16f;
+        GlStateManager.translatef(0, 0, -scale * 100);
         GlStateManager.scalef(scale, scale, scale);
 
-        oldZLevel = itemRenderer.zLevel;
-        itemRenderer.zLevel = -50;
+        /* Flip culling due to the flipped projection */
+        GL11.glCullFace(GL11.GL_FRONT);
 
-        GlStateManager.enableRescaleNormal();
-        GlStateManager.enableColorMaterial();
+        /* 1.14.4 - DepthTest needs to be enabled for Enchanted Books */
         GlStateManager.enableDepthTest();
+
+        /* 1.14.4 - Blend needs to be enabled for Glass */
         GlStateManager.enableBlend();
         GlStateManager.blendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA, GL11.GL_SRC_ALPHA, GL11.GL_ONE);
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GlStateManager.disableAlphaTest();
+
+        /* Modify zLevel */
+        oldZLevel = itemRenderer.zLevel;
+        itemRenderer.zLevel = -50;
     }
 
     public void render(ItemStack stack) {
+        /* Clear Pixel Buffer */
         renderer.buffer.clear();
 
-        // Force Glint to be the same between renders
+        /* Force Glint to be the same between renders by changing nano supplier */
         LongSupplier oldSupplier = Util.nanoTimeSupplier;
         Util.nanoTimeSupplier = () -> 0L;
 
@@ -99,13 +98,17 @@ public class ItemStackRenderer {
 
             GlStateManager.pushMatrix();
 
+                /* Clear Framebuffer */
                 GlStateManager.clearColor(0, 0, 0, 0);
                 GlStateManager.clear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC);
+
+                /* Render */
                 itemRenderer.renderItemAndEffectIntoGUI(stack, 0, 0);
 
             GlStateManager.popMatrix();
         } while (renderer.endTile());
 
+        /* Reset nano supplier */
         Util.nanoTimeSupplier = oldSupplier;
 
     }
@@ -113,14 +116,7 @@ public class ItemStackRenderer {
     @SuppressWarnings("UnstableApiUsage")
     public ITextComponent save(File folder, String filename) {
         try {
-            /*
-             * We need to flip the image over here, because again, GL Y-zero is
-             * the bottom, so it's "Y-up". Minecraft's Y-zero is the top, so it's
-             * "Y-down". Since readPixels is Y-up, our Y-down render is flipped.
-             * It's easier to do this operation on the resulting image than to
-             * do it with GL transforms. Not faster, just easier.
-             */
-            BufferedImage img = ImageUtils.createFlipped(ImageUtils.readPixels(renderer));
+            BufferedImage img = ImageUtils.readPixels(renderer);
 
             File file = getFile(folder, filename);
             Files.createParentDirs(file);
@@ -134,12 +130,20 @@ public class ItemStackRenderer {
     }
 
     public void teardown() {
-        GlStateManager.disableLighting();
-        GlStateManager.disableColorMaterial();
-        GlStateManager.disableDepthTest();
+        /* Reset zLevel */
+        itemRenderer.zLevel = oldZLevel;
+
+        /* Reset Blend */
         GlStateManager.disableBlend();
 
-        itemRenderer.zLevel = oldZLevel;
+        /* Reset Depth Test */
+        GlStateManager.disableDepthTest();
+
+        /* Reset Culling */
+        GL11.glCullFace(GL11.GL_BACK);
+
+        /* Pop Stack */
+        GlStateManager.popMatrix();
     }
 
     public static void renderItem(int size, ItemStack stack, boolean useId, boolean addSize) {
