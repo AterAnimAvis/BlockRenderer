@@ -71,14 +71,17 @@ public interface Rendering {
 	}
 
 	static void setupOverlayRendering(TileRenderer renderer) {
-		Minecraft client = Minecraft.getInstance();
-		MainWindow window = client.getMainWindow();
-		double scaleFactor = window.getGuiScaleFactor();
-
 		RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC);
+
+		/* Projection */
 		RenderSystem.matrixMode(GL11.GL_PROJECTION);
 		RenderSystem.loadIdentity();
-		renderer.ortho(0.0D, renderer.imageWidth / scaleFactor, renderer.imageHeight / scaleFactor, 0.0D, 1000.0D, 3000.0D);
+
+		/* We flip the bottom and top parameters here so we don't need to process the image just fix a culling issue */
+		/* This results in a minor speed up / lower memory usage */
+		renderer.ortho(0.0D, renderer.imageWidth, 0.0D, renderer.imageHeight, 1000.0D, 3000.0D);
+
+		/* Model View */
 		RenderSystem.matrixMode(GL11.GL_MODELVIEW);
 		RenderSystem.loadIdentity();
 		RenderSystem.translatef(0.0F, 0.0F, -2000.0F);
