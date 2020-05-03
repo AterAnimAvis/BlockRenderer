@@ -1,7 +1,7 @@
 package com.unascribed.blockrenderer.screens;
 
 import com.unascribed.blockrenderer.BlockRenderer;
-import com.unascribed.blockrenderer.render.request.BulkRequest;
+import com.unascribed.blockrenderer.render.request.item.BulkItemRequest;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
@@ -60,6 +60,6 @@ public class EnterNamespaceScreen extends BaseScreen {
 		minecraft.displayGuiScreen(old);
 		if (minecraft.world == null) return;
 
-		BlockRenderer.pendingRequest = new BulkRequest(round(size), text.getText(), useId.func_212942_a(), addSize.func_212942_a());
+		BlockRenderer.pendingRequest = new BulkItemRequest(round(size), text.getText(), useId.func_212942_a(), addSize.func_212942_a());
 	}
 }
