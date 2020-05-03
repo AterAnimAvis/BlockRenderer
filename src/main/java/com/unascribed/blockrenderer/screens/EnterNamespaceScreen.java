@@ -14,6 +14,8 @@ public class EnterNamespaceScreen extends BaseScreen {
 
 	private static final TranslationTextComponent TITLE = new TranslationTextComponent("blockrenderer.gui.namespace");
 
+	private boolean emptySpec = false;
+
 	private final String prefill;
 
 	private TextFieldWidget text;
@@ -45,6 +47,9 @@ public class EnterNamespaceScreen extends BaseScreen {
 	public void tick() {
 		super.tick();
 		text.tick();
+
+		emptySpec = text.getText().trim().isEmpty();
+		renderButton.visible = !emptySpec;
 	}
 
 	@Override
@@ -54,8 +59,21 @@ public class EnterNamespaceScreen extends BaseScreen {
 	}
 
 	@Override
+	public void render(int mouseX, int mouseY, float partialTicks) {
+		assert minecraft != null;
+
+		super.render(mouseX, mouseY, partialTicks);
+
+		if (!emptySpec) return;
+
+		drawCenteredString(minecraft.fontRenderer, I18n.format("blockrenderer.gui.emptySpec"), width/2, height/6+30, 0xFF5555);
+	}
+
+	@Override
 	void onRender(Button button) {
 		assert minecraft != null;
+
+		if (!renderButton.visible) return;
 
 		minecraft.displayGuiScreen(old);
 		if (minecraft.world == null) return;
