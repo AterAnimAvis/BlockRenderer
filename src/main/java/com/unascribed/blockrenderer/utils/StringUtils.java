@@ -4,9 +4,10 @@ import com.google.common.collect.Sets;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.Text;
+import net.minecraft.text.*;
+import net.minecraft.util.Formatting;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -48,6 +49,35 @@ public interface StringUtils {
     static List<Text> getTooltipFromItem(ItemStack stack) {
         MinecraftClient client = MinecraftClient.getInstance();
         return stack.getTooltip(client.player, TooltipContext.Default.NORMAL);
+    }
+
+    static Text getRenderSuccess(File folder, File file) {
+        return new TranslatableText("msg.blockrenderer.render.success", asClickable(folder), asClickable(file));
+    }
+
+    static Text asClickable(File file) {
+        LiteralText component = new LiteralText(file.getName());
+
+        String path;
+
+        try {
+            path = file.getAbsoluteFile().getCanonicalPath();
+        } catch (Exception ignored) {
+            try {
+                path = file.getCanonicalPath();
+            } catch (Exception ignored2) {
+                return component;
+            }
+        }
+
+        component.setStyle(
+                component.getStyle()
+                        .setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslatableText("blockrenderer.file.tooltip")))
+                        .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, path))
+                        .withFormatting(Formatting.UNDERLINE)
+        );
+
+        return component;
     }
 
 }

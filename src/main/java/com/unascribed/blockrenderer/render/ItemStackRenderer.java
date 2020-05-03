@@ -16,6 +16,7 @@ import net.minecraft.client.util.Window;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Util;
 import net.minecraft.util.registry.Registry;
 import org.lwjgl.opengl.GL11;
@@ -110,7 +111,7 @@ public class ItemStackRenderer {
     }
 
     @SuppressWarnings("UnstableApiUsage")
-    public String save(File folder, String filename) {
+    public Text save(File folder, String filename) {
         try {
             /*
              * We need to flip the image over here, because again, GL Y-zero is
@@ -125,10 +126,10 @@ public class ItemStackRenderer {
             Files.createParentDirs(file);
 
             ImageIO.write(img, "PNG", file);
-            return I18n.translate("msg.blockrenderer.render.success", file.getPath());
+            return getRenderSuccess(folder, file);
         } catch (Exception ex) {
             ex.printStackTrace();
-            return I18n.translate("msg.blockrenderer.render.fail");
+            return new TranslatableText("msg.blockrenderer.render.fail");
         }
     }
 
@@ -154,10 +155,16 @@ public class ItemStackRenderer {
     }
 
     public static void bulkRender(int size, String namespaceSpec, boolean useId, boolean addSize) {
-        client.openScreen(new GameMenuScreen(false));
-
         Set<String> namespaces = getNamespaces(namespaceSpec);
         List<ItemStack> renders = collectStacks(namespaces);
+        String joined = Joiner.on(", ").join(namespaces);
+
+        if (renders.size() < 1) {
+            addMessage(new TranslatableText("msg.blockrenderer.bulk.noItems", joined));
+            return;
+        }
+
+        client.openScreen(new GameMenuScreen(false));
 
         int rendered = 0;
         long lastUpdate = 0;
@@ -165,7 +172,6 @@ public class ItemStackRenderer {
 
         String sizeString = addSize ? size + "x" + size + "_" : "";
         File folder = new File(DEFAULT_FOLDER, dateTime() + "_" + sizeString + sanitize(namespaceSpec) + "/");
-        String joined = Joiner.on(", ").join(namespaces);
         String title = I18n.translate("blockrenderer.gui.rendering", total, joined);
 
         long start = Util.getMeasuringTimeMs();
@@ -196,11 +202,13 @@ public class ItemStackRenderer {
 
         if (rendered >= total) {
             renderLoading(I18n.translate("blockrenderer.gui.rendered", total, joined), "", 1f);
-            addMessage(I18n.translate("msg.blockrenderer.bulk.finished", total, joined, elapsed / 1000f));
+            addMessage(new TranslatableText("msg.blockrenderer.bulk.finished", total, joined, asClickable(folder)));
         } else {
             renderLoading(I18n.translate("blockrenderer.gui.renderCancelled"), I18n.translate("blockrenderer.gui.progress", rendered, total, (total - rendered)), (float)rendered/ total);
-            addMessage(I18n.translate("msg.blockrenderer.bulk.cancelled", total, joined, elapsed / 1000f, (total - rendered)));
+            addMessage(new TranslatableText("msg.blockrenderer.bulk.cancelled", rendered, joined, asClickable(folder), total));
         }
+
+        addMessage(new TranslatableText("msg.blockrenderer.bulk.time", elapsed / 1000f));
 
         renderer.teardown();
 

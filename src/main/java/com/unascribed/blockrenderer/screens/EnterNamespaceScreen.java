@@ -5,6 +5,8 @@ import com.unascribed.blockrenderer.render.request.item.BulkItemRequest;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.resource.language.I18n;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.TranslatableText;
 
 import javax.annotation.Nullable;
@@ -13,9 +15,11 @@ public class EnterNamespaceScreen extends BaseScreen {
 
 	private static final TranslatableText TITLE = new TranslatableText("blockrenderer.gui.namespace");
 
+	private boolean emptySpec = false;
+
 	private final String prefill;
 
-	private @Nullable TextFieldWidget text;
+	private TextFieldWidget text;
 	
 	public EnterNamespaceScreen(@Nullable Screen old, String prefill) {
 		super(TITLE, old);
@@ -42,7 +46,11 @@ public class EnterNamespaceScreen extends BaseScreen {
 
 	@Override
 	public void tick() {
-		if (text != null) text.tick();
+		super.tick();
+		text.tick();
+
+		emptySpec = text.getText().trim().isEmpty();
+		renderButton.visible = !emptySpec;
 	}
 
 	@Override
@@ -52,9 +60,22 @@ public class EnterNamespaceScreen extends BaseScreen {
 	}
 
 	@Override
+	public void render(MatrixStack matrices, int mouseX, int mouseY, float partialTicks) {
+		assert client != null;
+
+		super.render(matrices, mouseX, mouseY, partialTicks);
+
+		if (!emptySpec) return;
+
+		drawCenteredString(matrices, client.textRenderer, I18n.translate("blockrenderer.gui.emptySpec"), width/2, height/6+30, 0xFF5555);
+	}
+
+	@Override
 	void onRender(AbstractButtonWidget button) {
 		assert client != null;
 		assert text != null;
+
+		if (!renderButton.visible) return;
 
 		client.openScreen(old);
 		if (client.world == null) return;

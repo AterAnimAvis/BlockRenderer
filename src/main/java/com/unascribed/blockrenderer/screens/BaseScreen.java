@@ -16,6 +16,7 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.MathHelper;
+import org.lwjgl.glfw.GLFW;
 
 import javax.annotation.Nullable;
 
@@ -32,6 +33,7 @@ public abstract class BaseScreen extends Screen {
 
     protected UpdateableSliderWidget slider;
     protected ButtonWidget actualSize;
+    protected ButtonWidget renderButton;
     protected CheckboxWidget useId;
     protected CheckboxWidget addSize;
 
@@ -47,7 +49,7 @@ public abstract class BaseScreen extends Screen {
 
         addButton(new ButtonWidget(width/2-100, height/6+120, 98, 20, new TranslatableText("gui.cancel"), button -> client.openScreen(old)));
 
-        addButton(new ButtonWidget(width/2+2, height/6+120, 98, 20, new TranslatableText("blockrenderer.gui.render"), this::onRender), enabled);
+        renderButton = addButton(new ButtonWidget(width/2+2, height/6+120, 98, 20, new TranslatableText("blockrenderer.gui.render"), this::onRender), enabled);
 
         size = MathHelper.clamp(size, MIN_SIZE, MAX_SIZE);
 
@@ -61,6 +63,16 @@ public abstract class BaseScreen extends Screen {
 
     protected int round(double value) {
         return MathUtils.roundAndClamp(value, MIN_SIZE, MAX_SIZE, THRESHOLD);
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (keyCode == GLFW.GLFW_KEY_ENTER && renderButton.visible) {
+            onRender(renderButton);
+            return true;
+        }
+
+        return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     @Override
