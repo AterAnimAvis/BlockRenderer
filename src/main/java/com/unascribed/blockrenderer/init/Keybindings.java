@@ -13,7 +13,7 @@ import static com.unascribed.blockrenderer.Reference.MOD_ID;
 @Mod.EventBusSubscriber(modid = MOD_ID, bus = Bus.MOD)
 public interface Keybindings {
 
-    KeyBinding render = new KeyBinding("key.blockrenderer.render", GLFW.GLFW_KEY_GRAVE_ACCENT, "key.categories.blockrenderer");
+    KeyBinding render = new KeyBinding("key.block_renderer.render", GLFW.GLFW_KEY_GRAVE_ACCENT, "key.categories.block_renderer");
 
     @SubscribeEvent
     static void register(FMLClientSetupEvent event) {

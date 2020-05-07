@@ -67,7 +67,7 @@ public interface StringUtils {
     }
 
     static ITextComponent getRenderSuccess(File folder, File file) {
-        return new TranslationTextComponent("msg.blockrenderer.render.success", asClickable(folder), asClickable(file));
+        return new TranslationTextComponent("msg.block_renderer.render.success", asClickable(folder), asClickable(file));
     }
 
     static ITextComponent asClickable(File file) {
@@ -85,7 +85,7 @@ public interface StringUtils {
             }
         }
 
-        component.getStyle().setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslationTextComponent("blockrenderer.file.tooltip")));
+        component.getStyle().setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslationTextComponent("block_renderer.file.tooltip")));
         component.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, path));
         component.getStyle().setUnderlined(true);
 

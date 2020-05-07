@@ -62,7 +62,7 @@ public interface IRenderer<T> {
         } catch (Exception e) {
             System.err.println("Rendering: " + getId(value));
             e.printStackTrace();
-            return new TranslationTextComponent("msg.blockrenderer.render.fail");
+            return new TranslationTextComponent("msg.block_renderer.render.fail");
         }
     }
 

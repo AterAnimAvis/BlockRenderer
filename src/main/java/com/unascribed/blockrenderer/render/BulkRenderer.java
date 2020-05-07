@@ -26,7 +26,7 @@ public class BulkRenderer {
 
     public static <T> void bulkRender(IRenderer<T> renderer, String spec, List<T> renders, int size, boolean useId, boolean addSize) {
         if (renders.size() < 1) {
-            addMessage(new TranslationTextComponent("msg.blockrenderer.bulk.noItems", spec));
+            addMessage(new TranslationTextComponent("msg.block_renderer.bulk.noItems", spec));
             return;
         }
 
@@ -39,7 +39,7 @@ public class BulkRenderer {
 
         String sizeString = addSize ? size + "x" + size + "_" : "";
         File folder = new File(DEFAULT_FOLDER, dateTime() + "_" + sizeString + sanitize(spec) + "/");
-        String title = I18n.format("blockrenderer.gui.rendering", total, spec);
+        String title = I18n.format("block_renderer.gui.rendering", total, spec);
 
         long start = Util.milliTime();
 
@@ -63,7 +63,7 @@ public class BulkRenderer {
             if (Util.milliTime() - lastUpdate > 33) {
                 renderer.teardown();
 
-                renderLoading(renderer, title, I18n.format("blockrenderer.gui.progress", rendered, total, (total - rendered)), value, (float)rendered/ total);
+                renderLoading(renderer, title, I18n.format("block_renderer.gui.progress", rendered, total, (total - rendered)), value, (float)rendered/ total);
 
                 lastUpdate = Util.milliTime();
                 renderer.setup(size);
@@ -73,16 +73,20 @@ public class BulkRenderer {
         long elapsed = Util.milliTime() - start;
 
         if (rendered >= total) {
-            renderLoading(renderer, I18n.format("blockrenderer.gui.rendered", total, spec), "", null, 1f);
-            addMessage(new TranslationTextComponent("msg.blockrenderer.bulk.finished", total, spec, asClickable(folder)));
+            renderLoading(renderer, I18n.format("block_renderer.gui.rendered", total, spec), "", null, 1f);
+            addMessage(new TranslationTextComponent("msg.block_renderer.bulk.finished", total, spec, asClickable(folder)));
         } else {
-            renderLoading(renderer, I18n.format("blockrenderer.gui.renderCancelled"), I18n.format("blockrenderer.gui.progress", rendered, total, (total - rendered)), null, (float)rendered/ total);
-            addMessage(new TranslationTextComponent("msg.blockrenderer.bulk.cancelled", rendered, spec, asClickable(folder), total));
+            renderLoading(renderer, I18n.format("block_renderer.gui.renderCancelled"), I18n.format("block_renderer.gui.progress", rendered, total, (total - rendered)), null, (float)rendered/ total);
+            addMessage(new TranslationTextComponent("msg.block_renderer.bulk.cancelled", rendered, spec, asClickable(folder), total));
         }
 
-        if (errored > 0) addMessage(I18n.format("msg.blockrenderer.bulk.errored", errored));
+        if (errored > 0) {
+            addMessage("");
+            addMessage(new TranslationTextComponent("msg.block_renderer.bulk.errored", errored));
+        }
 
-        addMessage(new TranslationTextComponent("msg.blockrenderer.bulk.time", elapsed / 1000f));
+        addMessage("");
+        addMessage(new TranslationTextComponent("msg.block_renderer.bulk.time", elapsed / 1000f));
 
         renderer.teardown();
 

@@ -12,7 +12,7 @@ import javax.annotation.Nullable;
 
 public class EnterNamespaceScreen extends BaseScreen {
 
-	private static final TranslationTextComponent TITLE = new TranslationTextComponent("blockrenderer.gui.namespace");
+	private static final TranslationTextComponent TITLE = new TranslationTextComponent("block_renderer.gui.namespace");
 
 	private boolean emptySpec = false;
 
@@ -34,7 +34,7 @@ public class EnterNamespaceScreen extends BaseScreen {
 
 		String oldText = (text == null ? prefill : text.getText());
 
-		text = addButton(new TextFieldWidget(minecraft.fontRenderer, width/2-100, height/6+50, 200, 20, I18n.format("blockrenderer.gui.namespace")), enabled);
+		text = addButton(new TextFieldWidget(minecraft.fontRenderer, width/2-100, height/6+50, 200, 20, I18n.format("block_renderer.gui.namespace")), enabled);
 		text.setText(oldText);
 		text.setFocused2(true);
 		text.setCanLoseFocus(false);
@@ -66,7 +66,7 @@ public class EnterNamespaceScreen extends BaseScreen {
 
 		if (!emptySpec) return;
 
-		drawCenteredString(minecraft.fontRenderer, I18n.format("blockrenderer.gui.emptySpec"), width/2, height/6+30, 0xFF5555);
+		drawCenteredString(minecraft.fontRenderer, I18n.format("block_renderer.gui.emptySpec"), width/2, height/6+30, 0xFF5555);
 	}
 
 	@Override

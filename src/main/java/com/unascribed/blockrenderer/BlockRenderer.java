@@ -91,19 +91,19 @@ public class BlockRenderer {
 				renderStack(player.getHeldItemMainhand());
 				return;
 			}
-			addMessage(new TranslationTextComponent("msg.blockrenderer.notContainer"));
+			addMessage(new TranslationTextComponent("msg.block_renderer.notContainer"));
 			return;
 		}
 
 		if (hovered == null) {
-			addMessage(new TranslationTextComponent("msg.blockrenderer.slot.absent"));
+			addMessage(new TranslationTextComponent("msg.block_renderer.slot.absent"));
 			return;
 		}
 
 		ItemStack stack = hovered.getStack();
 
 		if (stack.isEmpty()) {
-			addMessage(new TranslationTextComponent("msg.blockrenderer.slot.empty"));
+			addMessage(new TranslationTextComponent("msg.block_renderer.slot.empty"));
 			return;
 		}
 
