@@ -1,0 +1,39 @@
+{
+  "key.block_renderer.render":"Render",
+  "key.categories.block_renderer":"BlockRenderer",
+
+  "msg.block_renderer.render.fail":"Rendering failed, see game output for details",
+  "msg.block_renderer.render.success":"Successfully rendered to %2$s in %1$s",
+
+  "msg.block_renderer.bulk.cancelled":"Operation cancelled, rendered %1$s from a total of %4$s entries from %2$s in %3$s",
+  "msg.block_renderer.bulk.finished":"Rendered %1$s entries from %2$s in %3$s",
+  "msg.block_renderer.bulk.errored":"%1$s entries errored, See game output for details",
+  "msg.block_renderer.bulk.time":"Total time: %1$s seconds",
+  "msg.block_renderer.bulk.noItems":"No items for Namespace '%1$s'",
+
+  "msg.block_renderer.slot.empty":"That slot has no item",
+  "msg.block_renderer.slot.absent":"There's no slot there",
+  "msg.block_renderer.notContainer":"Can't find an item to render",
+
+  "block_renderer.file.tooltip":"Click to Open",
+
+  "block_renderer.gui.renderItem":"Render Item",
+  "block_renderer.gui.namespace":"Enter Namespace",
+  "block_renderer.gui.noWorld":"You must be in a world to render items",
+  "block_renderer.gui.emptySpec":"You need to enter a Namespace",
+
+  "block_renderer.gui.render":"Render",
+  "block_renderer.gui.renderSize":"Size",
+
+  "block_renderer.gui.useId":"Identifier",
+  "block_renderer.gui.addSize":"Size",
+  "block_renderer.gui.actualSize":"Actual Size",
+  "block_renderer.gui.useId.tooltip":"Use Identifier for Filename",
+  "block_renderer.gui.addSize.tooltip":"Add Size to Filename",
+  "block_renderer.gui.actualSize.tooltip":"Set to actual size (Based on GUI Scale)",
+
+  "block_renderer.gui.rendering":"Rendering %1$s entries from %2$s",
+  "block_renderer.gui.rendered":"Rendered %1$s entries from %2$s",
+  "block_renderer.gui.renderCancelled":"Operation cancelled",
+  "block_renderer.gui.progress":"(%1$s/%2$s, %3$s to go)"
+}

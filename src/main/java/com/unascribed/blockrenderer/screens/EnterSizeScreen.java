@@ -11,7 +11,7 @@ import javax.annotation.Nullable;
 
 public class EnterSizeScreen extends BaseScreen {
 
-	private static final TranslationTextComponent TITLE = new TranslationTextComponent("blockrenderer.gui.renderItem");
+	private static final TranslationTextComponent TITLE = new TranslationTextComponent("block_renderer.gui.renderItem");
 
 	private final ItemStack stack;
 

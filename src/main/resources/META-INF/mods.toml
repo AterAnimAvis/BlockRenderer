@@ -2,7 +2,7 @@ modLoader="javafml"
 loaderVersion="[28,)"
 issueTrackerURL="https://github.com/AterAnimAvis/BlockRenderer/issues"
 [[mods]]
-modId="blockrenderer"
+modId="block_renderer"
 version="${file.jarVersion}"
 displayName="BlockRenderer"
 displayURL="https://unascribed.com"

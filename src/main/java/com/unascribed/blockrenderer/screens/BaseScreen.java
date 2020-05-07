@@ -45,16 +45,16 @@ public abstract class BaseScreen extends Screen {
 
         addButton(new Button(width/2-100, height/6+120, 98, 20, I18n.format("gui.cancel"), button -> minecraft.displayGuiScreen(old)));
 
-        renderButton = addButton(new Button(width/2+2, height/6+120, 98, 20, I18n.format("blockrenderer.gui.render"), this::onRender), enabled);
+        renderButton = addButton(new Button(width/2+2, height/6+120, 98, 20, I18n.format("block_renderer.gui.render"), this::onRender), enabled);
 
         size = MathHelper.clamp(size, MIN_SIZE, MAX_SIZE);
 
-        SliderPercentageOption option = new SliderPercentageOption("blockrenderer.gui.renderSize", MIN_SIZE, MAX_SIZE, 1, (settings) -> size, (settings, value) -> size = round(value), this::getSliderDisplay);
+        SliderPercentageOption option = new SliderPercentageOption("block_renderer.gui.renderSize", MIN_SIZE, MAX_SIZE, 1, (settings) -> size, (settings, value) -> size = round(value), this::getSliderDisplay);
         slider = addButton(new UpdateableSliderWidget(minecraft.gameSettings, width/2-100, height/6+80, 200, 20, option), enabled);
 
-        actualSize = addButton(new HoverableTinyButtonWidget(this, width/2+104, height/6+80, I18n.format("blockrenderer.gui.actualSize"), I18n.format("blockrenderer.gui.actualSize.tooltip"), button -> slider.update((int) minecraft.mainWindow.getGuiScaleFactor() * 16)), enabled);
-        useId = addButton(new HoverableCheckboxWidget(this, width/2-100, height / 6 + 144, 98, 20, I18n.format("blockrenderer.gui.useId"), I18n.format("blockrenderer.gui.useId.tooltip"), false), enabled);
-        addSize = addButton(new HoverableCheckboxWidget(this, width/2+2, height / 6 + 144, 98, 20, I18n.format("blockrenderer.gui.addSize"), I18n.format("blockrenderer.gui.addSize.tooltip"), false), enabled);
+        actualSize = addButton(new HoverableTinyButtonWidget(this, width/2+104, height/6+80, I18n.format("block_renderer.gui.actualSize"), I18n.format("block_renderer.gui.actualSize.tooltip"), button -> slider.update((int) minecraft.mainWindow.getGuiScaleFactor() * 16)), enabled);
+        useId = addButton(new HoverableCheckboxWidget(this, width/2-100, height / 6 + 144, 98, 20, I18n.format("block_renderer.gui.useId"), I18n.format("block_renderer.gui.useId.tooltip"), false), enabled);
+        addSize = addButton(new HoverableCheckboxWidget(this, width/2+2, height / 6 + 144, 98, 20, I18n.format("block_renderer.gui.addSize"), I18n.format("block_renderer.gui.addSize.tooltip"), false), enabled);
     }
 
     protected int round(double value) {
@@ -87,7 +87,7 @@ public abstract class BaseScreen extends Screen {
 
         if (minecraft.world != null) return;
 
-        drawCenteredString(minecraft.fontRenderer, I18n.format("blockrenderer.gui.noWorld"), width/2, height/6+30, 0xFF5555);
+        drawCenteredString(minecraft.fontRenderer, I18n.format("block_renderer.gui.noWorld"), width/2, height/6+30, 0xFF5555);
     }
 
     abstract void onRender(Button button);
