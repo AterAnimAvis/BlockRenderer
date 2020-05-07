@@ -15,18 +15,18 @@ apply plugin: 'fabric-loom'
 
 group = "com.unascribed"
 archivesBaseName = "BlockRenderer"
-version = "20w18a-1.1.0"
+version = "20w19a-1.1.0"
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = JavaVersion.VERSION_1_8
 
 dependencies {
 	// https://modmuss50.me/fabric.html
-	minecraft 'com.mojang:minecraft:20w18a'
-	mappings 'net.fabricmc:yarn:20w18a+build.9:v2'
+	minecraft 'com.mojang:minecraft:20w19a'
+	mappings 'net.fabricmc:yarn:20w19a+build.4:v2'
 	modImplementation 'net.fabricmc:fabric-loader:0.8.2+build.194'
 
-	//Fabric api
-	modImplementation "net.fabricmc.fabric-api:fabric-api:0.10.1+build.336-1.16"
+	// Fabric api
+	modImplementation "net.fabricmc.fabric-api:fabric-api:0.10.5+build.341-1.16"
 
 	// Javax Annotations
 	modImplementation 'com.google.code.findbugs:jsr305:3+'

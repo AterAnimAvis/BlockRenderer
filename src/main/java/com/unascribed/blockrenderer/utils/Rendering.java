@@ -55,7 +55,7 @@ public interface Rendering {
 	
 	static void drawBackground(int width, int height) {
 		GUI.init(MinecraftClient.getInstance(), width, height);
-		GUI.renderDirtBackground(0);
+		GUI.renderBackgroundTexture(0);
 	}
 
 	static void setupOverlayRendering() {
