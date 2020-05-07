@@ -1,0 +1,8 @@
+*
+
+!.gitignore
+!README
+!LICENSE
+!CHANGELOG
+!docs/*
+!media/*
