@@ -57,7 +57,7 @@ public interface StringUtils {
     }
 
     static Text getRenderSuccess(File folder, File file) {
-        return new TranslatableText("msg.blockrenderer.render.success", asClickable(folder), asClickable(file));
+        return new TranslatableText("msg.block_renderer.render.success", asClickable(folder), asClickable(file));
     }
 
     static Text asClickable(File file) {
@@ -77,7 +77,7 @@ public interface StringUtils {
 
         component.setStyle(
                 component.getStyle()
-                        .setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslatableText("blockrenderer.file.tooltip")))
+                        .setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslatableText("block_renderer.file.tooltip")))
                         .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, path))
                         .withFormatting(Formatting.UNDERLINE)
         );

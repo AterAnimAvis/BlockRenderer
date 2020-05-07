@@ -36,7 +36,7 @@ public interface MiscUtils {
 
                 try {
                     item.appendStacks(ItemGroup.SEARCH, list);
-                } catch (Throwable t) { LOGGER.warn("Failed to get renderable items for {}", identifier, t); }
+                } catch (Throwable t) { LOGGER.warn("Failed to get render-able items for {}", identifier, t); }
 
                 stacks.addAll(list);
             }

@@ -6,12 +6,14 @@ import net.minecraft.client.util.InputUtil;
 import net.minecraft.util.Identifier;
 import org.lwjgl.glfw.GLFW;
 
+import static com.unascribed.blockrenderer.Reference.MOD_ID;
+
 public interface Keybindings {
 
-    FabricKeyBinding render = FabricKeyBinding.Builder.create(new Identifier("blockrenderer:render"), InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_GRAVE_ACCENT, "key.categories.blockrenderer").build();
+    FabricKeyBinding render = FabricKeyBinding.Builder.create(new Identifier(MOD_ID + ":render"), InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_GRAVE_ACCENT, "key.categories." + MOD_ID).build();
 
     static void register() {
-        KeyBindingRegistry.INSTANCE.addCategory("key.categories.blockrenderer");
+        KeyBindingRegistry.INSTANCE.addCategory("key.categories." + MOD_ID);
         KeyBindingRegistry.INSTANCE.register(render);
     }
 

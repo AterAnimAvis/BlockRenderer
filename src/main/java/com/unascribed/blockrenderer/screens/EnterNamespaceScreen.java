@@ -13,7 +13,7 @@ import javax.annotation.Nullable;
 
 public class EnterNamespaceScreen extends BaseScreen {
 
-	private static final TranslatableText TITLE = new TranslatableText("blockrenderer.gui.namespace");
+	private static final TranslatableText TITLE = new TranslatableText("block_renderer.gui.namespace");
 
 	private boolean emptySpec = false;
 
@@ -35,7 +35,7 @@ public class EnterNamespaceScreen extends BaseScreen {
 
 		String oldText = (text == null ? prefill : text.getText());
 
-		text = addButton(new TextFieldWidget(client.textRenderer, width/2-100, height/6+50, 200, 20, new TranslatableText("blockrenderer.gui.namespace")), enabled);
+		text = addButton(new TextFieldWidget(client.textRenderer, width/2-100, height/6+50, 200, 20, new TranslatableText("block_renderer.gui.namespace")), enabled);
 		text.setText(oldText);
 		text.setSelected(true);
 		text.setFocusUnlocked(false);
@@ -67,7 +67,7 @@ public class EnterNamespaceScreen extends BaseScreen {
 
 		if (!emptySpec) return;
 
-		drawCenteredString(matrices, client.textRenderer, I18n.translate("blockrenderer.gui.emptySpec"), width/2, height/6+30, 0xFF5555);
+		drawCenteredString(matrices, client.textRenderer, I18n.translate("block_renderer.gui.emptySpec"), width/2, height/6+30, 0xFF5555);
 	}
 
 	@Override

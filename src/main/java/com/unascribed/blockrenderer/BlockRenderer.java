@@ -88,19 +88,19 @@ public class BlockRenderer implements ClientModInitializer {
 				renderStack(player.getMainHandStack());
 				return;
 			}
-			addMessage(new TranslatableText("msg.blockrenderer.notContainer"));
+			addMessage(new TranslatableText("msg.block_renderer.notContainer"));
 			return;
 		}
 
 		if (hovered == null) {
-			addMessage(new TranslatableText("msg.blockrenderer.slot.absent"));
+			addMessage(new TranslatableText("msg.block_renderer.slot.absent"));
 			return;
 		}
 
 		ItemStack stack = hovered.getStack();
 
 		if (stack.isEmpty()) {
-			addMessage(new TranslatableText("msg.blockrenderer.slot.empty"));
+			addMessage(new TranslatableText("msg.block_renderer.slot.empty"));
 			return;
 		}
 

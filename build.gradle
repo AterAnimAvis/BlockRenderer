@@ -15,7 +15,7 @@ apply plugin: 'fabric-loom'
 
 group = "com.unascribed"
 archivesBaseName = "BlockRenderer"
-version = "20w19a-1.1.0"
+version = "20w19a-1.2.0"
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = JavaVersion.VERSION_1_8
 

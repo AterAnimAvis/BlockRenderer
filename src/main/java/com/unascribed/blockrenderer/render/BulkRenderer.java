@@ -27,7 +27,7 @@ public class BulkRenderer {
 
     public static <T> void bulkRender(IRenderer<T> renderer, String spec, List<T> renders, int size, boolean useId, boolean addSize) {
         if (renders.size() < 1) {
-            addMessage(new TranslatableText("msg.blockrenderer.bulk.noItems", spec));
+            addMessage(new TranslatableText("msg.block_renderer.bulk.noItems", spec));
             return;
         }
 
@@ -40,7 +40,7 @@ public class BulkRenderer {
 
         String sizeString = addSize ? size + "x" + size + "_" : "";
         File folder = new File(DEFAULT_FOLDER, dateTime() + "_" + sizeString + sanitize(spec) + "/");
-        String title = I18n.translate("blockrenderer.gui.rendering", total, spec);
+        String title = I18n.translate("block_renderer.gui.rendering", total, spec);
 
         long start = Util.getMeasuringTimeMs();
 
@@ -64,7 +64,7 @@ public class BulkRenderer {
             if (Util.getMeasuringTimeMs() - lastUpdate > 33) {
                 renderer.teardown();
 
-                renderLoading(renderer, title, I18n.translate("blockrenderer.gui.progress", rendered, total, (total - rendered)), value, (float)rendered/ total);
+                renderLoading(renderer, title, I18n.translate("block_renderer.gui.progress", rendered, total, (total - rendered)), value, (float)rendered/ total);
 
                 lastUpdate = Util.getMeasuringTimeMs();
                 renderer.setup(size);
@@ -74,16 +74,20 @@ public class BulkRenderer {
         long elapsed = Util.getMeasuringTimeMs() - start;
 
         if (rendered >= total) {
-            renderLoading(renderer, I18n.translate("blockrenderer.gui.rendered", total, spec), "", null, 1f);
-            addMessage(new TranslatableText("msg.blockrenderer.bulk.finished", total, spec, asClickable(folder)));
+            renderLoading(renderer, I18n.translate("block_renderer.gui.rendered", total, spec), "", null, 1f);
+            addMessage(new TranslatableText("msg.block_renderer.bulk.finished", total, spec, asClickable(folder)));
         } else {
-            renderLoading(renderer, I18n.translate("blockrenderer.gui.renderCancelled"), I18n.translate("blockrenderer.gui.progress", rendered, total, (total - rendered)), null, (float)rendered/ total);
-            addMessage(new TranslatableText("msg.blockrenderer.bulk.cancelled", rendered, spec, asClickable(folder), total));
+            renderLoading(renderer, I18n.translate("block_renderer.gui.renderCancelled"), I18n.translate("block_renderer.gui.progress", rendered, total, (total - rendered)), null, (float)rendered/ total);
+            addMessage(new TranslatableText("msg.block_renderer.bulk.cancelled", rendered, spec, asClickable(folder), total));
         }
 
-        if (errored > 0) addMessage(I18n.translate("msg.blockrenderer.bulk.errored", errored));
+        if (errored > 0) {
+            addMessage("");
+            addMessage(new TranslatableText("msg.block_renderer.bulk.errored", errored));
+        }
 
-        addMessage(new TranslatableText("msg.blockrenderer.bulk.time", elapsed / 1000f));
+        addMessage("");
+        addMessage(new TranslatableText("msg.block_renderer.bulk.time", elapsed / 1000f));
 
         renderer.teardown();
 

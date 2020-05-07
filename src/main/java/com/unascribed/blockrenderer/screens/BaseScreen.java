@@ -49,16 +49,16 @@ public abstract class BaseScreen extends Screen {
 
         addButton(new ButtonWidget(width/2-100, height/6+120, 98, 20, new TranslatableText("gui.cancel"), button -> client.openScreen(old)));
 
-        renderButton = addButton(new ButtonWidget(width/2+2, height/6+120, 98, 20, new TranslatableText("blockrenderer.gui.render"), this::onRender), enabled);
+        renderButton = addButton(new ButtonWidget(width/2+2, height/6+120, 98, 20, new TranslatableText("block_renderer.gui.render"), this::onRender), enabled);
 
         size = MathHelper.clamp(size, MIN_SIZE, MAX_SIZE);
 
-        DoubleOption option = new DoubleOption("blockrenderer.gui.renderSize", MIN_SIZE, MAX_SIZE, 1, (settings) -> size, (settings, value) -> size = round(value), this::getSliderDisplay);
+        DoubleOption option = new DoubleOption("block_renderer.gui.renderSize", MIN_SIZE, MAX_SIZE, 1, (settings) -> size, (settings, value) -> size = round(value), this::getSliderDisplay);
         slider = addButton(new UpdateableSliderWidget(client.options, width/2-100, height/6+80, 200, 20, option), enabled);
 
-        actualSize = addButton(new HoverableTinyButtonWidget(this, width/2+104, height/6+80, new TranslatableText("blockrenderer.gui.actualSize"), new TranslatableText("blockrenderer.gui.actualSize.tooltip"), button -> slider.update((int) client.getWindow().getScaleFactor() * 16)), enabled);
-        useId = addButton(new HoverableCheckboxWidget(this, width/2-100, height / 6 + 144, 98, 20, new TranslatableText("blockrenderer.gui.useId"), new TranslatableText("blockrenderer.gui.useId.tooltip"), false), enabled);
-        addSize = addButton(new HoverableCheckboxWidget(this, width/2+2, height / 6 + 144, 98, 20, new TranslatableText("blockrenderer.gui.addSize"), new TranslatableText("blockrenderer.gui.addSize.tooltip"), false), enabled);
+        actualSize = addButton(new HoverableTinyButtonWidget(this, width/2+104, height/6+80, new TranslatableText("block_renderer.gui.actualSize"), new TranslatableText("block_renderer.gui.actualSize.tooltip"), button -> slider.update((int) client.getWindow().getScaleFactor() * 16)), enabled);
+        useId = addButton(new HoverableCheckboxWidget(this, width/2-100, height / 6 + 144, 98, 20, new TranslatableText("block_renderer.gui.useId"), new TranslatableText("block_renderer.gui.useId.tooltip"), false), enabled);
+        addSize = addButton(new HoverableCheckboxWidget(this, width/2+2, height / 6 + 144, 98, 20, new TranslatableText("block_renderer.gui.addSize"), new TranslatableText("block_renderer.gui.addSize.tooltip"), false), enabled);
     }
 
     protected int round(double value) {
@@ -91,7 +91,7 @@ public abstract class BaseScreen extends Screen {
 
         if (client.world != null) return;
 
-        drawCenteredString(matrices, client.textRenderer, I18n.translate("blockrenderer.gui.noWorld"), width/2, height/6+30, 0xFF5555);
+        drawCenteredString(matrices, client.textRenderer, I18n.translate("block_renderer.gui.noWorld"), width/2, height/6+30, 0xFF5555);
     }
 
     abstract void onRender(AbstractButtonWidget button);

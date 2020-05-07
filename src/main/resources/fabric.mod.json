@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "blockrenderer",
+  "id": "block_renderer",
   "version": "${version}",
 
   "name": "BlockRenderer",
@@ -28,13 +28,13 @@
     ]
   },
   "mixins": [
-    "blockrenderer.mixins.json"
+    "block_renderer.mixins.json"
   ],
 
   "depends": {
     "fabricloader": ">=0.8.2",
     "fabric": "*",
-    "minecraft": ">=1.16-alpha.20.18"
+    "minecraft": ">=1.16-alpha.20.19"
   }
 
 }
