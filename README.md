@@ -5,7 +5,7 @@
 Curse Forge
 ---
 
-[![](http://cf.way2muchnoise.eu/title/380456.svg?badge_style=for_the_badge)](https://minecraft.curseforge.com/projects/block-renderer)
+[![](http://cf.way2muchnoise.eu/title/380456.svg?badge_style=for_the_badge)](https://www.curseforge.com/minecraft/mc-mods/block-renderer)
 
 Branches
 ---
