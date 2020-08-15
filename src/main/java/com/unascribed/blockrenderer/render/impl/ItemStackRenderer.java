@@ -82,7 +82,7 @@ public class ItemStackRenderer implements IRenderer<ItemStack> {
             RenderSystem.clear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT, MinecraftClient.IS_SYSTEM_MAC);
 
             /* Render */
-            itemRenderer.renderGuiItem(value, 0, 0);
+            itemRenderer.renderInGuiWithOverrides(value, 0, 0);
 
             RenderSystem.popMatrix();
         } while (renderer.endTile());
@@ -128,7 +128,7 @@ public class ItemStackRenderer implements IRenderer<ItemStack> {
 
         int width = 0;
         for (Text s : list) {
-            int j = font.getStringWidth(s);
+            int j = font.getWidth(s);
             if (j > width) width = j;
         }
         // End copied code.

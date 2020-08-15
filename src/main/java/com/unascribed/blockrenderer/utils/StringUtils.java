@@ -77,7 +77,7 @@ public interface StringUtils {
 
         component.setStyle(
                 component.getStyle()
-                        .setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslatableText("block_renderer.file.tooltip")))
+                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslatableText("block_renderer.file.tooltip")))
                         .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, path))
                         .withFormatting(Formatting.UNDERLINE)
         );

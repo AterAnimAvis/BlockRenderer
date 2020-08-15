@@ -37,7 +37,7 @@ public interface Rendering {
 
 	
 	static void drawCenteredString(MatrixStack matrices, TextRenderer fontRendererIn, String text, int x, int y, int color) {
-		GUI.drawCenteredString(matrices, fontRendererIn, text, x, y, color);
+		DrawableHelper.drawCenteredString(matrices, fontRendererIn, text, x, y, color);
 	}
 	
 	static void drawRect(MatrixStack matrices, int left, int top, int right, int bottom, int color) {

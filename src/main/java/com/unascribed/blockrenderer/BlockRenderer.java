@@ -8,6 +8,7 @@ import com.unascribed.blockrenderer.render.request.IRequest;
 import com.unascribed.blockrenderer.screens.EnterNamespaceScreen;
 import com.unascribed.blockrenderer.screens.EnterSizeScreen;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.recipebook.RecipeBookProvider;
@@ -123,7 +124,7 @@ public class BlockRenderer implements ClientModInitializer {
 		Screen currentScreen = client.currentScreen;
 
 		/* Unbound key */
-		if (Keybindings.render.isNotBound()) return false;
+		if (Keybindings.render.isUnbound()) return false;
 
 		/* Has the Keybinding been triggered? */
 		if (Keybindings.render.isPressed()) return true;
@@ -145,13 +146,13 @@ public class BlockRenderer implements ClientModInitializer {
 		}
 
 		/* Actually Check to see if the key is down */
-		InputUtil.KeyCode key = Keybindings.render.getBoundKey();
+		InputUtil.Key key = KeyBindingHelper.getBoundKeyOf(Keybindings.render);
 
 		if (key.getCategory() == InputUtil.Type.MOUSE) {
-			return GLFW.glfwGetMouseButton(client.getWindow().getHandle(), key.getKeyCode()) == GLFW.GLFW_PRESS;
+			return GLFW.glfwGetMouseButton(client.getWindow().getHandle(), key.getCode()) == GLFW.GLFW_PRESS;
 		}
 
-		return InputUtil.isKeyPressed(client.getWindow().getHandle(), key.getKeyCode());
+		return InputUtil.isKeyPressed(client.getWindow().getHandle(), key.getCode());
 	}
 
 

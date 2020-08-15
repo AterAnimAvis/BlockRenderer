@@ -29,7 +29,7 @@ public class EnterNamespaceScreen extends BaseScreen {
 	@Override
 	public void init() {
 		assert client != null;
-		client.keyboard.enableRepeatEvents(true);
+		client.keyboard.setRepeatEvents(true);
 
 		boolean enabled = client.world != null;
 
@@ -56,7 +56,7 @@ public class EnterNamespaceScreen extends BaseScreen {
 	@Override
 	public void removed() {
 		assert client != null;
-		client.keyboard.enableRepeatEvents(false);
+		client.keyboard.setRepeatEvents(false);
 	}
 
 	@Override
