@@ -1,5 +1,6 @@
 package com.unascribed.blockrenderer.utils;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.unascribed.blockrenderer.lib.TileRenderer;
 import net.minecraft.client.MainWindow;
@@ -8,6 +9,7 @@ import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import org.lwjgl.opengl.GL11;
 
@@ -26,29 +28,29 @@ public interface Rendering {
 		}
 
 		@Override
-		public List<String> getTooltipFromItem(ItemStack stack) {
-			return super.getTooltipFromItem(stack);
+		public List<ITextComponent> getTooltipFromItem(ItemStack p_231151_1_) {
+			return super.getTooltipFromItem(p_231151_1_);
 		}
 	}
 
 	DummyScreen GUI = new DummyScreen();
 
 	
-	static void drawCenteredString(FontRenderer fontRendererIn, String text, int x, int y, int color) {
-		GUI.drawCenteredString(fontRendererIn, text, x, y, color);
+	static void drawCenteredString(MatrixStack stack, FontRenderer fontRendererIn, String text, int x, int y, int color) {
+		AbstractGui.drawCenteredString(stack, fontRendererIn, text, x, y, color);
 	}
 	
-	static void drawRect(int left, int top, int right, int bottom, int color) {
-		AbstractGui.fill(left, top, right, bottom, color);
+	static void drawRect(MatrixStack stack, int left, int top, int right, int bottom, int color) {
+		AbstractGui.fill(stack, left, top, right, bottom, color);
 	}
 	
-	static void drawHoveringText(List<String> textLines, int x, int y, FontRenderer font) {
-		GUI.renderTooltip(textLines, x, y, font);
+	static void drawHoveringText(MatrixStack stack, List<ITextComponent> textLines, int x, int y) {
+		GUI./* mcp: renderTooltip */func_243308_b(stack, textLines, x, y);
 	}
 
-	static void drawHoveringText(Screen owner, List<String> textLines, int x, int y) {
+	static void drawHoveringText(Screen owner, MatrixStack stack, List<ITextComponent> textLines, int x, int y) {
 		GUI.init(Minecraft.getInstance(), owner.width, owner.height);
-		GUI.renderTooltip(textLines, x, y);
+		GUI./* mcp: renderTooltip */func_243308_b(stack, textLines, x, y);
 	}
 	
 	static void drawBackground(int width, int height) {

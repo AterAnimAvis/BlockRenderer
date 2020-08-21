@@ -139,7 +139,7 @@ public class BlockRenderer {
 		if (!hasSlots) return false;
 
 		/* TextFieldWidgets */
-		if (currentScreen.getFocused() instanceof TextFieldWidget) return false;
+		if (currentScreen.getListener() instanceof TextFieldWidget) return false;
 
 		/* Recipe Books */
 		if (currentScreen instanceof IRecipeShownListener) {

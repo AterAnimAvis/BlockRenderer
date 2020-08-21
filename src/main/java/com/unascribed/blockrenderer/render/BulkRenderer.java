@@ -1,5 +1,6 @@
 package com.unascribed.blockrenderer.render;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.unascribed.blockrenderer.utils.Rendering;
 import net.minecraft.client.MainWindow;
@@ -99,6 +100,7 @@ public class BulkRenderer {
         client.getFramebuffer().unbindFramebuffer();
 
         RenderSystem.pushMatrix();
+        MatrixStack stack = new MatrixStack();
 
             int displayWidth = window.getScaledWidth();
             int displayHeight = window.getScaledHeight();
@@ -108,21 +110,21 @@ public class BulkRenderer {
             Rendering.drawBackground(displayWidth, displayHeight);
 
             // ...and the title
-            Rendering.drawCenteredString(client.fontRenderer, title, displayWidth / 2, displayHeight / 2 - 24, -1);
+            Rendering.drawCenteredString(stack, client.fontRenderer, title, displayWidth / 2, displayHeight / 2 - 24, -1);
 
             // ...and the progress bar
-            Rendering.drawRect(displayWidth / 2 - 50, displayHeight / 2 - 1, displayWidth / 2 + 50, displayHeight / 2 + 1, 0xFF001100);
-            Rendering.drawRect(displayWidth / 2 - 50, displayHeight / 2 - 1, (displayWidth / 2 - 50) + (int) (progress * 100), displayHeight / 2 + 1, 0xFF55FF55);
+            Rendering.drawRect(stack, displayWidth / 2 - 50, displayHeight / 2 - 1, displayWidth / 2 + 50, displayHeight / 2 + 1, 0xFF001100);
+            Rendering.drawRect(stack, displayWidth / 2 - 50, displayHeight / 2 - 1, (displayWidth / 2 - 50) + (int) (progress * 100), displayHeight / 2 + 1, 0xFF55FF55);
 
             RenderSystem.pushMatrix();
 
                 RenderSystem.scalef(0.5f, 0.5f, 1);
 
                 // ...and the subtitle
-                Rendering.drawCenteredString(client.fontRenderer, subtitle, displayWidth, displayHeight - 20, -1);
+                Rendering.drawCenteredString(stack, client.fontRenderer, subtitle, displayWidth, displayHeight - 20, -1);
 
                 // ...and the tooltip.
-                if (value != null) renderer.renderTooltip(value, displayWidth, displayHeight);
+                if (value != null) renderer.renderTooltip(stack, value, displayWidth, displayHeight);
 
             RenderSystem.popMatrix();
 

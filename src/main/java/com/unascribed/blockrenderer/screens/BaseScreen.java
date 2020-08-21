@@ -1,18 +1,19 @@
 package com.unascribed.blockrenderer.screens;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.unascribed.blockrenderer.screens.widgets.HoverableCheckboxWidget;
 import com.unascribed.blockrenderer.screens.widgets.HoverableTinyButtonWidget;
 import com.unascribed.blockrenderer.screens.widgets.UpdateableSliderWidget;
+import com.unascribed.blockrenderer.screens.widgets.options.ExtendedSliderPercentageOption;
 import com.unascribed.blockrenderer.utils.MathUtils;
 import net.minecraft.client.GameSettings;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.gui.widget.button.CheckboxButton;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.client.settings.SliderPercentageOption;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import org.lwjgl.glfw.GLFW;
 
 import javax.annotation.Nullable;
@@ -43,18 +44,18 @@ public abstract class BaseScreen extends Screen {
         assert minecraft != null;
         boolean enabled = minecraft.world != null;
 
-        addButton(new Button(width/2-100, height/6+120, 98, 20, I18n.format("gui.cancel"), button -> minecraft.displayGuiScreen(old)));
+        addButton(new Button(width/2-100, height/6+120, 98, 20, new TranslationTextComponent("gui.cancel"), button -> minecraft.displayGuiScreen(old)));
 
-        renderButton = addButton(new Button(width/2+2, height/6+120, 98, 20, I18n.format("block_renderer.gui.render"), this::onRender), enabled);
+        renderButton = addButton(new Button(width/2+2, height/6+120, 98, 20, new TranslationTextComponent("block_renderer.gui.render"), this::onRender), enabled);
 
         size = MathHelper.clamp(size, MIN_SIZE, MAX_SIZE);
 
-        SliderPercentageOption option = new SliderPercentageOption("block_renderer.gui.renderSize", MIN_SIZE, MAX_SIZE, 1, (settings) -> size, (settings, value) -> size = round(value), this::getSliderDisplay);
+        ExtendedSliderPercentageOption option = new ExtendedSliderPercentageOption("block_renderer.gui.renderSize", MIN_SIZE, MAX_SIZE, 1, (settings) -> size, (settings, value) -> size = round(value), this::getSliderDisplay);
         slider = addButton(new UpdateableSliderWidget(minecraft.gameSettings, width/2-100, height/6+80, 200, 20, option), enabled);
 
-        actualSize = addButton(new HoverableTinyButtonWidget(this, width/2+104, height/6+80, I18n.format("block_renderer.gui.actualSize"), I18n.format("block_renderer.gui.actualSize.tooltip"), button -> slider.update((int) minecraft.getMainWindow().getGuiScaleFactor() * 16)), enabled);
-        useId = addButton(new HoverableCheckboxWidget(this, width/2-100, height / 6 + 144, 98, 20, I18n.format("block_renderer.gui.useId"), I18n.format("block_renderer.gui.useId.tooltip"), false), enabled);
-        addSize = addButton(new HoverableCheckboxWidget(this, width/2+2, height / 6 + 144, 98, 20, I18n.format("block_renderer.gui.addSize"), I18n.format("block_renderer.gui.addSize.tooltip"), false), enabled);
+        actualSize = addButton(new HoverableTinyButtonWidget(this, width/2+104, height/6+80, new TranslationTextComponent("block_renderer.gui.actualSize"), new TranslationTextComponent("block_renderer.gui.actualSize.tooltip"), button -> slider.update((int) minecraft.getMainWindow().getGuiScaleFactor() * 16)), enabled);
+        useId = addButton(new HoverableCheckboxWidget(this, width/2-100, height / 6 + 144, 98, 20, new TranslationTextComponent("block_renderer.gui.useId"), new TranslationTextComponent("block_renderer.gui.useId.tooltip"), false), enabled);
+        addSize = addButton(new HoverableCheckboxWidget(this, width/2+2, height / 6 + 144, 98, 20, new TranslationTextComponent("block_renderer.gui.addSize"), new TranslationTextComponent("block_renderer.gui.addSize.tooltip"), false), enabled);
     }
 
     protected int round(double value) {
@@ -72,29 +73,29 @@ public abstract class BaseScreen extends Screen {
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float partialTicks) {
+    public void render(MatrixStack stack, int mouseX, int mouseY, float partialTicks) {
         assert minecraft != null;
 
-        renderBackground();
+        renderBackground(stack);
 
-        super.render(mouseX, mouseY, partialTicks);
+        super.render(stack, mouseX, mouseY, partialTicks);
 
-        drawCenteredString(minecraft.fontRenderer, title.getFormattedText(), width/2, height/6, -1);
+        drawCenteredString(stack, minecraft.fontRenderer, title, width/2, height/6, -1);
 
         for (Widget widget : buttons)
             if (widget.isHovered())
-                widget.renderToolTip(mouseX, mouseY);
+                widget.renderToolTip(stack, mouseX, mouseY);
 
         if (minecraft.world != null) return;
 
-        drawCenteredString(minecraft.fontRenderer, I18n.format("block_renderer.gui.noWorld"), width/2, height/6+30, 0xFF5555);
+        drawCenteredString(stack, minecraft.fontRenderer, new TranslationTextComponent("block_renderer.gui.noWorld"), width/2, height/6+30, 0xFF5555);
     }
 
     abstract void onRender(Button button);
 
-    public String getSliderDisplay(GameSettings settings, SliderPercentageOption option) {
+    public ITextComponent getSliderDisplay(GameSettings settings, ExtendedSliderPercentageOption option) {
         int px = round(size);
-        return option.getDisplayString() + px + "x" + px;
+        return option.getDisplayPrefix().copyRaw().appendString(": " + px + "x" + px);
     }
 
     protected <T extends Widget> T addButton(T button, boolean active) {

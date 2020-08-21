@@ -1,6 +1,5 @@
 package com.unascribed.blockrenderer.utils;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
@@ -44,7 +43,7 @@ public interface StringUtils {
     }
 
     static String sanitize(ITextComponent text) {
-        return sanitize(text.getUnformattedComponentText());
+        return sanitize(text.getString());
     }
 
     static String sanitize(ResourceLocation identifier) {
@@ -55,15 +54,10 @@ public interface StringUtils {
         return str.replaceAll("[^A-Za-z0-9-_ ]", "_");
     }
 
-    static List<String> getTooltipFromItem(ItemStack stack) {
+    static List<ITextComponent> getTooltipFromItem(ItemStack stack) {
         Minecraft minecraft = Minecraft.getInstance();
 
-        List<ITextComponent> texts = stack.getTooltip(minecraft.player, ITooltipFlag.TooltipFlags.NORMAL);
-        List<String> tooltip = Lists.newArrayList();
-
-        for(ITextComponent itextcomponent : texts) tooltip.add(itextcomponent.getFormattedText());
-
-        return tooltip;
+        return stack.getTooltip(minecraft.player, ITooltipFlag.TooltipFlags.NORMAL);
     }
 
     static ITextComponent getRenderSuccess(File folder, File file) {
@@ -85,9 +79,12 @@ public interface StringUtils {
             }
         }
 
-        component.getStyle().setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslationTextComponent("block_renderer.file.tooltip")));
-        component.getStyle().setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, path));
-        component.getStyle().setUnderlined(true);
+        component.setStyle(
+                component.getStyle()
+                        .setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslationTextComponent("block_renderer.file.tooltip")))
+                        .setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, path))
+                        .setUnderlined(true)
+        );
 
         return component;
     }

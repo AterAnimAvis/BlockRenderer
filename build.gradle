@@ -15,12 +15,12 @@ apply plugin: 'net.minecraftforge.gradle'
 
 group = "com.unascribed"
 archivesBaseName = "BlockRenderer"
-version = "1.15.2-1.2.0"
+version = "1.16.2-1.2.0"
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = JavaVersion.VERSION_1_8
 
 minecraft {
-	mappings channel: 'snapshot', version: '20200225-1.15.1'
+	mappings channel: 'snapshot', version: '20200723-1.16.1'
 
 	// accessTransformer = file('src/main/resources/META-INF/block_renderer_at.cfg')
 
@@ -54,7 +54,7 @@ minecraft {
 }
 
 dependencies {
-	minecraft 'net.minecraftforge:forge:1.15.2-31.1.49'
+	minecraft 'net.minecraftforge:forge:1.16.2-33.0.19'
 
 	// Javax Annotations (N.B. ForgeGradle currently provides this)
 	implementation 'com.google.code.findbugs:jsr305:3+'

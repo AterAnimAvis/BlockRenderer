@@ -1,11 +1,11 @@
 package com.unascribed.blockrenderer.screens;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.unascribed.blockrenderer.BlockRenderer;
 import com.unascribed.blockrenderer.render.request.item.BulkItemRequest;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.TranslationTextComponent;
 
 import javax.annotation.Nullable;
@@ -34,39 +34,52 @@ public class EnterNamespaceScreen extends BaseScreen {
 
 		String oldText = (text == null ? prefill : text.getText());
 
-		text = addButton(new TextFieldWidget(minecraft.fontRenderer, width/2-100, height/6+50, 200, 20, I18n.format("block_renderer.gui.namespace")), enabled);
+		text = addButton(new TextFieldWidget(minecraft.fontRenderer, width/2-100, height/6+50, 200, 20, new TranslationTextComponent("block_renderer.gui.namespace")), enabled);
+		text.setResponder((value) -> emptySpec = value.trim().isEmpty());
 		text.setText(oldText);
-		text.setFocused2(true);
 		text.setCanLoseFocus(false);
 		setFocusedDefault(text);
 
 		super.init();
+
+		renderButton.visible = !emptySpec;
 	}
 
 	@Override
 	public void tick() {
 		super.tick();
 		text.tick();
-
-		emptySpec = text.getText().trim().isEmpty();
 		renderButton.visible = !emptySpec;
 	}
 
 	@Override
-	public void removed() {
+	public void onClose() {
 		assert minecraft != null;
 		minecraft.keyboardListener.enableRepeatEvents(false);
 	}
 
 	@Override
-	public void render(int mouseX, int mouseY, float partialTicks) {
+	public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+		if (text.keyPressed(keyCode, scanCode, modifiers)) return true;
+		return super.keyPressed(keyCode, scanCode, modifiers);
+	}
+
+	@Override
+	public boolean mouseClicked(double mouseX, double mouseY, int p_231044_5_) {
+		if (text.mouseClicked(mouseX, mouseY, p_231044_5_)) return true;
+
+		return super.mouseClicked(mouseX, mouseY, p_231044_5_);
+	}
+
+	@Override
+	public void render(MatrixStack stack, int mouseX, int mouseY, float partialTicks) {
 		assert minecraft != null;
 
-		super.render(mouseX, mouseY, partialTicks);
+		super.render(stack, mouseX, mouseY, partialTicks);
 
 		if (!emptySpec) return;
 
-		drawCenteredString(minecraft.fontRenderer, I18n.format("block_renderer.gui.emptySpec"), width/2, height/6+30, 0xFF5555);
+		drawCenteredString(stack, minecraft.fontRenderer, new TranslationTextComponent("block_renderer.gui.emptySpec"), width/2, height/6+30, 0xFF5555);
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package com.unascribed.blockrenderer.render.impl;
 
+import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.unascribed.blockrenderer.lib.TileRenderer;
 import com.unascribed.blockrenderer.render.IRenderer;
@@ -10,6 +12,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.ITextComponent;
@@ -123,22 +126,21 @@ public class ItemStackRenderer implements IRenderer<ItemStack> {
     }
 
     @Override
-    public void renderTooltip(ItemStack value, int displayWidth, int displayHeight) {
-        List<String> list = getTooltipFromItem(value);
-
+    public void renderTooltip(MatrixStack stack, ItemStack value, int displayWidth, int displayHeight) {
+        List<ITextComponent> list = getTooltipFromItem(value);
         // This code is copied from the tooltip renderer, so we can properly center it.
         FontRenderer font = value.getItem().getFontRenderer(value);
         if (font == null) font = client.fontRenderer;
 
         int width = 0;
-        for (String s : list) {
-            int j = font.getStringWidth(s);
+        for (IReorderingProcessor s : Lists.transform(list, ITextComponent::func_241878_f)) {
+            int j = font.func_243245_a(s);
             if (j > width) width = j;
         }
         // End copied code.
 
         RenderSystem.translatef((displayWidth - width / 2f) - 12, displayHeight + 30, 0);
-        Rendering.drawHoveringText(list, 0, 0, font);
+        Rendering.drawHoveringText(stack, list, 0, 0);
     }
 
 }

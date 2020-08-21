@@ -1,6 +1,7 @@
 package com.unascribed.blockrenderer.render;
 
 import com.google.common.io.Files;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.unascribed.blockrenderer.lib.TileRenderer;
 import com.unascribed.blockrenderer.utils.ImageUtils;
 import net.minecraft.util.ResourceLocation;
@@ -26,7 +27,7 @@ public interface IRenderer<T> {
 
     void teardown();
 
-    void renderTooltip(T value, int displayWidth, int displayHeight);
+    void renderTooltip(MatrixStack stack, T value, int displayWidth, int displayHeight);
 
     ResourceLocation getId(T value);
 
