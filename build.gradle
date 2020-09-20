@@ -1,87 +1,87 @@
 import java.time.Instant
 
 buildscript {
-	repositories {
-		maven { url = 'https://files.minecraftforge.net/maven' }
-		jcenter()
-		mavenCentral()
-	}
-	dependencies {
-		classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
-	}
+    repositories {
+        maven { url = 'https://files.minecraftforge.net/maven' }
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+    }
 }
 
 apply plugin: 'net.minecraftforge.gradle'
 
 group = "com.unascribed"
 archivesBaseName = "BlockRenderer"
-version = "1.16.3-1.2.1"
+version = "1.16.3-1.3.0"
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = JavaVersion.VERSION_1_8
 
 minecraft {
-	mappings channel: 'snapshot', version: '20200723-1.16.1'
+    mappings channel: 'snapshot', version: '20200723-1.16.1'
 
-	// accessTransformer = file('src/main/resources/META-INF/block_renderer_at.cfg')
+    // accessTransformer = file('src/main/resources/META-INF/block_renderer_at.cfg')
 
-	runs {
-		client {
-			workingDirectory project.file('run')
+    runs {
+        client {
+            workingDirectory project.file('run')
 
-			property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-			property 'forge.logging.console.level', 'debug'
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
 
-			mods {
-				blockrenderer {
-					source sourceSets.main
-				}
-			}
-		}
+            mods {
+                blockrenderer {
+                    source sourceSets.main
+                }
+            }
+        }
 
-		server {
-			workingDirectory project.file('run')
+        server {
+            workingDirectory project.file('run')
 
-			property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-			property 'forge.logging.console.level', 'debug'
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
 
-			mods {
-				blockrenderer {
-					source sourceSets.main
-				}
-			}
-		}
-	}
+            mods {
+                blockrenderer {
+                    source sourceSets.main
+                }
+            }
+        }
+    }
 }
 
 dependencies {
-	minecraft 'net.minecraftforge:forge:1.16.2-33.0.19'
+    minecraft 'net.minecraftforge:forge:1.16.2-33.0.19'
 
-	// Javax Annotations (N.B. ForgeGradle currently provides this)
-	implementation 'com.google.code.findbugs:jsr305:3+'
+    // Javax Annotations (N.B. ForgeGradle currently provides this)
+    implementation 'com.google.code.findbugs:jsr305:3+'
 }
 
 jar {
-	manifest {
-		attributes([
-				'Specification-Title'     : rootProject.name,
-				'Specification-Vendor'    : project.group,
-				'Specification-Version'   : '1',
-				'Implementation-Title'    : rootProject.name,
-				'Implementation-Version'  : project.version,
-				'Implementation-Vendor'   : project.group,
-				'Implementation-Timestamp': Instant.now()
-		])
-	}
+    manifest {
+        attributes([
+                'Specification-Title'     : rootProject.name,
+                'Specification-Vendor'    : project.group,
+                'Specification-Version'   : '1',
+                'Implementation-Title'    : rootProject.name,
+                'Implementation-Version'  : project.version,
+                'Implementation-Vendor'   : project.group,
+                'Implementation-Timestamp': Instant.now()
+        ])
+    }
 }
 
 jar.finalizedBy('reobfJar')
 
 task sourcesJar(type: Jar, dependsOn: classes) {
-	classifier = 'sources'
-	from sourceSets.main.allSource
+    classifier = 'sources'
+    from sourceSets.main.allSource
 }
 build.dependsOn sourcesJar
 
 artifacts {
-	archives sourcesJar
+    archives sourcesJar
 }

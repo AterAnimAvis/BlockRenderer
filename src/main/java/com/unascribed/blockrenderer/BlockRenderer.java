@@ -1,161 +1,43 @@
 package com.unascribed.blockrenderer;
 
-import com.unascribed.blockrenderer.init.Keybindings;
-import com.unascribed.blockrenderer.render.SingleRenderer;
-import com.unascribed.blockrenderer.render.impl.ItemStackRenderer;
-import com.unascribed.blockrenderer.render.request.IRequest;
-import com.unascribed.blockrenderer.screens.EnterNamespaceScreen;
-import com.unascribed.blockrenderer.screens.EnterSizeScreen;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.recipebook.IRecipeShownListener;
-import net.minecraft.client.gui.recipebook.RecipeBookGui;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.util.InputMappings;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import com.unascribed.blockrenderer.proxy.ClientProxy;
+import com.unascribed.blockrenderer.proxy.CommonProxy;
+import com.unascribed.blockrenderer.proxy.DedicatedProxy;
+import net.minecraftforge.fml.DistExecutor;
+import net.minecraftforge.fml.ExtensionPoint;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.fml.network.FMLNetworkConstants;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.lwjgl.glfw.GLFW;
 
-import static com.unascribed.blockrenderer.utils.StringUtils.addMessage;
+import java.util.function.BiPredicate;
+import java.util.function.Supplier;
 
 @Mod(Reference.MOD_ID)
 public class BlockRenderer {
 
-	public static final Logger LOGGER = LogManager.getLogger("BlockRenderer");
+    public static final Logger LOGGER = LogManager.getLogger("BlockRenderer");
 
-	private boolean down = false;
+    public static CommonProxy proxy;
 
-	public static IRequest pendingRequest;
+    public BlockRenderer() {
+        proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> DedicatedProxy::new);
+        proxy.init();
 
-	public BlockRenderer() {
-		MinecraftForge.EVENT_BUS.register(this);
-	}
+        registerDisplayTest(ModLoadingContext.get());
+    }
 
-	@SubscribeEvent(priority= EventPriority.HIGHEST)
-	public void onFrameStart(TickEvent.RenderTickEvent e) {
-		if (e.phase != TickEvent.Phase.START) return;
+    /**
+     * Ensure that we don't cause the client to show a server as incompatible and vice-versa
+     */
+    private void registerDisplayTest(ModLoadingContext context) {
+        Supplier<String> versionProvider = () -> FMLNetworkConstants.IGNORESERVERONLY;
+        BiPredicate<String, Boolean> versionChecker = (version, isNetwork) -> true;
+        Pair<Supplier<String>, BiPredicate<String, Boolean>> extension = Pair.of(versionProvider, versionChecker);
 
-		if (pendingRequest != null) {
-			pendingRequest.render();
-			pendingRequest = null;
-		}
-
-		if (!isKeyDown()) {
-			down = false;
-			return;
-		}
-
-		if (down) return;
-		down = true;
-
-		Minecraft client = Minecraft.getInstance();
-		Slot hovered = null;
-		Screen currentScreen = client.currentScreen;
-		boolean isContainerScreen = currentScreen instanceof ContainerScreen;
-
-		if (isContainerScreen) hovered = ((ContainerScreen<?>) currentScreen).getSlotUnderMouse();
-
-		if (Screen.hasControlDown()) {
-			String namespace = "";
-			if (hovered != null && hovered.getHasStack()) {
-				ResourceLocation identifier = ForgeRegistries.ITEMS.getKey(hovered.getStack().getItem());
-				if (identifier != null) namespace = identifier.getNamespace();
-			}
-
-			PlayerEntity player = client.player;
-			if (!isContainerScreen && player != null && !player.getHeldItemMainhand().isEmpty()) {
-				ResourceLocation identifier = ForgeRegistries.ITEMS.getKey(player.getHeldItemMainhand().getItem());
-				if (identifier != null) namespace = identifier.getNamespace();
-			}
-
-			client.displayGuiScreen(new EnterNamespaceScreen(client.currentScreen, namespace.trim()));
-			return;
-		}
-
-		if (!isContainerScreen) {
-			PlayerEntity player = client.player;
-
-			if (player != null && !player.getHeldItemMainhand().isEmpty()) {
-				renderStack(player.getHeldItemMainhand());
-				return;
-			}
-			addMessage(new TranslationTextComponent("msg.block_renderer.notContainer"));
-			return;
-		}
-
-		if (hovered == null) {
-			addMessage(new TranslationTextComponent("msg.block_renderer.slot.absent"));
-			return;
-		}
-
-		ItemStack stack = hovered.getStack();
-
-		if (stack.isEmpty()) {
-			addMessage(new TranslationTextComponent("msg.block_renderer.slot.empty"));
-			return;
-		}
-
-		renderStack(stack);
-	}
-
-	private static void renderStack(ItemStack stack) {
-		Minecraft client = Minecraft.getInstance();
-
-		if (Screen.hasShiftDown()) {
-			client.displayGuiScreen(new EnterSizeScreen(client.currentScreen, stack));
-			return;
-		}
-
-		SingleRenderer.render(new ItemStackRenderer(), stack, 512, false, false);
-	}
-
-	private static boolean isKeyDown() {
-		Minecraft client = Minecraft.getInstance();
-		Screen currentScreen = client.currentScreen;
-
-		/* Unbound key */
-		if (Keybindings.render.isInvalid()) return false;
-
-		/* Has the Keybinding been triggered? */
-		if (Keybindings.render.isPressed()) return true;
-
-		/* Not in Screen so we should be ok */
-		if (currentScreen == null) return false;
-
-		/* Non Containers seem to behave ok */
-		boolean hasSlots = currentScreen instanceof ContainerScreen;
-		if (!hasSlots) return false;
-
-		/* TextFieldWidgets */
-		if (currentScreen.getListener() instanceof TextFieldWidget) return false;
-
-		/* Recipe Books */
-		if (currentScreen instanceof IRecipeShownListener) {
-			RecipeBookGui recipeBook = ((IRecipeShownListener) currentScreen).getRecipeGui();
-			if (recipeBook.isVisible()) return false;
-		}
-
-		/* Actually Check to see if the key is down */
-		InputMappings.Input key = Keybindings.render.getKey();
-
-		if (key.getType() == InputMappings.Type.MOUSE) {
-			return GLFW.glfwGetMouseButton(client.getMainWindow().getHandle(), key.getKeyCode()) == GLFW.GLFW_PRESS;
-		}
-
-		return InputMappings.isKeyDown(client.getMainWindow().getHandle(), key.getKeyCode());
-	}
-
+        context.registerExtensionPoint(ExtensionPoint.DISPLAYTEST, () -> extension);
+    }
 
 }
