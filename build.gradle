@@ -15,7 +15,7 @@ apply plugin: 'net.minecraftforge.gradle'
 
 group = "com.unascribed"
 archivesBaseName = "BlockRenderer"
-version = "1.16.2-1.2.0"
+version = "1.16.3-1.2.1"
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = JavaVersion.VERSION_1_8
 
