@@ -14,11 +14,13 @@ public class UpdateableSliderWidget extends OptionSlider {
     }
 
     public void update(double desired) {
-        /* mcp: value */ field_230683_b_ = option.normalizeValue(desired);
+        sliderValue = option.normalizeValue(desired);
 
-        /* mcp: applyValue */ func_230972_a_();
+        /* mcp: applyValue */
+        func_230972_a_();
 
-        /* mcp: updateMessage */ func_230979_b_();
+        /* mcp: updateMessage */
+        func_230979_b_();
     }
 
 }

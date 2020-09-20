@@ -15,6 +15,6 @@ public class ExtendedSliderPercentageOption extends SliderPercentageOption {
     }
 
     public ITextComponent getDisplayPrefix() {
-        return super.func_243220_a();
+        return super.func_238238_a_();
     }
 }

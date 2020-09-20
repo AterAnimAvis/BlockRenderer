@@ -1,6 +1,5 @@
 package com.unascribed.blockrenderer.render.impl;
 
-import com.google.common.collect.Lists;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.unascribed.blockrenderer.lib.TileRenderer;
@@ -12,10 +11,10 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.IReorderingProcessor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.Util;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.ITextProperties;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.lwjgl.opengl.GL11;
 
@@ -79,12 +78,12 @@ public class ItemStackRenderer implements IRenderer<ItemStack> {
             renderer.beginTile();
             RenderSystem.pushMatrix();
 
-                /* Clear Framebuffer */
-                RenderSystem.clearColor(0, 0, 0, 0);
-                RenderSystem.clear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC);
+            /* Clear Framebuffer */
+            RenderSystem.clearColor(0, 0, 0, 0);
+            RenderSystem.clear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC);
 
-                /* Render */
-                itemRenderer.renderItemAndEffectIntoGUI(value, 0, 0);
+            /* Render */
+            itemRenderer.renderItemAndEffectIntoGUI(value, 0, 0);
 
             RenderSystem.popMatrix();
         } while (renderer.endTile());
@@ -133,8 +132,8 @@ public class ItemStackRenderer implements IRenderer<ItemStack> {
         if (font == null) font = client.fontRenderer;
 
         int width = 0;
-        for (IReorderingProcessor s : Lists.transform(list, ITextComponent::func_241878_f)) {
-            int j = font.func_243245_a(s);
+        for (ITextProperties s : list) {
+            int j = font.func_238414_a_(s);
             if (j > width) width = j;
         }
         // End copied code.
