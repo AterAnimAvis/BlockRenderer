@@ -1,6 +1,6 @@
 package com.unascribed.blockrenderer;
 
-import com.unascribed.blockrenderer.proxy.ClientProxy;
+import com.unascribed.blockrenderer.client.proxy.ClientProxy;
 import com.unascribed.blockrenderer.proxy.CommonProxy;
 import com.unascribed.blockrenderer.proxy.DedicatedProxy;
 import net.minecraftforge.fml.DistExecutor;
@@ -18,13 +18,14 @@ import java.util.function.Supplier;
 @Mod(Reference.MOD_ID)
 public class BlockRenderer {
 
-    public static final Logger LOGGER = LogManager.getLogger("BlockRenderer");
+    public static final Logger LOGGER = LogManager.getLogger(Reference.NAME);
 
-    public static CommonProxy proxy;
+    public static CommonProxy proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> DedicatedProxy::new);
 
     public BlockRenderer() {
-        proxy = DistExecutor.safeRunForDist(() -> ClientProxy::new, () -> DedicatedProxy::new);
         proxy.init();
+
+        LOGGER.info("Running Version: " + Reference.VERSION);
 
         registerDisplayTest(ModLoadingContext.get());
     }
