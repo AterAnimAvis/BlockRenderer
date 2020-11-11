@@ -1,0 +1,115 @@
+package com.unascribed.blockrenderer.client.render.map;
+
+import com.mojang.blaze3d.matrix.MatrixStack;
+import com.unascribed.blockrenderer.client.render.IRenderer;
+import com.unascribed.blockrenderer.client.render.request.lambda.ImageHandler;
+import com.unascribed.blockrenderer.client.varia.Images;
+import com.unascribed.blockrenderer.client.varia.Maths;
+import com.unascribed.blockrenderer.client.varia.debug.Debug;
+import com.unascribed.blockrenderer.client.varia.rendering.GL;
+import com.unascribed.blockrenderer.client.varia.rendering.TileRenderer;
+import net.minecraft.client.MainWindow;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.MapItemRenderer;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.util.Util;
+import net.minecraft.world.storage.MapData;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.function.LongSupplier;
+
+public class MapRenderer implements IRenderer<MapParameters, MapData> {
+
+    private static final float MAP_SIZE = 128.0F;
+
+    @Nullable
+    private TileRenderer tr;
+    private MapDecorations decorations = MapDecorations.ALL;
+
+    @Override
+    public void setup(MapParameters parameters) {
+        Debug.push("map/setup");
+
+        decorations = parameters.decorations;
+
+        MainWindow window = Minecraft.getInstance().getMainWindow();
+        int displayWidth = window.getFramebufferWidth();
+        int displayHeight = window.getFramebufferHeight();
+
+        int size = Maths.minimum(displayHeight, displayWidth, parameters.size);
+        tr = TileRenderer.forSize(parameters.size, size);
+
+        /* Push Stack */
+        GL.pushMatrix("map/setup");
+
+        /* Setup Projection */
+        GL.setupMapRendering(tr);
+
+        /* Setup Lighting */
+        GL.displayLighting();
+
+        /* Scale based on desired size */
+        float scale = parameters.size / MAP_SIZE;
+        GL.scale(scale, scale, decorations == MapDecorations.NONE ? 1 : -1);
+
+        Debug.pop();
+    }
+
+    @Override
+    public void render(MapData instance, ImageHandler<MapData> consumer) {
+        assert tr != null;
+
+        Debug.endFrame();
+        Debug.push("map/render");
+
+        /* Clear Pixel Buffer */
+        tr.clearBuffer();
+
+        /* Force Glint to be the same between renders by changing nano supplier */
+        LongSupplier oldSupplier = Util.nanoTimeSupplier;
+        Util.nanoTimeSupplier = () -> 0;
+
+        Minecraft.getInstance().textureManager.tick();
+
+        IRenderTypeBuffer.Impl buffers = IRenderTypeBuffer.getImpl(Tessellator.getInstance().getBuffer());
+        try (MapItemRenderer renderer = new MapItemRenderer(Minecraft.getInstance().textureManager)) {
+            renderer.updateMapTexture(instance);
+
+            do {
+                tr.beginTile();
+                GL.pushMatrix("map/render");
+
+                /* Clear Framebuffer */
+                GL.clearFrameBuffer();
+
+                /* Render (MatrixStack, Buffers, Data, RenderBorder, LightMap) */
+                renderer.renderMap(new MatrixStack(), buffers, instance, decorations != MapDecorations.ALL, 240);
+
+                buffers.finish();
+
+                GL.popMatrix("map/render");
+            } while (tr.endTile());
+        }
+
+        /* Reset nano supplier */
+        Util.nanoTimeSupplier = oldSupplier;
+
+        /* Pass the value and its resulting render to the consumer */
+        /* Note: The rendered image needs to be flipped vertically */
+        consumer.accept(instance, Images.fromTRFlipped(tr));
+
+        Debug.pop();
+    }
+
+    @Override
+    public void teardown() {
+        Debug.push("map/teardown");
+
+        /* Pop Stack */
+        GL.popMatrix("map/teardown");
+
+        Debug.pop();
+    }
+
+}

@@ -1,7 +1,4 @@
-@MethodsReturnNonnullByDefault
-@ParametersAreNonnullByDefault
+@NonnullDefault
 package com.unascribed.blockrenderer;
 
-import com.unascribed.blockrenderer.annotation.MethodsReturnNonnullByDefault;
-
-import javax.annotation.ParametersAreNonnullByDefault;
+import org.lwjgl.system.NonnullDefault;
