@@ -1,0 +1,13 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.unascribed.blockrenderer.fabric.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "client": [
+    "MixinMinecraftClient",
+    "accessor.IHoveredSlot"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
