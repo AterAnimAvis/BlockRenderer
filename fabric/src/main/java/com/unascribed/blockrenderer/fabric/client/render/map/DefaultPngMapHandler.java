@@ -2,14 +2,14 @@ package com.unascribed.blockrenderer.fabric.client.render.map;
 
 import com.unascribed.blockrenderer.fabric.client.render.item.DefaultPngItemStackHandler;
 import com.unascribed.blockrenderer.render.request.lambda.ImageHandler;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.map.MapState;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.function.Consumer;
 
-public class DefaultPngMapHandler implements ImageHandler<MapState>, Consumer<MapState> {
+public class DefaultPngMapHandler implements ImageHandler<MapItemSavedData>, Consumer<MapItemSavedData> {
 
     private final DefaultPngItemStackHandler delegate;
     private final ItemStack stack;
@@ -20,12 +20,12 @@ public class DefaultPngMapHandler implements ImageHandler<MapState>, Consumer<Ma
     }
 
     @Override
-    public void accept(MapState value) {
+    public void accept(MapItemSavedData value) {
         delegate.accept(stack);
     }
 
     @Override
-    public void accept(MapState value, BufferedImage image) {
+    public void accept(MapItemSavedData value, BufferedImage image) {
         delegate.accept(stack, image);
     }
 

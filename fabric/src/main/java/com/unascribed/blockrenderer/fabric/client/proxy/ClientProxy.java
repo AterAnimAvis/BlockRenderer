@@ -1,5 +1,6 @@
 package com.unascribed.blockrenderer.fabric.client.proxy;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import com.unascribed.blockrenderer.fabric.client.init.Keybindings;
 import com.unascribed.blockrenderer.fabric.client.render.RenderManager;
 import com.unascribed.blockrenderer.fabric.client.render.item.ItemRenderer;
@@ -8,17 +9,16 @@ import com.unascribed.blockrenderer.fabric.client.screens.item.EnterSizeScreen;
 import com.unascribed.blockrenderer.fabric.client.varia.StringUtils;
 import com.unascribed.blockrenderer.fabric.mixin.accessor.IHoveredSlot;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.gui.screen.recipebook.RecipeBookProvider;
-import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.util.InputUtil;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.screen.slot.Slot;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
+import net.minecraft.client.gui.screens.recipebook.RecipeUpdateListener;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 import org.lwjgl.glfw.GLFW;
 
 public class ClientProxy {
@@ -36,44 +36,44 @@ public class ClientProxy {
         if (down) return;
         down = true;
 
-        MinecraftClient client = MinecraftClient.getInstance();
+        Minecraft client = Minecraft.getInstance();
         Slot hovered = null;
-        Screen currentScreen = client.currentScreen;
+        Screen currentScreen = client.screen;
         boolean isContainerScreen = currentScreen instanceof IHoveredSlot;
 
         // Intellij Bork-ing wants explicit null check.
         if (currentScreen != null && isContainerScreen) hovered = ((IHoveredSlot) currentScreen).block_renderer$accessor$hoveredSlot();
 
         if (Screen.hasControlDown()) {
-            PlayerEntity player = client.player;
+            Player player = client.player;
 
-            ItemStack input = hovered != null && hovered.hasStack() ? hovered.getStack() : null;
-            if (input == null && player != null) input = player.getMainHandStack();
+            ItemStack input = hovered != null && hovered.hasItem() ? hovered.getItem() : null;
+            if (input == null && player != null) input = player.getMainHandItem();
 
-            client.openScreen(new SelectionScreen(client.currentScreen, input));
+            client.setScreen(new SelectionScreen(client.screen, input));
             return;
         }
 
         if (!isContainerScreen) {
-            PlayerEntity player = client.player;
+            Player player = client.player;
 
-            if (player != null && !player.getMainHandStack().isEmpty()) {
-                renderStack(player.getMainHandStack());
+            if (player != null && !player.getMainHandItem().isEmpty()) {
+                renderStack(player.getMainHandItem());
                 return;
             }
-            StringUtils.addMessage(new TranslatableText("msg.block_renderer.notContainer"));
+            StringUtils.addMessage(new TranslatableComponent("msg.block_renderer.notContainer"));
             return;
         }
 
         if (hovered == null) {
-            StringUtils.addMessage(new TranslatableText("msg.block_renderer.slot.absent"));
+            StringUtils.addMessage(new TranslatableComponent("msg.block_renderer.slot.absent"));
             return;
         }
 
-        ItemStack stack = hovered.getStack();
+        ItemStack stack = hovered.getItem();
 
         if (stack.isEmpty()) {
-            StringUtils.addMessage(new TranslatableText("msg.block_renderer.slot.empty"));
+            StringUtils.addMessage(new TranslatableComponent("msg.block_renderer.slot.empty"));
             return;
         }
 
@@ -81,10 +81,10 @@ public class ClientProxy {
     }
 
     private static void renderStack(ItemStack stack) {
-        MinecraftClient client = MinecraftClient.getInstance();
+        Minecraft client = Minecraft.getInstance();
 
         if (Screen.hasShiftDown()) {
-            client.openScreen(new EnterSizeScreen(client.currentScreen, stack));
+            client.setScreen(new EnterSizeScreen(client.screen, stack));
             return;
         }
 
@@ -92,39 +92,39 @@ public class ClientProxy {
     }
 
     private static boolean isKeyDown() {
-        MinecraftClient client = MinecraftClient.getInstance();
-        Screen currentScreen = client.currentScreen;
+        Minecraft client = Minecraft.getInstance();
+        Screen currentScreen = client.screen;
 
         /* Unbound key */
         if (Keybindings.render.isUnbound()) return false;
 
         /* Has the Keybinding been triggered? */
-        if (Keybindings.render.isPressed()) return true;
+        if (Keybindings.render.isDown()) return true;
 
         /* Not in Screen so we should be ok */
         if (currentScreen == null) return false;
 
         /* Non Containers seem to behave ok */
-        boolean hasSlots = currentScreen instanceof HandledScreen<?>;
+        boolean hasSlots = currentScreen instanceof AbstractContainerScreen<?>;
         if (!hasSlots) return false;
 
         /* TextFieldWidgets */
-        if (currentScreen.getFocused() instanceof TextFieldWidget) return false;
+        if (currentScreen.getFocused() instanceof EditBox) return false;
 
         /* Recipe Books */
-        if (currentScreen instanceof RecipeBookProvider) {
-            RecipeBookWidget recipeBook = ((RecipeBookProvider) currentScreen).getRecipeBookWidget();
-            if (recipeBook.isOpen()) return false;
+        if (currentScreen instanceof RecipeUpdateListener) {
+            RecipeBookComponent recipeBook = ((RecipeUpdateListener) currentScreen).getRecipeBookComponent();
+            if (recipeBook.isVisible()) return false;
         }
 
         /* Actually Check to see if the key is down */
-        InputUtil.Key key = KeyBindingHelper.getBoundKeyOf(Keybindings.render);
+        InputConstants.Key key = KeyBindingHelper.getBoundKeyOf(Keybindings.render);
 
-        if (key.getCategory() == InputUtil.Type.MOUSE) {
-            return GLFW.glfwGetMouseButton(client.getWindow().getHandle(), key.getCode()) == GLFW.GLFW_PRESS;
+        if (key.getType() == InputConstants.Type.MOUSE) {
+            return GLFW.glfwGetMouseButton(client.getWindow().getWindow(), key.getValue()) == GLFW.GLFW_PRESS;
         }
 
-        return InputUtil.isKeyPressed(client.getWindow().getHandle(), key.getCode());
+        return InputConstants.isKeyDown(client.getWindow().getWindow(), key.getValue());
     }
 
 }

@@ -1,16 +1,16 @@
 package com.unascribed.blockrenderer.fabric.client.screens.item;
 
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.unascribed.blockrenderer.fabric.client.render.RenderManager;
 import com.unascribed.blockrenderer.fabric.client.render.item.ItemRenderer;
 import com.unascribed.blockrenderer.fabric.client.screens.widgets.HoverableTinyButtonWidget;
 import com.unascribed.blockrenderer.fabric.client.varia.StringUtils;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 /*
@@ -19,13 +19,13 @@ import org.jetbrains.annotations.Nullable;
 @SuppressWarnings("NotNullFieldNotInitialized")
 public class EnterNamespaceScreen extends BaseItemScreen {
 
-    private static final TranslatableText TITLE = new TranslatableText("block_renderer.gui.namespace");
+    private static final TranslatableComponent TITLE = new TranslatableComponent("block_renderer.gui.namespace");
 
     private boolean emptySpec = false;
 
     private final String prefill;
 
-    private TextFieldWidget text;
+    private EditBox text;
 
     private final @Nullable ItemStack stack;
 
@@ -43,19 +43,19 @@ public class EnterNamespaceScreen extends BaseItemScreen {
 
     @Override
     public void init() {
-        assert client != null;
-        client.keyboard.setRepeatEvents(true);
+        assert minecraft != null;
+        minecraft.keyboardHandler.setSendRepeatsToGui(true);
 
         boolean enabled = enabled();
 
         /* Note: This is the initializer, text can be null! */
         @SuppressWarnings("ConstantConditions")
-        String oldText = (text == null ? prefill : text.getText());
+        String oldText = (text == null ? prefill : text.getValue());
 
-        text = addButton(new TextFieldWidget(client.textRenderer, width / 2 - 100, height / 6 + 50, 200, 20, new TranslatableText("block_renderer.gui.namespace")), enabled);
-        text.setChangedListener((value) -> emptySpec = value.trim().isEmpty());
-        text.setText(oldText);
-        text.setFocusUnlocked(false);
+        text = addButton(new EditBox(minecraft.font, width / 2 - 100, height / 6 + 50, 200, 20, new TranslatableComponent("block_renderer.gui.namespace")), enabled);
+        text.setResponder((value) -> emptySpec = value.trim().isEmpty());
+        text.setValue(oldText);
+        text.setCanLoseFocus(false);
         setFocused(text);
 
         if (stack != null) {
@@ -63,9 +63,9 @@ public class EnterNamespaceScreen extends BaseItemScreen {
                     this,
                     width - 32,
                     height - 32,
-                    new TranslatableText("block_renderer.gui.switch.single"),
-                    new TranslatableText("block_renderer.gui.switch.single.tooltip"),
-                    button -> client.openScreen(new EnterSizeScreen(old, stack)))
+                    new TranslatableComponent("block_renderer.gui.switch.single"),
+                    new TranslatableComponent("block_renderer.gui.switch.single.tooltip"),
+                    button -> minecraft.setScreen(new EnterSizeScreen(old, stack)))
             );
         }
 
@@ -83,8 +83,8 @@ public class EnterNamespaceScreen extends BaseItemScreen {
 
     @Override
     public void onClose() {
-        assert client != null;
-        client.keyboard.setRepeatEvents(false);
+        assert minecraft != null;
+        minecraft.keyboardHandler.setSendRepeatsToGui(false);
     }
 
     @Override
@@ -101,25 +101,25 @@ public class EnterNamespaceScreen extends BaseItemScreen {
     }
 
     @Override
-    public void render(MatrixStack stack, int mouseX, int mouseY, float partialTicks) {
-        assert client != null;
+    public void render(PoseStack stack, int mouseX, int mouseY, float partialTicks) {
+        assert minecraft != null;
 
         super.render(stack, mouseX, mouseY, partialTicks);
 
         if (!emptySpec) return;
 
-        drawCenteredText(stack, client.textRenderer, new TranslatableText("block_renderer.gui.emptySpec"), width / 2, height / 6 + 30, 0xFF5555);
+        drawCenteredString(stack, minecraft.font, new TranslatableComponent("block_renderer.gui.emptySpec"), width / 2, height / 6 + 30, 0xFF5555);
     }
 
     @Override
-    public void onRender(ButtonWidget button) {
-        assert client != null;
+    public void onRender(Button button) {
+        assert minecraft != null;
 
         if (!renderButton.visible) return;
 
-        client.openScreen(old);
-        if (client.world == null) return;
+        minecraft.setScreen(old);
+        if (minecraft.level == null) return;
 
-        RenderManager.push(ItemRenderer.bulk(text.getText(), round(size), useId.isChecked(), addSize.isChecked()));
+        RenderManager.push(ItemRenderer.bulk(text.getValue(), round(size), useId.selected(), addSize.selected()));
     }
 }

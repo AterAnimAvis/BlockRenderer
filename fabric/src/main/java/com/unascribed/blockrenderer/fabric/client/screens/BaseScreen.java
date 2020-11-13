@@ -1,16 +1,15 @@
 package com.unascribed.blockrenderer.fabric.client.screens;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.unascribed.blockrenderer.fabric.client.screens.widgets.UpdateableSliderWidget;
 import com.unascribed.blockrenderer.fabric.client.screens.widgets.options.ExtendedSliderPercentageOption;
 import com.unascribed.blockrenderer.varia.Maths;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.AbstractButtonWidget;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.options.GameOptions;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.Options;
+import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
 
@@ -26,30 +25,30 @@ public abstract class BaseScreen extends Screen {
 
     protected double size = 512;
     protected UpdateableSliderWidget slider;
-    protected ButtonWidget renderButton;
+    protected Button renderButton;
 
-    public BaseScreen(Text title, @Nullable Screen old) {
+    public BaseScreen(Component title, @Nullable Screen old) {
         super(title);
         this.old = old;
     }
 
     @Override
     protected void init() {
-        assert client != null;
+        assert minecraft != null;
         boolean enabled = enabled();
-        addButton(new ButtonWidget(width / 2 - 100, height / 6 + 120, 98, 20, new TranslatableText("gui.cancel"), button -> client.openScreen(old)));
+        addButton(new Button(width / 2 - 100, height / 6 + 120, 98, 20, new TranslatableComponent("gui.cancel"), button -> minecraft.setScreen(old)));
 
-        renderButton = addButton(new ButtonWidget(width / 2 + 2, height / 6 + 120, 98, 20, new TranslatableText("block_renderer.gui.render"), this::onRender), enabled);
+        renderButton = addButton(new Button(width / 2 + 2, height / 6 + 120, 98, 20, new TranslatableComponent("block_renderer.gui.render"), this::onRender), enabled);
 
-        size = MathHelper.clamp(size, getMinSize(), getMaxSize());
+        size = Maths.clamp(size, getMinSize(), getMaxSize());
 
         ExtendedSliderPercentageOption option = new ExtendedSliderPercentageOption("block_renderer.gui.renderSize", getMinSize(), getMaxSize(), 1, (settings) -> size, (settings, value) -> size = round(value), this::getSliderDisplay);
-        slider = addButton(new UpdateableSliderWidget(client.options, width / 2 - 100, height / 6 + 80, 200, 20, option), enabled);
+        slider = addButton(new UpdateableSliderWidget(minecraft.options, width / 2 - 100, height / 6 + 80, 200, 20, option), enabled);
     }
 
     protected boolean enabled() {
-        assert client != null;
-        return client.world != null;
+        assert minecraft != null;
+        return minecraft.level != null;
     }
 
     protected int getMinSize() {
@@ -79,32 +78,32 @@ public abstract class BaseScreen extends Screen {
     }
 
     @Override
-    public void render(MatrixStack stack, int mouseX, int mouseY, float partialTicks) {
-        assert client != null;
+    public void render(PoseStack stack, int mouseX, int mouseY, float partialTicks) {
+        assert minecraft != null;
 
         renderBackground(stack);
 
         super.render(stack, mouseX, mouseY, partialTicks);
 
-        drawCenteredText(stack, client.textRenderer, title, width / 2, height / 6, -1);
+        drawCenteredString(stack, minecraft.font, title, width / 2, height / 6, -1);
 
-        for (AbstractButtonWidget widget : buttons)
+        for (AbstractWidget widget : buttons)
             if (widget.isHovered())
                 widget.renderToolTip(stack, mouseX, mouseY);
 
-        if (client.world != null) return;
+        if (minecraft.level != null) return;
 
-        drawCenteredText(stack, client.textRenderer, new TranslatableText("block_renderer.gui.noWorld"), width / 2, height / 6 + 30, 0xFF5555);
+        drawCenteredString(stack, minecraft.font, new TranslatableComponent("block_renderer.gui.noWorld"), width / 2, height / 6 + 30, 0xFF5555);
     }
 
-    protected abstract void onRender(ButtonWidget button);
+    protected abstract void onRender(Button button);
 
-    public Text getSliderDisplay(GameOptions settings, ExtendedSliderPercentageOption option) {
+    public Component getSliderDisplay(Options settings, ExtendedSliderPercentageOption option) {
         int px = round(size);
         return option.getDisplayPrefix().copy().append(": " + px + "x" + px);
     }
 
-    protected <T extends AbstractButtonWidget> T addButton(T button, boolean active) {
+    protected <T extends AbstractWidget> T addButton(T button, boolean active) {
         addButton(button);
 
         button.active = active;
@@ -115,9 +114,9 @@ public abstract class BaseScreen extends Screen {
 
     @Override
     public void onClose() {
-        assert client != null;
+        assert minecraft != null;
 
-        client.openScreen(old);
+        minecraft.setScreen(old);
     }
 
 }

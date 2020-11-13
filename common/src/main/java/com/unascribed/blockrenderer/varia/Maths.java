@@ -36,6 +36,14 @@ public interface Maths {
         }
     }
 
+    static double clamp(double num, double min, double max) {
+        if (num < min) {
+            return min;
+        } else {
+            return Math.min(num, max);
+        }
+    }
+
     static int smallestEncompassingPowerOfTwo(int value) {
         int i = value - 1;
         i = i | i >> 1;

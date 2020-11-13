@@ -3,16 +3,16 @@ package com.unascribed.blockrenderer.fabric.client.screens.item;
 import com.unascribed.blockrenderer.fabric.client.render.RenderManager;
 import com.unascribed.blockrenderer.fabric.client.render.item.ItemRenderer;
 import com.unascribed.blockrenderer.fabric.client.screens.widgets.HoverableTinyButtonWidget;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 public class EnterSizeScreen extends BaseItemScreen {
 
-    private static final TranslatableText TITLE = new TranslatableText("block_renderer.gui.renderItem");
+    private static final TranslatableComponent TITLE = new TranslatableComponent("block_renderer.gui.renderItem");
 
     protected final ItemStack stack;
     private final boolean enableSwitch;
@@ -21,7 +21,7 @@ public class EnterSizeScreen extends BaseItemScreen {
         this(TITLE, old, stack, true);
     }
 
-    public EnterSizeScreen(Text title, @Nullable Screen old, ItemStack stack, boolean enableSwitch) {
+    public EnterSizeScreen(Component title, @Nullable Screen old, ItemStack stack, boolean enableSwitch) {
         super(title, old);
         this.stack = stack;
         this.enableSwitch = enableSwitch;
@@ -29,7 +29,7 @@ public class EnterSizeScreen extends BaseItemScreen {
 
     @Override
     public void init() {
-        assert client != null;
+        assert minecraft != null;
 
         super.init();
 
@@ -41,20 +41,20 @@ public class EnterSizeScreen extends BaseItemScreen {
                         this,
                         width - 32,
                         height - 32,
-                        new TranslatableText("block_renderer.gui.switch.bulk"),
-                        new TranslatableText("block_renderer.gui.switch.bulk.tooltip"),
-                        button -> client.openScreen(new EnterNamespaceScreen(old, stack))),
+                        new TranslatableComponent("block_renderer.gui.switch.bulk"),
+                        new TranslatableComponent("block_renderer.gui.switch.bulk.tooltip"),
+                        button -> minecraft.setScreen(new EnterNamespaceScreen(old, stack))),
                 enableSwitch
         );
     }
 
     @Override
-    public void onRender(ButtonWidget button) {
-        assert client != null;
+    public void onRender(Button button) {
+        assert minecraft != null;
 
-        client.openScreen(old);
-        if (client.world == null) return;
+        minecraft.setScreen(old);
+        if (minecraft.level == null) return;
 
-        RenderManager.push(ItemRenderer.single(stack, round(size), useId.isChecked(), addSize.isChecked()));
+        RenderManager.push(ItemRenderer.single(stack, round(size), useId.selected(), addSize.selected()));
     }
 }

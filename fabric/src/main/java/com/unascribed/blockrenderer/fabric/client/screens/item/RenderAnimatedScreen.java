@@ -4,22 +4,22 @@ import com.unascribed.blockrenderer.fabric.client.render.RenderManager;
 import com.unascribed.blockrenderer.fabric.client.render.item.ItemRenderer;
 import com.unascribed.blockrenderer.fabric.client.screens.widgets.HoverableCheckboxWidget;
 import com.unascribed.blockrenderer.fabric.client.screens.widgets.HoverableTextFieldWidget;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.CheckboxWidget;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Checkbox;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("NotNullFieldNotInitialized")
 public class RenderAnimatedScreen extends EnterSizeScreen {
 
-    private static final TranslatableText TITLE = new TranslatableText("block_renderer.gui.renderAnimated");
+    private static final TranslatableComponent TITLE = new TranslatableComponent("block_renderer.gui.renderAnimated");
 
-    private CheckboxWidget autoLoop;
+    private Checkbox autoLoop;
 
-    private TextFieldWidget length;
+    private EditBox length;
 
     private boolean isInteger;
 
@@ -29,20 +29,20 @@ public class RenderAnimatedScreen extends EnterSizeScreen {
 
     @Override
     public void init() {
-        assert client != null;
-        client.keyboard.setRepeatEvents(true);
+        assert minecraft != null;
+        minecraft.keyboardHandler.setSendRepeatsToGui(true);
         boolean enabled = enabled();
 
         super.init();
 
-        autoLoop = addButton(new HoverableCheckboxWidget(this, width / 2 + 2, height / 6 + 166, 98, 20, new TranslatableText("block_renderer.gui.loop"), new TranslatableText("block_renderer.gui.loop.tooltip"), false), enabled);
+        autoLoop = addButton(new HoverableCheckboxWidget(this, width / 2 + 2, height / 6 + 166, 98, 20, new TranslatableComponent("block_renderer.gui.loop"), new TranslatableComponent("block_renderer.gui.loop.tooltip"), false), enabled);
 
         /* Note: This is the initializer, text can be null! */
         @SuppressWarnings("ConstantConditions")
-        String prefill = (length == null ? "20" : length.getText());
+        String prefill = (length == null ? "20" : length.getValue());
 
-        length = addButton(new HoverableTextFieldWidget(this, client.textRenderer, width / 2 - 100, height / 6 + 74, 200, 20, new TranslatableText("block_renderer.gui.animatedLength"), new TranslatableText("block_renderer.gui.animatedLength.tooltip")), enabled);
-        length.setChangedListener((value) -> {
+        length = addButton(new HoverableTextFieldWidget(this, minecraft.font, width / 2 - 100, height / 6 + 74, 200, 20, new TranslatableComponent("block_renderer.gui.animatedLength"), new TranslatableComponent("block_renderer.gui.animatedLength.tooltip")), enabled);
+        length.setResponder((value) -> {
             isInteger = false;
             try {
                 int v = Integer.parseInt(value);
@@ -50,8 +50,8 @@ public class RenderAnimatedScreen extends EnterSizeScreen {
             } catch (NumberFormatException ignore) {
             }
         });
-        length.setText(prefill);
-        length.setFocusUnlocked(false);
+        length.setValue(prefill);
+        length.setCanLoseFocus(false);
         setFocused(length);
     }
 
@@ -64,8 +64,8 @@ public class RenderAnimatedScreen extends EnterSizeScreen {
 
     @Override
     public void onClose() {
-        assert client != null;
-        client.keyboard.setRepeatEvents(false);
+        assert minecraft != null;
+        minecraft.keyboardHandler.setSendRepeatsToGui(false);
     }
 
     @Override
@@ -82,13 +82,13 @@ public class RenderAnimatedScreen extends EnterSizeScreen {
     }
 
     @Override
-    public void onRender(ButtonWidget button) {
-        assert client != null;
+    public void onRender(Button button) {
+        assert minecraft != null;
 
-        client.openScreen(old);
-        if (client.world == null) return;
+        minecraft.setScreen(old);
+        if (minecraft.level == null) return;
 
-        RenderManager.push(ItemRenderer.animated(stack, round(size), useId.isChecked(), addSize.isChecked(), Integer.parseInt(length.getText()), autoLoop.isChecked()));
+        RenderManager.push(ItemRenderer.animated(stack, round(size), useId.selected(), addSize.selected(), Integer.parseInt(length.getValue()), autoLoop.selected()));
     }
 
 }

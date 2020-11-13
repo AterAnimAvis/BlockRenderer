@@ -10,9 +10,9 @@ import com.unascribed.blockrenderer.varia.Time;
 import com.unascribed.blockrenderer.varia.gif.GifWriter;
 import com.unascribed.blockrenderer.varia.logging.Log;
 import com.unascribed.blockrenderer.varia.logging.Markers;
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
-import net.minecraft.util.Formatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import org.jetbrains.annotations.Nullable;
 
 import javax.imageio.stream.ImageOutputStream;
@@ -28,9 +28,9 @@ import java.util.function.Function;
 
 public class RenderManager {
 
-    private static final Function<String, Text> RENDERING_BULK = (name) -> new TranslatableText("block_renderer.render.bulk", name).formatted(Formatting.GOLD);
-    private static final Text RENDERING_GIF = new TranslatableText("block_renderer.render.gif").formatted(Formatting.GOLD);
-    private static final Text RENDERING_AUTO = new TranslatableText("block_renderer.render.auto_loop").formatted(Formatting.GOLD);
+    private static final Function<String, Component> RENDERING_BULK = (name) -> new TranslatableComponent("block_renderer.render.bulk", name).withStyle(ChatFormatting.GOLD);
+    private static final Component RENDERING_GIF = new TranslatableComponent("block_renderer.render.gif").withStyle(ChatFormatting.GOLD);
+    private static final Component RENDERING_AUTO = new TranslatableComponent("block_renderer.render.auto_loop").withStyle(ChatFormatting.GOLD);
 
     private static final int AUTO_LOOP_LENGTH = 30;
 

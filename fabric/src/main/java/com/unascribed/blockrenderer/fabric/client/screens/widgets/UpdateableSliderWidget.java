@@ -1,20 +1,20 @@
 package com.unascribed.blockrenderer.fabric.client.screens.widgets;
 
-import net.minecraft.client.gui.widget.DoubleOptionSliderWidget;
-import net.minecraft.client.options.DoubleOption;
-import net.minecraft.client.options.GameOptions;
+import net.minecraft.client.Options;
+import net.minecraft.client.ProgressOption;
+import net.minecraft.client.gui.components.SliderButton;
 
-public class UpdateableSliderWidget extends DoubleOptionSliderWidget {
+public class UpdateableSliderWidget extends SliderButton {
 
-    private final DoubleOption option;
+    private final ProgressOption option;
 
-    public UpdateableSliderWidget(GameOptions settings, int x, int y, int width, int height, DoubleOption option) {
+    public UpdateableSliderWidget(Options settings, int x, int y, int width, int height, ProgressOption option) {
         super(settings, x, y, width, height, option);
         this.option = option;
     }
 
     public void update(double desired) {
-        value = option.getRatio(desired);
+        value = option.toPct(desired);
         applyValue();
         updateMessage();
     }

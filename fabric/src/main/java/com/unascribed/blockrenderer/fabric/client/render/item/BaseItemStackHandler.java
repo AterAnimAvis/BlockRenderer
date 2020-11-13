@@ -2,10 +2,10 @@ package com.unascribed.blockrenderer.fabric.client.render.item;
 
 import com.unascribed.blockrenderer.fabric.client.varia.Identifiers;
 import com.unascribed.blockrenderer.fabric.client.varia.StringUtils;
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.Style;
-import net.minecraft.text.TranslatableText;
-import net.minecraft.util.Formatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Style;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
@@ -40,16 +40,16 @@ public class BaseItemStackHandler implements Consumer<ItemStack> {
     }
 
     protected void report(Object name, @Nullable File file) {
-        Style gold = Style.EMPTY.withFormatting(Formatting.GOLD);
+        Style gold = Style.EMPTY.applyFormat(ChatFormatting.GOLD);
 
         if (file == null) {
-            StringUtils.addMessage(new TranslatableText(
+            StringUtils.addMessage(new TranslatableComponent(
                     "msg.block_renderer.render.success.nofile",
                     name,
                     StringUtils.asClickable(folder)
             ).setStyle(gold));
         } else {
-            StringUtils.addMessage(new TranslatableText(
+            StringUtils.addMessage(new TranslatableComponent(
                     "msg.block_renderer.render.success",
                     name,
                     StringUtils.asClickable(folder),
@@ -66,7 +66,7 @@ public class BaseItemStackHandler implements Consumer<ItemStack> {
     }
 
     private String _getFilename(ItemStack value, boolean useIdentifier) {
-        return useIdentifier ? StringUtils.sanitize(Identifiers.get(value.getItem())) : StringUtils.sanitize(value.getName());
+        return useIdentifier ? StringUtils.sanitize(Identifiers.get(value.getItem())) : StringUtils.sanitize(value.getDisplayName());
     }
 
 }

@@ -1,14 +1,14 @@
 package com.unascribed.blockrenderer.fabric.client.varia.rendering;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.platform.Lighting;
+import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.unascribed.blockrenderer.Reference;
 import com.unascribed.blockrenderer.varia.logging.Log;
 import com.unascribed.blockrenderer.varia.logging.Markers;
 import com.unascribed.blockrenderer.varia.rendering.TileRenderer;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.DiffuseLighting;
-import net.minecraft.client.util.Window;
+import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -16,7 +16,7 @@ import static org.lwjgl.opengl.GL11.*;
 @SuppressWarnings("deprecation")
 public interface GL {
 
-    MinecraftClient client = MinecraftClient.getInstance();
+    Minecraft client = Minecraft.getInstance();
     Window window = client.getWindow();
 
     /* ================================================================================================== Matrix ==== */
@@ -63,11 +63,11 @@ public interface GL {
     /* ================================================================================================ Lighting ==== */
 
     static void setupItemStackLighting() {
-        DiffuseLighting.enableGuiDepthLighting();
+        Lighting.setupFor3DItems();
     }
 
     static void displayLighting() {
-        DiffuseLighting.disableGuiDepthLighting();
+        Lighting.setupForFlatItems();
     }
 
     /* =================================================================================================== State ==== */
@@ -81,7 +81,7 @@ public interface GL {
         RenderSystem.defaultBlendFunc();
     }
 
-    static void blendFunction(GlStateManager.SrcFactor source, GlStateManager.DstFactor dest) {
+    static void blendFunction(GlStateManager.SourceFactor source, GlStateManager.DestFactor dest) {
         RenderSystem.blendFunc(source, dest);
     }
 
@@ -98,25 +98,25 @@ public interface GL {
     }
 
     static void clearColorBuffer() {
-        RenderSystem.clear(GL11.GL_COLOR_BUFFER_BIT, MinecraftClient.IS_SYSTEM_MAC);
+        RenderSystem.clear(GL11.GL_COLOR_BUFFER_BIT, Minecraft.ON_OSX);
     }
 
     static void clearDepthBuffer() {
-        RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, MinecraftClient.IS_SYSTEM_MAC);
+        RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, Minecraft.ON_OSX);
     }
 
     /* ================================================================================================== Window ==== */
 
     static void unbindFBO() {
-        client.getFramebuffer().endWrite();
+        client.getMainRenderTarget().unbindWrite();
     }
 
     static void flipFrame() {
-        window.swapBuffers();
+        window.updateDisplay();
     }
 
     static void rebindFBO() {
-        client.getFramebuffer().beginWrite(false);
+        client.getMainRenderTarget().bindWrite(false);
     }
 
     /* ============================================================================================= Projections ==== */
@@ -165,15 +165,14 @@ public interface GL {
     }
 
     static void setupOverlayRendering() {
-        MinecraftClient client = MinecraftClient.getInstance();
+        Minecraft client = Minecraft.getInstance();
         Window window = client.getWindow();
-        double scaleFactor = window.getScaleFactor();
+        double scaleFactor = window.getGuiScale();
 
-        RenderSystem.clear(GL_DEPTH_BUFFER_BIT, MinecraftClient.IS_SYSTEM_MAC);
+        RenderSystem.clear(GL_DEPTH_BUFFER_BIT, Minecraft.ON_OSX);
         RenderSystem.matrixMode(GL_PROJECTION);
         RenderSystem.loadIdentity();
-        RenderSystem.ortho(0.0D, window.getFramebufferWidth() / scaleFactor,
-                window.getFramebufferHeight() / scaleFactor, 0.0D, 1000.0D, 3000.0D);
+        RenderSystem.ortho(0.0D, window.getWidth() / scaleFactor, window.getHeight() / scaleFactor, 0.0D, 1000.0D, 3000.0D);
         RenderSystem.matrixMode(GL_MODELVIEW);
         RenderSystem.loadIdentity();
         RenderSystem.translatef(0.0F, 0.0F, -2000.0F);

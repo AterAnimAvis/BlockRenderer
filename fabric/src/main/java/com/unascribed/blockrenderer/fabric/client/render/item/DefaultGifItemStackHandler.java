@@ -1,7 +1,7 @@
 package com.unascribed.blockrenderer.fabric.client.render.item;
 
 import com.unascribed.blockrenderer.varia.Files;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 import javax.imageio.stream.FileImageOutputStream;

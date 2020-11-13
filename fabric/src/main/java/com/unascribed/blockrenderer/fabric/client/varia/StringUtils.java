@@ -1,11 +1,11 @@
 package com.unascribed.blockrenderer.fabric.client.varia;
 
 import com.google.common.collect.Sets;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.*;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.Registry;
+import net.minecraft.network.chat.*;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
@@ -21,7 +21,7 @@ public interface StringUtils {
     static String getNamespace(@Nullable ItemStack stack) {
         if (stack == null) return "";
 
-        return Registry.ITEM.getId(stack.getItem()).getNamespace();
+        return Registry.ITEM.getKey(stack.getItem()).getNamespace();
     }
 
     static Set<String> getNamespaces(String namespaceSpec) {
@@ -32,19 +32,19 @@ public interface StringUtils {
         return namespaces;
     }
 
-    static void addMessage(Text text) {
-        MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(text);
+    static void addMessage(Component component) {
+        Minecraft.getInstance().gui.getChat().addMessage(component);
     }
 
     static String dateTime() {
         return DATETIME_FORMAT.format(new Date());
     }
 
-    static String sanitize(Text text) {
-        return sanitize(text.getString());
+    static String sanitize(Component component) {
+        return sanitize(component.getString());
     }
 
-    static String sanitize(Identifier identifier) {
+    static String sanitize(ResourceLocation identifier) {
         return sanitize(identifier.toString());
     }
 
@@ -52,8 +52,8 @@ public interface StringUtils {
         return str.replaceAll("[^A-Za-z0-9-_ ]", "_");
     }
 
-    static Text asClickable(File file) {
-        LiteralText component = new LiteralText(file.getName());
+    static Component asClickable(File file) {
+        TextComponent component = new TextComponent(file.getName());
 
         String path;
 
@@ -69,9 +69,9 @@ public interface StringUtils {
 
         component.setStyle(
                 component.getStyle()
-                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslatableText("block_renderer.file.tooltip")))
+                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslatableComponent("block_renderer.file.tooltip")))
                         .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, path))
-                        .withUnderline(true)
+                        .withUnderlined(true)
         );
 
         return component;
