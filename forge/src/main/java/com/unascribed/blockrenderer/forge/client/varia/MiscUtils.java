@@ -19,6 +19,7 @@ import java.util.Set;
 
 public interface MiscUtils {
 
+    //TODO: Use this to escape from Animated/Bulk Renders
     static boolean isEscapePressed() {
         return InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), GLFW.GLFW_KEY_ESCAPE);
     }

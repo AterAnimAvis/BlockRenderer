@@ -6,12 +6,13 @@ import com.unascribed.blockrenderer.render.IRenderer;
 import com.unascribed.blockrenderer.render.IRequest;
 import com.unascribed.blockrenderer.render.request.lambda.ImageHandler;
 import com.unascribed.blockrenderer.varia.Images;
+import com.unascribed.blockrenderer.varia.Time;
 import com.unascribed.blockrenderer.varia.gif.GifWriter;
 import com.unascribed.blockrenderer.varia.logging.Log;
 import com.unascribed.blockrenderer.varia.logging.Markers;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.TranslationTextComponent;
 import org.jetbrains.annotations.Nullable;
 
 import javax.imageio.stream.ImageOutputStream;
@@ -26,6 +27,12 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class RenderManager {
+
+    private static final Function<String, ITextComponent> RENDERING_BULK = (name) -> new TranslationTextComponent("block_renderer.render.bulk", name).mergeStyle(TextFormatting.GOLD);
+    private static final ITextComponent RENDERING_GIF = new TranslationTextComponent("block_renderer.render.gif").mergeStyle(TextFormatting.GOLD);
+    private static final ITextComponent RENDERING_AUTO = new TranslationTextComponent("block_renderer.render.auto_loop").mergeStyle(TextFormatting.GOLD);
+
+    private static final int AUTO_LOOP_LENGTH = 30;
 
     public static boolean isRendering = false;
     public static Queue<IRequest> requests = new PriorityQueue<>();
@@ -58,15 +65,13 @@ public class RenderManager {
         isRendering = false;
     }
 
-    private static final ITextComponent RENDERING_BULK = new StringTextComponent("Rendering Bulk").mergeStyle(TextFormatting.GOLD);
-
     public static <S, T> void bulk(IRenderer<S, T> renderer, ImageHandler<T> handler,
-                                   S params, Collection<T> values) {
+                                   S params, String name, Collection<T> values) {
         isRendering = true;
 
         renderer.setup(params);
 
-        ProgressManager.init(RENDERING_BULK, values.size());
+        ProgressManager.init(RENDERING_BULK.apply(name), values.size());
         for (T value : values) {
             ProgressManager.push(ProgressManager.getProgress());
             renderer.render(value, handler);
@@ -81,10 +86,6 @@ public class RenderManager {
         isRendering = false;
     }
 
-    private static final int FPS = 20;
-    private static final int AUTO_LOOP_LENGTH = 30;
-    private static final long NANOS_IN_A_SECOND = 1_000_000_000L;
-
     public static <S, T> void animated(IAnimatedRenderer<S, T> renderer,
                                        Function<T, ImageOutputStream> provider,
                                        Consumer<T> callback,
@@ -96,7 +97,7 @@ public class RenderManager {
             try (ImageOutputStream stream = provider.apply(value)) {
                 if (stream == null) return;
 
-                try (GifWriter writer = new GifWriter(stream, FPS, true)) {
+                try (GifWriter writer = new GifWriter(stream, Time.TICKS_IN_A_SECOND, true)) {
                     ImageHandler<T> writeFrame = (v, img) -> {
                         try {
                             writer.writeFrame(img);
@@ -116,9 +117,6 @@ public class RenderManager {
         }
     }
 
-    private static final ITextComponent RENDERING_GIF = new StringTextComponent("Rendering GIF").mergeStyle(TextFormatting.GOLD);
-    private static final ITextComponent RENDERING_AUTO = new StringTextComponent("Auto Loop").mergeStyle(TextFormatting.GOLD);
-
     private static <S, T> void animated(IAnimatedRenderer<S, T> renderer, Consumer<T> callback, S params, int length, boolean loop, T value, ImageHandler<T> write) throws RuntimeException {
 
         AtomicBoolean isSameAsInitial = new AtomicBoolean(false);
@@ -126,45 +124,48 @@ public class RenderManager {
 
         RenderManager.isRendering = true;
 
-        renderer.setup(params);
+        try {
+            renderer.setup(params);
 
-        ImageHandler<T> init = (v, image) -> initial.compareAndSet(null, image);
-        ImageHandler<T> checkImage = (v, image) -> isSameAsInitial.set(Images.same(initial.get(), image));
-        ImageHandler<T> writeFinal = checkImage.andThen((v, image) -> {
-            if (!isSameAsInitial.get()) write.accept(v, image);
-        });
+            ImageHandler<T> init = (v, image) -> initial.compareAndSet(null, image);
+            ImageHandler<T> checkImage = (v, image) -> isSameAsInitial.set(Images.same(initial.get(), image));
+            ImageHandler<T> writeFinal = checkImage.andThen((v, image) -> {
+                if (!isSameAsInitial.get()) write.accept(v, image);
+            });
 
-        /* Render for Specified Length */
-        ProgressManager.init(RENDERING_GIF, length);
-        for (int i = 0; i < length; i++) {
-            final ImageHandler<T> consumer = i == 0 ? init.andThen(write) : i == length - 1 ? checkImage.andThen(write) : write;
+            /* Render for Specified Length */
+            ProgressManager.init(RENDERING_GIF, length);
+            for (int i = 0; i < length; i++) {
+                final ImageHandler<T> consumer = i == 0 ? init.andThen(write) : i == length - 1 ? checkImage.andThen(write) : write;
 
-            ProgressManager.push(ProgressManager.getProgress());
-            renderer.render(value, consumer, NANOS_IN_A_SECOND / FPS * i);
-            ProgressManager.pop();
-
-            ProgressManager.render();
-
-        }
-        ProgressManager.end();
-
-        if (loop) {
-            /* Search for Loop Point */
-            ProgressManager.init(RENDERING_AUTO, -1);
-            for (int i = 0; i < FPS * AUTO_LOOP_LENGTH; i++) {
                 ProgressManager.push(ProgressManager.getProgress());
-                renderer.render(value, writeFinal, NANOS_IN_A_SECOND / FPS * (length + i));
+                renderer.render(value, consumer, Time.NANOS_PER_FRAME * i);
                 ProgressManager.pop();
 
-                if (isSameAsInitial.get()) break;
                 ProgressManager.render();
+
             }
             ProgressManager.end();
+
+            if (loop) {
+                /* Search for Loop Point */
+                ProgressManager.init(RENDERING_AUTO, -1);
+                for (int i = 0; i < Time.TICKS_IN_A_SECOND * AUTO_LOOP_LENGTH; i++) {
+                    ProgressManager.push(ProgressManager.getProgress());
+                    renderer.render(value, writeFinal, Time.NANOS_PER_FRAME * (length + i));
+                    ProgressManager.pop();
+
+                    if (isSameAsInitial.get()) break;
+                    ProgressManager.render();
+                }
+                ProgressManager.end();
+            }
+
+            callback.accept(value);
+        } finally {
+            renderer.teardown();
         }
 
-        callback.accept(value);
-
-        renderer.teardown();
     }
 
 }

@@ -3,6 +3,7 @@ package com.unascribed.blockrenderer.fabric.client.render.report;
 
 import com.unascribed.blockrenderer.fabric.client.varia.rendering.Display;
 import com.unascribed.blockrenderer.fabric.client.varia.rendering.GL;
+import com.unascribed.blockrenderer.varia.Time;
 import com.unascribed.blockrenderer.varia.debug.Debug;
 import com.unascribed.blockrenderer.varia.logging.Log;
 import com.unascribed.blockrenderer.varia.logging.Markers;
@@ -29,6 +30,8 @@ public class ProgressManager {
 
     private static long start;
     private static long last;
+
+    private static long lastRender = System.nanoTime();
 
     public static void init(Text title, int steps) {
         reset();
@@ -84,6 +87,9 @@ public class ProgressManager {
     }
 
     public static void render() {
+        if (System.nanoTime() - lastRender < (Time.NANOS_PER_FRAME)) return;
+        lastRender = System.nanoTime();
+
         Debug.endFrame();
         Debug.push("progress-bar");
 

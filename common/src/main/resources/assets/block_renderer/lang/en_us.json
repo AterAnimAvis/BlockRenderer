@@ -3,7 +3,8 @@
   "key.categories.block_renderer":"BlockRenderer",
 
   "msg.block_renderer.render.fail":"Rendering failed, see game output for details",
-  "msg.block_renderer.render.success":"Successfully rendered to %2$s in %1$s",
+  "msg.block_renderer.render.success":"> Finished Rendering '%1$s' to %3$s in %2$s",
+  "msg.block_renderer.render.success.nofile":"> Finished Rendering '%1$s' to %2$s",
 
   "msg.block_renderer.bulk.cancelled":"Operation cancelled, rendered %1$s from a total of %4$s entries from %2$s in %3$s",
   "msg.block_renderer.bulk.finished":"Rendered %1$s entries from %2$s in %3$s",
@@ -16,6 +17,10 @@
   "msg.block_renderer.notContainer":"Can't find an item to render",
 
   "block_renderer.file.tooltip":"Click to Open",
+
+  "block_renderer.render.bulk": "Rendering '%1$s'",
+  "block_renderer.render.gif": "Rendering GIF",
+  "block_renderer.render.auto_loop": "Auto Loop",
 
   "block_renderer.gui.renderItem":"Render Item",
   "block_renderer.gui.namespace":"Enter Namespace",

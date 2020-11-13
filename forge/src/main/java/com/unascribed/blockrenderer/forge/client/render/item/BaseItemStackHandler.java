@@ -3,10 +3,9 @@ package com.unascribed.blockrenderer.forge.client.render.item;
 import com.unascribed.blockrenderer.forge.client.varia.Identifiers;
 import com.unascribed.blockrenderer.forge.client.varia.StringUtils;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.util.text.TranslationTextComponent;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
@@ -33,12 +32,30 @@ public class BaseItemStackHandler implements Consumer<ItemStack> {
 
     @Override
     public void accept(ItemStack value) {
-        Style open = Style.EMPTY.applyFormatting(TextFormatting.GOLD);
+        report(Identifiers.get(value.getItem()), future);
+    }
 
-        if (future != null)
-            open = open.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, future.getAbsolutePath()));
+    protected void report(Object name) {
+        report(name, null);
+    }
 
-        StringUtils.addMessage(new StringTextComponent("> Finished Rendering " + Identifiers.get(value.getItem())).setStyle(open));
+    protected void report(Object name, @Nullable File file) {
+        Style gold = Style.EMPTY.applyFormatting(TextFormatting.GOLD);
+
+        if (file == null) {
+            StringUtils.addMessage(new TranslationTextComponent(
+                    "msg.block_renderer.render.success.nofile",
+                    name,
+                    StringUtils.asClickable(folder)
+            ).setStyle(gold));
+        } else {
+            StringUtils.addMessage(new TranslationTextComponent(
+                    "msg.block_renderer.render.success",
+                    name,
+                    StringUtils.asClickable(folder),
+                    StringUtils.asClickable(file.getAbsoluteFile())
+            ).setStyle(gold));
+        }
     }
 
     protected String getFilename(ItemStack value) {

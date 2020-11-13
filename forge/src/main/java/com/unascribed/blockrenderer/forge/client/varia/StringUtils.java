@@ -2,7 +2,6 @@ package com.unascribed.blockrenderer.forge.client.varia;
 
 import com.google.common.collect.Sets;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
@@ -17,7 +16,6 @@ import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 public interface StringUtils {
@@ -40,10 +38,6 @@ public interface StringUtils {
         return namespaces;
     }
 
-    static void addMessage(String text) {
-        Minecraft.getInstance().ingameGUI.getChatGUI().printChatMessage(new StringTextComponent(text));
-    }
-
     static void addMessage(ITextComponent text) {
         Minecraft.getInstance().ingameGUI.getChatGUI().printChatMessage(text);
     }
@@ -62,16 +56,6 @@ public interface StringUtils {
 
     static String sanitize(String str) {
         return str.replaceAll("[^A-Za-z0-9-_ ]", "_");
-    }
-
-    static List<ITextComponent> getTooltipFromItem(ItemStack stack) {
-        Minecraft minecraft = Minecraft.getInstance();
-
-        return stack.getTooltip(minecraft.player, ITooltipFlag.TooltipFlags.NORMAL);
-    }
-
-    static ITextComponent getRenderSuccess(File folder, File file) {
-        return new TranslationTextComponent("msg.block_renderer.render.success", asClickable(folder), asClickable(file));
     }
 
     static ITextComponent asClickable(File file) {

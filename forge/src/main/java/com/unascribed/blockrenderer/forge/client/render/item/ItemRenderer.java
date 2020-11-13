@@ -53,12 +53,12 @@ public class ItemRenderer {
         String sizeString = addSize ? size + "x" + size + "_" : "";
         File folder = new File(Files.DEFAULT_FOLDER, StringUtils.dateTime() + "_" + sizeString + StringUtils.sanitize(joined) + "/");
 
-        //TODO: Split out into BulkPngItemStackHandler
-        DefaultPngItemStackHandler handler = new DefaultPngItemStackHandler(folder, size, useId, false, false);
+        BulkPngItemStackHandler handler = new BulkPngItemStackHandler(joined, folder, size, useId, false, false);
 
         return new BulkRenderingRequest<>(
                 new ItemStackRenderer(),
                 new ItemStackParameters(size),
+                joined,
                 renders,
                 handler,
                 handler
