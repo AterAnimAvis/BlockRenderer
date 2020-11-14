@@ -1,0 +1,52 @@
+--- a/client/varia/rendering/GL.java
++++ b/client/varia/rendering/GL.java
+@@ -1,14 +1,14 @@
+-package com.unascribed.blockrenderer.fabric.client.varia.rendering;
++package com.unascribed.blockrenderer.forge.client.varia.rendering;
+ 
+ import com.mojang.blaze3d.platform.GlStateManager;
+-import com.mojang.blaze3d.platform.Lighting;
+-import com.mojang.blaze3d.platform.Window;
+ import com.mojang.blaze3d.systems.RenderSystem;
+ import com.unascribed.blockrenderer.Reference;
+ import com.unascribed.blockrenderer.varia.logging.Log;
+ import com.unascribed.blockrenderer.varia.logging.Markers;
+ import com.unascribed.blockrenderer.varia.rendering.TileRenderer;
++import net.minecraft.client.MainWindow;
+ import net.minecraft.client.Minecraft;
++import net.minecraft.client.renderer.RenderHelper;
+ import org.lwjgl.opengl.GL11;
+ 
+ import static org.lwjgl.opengl.GL11.*;
+@@ -17,7 +17,7 @@
+ public interface GL {
+ 
+     Minecraft client = Minecraft.getInstance();
+-    Window window = client.getWindow();
++    MainWindow window = client.getWindow();
+ 
+     /* ================================================================================================== Matrix ==== */
+ 
+@@ -63,11 +63,11 @@
+     /* ================================================================================================ Lighting ==== */
+ 
+     static void setupItemStackLighting() {
+-        Lighting.setupFor3DItems();
++        RenderHelper.setupFor3DItems();
+     }
+ 
+     static void displayLighting() {
+-        Lighting.setupForFlatItems();
++        RenderHelper.setupForFlatItems();
+     }
+ 
+     /* =================================================================================================== State ==== */
+@@ -166,7 +166,7 @@
+ 
+     static void setupOverlayRendering() {
+         Minecraft client = Minecraft.getInstance();
+-        Window window = client.getWindow();
++        MainWindow window = client.getWindow();
+         double scaleFactor = window.getGuiScale();
+ 
+         RenderSystem.clear(GL_DEPTH_BUFFER_BIT, Minecraft.ON_OSX);

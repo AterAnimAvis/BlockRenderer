@@ -3,7 +3,7 @@ val modVersion: String by extra
 val minecraftVersion: String by extra
 
 tasks.create("merge") {
-    group = "merge"
+    group = "build-tasks"
 
     dependsOn(":common:jar", ":forge:jar", ":fabric:remapJar")
 

@@ -1,0 +1,45 @@
+--- a/client/render/RenderManager.java
++++ b/client/render/RenderManager.java
+@@ -1,6 +1,6 @@
+-package com.unascribed.blockrenderer.fabric.client.render;
++package com.unascribed.blockrenderer.forge.client.render;
+ 
+-import com.unascribed.blockrenderer.fabric.client.render.report.ProgressManager;
++import com.unascribed.blockrenderer.forge.client.render.report.ProgressManager;
+ import com.unascribed.blockrenderer.render.IAnimatedRenderer;
+ import com.unascribed.blockrenderer.render.IRenderer;
+ import com.unascribed.blockrenderer.render.IRequest;
+@@ -10,9 +10,9 @@
+ import com.unascribed.blockrenderer.varia.gif.GifWriter;
+ import com.unascribed.blockrenderer.varia.logging.Log;
+ import com.unascribed.blockrenderer.varia.logging.Markers;
+-import net.minecraft.ChatFormatting;
+-import net.minecraft.network.chat.Component;
+-import net.minecraft.network.chat.TranslatableComponent;
++import net.minecraft.util.text.ITextComponent;
++import net.minecraft.util.text.TextFormatting;
++import net.minecraft.util.text.TranslationTextComponent;
+ import org.jetbrains.annotations.Nullable;
+ 
+ import javax.imageio.stream.ImageOutputStream;
+@@ -28,9 +28,9 @@
+ 
+ public class RenderManager {
+ 
+-    private static final Function<String, Component> RENDERING_BULK = (name) -> new TranslatableComponent("block_renderer.render.bulk", name).withStyle(ChatFormatting.GOLD);
+-    private static final Component RENDERING_GIF = new TranslatableComponent("block_renderer.render.gif").withStyle(ChatFormatting.GOLD);
+-    private static final Component RENDERING_AUTO = new TranslatableComponent("block_renderer.render.auto_loop").withStyle(ChatFormatting.GOLD);
++    private static final Function<String, ITextComponent> RENDERING_BULK = (name) -> new TranslationTextComponent("block_renderer.render.bulk", name).withStyle(TextFormatting.GOLD);
++    private static final ITextComponent RENDERING_GIF = new TranslationTextComponent("block_renderer.render.gif").withStyle(TextFormatting.GOLD);
++    private static final ITextComponent RENDERING_AUTO = new TranslationTextComponent("block_renderer.render.auto_loop").withStyle(TextFormatting.GOLD);
+ 
+     private static final int AUTO_LOOP_LENGTH = 30;
+ 
+@@ -165,6 +165,7 @@
+         } finally {
+             renderer.teardown();
+         }
++
+     }
+ 
+ }

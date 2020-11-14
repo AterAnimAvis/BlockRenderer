@@ -1,0 +1,43 @@
+--- a/client/render/item/ItemRenderer.java
++++ b/client/render/item/ItemRenderer.java
+@@ -1,19 +1,19 @@
+-package com.unascribed.blockrenderer.fabric.client.render.item;
++package com.unascribed.blockrenderer.forge.client.render.item;
+ 
+ import com.google.common.base.Joiner;
+-import com.unascribed.blockrenderer.fabric.client.render.map.DefaultPngMapHandler;
+-import com.unascribed.blockrenderer.fabric.client.render.map.MapDecorations;
+-import com.unascribed.blockrenderer.fabric.client.render.map.MapParameters;
+-import com.unascribed.blockrenderer.fabric.client.render.map.MapRenderer;
+-import com.unascribed.blockrenderer.fabric.client.render.request.AnimatedRenderingRequest;
+-import com.unascribed.blockrenderer.fabric.client.render.request.BulkRenderingRequest;
+-import com.unascribed.blockrenderer.fabric.client.render.request.RenderingRequest;
+-import com.unascribed.blockrenderer.fabric.client.varia.MiscUtils;
+-import com.unascribed.blockrenderer.fabric.client.varia.StringUtils;
++import com.unascribed.blockrenderer.forge.client.render.map.DefaultPngMapHandler;
++import com.unascribed.blockrenderer.forge.client.render.map.MapDecorations;
++import com.unascribed.blockrenderer.forge.client.render.map.MapParameters;
++import com.unascribed.blockrenderer.forge.client.render.map.MapRenderer;
++import com.unascribed.blockrenderer.forge.client.render.request.AnimatedRenderingRequest;
++import com.unascribed.blockrenderer.forge.client.render.request.BulkRenderingRequest;
++import com.unascribed.blockrenderer.forge.client.render.request.RenderingRequest;
++import com.unascribed.blockrenderer.forge.client.varia.MiscUtils;
++import com.unascribed.blockrenderer.forge.client.varia.StringUtils;
+ import com.unascribed.blockrenderer.render.IRequest;
+ import com.unascribed.blockrenderer.varia.Files;
+-import net.minecraft.world.item.ItemStack;
+-import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
++import net.minecraft.item.ItemStack;
++import net.minecraft.world.storage.MapData;
+ 
+ import java.io.File;
+ import java.util.List;
+@@ -33,7 +33,7 @@
+         );
+     }
+ 
+-    public static IRequest single(ItemStack stack, MapItemSavedData data, int size, boolean useId, boolean addSize, MapDecorations decorations) {
++    public static IRequest single(ItemStack stack, MapData data, int size, boolean useId, boolean addSize, MapDecorations decorations) {
+         DefaultPngMapHandler handler = new DefaultPngMapHandler(stack, Files.DEFAULT_FOLDER, size, useId, addSize, true);
+ 
+         return new RenderingRequest<>(

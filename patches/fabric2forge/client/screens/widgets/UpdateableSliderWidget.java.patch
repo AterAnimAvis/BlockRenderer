@@ -1,0 +1,24 @@
+--- a/client/screens/widgets/UpdateableSliderWidget.java
++++ b/client/screens/widgets/UpdateableSliderWidget.java
+@@ -1,14 +1,14 @@
+-package com.unascribed.blockrenderer.fabric.client.screens.widgets;
++package com.unascribed.blockrenderer.forge.client.screens.widgets;
+ 
+-import net.minecraft.client.Options;
+-import net.minecraft.client.ProgressOption;
+-import net.minecraft.client.gui.components.SliderButton;
++import net.minecraft.client.GameSettings;
++import net.minecraft.client.gui.widget.OptionSlider;
++import net.minecraft.client.settings.SliderPercentageOption;
+ 
+-public class UpdateableSliderWidget extends SliderButton {
++public class UpdateableSliderWidget extends OptionSlider {
+ 
+-    private final ProgressOption option;
++    private final SliderPercentageOption option;
+ 
+-    public UpdateableSliderWidget(Options settings, int x, int y, int width, int height, ProgressOption option) {
++    public UpdateableSliderWidget(GameSettings settings, int x, int y, int width, int height, SliderPercentageOption option) {
+         super(settings, x, y, width, height, option);
+         this.option = option;
+     }

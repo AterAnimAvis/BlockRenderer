@@ -1,0 +1,68 @@
+--- a/client/screens/widgets/ItemButtonWidget.java
++++ b/client/screens/widgets/ItemButtonWidget.java
+@@ -1,16 +1,16 @@
+-package com.unascribed.blockrenderer.forge.client.screens.widgets;
++package com.unascribed.blockrenderer.fabric.client.screens.widgets;
+ 
+-import com.mojang.blaze3d.matrix.MatrixStack;
+-import com.unascribed.blockrenderer.forge.client.varia.Registries;
+-import com.unascribed.blockrenderer.forge.client.varia.rendering.Display;
+-import com.unascribed.blockrenderer.forge.client.varia.rendering.GL;
++import com.mojang.blaze3d.vertex.PoseStack;
++import com.unascribed.blockrenderer.fabric.client.varia.Registries;
++import com.unascribed.blockrenderer.fabric.client.varia.rendering.Display;
++import com.unascribed.blockrenderer.fabric.client.varia.rendering.GL;
+ import net.minecraft.client.Minecraft;
+-import net.minecraft.client.gui.screen.Screen;
+-import net.minecraft.client.gui.widget.button.Button;
+-import net.minecraft.client.renderer.ItemRenderer;
+-import net.minecraft.item.ItemStack;
+-import net.minecraft.util.ResourceLocation;
+-import net.minecraft.util.text.ITextComponent;
++import net.minecraft.client.gui.components.Button;
++import net.minecraft.client.gui.screens.Screen;
++import net.minecraft.client.renderer.entity.ItemRenderer;
++import net.minecraft.network.chat.Component;
++import net.minecraft.resources.ResourceLocation;
++import net.minecraft.world.item.ItemStack;
+ 
+ import java.util.Collections;
+ import java.util.List;
+@@ -21,16 +21,16 @@
+     public static final ResourceLocation CUSTOM_WIDGETS = new ResourceLocation("block_renderer:textures/gui/widgets.png");
+ 
+     private final Screen owner;
+-    private final Supplier<List<ITextComponent>> tooltip;
++    private final Supplier<List<Component>> tooltip;
+     private final ItemRenderer renderer;
+     private final Supplier<ItemStack> stack;
+     private final boolean isMap;
+ 
+-    public ItemButtonWidget(Screen owner, ItemRenderer renderer, Supplier<ItemStack> stack, int x, int y, ITextComponent message, ITextComponent tooltip, IPressable onPress) {
++    public ItemButtonWidget(Screen owner, ItemRenderer renderer, Supplier<ItemStack> stack, int x, int y, Component message, Component tooltip, Button.OnPress onPress) {
+         this(owner, renderer, stack, x, y, message, () -> Collections.singletonList(tooltip), onPress);
+     }
+ 
+-    public ItemButtonWidget(Screen owner, ItemRenderer renderer, Supplier<ItemStack> stack, int x, int y, ITextComponent message, Supplier<List<ITextComponent>> tooltip, IPressable onPress) {
++    public ItemButtonWidget(Screen owner, ItemRenderer renderer, Supplier<ItemStack> stack, int x, int y, Component message, Supplier<List<Component>> tooltip, Button.OnPress onPress) {
+         super(x - 32, y - 32, 64, 64, message, onPress);
+         this.tooltip = tooltip;
+         this.owner = owner;
+@@ -40,7 +40,7 @@
+     }
+ 
+     @Override
+-    public void renderButton(MatrixStack matrix, int mouseX, int mouseY, float partialTicks) {
++    public void renderButton(PoseStack matrix, int mouseX, int mouseY, float partialTicks) {
+ 
+         if (isHovered() && active)
+             Display.drawRect(matrix, x, y, x + width, y + height, 0x33FFFFFF);
+@@ -84,7 +84,7 @@
+     }
+ 
+     @Override
+-    public void renderToolTip(MatrixStack stack, int mouseX, int mouseY) {
++    public void renderToolTip(PoseStack stack, int mouseX, int mouseY) {
+         Display.renderTooltip(owner, stack, tooltip.get(), mouseX, mouseY);
+     }
+ 

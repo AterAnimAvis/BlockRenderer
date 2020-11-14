@@ -1,0 +1,25 @@
+--- a/client/varia/Identifiers.java
++++ b/client/varia/Identifiers.java
+@@ -1,13 +1,16 @@
+-package com.unascribed.blockrenderer.fabric.client.varia;
++package com.unascribed.blockrenderer.forge.client.varia;
+ 
+-import net.minecraft.core.Registry;
+-import net.minecraft.resources.ResourceLocation;
+-import net.minecraft.world.item.Item;
++import net.minecraft.util.ResourceLocation;
++import net.minecraftforge.registries.IForgeRegistryEntry;
+ 
+ public interface Identifiers {
+ 
+-    static ResourceLocation get(Item value) {
+-        return Registry.ITEM.getKey(value);
++    static ResourceLocation get(IForgeRegistryEntry<?> value) {
++        ResourceLocation identifier = value.getRegistryName();
++
++        if (identifier == null) return new ResourceLocation("air");
++
++        return identifier;
+     }
+ 
+ }

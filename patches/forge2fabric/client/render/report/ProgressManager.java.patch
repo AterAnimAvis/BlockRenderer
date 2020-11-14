@@ -1,0 +1,114 @@
+--- a/client/render/report/ProgressManager.java
++++ b/client/render/report/ProgressManager.java
+@@ -1,15 +1,16 @@
+-package com.unascribed.blockrenderer.forge.client.render.report;
++package com.unascribed.blockrenderer.fabric.client.render.report;
+ 
+-import com.mojang.blaze3d.matrix.MatrixStack;
+-import com.unascribed.blockrenderer.forge.client.varia.rendering.Display;
+-import com.unascribed.blockrenderer.forge.client.varia.rendering.GL;
++
++import com.mojang.blaze3d.vertex.PoseStack;
++import com.unascribed.blockrenderer.fabric.client.varia.rendering.Display;
++import com.unascribed.blockrenderer.fabric.client.varia.rendering.GL;
++import com.unascribed.blockrenderer.varia.Maths;
+ import com.unascribed.blockrenderer.varia.Time;
+ import com.unascribed.blockrenderer.varia.debug.Debug;
+ import com.unascribed.blockrenderer.varia.logging.Log;
+ import com.unascribed.blockrenderer.varia.logging.Markers;
+-import net.minecraft.util.math.MathHelper;
+-import net.minecraft.util.text.ITextComponent;
+-import net.minecraft.util.text.StringTextComponent;
++import net.minecraft.network.chat.Component;
++import net.minecraft.network.chat.TextComponent;
+ import org.apache.logging.log4j.message.MessageFormatMessage;
+ import org.jetbrains.annotations.NotNull;
+ import org.jetbrains.annotations.Nullable;
+@@ -20,9 +21,9 @@
+     private static final int LIGHT_GREEN = 0xFF55FF55;
+ 
+     @NotNull
+-    public static ITextComponent title = new StringTextComponent("Rendering");
++    public static Component title = new TextComponent("Rendering");
+     @Nullable
+-    public static ITextComponent message = null;
++    public static Component message = null;
+ 
+     public static int steps = -1;
+     public static int step = 0;
+@@ -32,7 +33,7 @@
+ 
+     private static long lastRender = System.nanoTime();
+ 
+-    public static void init(ITextComponent title, int steps) {
++    public static void init(Component title, int steps) {
+         reset();
+ 
+         ProgressManager.title = title;
+@@ -41,7 +42,7 @@
+         last = start;
+     }
+ 
+-    public static void push(@Nullable ITextComponent message) {
++    public static void push(@Nullable Component message) {
+         ProgressManager.message = message;
+ 
+         step++;
+@@ -71,18 +72,18 @@
+     }
+ 
+     public static void reset() {
+-        title = new StringTextComponent("Rendering");
++        title = new TextComponent("Rendering");
+         message = null;
+         steps = -1;
+         step = 0;
+         start = 0;
+     }
+ 
+-    public static ITextComponent getProgress() {
++    public static Component getProgress() {
+         //TODO: Rendered, Total, Remaining + Elapsed Time
+-        if (steps > 0) return new StringTextComponent(String.format("%s / %s", step + 1, steps));
++        if (steps > 0) return new TextComponent(String.format("%s / %s", step + 1, steps));
+ 
+-        return new StringTextComponent(String.format("%s", step));
++        return new TextComponent(String.format("%s", step));
+     }
+ 
+     public static void render() {
+@@ -104,7 +105,7 @@
+         Display.drawDirtBackground(displayWidth, displayHeight);
+ 
+         // ...and the title
+-        Display.drawCenteredString(new MatrixStack(), ProgressManager.title, displayWidth / 2, displayHeight / 2 - 24, -1);
++        Display.drawCenteredString(new PoseStack(), ProgressManager.title, displayWidth / 2, displayHeight / 2 - 24, -1);
+ 
+         // ...and the progress bar
+         renderProgressBar(displayWidth, displayHeight);
+@@ -115,7 +116,7 @@
+             GL.scale(0.5f, 0.5f, 1);
+ 
+             // ...and the subtitle
+-            Display.drawCenteredString(new MatrixStack(), message, displayWidth, displayHeight - 20, -1);
++            Display.drawCenteredString(new PoseStack(), message, displayWidth, displayHeight - 20, -1);
+ 
+             GL.popMatrix("progress/message");
+         }
+@@ -129,13 +130,13 @@
+     }
+ 
+     private static void renderProgressBar(int displayWidth, int displayHeight) {
+-        int progress = steps > 0 ? MathHelper.clamp(100 * step / steps, 0, 100) : 100;
++        int progress = steps > 0 ? Maths.clamp(100 * step / steps, 0, 100) : 100;
+ 
+         int hw = displayWidth / 2;
+         int hh = displayHeight / 2;
+ 
+-        Display.drawRect(new MatrixStack(), hw - 50, hh - 1, hw + 50, hh + 1, DARK_GREEN);
+-        Display.drawRect(new MatrixStack(), hw - 50, hh - 1, hw - 50 + progress, hh + 1, LIGHT_GREEN);
++        Display.drawRect(new PoseStack(), hw - 50, hh - 1, hw + 50, hh + 1, DARK_GREEN);
++        Display.drawRect(new PoseStack(), hw - 50, hh - 1, hw - 50 + progress, hh + 1, LIGHT_GREEN);
+     }
+ 
+ }

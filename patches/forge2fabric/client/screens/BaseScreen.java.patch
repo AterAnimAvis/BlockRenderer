@@ -1,0 +1,90 @@
+--- a/client/screens/BaseScreen.java
++++ b/client/screens/BaseScreen.java
+@@ -1,16 +1,15 @@
+-package com.unascribed.blockrenderer.forge.client.screens;
++package com.unascribed.blockrenderer.fabric.client.screens;
+ 
+-import com.mojang.blaze3d.matrix.MatrixStack;
+-import com.unascribed.blockrenderer.forge.client.screens.widgets.UpdateableSliderWidget;
+-import com.unascribed.blockrenderer.forge.client.screens.widgets.options.ExtendedSliderPercentageOption;
++import com.mojang.blaze3d.vertex.PoseStack;
++import com.unascribed.blockrenderer.fabric.client.screens.widgets.UpdateableSliderWidget;
++import com.unascribed.blockrenderer.fabric.client.screens.widgets.options.ExtendedSliderPercentageOption;
+ import com.unascribed.blockrenderer.varia.Maths;
+-import net.minecraft.client.GameSettings;
+-import net.minecraft.client.gui.screen.Screen;
+-import net.minecraft.client.gui.widget.Widget;
+-import net.minecraft.client.gui.widget.button.Button;
+-import net.minecraft.util.math.MathHelper;
+-import net.minecraft.util.text.ITextComponent;
+-import net.minecraft.util.text.TranslationTextComponent;
++import net.minecraft.client.Options;
++import net.minecraft.client.gui.components.AbstractWidget;
++import net.minecraft.client.gui.components.Button;
++import net.minecraft.client.gui.screens.Screen;
++import net.minecraft.network.chat.Component;
++import net.minecraft.network.chat.TranslatableComponent;
+ import org.jetbrains.annotations.Nullable;
+ import org.lwjgl.glfw.GLFW;
+ 
+@@ -28,7 +27,7 @@
+     protected UpdateableSliderWidget slider;
+     protected Button renderButton;
+ 
+-    public BaseScreen(ITextComponent title, @Nullable Screen old) {
++    public BaseScreen(Component title, @Nullable Screen old) {
+         super(title);
+         this.old = old;
+     }
+@@ -37,11 +36,11 @@
+     protected void init() {
+         assert minecraft != null;
+         boolean enabled = enabled();
+-        addButton(new Button(width / 2 - 100, height / 6 + 120, 98, 20, new TranslationTextComponent("gui.cancel"), button -> minecraft.setScreen(old)));
++        addButton(new Button(width / 2 - 100, height / 6 + 120, 98, 20, new TranslatableComponent("gui.cancel"), button -> minecraft.setScreen(old)));
+ 
+-        renderButton = addButton(new Button(width / 2 + 2, height / 6 + 120, 98, 20, new TranslationTextComponent("block_renderer.gui.render"), this::onRender), enabled);
++        renderButton = addButton(new Button(width / 2 + 2, height / 6 + 120, 98, 20, new TranslatableComponent("block_renderer.gui.render"), this::onRender), enabled);
+ 
+-        size = MathHelper.clamp(size, getMinSize(), getMaxSize());
++        size = Maths.clamp(size, getMinSize(), getMaxSize());
+ 
+         ExtendedSliderPercentageOption option = new ExtendedSliderPercentageOption("block_renderer.gui.renderSize", getMinSize(), getMaxSize(), 1, (settings) -> size, (settings, value) -> size = round(value), this::getSliderDisplay);
+         slider = addButton(new UpdateableSliderWidget(minecraft.options, width / 2 - 100, height / 6 + 80, 200, 20, option), enabled);
+@@ -79,7 +78,7 @@
+     }
+ 
+     @Override
+-    public void render(MatrixStack stack, int mouseX, int mouseY, float partialTicks) {
++    public void render(PoseStack stack, int mouseX, int mouseY, float partialTicks) {
+         assert minecraft != null;
+ 
+         renderBackground(stack);
+@@ -88,23 +87,23 @@
+ 
+         drawCenteredString(stack, minecraft.font, title, width / 2, height / 6, -1);
+ 
+-        for (Widget widget : buttons)
++        for (AbstractWidget widget : buttons)
+             if (widget.isHovered())
+                 widget.renderToolTip(stack, mouseX, mouseY);
+ 
+         if (minecraft.level != null) return;
+ 
+-        drawCenteredString(stack, minecraft.font, new TranslationTextComponent("block_renderer.gui.noWorld"), width / 2, height / 6 + 30, 0xFF5555);
++        drawCenteredString(stack, minecraft.font, new TranslatableComponent("block_renderer.gui.noWorld"), width / 2, height / 6 + 30, 0xFF5555);
+     }
+ 
+     protected abstract void onRender(Button button);
+ 
+-    public ITextComponent getSliderDisplay(GameSettings settings, ExtendedSliderPercentageOption option) {
++    public Component getSliderDisplay(Options settings, ExtendedSliderPercentageOption option) {
+         int px = round(size);
+         return option.getDisplayPrefix().copy().append(": " + px + "x" + px);
+     }
+ 
+-    protected <T extends Widget> T addButton(T button, boolean active) {
++    protected <T extends AbstractWidget> T addButton(T button, boolean active) {
+         addButton(button);
+ 
+         button.active = active;

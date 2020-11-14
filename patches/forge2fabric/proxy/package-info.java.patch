@@ -1,0 +1,8 @@
+--- a/proxy/package-info.java
++++ /dev/null
+@@ -1,4 +0,0 @@
+-@NonnullDefault
+-package com.unascribed.blockrenderer.forge.proxy;
+-
+-import org.lwjgl.system.NonnullDefault;
+\ No newline at end of file

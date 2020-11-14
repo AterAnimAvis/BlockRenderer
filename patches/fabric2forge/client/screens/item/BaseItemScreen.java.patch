@@ -1,0 +1,51 @@
+--- a/client/screens/item/BaseItemScreen.java
++++ b/client/screens/item/BaseItemScreen.java
+@@ -1,13 +1,13 @@
+-package com.unascribed.blockrenderer.fabric.client.screens.item;
++package com.unascribed.blockrenderer.forge.client.screens.item;
+ 
+-import com.unascribed.blockrenderer.fabric.client.screens.BaseScreen;
+-import com.unascribed.blockrenderer.fabric.client.screens.widgets.HoverableCheckboxWidget;
+-import com.unascribed.blockrenderer.fabric.client.screens.widgets.HoverableTinyButtonWidget;
+-import net.minecraft.client.gui.components.Button;
+-import net.minecraft.client.gui.components.Checkbox;
+-import net.minecraft.client.gui.screens.Screen;
+-import net.minecraft.network.chat.Component;
+-import net.minecraft.network.chat.TranslatableComponent;
++import com.unascribed.blockrenderer.forge.client.screens.BaseScreen;
++import com.unascribed.blockrenderer.forge.client.screens.widgets.HoverableCheckboxWidget;
++import com.unascribed.blockrenderer.forge.client.screens.widgets.HoverableTinyButtonWidget;
++import net.minecraft.client.gui.screen.Screen;
++import net.minecraft.client.gui.widget.button.Button;
++import net.minecraft.client.gui.widget.button.CheckboxButton;
++import net.minecraft.util.text.ITextComponent;
++import net.minecraft.util.text.TranslationTextComponent;
+ import org.jetbrains.annotations.Nullable;
+ 
+ /*
+@@ -17,10 +17,10 @@
+ public abstract class BaseItemScreen extends BaseScreen {
+ 
+     protected Button actualSize;
+-    protected Checkbox useId;
+-    protected Checkbox addSize;
++    protected CheckboxButton useId;
++    protected CheckboxButton addSize;
+ 
+-    public BaseItemScreen(Component title, @Nullable Screen old) {
++    public BaseItemScreen(ITextComponent title, @Nullable Screen old) {
+         super(title, old);
+     }
+ 
+@@ -31,8 +31,8 @@
+ 
+         super.init();
+ 
+-        actualSize = addButton(new HoverableTinyButtonWidget(this, width / 2 + 104, height / 6 + 80, new TranslatableComponent("block_renderer.gui.actualSize"), new TranslatableComponent("block_renderer.gui.actualSize.tooltip"), button -> slider.update((int) minecraft.getWindow().getGuiScale() * 16)), enabled);
+-        useId = addButton(new HoverableCheckboxWidget(this, width / 2 - 100, height / 6 + 144, 98, 20, new TranslatableComponent("block_renderer.gui.useId"), new TranslatableComponent("block_renderer.gui.useId.tooltip"), false), enabled);
+-        addSize = addButton(new HoverableCheckboxWidget(this, width / 2 + 2, height / 6 + 144, 98, 20, new TranslatableComponent("block_renderer.gui.addSize"), new TranslatableComponent("block_renderer.gui.addSize.tooltip"), false), enabled);
++        actualSize = addButton(new HoverableTinyButtonWidget(this, width / 2 + 104, height / 6 + 80, new TranslationTextComponent("block_renderer.gui.actualSize"), new TranslationTextComponent("block_renderer.gui.actualSize.tooltip"), button -> slider.update((int) minecraft.getWindow().getGuiScale() * 16)), enabled);
++        useId = addButton(new HoverableCheckboxWidget(this, width / 2 - 100, height / 6 + 144, 98, 20, new TranslationTextComponent("block_renderer.gui.useId"), new TranslationTextComponent("block_renderer.gui.useId.tooltip"), false), enabled);
++        addSize = addButton(new HoverableCheckboxWidget(this, width / 2 + 2, height / 6 + 144, 98, 20, new TranslationTextComponent("block_renderer.gui.addSize"), new TranslationTextComponent("block_renderer.gui.addSize.tooltip"), false), enabled);
+     }
+ }

@@ -1,0 +1,8 @@
+--- a/client/render/item/ItemStackParameters.java
++++ b/client/render/item/ItemStackParameters.java
+@@ -1,4 +1,4 @@
+-package com.unascribed.blockrenderer.forge.client.render.item;
++package com.unascribed.blockrenderer.fabric.client.render.item;
+ 
+ public class ItemStackParameters {
+ 

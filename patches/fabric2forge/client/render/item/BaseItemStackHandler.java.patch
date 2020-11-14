@@ -1,0 +1,41 @@
+--- a/client/render/item/BaseItemStackHandler.java
++++ b/client/render/item/BaseItemStackHandler.java
+@@ -1,11 +1,11 @@
+-package com.unascribed.blockrenderer.fabric.client.render.item;
++package com.unascribed.blockrenderer.forge.client.render.item;
+ 
+-import com.unascribed.blockrenderer.fabric.client.varia.Identifiers;
+-import com.unascribed.blockrenderer.fabric.client.varia.StringUtils;
+-import net.minecraft.ChatFormatting;
+-import net.minecraft.network.chat.Style;
+-import net.minecraft.network.chat.TranslatableComponent;
+-import net.minecraft.world.item.ItemStack;
++import com.unascribed.blockrenderer.forge.client.varia.Identifiers;
++import com.unascribed.blockrenderer.forge.client.varia.StringUtils;
++import net.minecraft.item.ItemStack;
++import net.minecraft.util.text.Style;
++import net.minecraft.util.text.TextFormatting;
++import net.minecraft.util.text.TranslationTextComponent;
+ import org.jetbrains.annotations.Nullable;
+ 
+ import java.io.File;
+@@ -40,16 +40,16 @@
+     }
+ 
+     protected void report(Object name, @Nullable File file) {
+-        Style gold = Style.EMPTY.applyFormat(ChatFormatting.GOLD);
++        Style gold = Style.EMPTY.applyFormat(TextFormatting.GOLD);
+ 
+         if (file == null) {
+-            StringUtils.addMessage(new TranslatableComponent(
++            StringUtils.addMessage(new TranslationTextComponent(
+                     "msg.block_renderer.render.success.nofile",
+                     name,
+                     StringUtils.asClickable(folder)
+             ).setStyle(gold));
+         } else {
+-            StringUtils.addMessage(new TranslatableComponent(
++            StringUtils.addMessage(new TranslationTextComponent(
+                     "msg.block_renderer.render.success",
+                     name,
+                     StringUtils.asClickable(folder),

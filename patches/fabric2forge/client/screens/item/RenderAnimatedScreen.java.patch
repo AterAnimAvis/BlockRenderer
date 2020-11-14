@@ -1,0 +1,58 @@
+--- a/client/screens/item/RenderAnimatedScreen.java
++++ b/client/screens/item/RenderAnimatedScreen.java
+@@ -1,25 +1,25 @@
+-package com.unascribed.blockrenderer.fabric.client.screens.item;
++package com.unascribed.blockrenderer.forge.client.screens.item;
+ 
+-import com.unascribed.blockrenderer.fabric.client.render.RenderManager;
+-import com.unascribed.blockrenderer.fabric.client.render.item.ItemRenderer;
+-import com.unascribed.blockrenderer.fabric.client.screens.widgets.HoverableCheckboxWidget;
+-import com.unascribed.blockrenderer.fabric.client.screens.widgets.HoverableTextFieldWidget;
+-import net.minecraft.client.gui.components.Button;
+-import net.minecraft.client.gui.components.Checkbox;
+-import net.minecraft.client.gui.components.EditBox;
+-import net.minecraft.client.gui.screens.Screen;
+-import net.minecraft.network.chat.TranslatableComponent;
+-import net.minecraft.world.item.ItemStack;
++import com.unascribed.blockrenderer.forge.client.render.RenderManager;
++import com.unascribed.blockrenderer.forge.client.render.item.ItemRenderer;
++import com.unascribed.blockrenderer.forge.client.screens.widgets.HoverableCheckboxWidget;
++import com.unascribed.blockrenderer.forge.client.screens.widgets.HoverableTextFieldWidget;
++import net.minecraft.client.gui.screen.Screen;
++import net.minecraft.client.gui.widget.TextFieldWidget;
++import net.minecraft.client.gui.widget.button.Button;
++import net.minecraft.client.gui.widget.button.CheckboxButton;
++import net.minecraft.item.ItemStack;
++import net.minecraft.util.text.TranslationTextComponent;
+ import org.jetbrains.annotations.Nullable;
+ 
+ @SuppressWarnings("NotNullFieldNotInitialized")
+ public class RenderAnimatedScreen extends EnterSizeScreen {
+ 
+-    private static final TranslatableComponent TITLE = new TranslatableComponent("block_renderer.gui.renderAnimated");
++    private static final TranslationTextComponent TITLE = new TranslationTextComponent("block_renderer.gui.renderAnimated");
+ 
+-    private Checkbox autoLoop;
++    private CheckboxButton autoLoop;
+ 
+-    private EditBox length;
++    private TextFieldWidget length;
+ 
+     private boolean isInteger;
+ 
+@@ -35,13 +35,13 @@
+ 
+         super.init();
+ 
+-        autoLoop = addButton(new HoverableCheckboxWidget(this, width / 2 + 2, height / 6 + 166, 98, 20, new TranslatableComponent("block_renderer.gui.loop"), new TranslatableComponent("block_renderer.gui.loop.tooltip"), false), enabled);
++        autoLoop = addButton(new HoverableCheckboxWidget(this, width / 2 + 2, height / 6 + 166, 98, 20, new TranslationTextComponent("block_renderer.gui.loop"), new TranslationTextComponent("block_renderer.gui.loop.tooltip"), false), enabled);
+ 
+         /* Note: This is the initializer, text can be null! */
+         @SuppressWarnings("ConstantConditions")
+         String prefill = (length == null ? "20" : length.getValue());
+ 
+-        length = addButton(new HoverableTextFieldWidget(this, minecraft.font, width / 2 - 100, height / 6 + 74, 200, 20, new TranslatableComponent("block_renderer.gui.animatedLength"), new TranslatableComponent("block_renderer.gui.animatedLength.tooltip")), enabled);
++        length = addButton(new HoverableTextFieldWidget(this, minecraft.font, width / 2 - 100, height / 6 + 74, 200, 20, new TranslationTextComponent("block_renderer.gui.animatedLength"), new TranslationTextComponent("block_renderer.gui.animatedLength.tooltip")), enabled);
+         length.setResponder((value) -> {
+             isInteger = false;
+             try {
