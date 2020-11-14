@@ -1,8 +1,0 @@
---- a/client/render/map/MapDecorations.java
-+++ b/client/render/map/MapDecorations.java
-@@ -1,4 +1,4 @@
--package com.unascribed.blockrenderer.fabric.client.render.map;
-+package com.unascribed.blockrenderer.forge.client.render.map;
- 
- import java.util.Locale;
- 

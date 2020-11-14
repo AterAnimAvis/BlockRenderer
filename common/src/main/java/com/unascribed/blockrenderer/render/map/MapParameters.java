@@ -1,4 +1,4 @@
-package com.unascribed.blockrenderer.forge.client.render.map;
+package com.unascribed.blockrenderer.render.map;
 
 public class MapParameters {
 

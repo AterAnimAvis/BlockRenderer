@@ -1,6 +1,6 @@
 --- a/client/render/map/MapRenderer.java
 +++ b/client/render/map/MapRenderer.java
-@@ -1,25 +1,24 @@
+@@ -1,7 +1,9 @@
 -package com.unascribed.blockrenderer.forge.client.render.map;
 +package com.unascribed.blockrenderer.fabric.client.render.map;
  
@@ -11,8 +11,9 @@
 +import com.mojang.blaze3d.vertex.Tesselator;
 +import com.unascribed.blockrenderer.fabric.client.varia.rendering.GL;
  import com.unascribed.blockrenderer.render.IRenderer;
- import com.unascribed.blockrenderer.render.request.lambda.ImageHandler;
- import com.unascribed.blockrenderer.varia.Images;
+ import com.unascribed.blockrenderer.render.map.MapDecorations;
+ import com.unascribed.blockrenderer.render.map.MapParameters;
+@@ -10,18 +12,15 @@
  import com.unascribed.blockrenderer.varia.Maths;
  import com.unascribed.blockrenderer.varia.debug.Debug;
  import com.unascribed.blockrenderer.varia.rendering.TileRenderer;
@@ -35,7 +36,7 @@
  
      private static final float MAP_SIZE = 128.0F;
  
-@@ -33,7 +32,7 @@
+@@ -35,7 +34,7 @@
  
          decorations = parameters.decorations;
  
@@ -44,7 +45,7 @@
          int displayWidth = window.getWidth();
          int displayHeight = window.getHeight();
  
-@@ -57,7 +56,7 @@
+@@ -59,7 +58,7 @@
      }
  
      @Override
@@ -53,7 +54,7 @@
          assert tr != null;
  
          Debug.endFrame();
-@@ -70,10 +69,10 @@
+@@ -72,10 +71,10 @@
          LongSupplier oldSupplier = Util.timeSource;
          Util.timeSource = () -> 0;
  
@@ -67,7 +68,7 @@
              renderer.update(instance);
  
              do {
-@@ -84,7 +83,7 @@
+@@ -86,7 +85,7 @@
                  GL.clearFrameBuffer();
  
                  /* Render (MatrixStack, Buffers, Data, RenderBorder, LightMap) */
