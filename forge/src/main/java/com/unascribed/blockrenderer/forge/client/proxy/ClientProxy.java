@@ -2,7 +2,7 @@ package com.unascribed.blockrenderer.forge.client.proxy;
 
 import com.unascribed.blockrenderer.forge.client.init.Keybindings;
 import com.unascribed.blockrenderer.forge.client.render.RenderManager;
-import com.unascribed.blockrenderer.forge.client.render.item.ItemRenderer;
+import com.unascribed.blockrenderer.forge.client.render.Requests;
 import com.unascribed.blockrenderer.forge.client.screens.SelectionScreen;
 import com.unascribed.blockrenderer.forge.client.screens.item.EnterSizeScreen;
 import com.unascribed.blockrenderer.forge.client.varia.Registries;
@@ -39,7 +39,7 @@ public class ClientProxy extends CommonProxy {
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onFrameStart(TickEvent.RenderTickEvent e) {
         if (e.phase != TickEvent.Phase.START) return;
-        
+
         onFrameStart();
     }
 
@@ -106,7 +106,7 @@ public class ClientProxy extends CommonProxy {
             return;
         }
 
-        RenderManager.push(ItemRenderer.single(stack, 512, false, false));
+        RenderManager.push(Requests.single(stack, 512, false, false));
     }
 
     private static boolean isKeyDown() {

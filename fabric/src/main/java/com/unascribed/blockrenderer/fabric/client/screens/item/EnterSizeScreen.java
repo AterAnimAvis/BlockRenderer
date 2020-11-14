@@ -1,7 +1,7 @@
 package com.unascribed.blockrenderer.fabric.client.screens.item;
 
 import com.unascribed.blockrenderer.fabric.client.render.RenderManager;
-import com.unascribed.blockrenderer.fabric.client.render.item.ItemRenderer;
+import com.unascribed.blockrenderer.fabric.client.render.Requests;
 import com.unascribed.blockrenderer.fabric.client.screens.widgets.HoverableTinyButtonWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
@@ -55,6 +55,6 @@ public class EnterSizeScreen extends BaseItemScreen {
         minecraft.setScreen(old);
         if (minecraft.level == null) return;
 
-        RenderManager.push(ItemRenderer.single(stack, round(size), useId.selected(), addSize.selected()));
+        RenderManager.push(Requests.single(stack, round(size), useId.selected(), addSize.selected()));
     }
 }

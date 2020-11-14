@@ -6,7 +6,7 @@
  
 -import com.unascribed.blockrenderer.forge.client.init.Keybindings;
 -import com.unascribed.blockrenderer.forge.client.render.RenderManager;
--import com.unascribed.blockrenderer.forge.client.render.item.ItemRenderer;
+-import com.unascribed.blockrenderer.forge.client.render.Requests;
 -import com.unascribed.blockrenderer.forge.client.screens.SelectionScreen;
 -import com.unascribed.blockrenderer.forge.client.screens.item.EnterSizeScreen;
 -import com.unascribed.blockrenderer.forge.client.varia.Registries;
@@ -15,7 +15,7 @@
 +import com.mojang.blaze3d.platform.InputConstants;
 +import com.unascribed.blockrenderer.fabric.client.init.Keybindings;
 +import com.unascribed.blockrenderer.fabric.client.render.RenderManager;
-+import com.unascribed.blockrenderer.fabric.client.render.item.ItemRenderer;
++import com.unascribed.blockrenderer.fabric.client.render.Requests;
 +import com.unascribed.blockrenderer.fabric.client.screens.SelectionScreen;
 +import com.unascribed.blockrenderer.fabric.client.screens.item.EnterSizeScreen;
 +import com.unascribed.blockrenderer.fabric.client.varia.StringUtils;
@@ -62,7 +62,7 @@
 -    @SubscribeEvent(priority = EventPriority.HIGHEST)
 -    public void onFrameStart(TickEvent.RenderTickEvent e) {
 -        if (e.phase != TickEvent.Phase.START) return;
--        
+-
 -        onFrameStart();
 -    }
 -

@@ -1,9 +1,8 @@
 package com.unascribed.blockrenderer.fabric.client.screens.item;
 
-
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.unascribed.blockrenderer.fabric.client.render.RenderManager;
-import com.unascribed.blockrenderer.fabric.client.render.item.ItemRenderer;
+import com.unascribed.blockrenderer.fabric.client.render.Requests;
 import com.unascribed.blockrenderer.fabric.client.screens.widgets.HoverableTinyButtonWidget;
 import com.unascribed.blockrenderer.fabric.client.varia.StringUtils;
 import net.minecraft.client.gui.components.Button;
@@ -120,6 +119,6 @@ public class EnterNamespaceScreen extends BaseItemScreen {
         minecraft.setScreen(old);
         if (minecraft.level == null) return;
 
-        RenderManager.push(ItemRenderer.bulk(text.getValue(), round(size), useId.selected(), addSize.selected()));
+        RenderManager.push(Requests.bulk(text.getValue(), round(size), useId.selected(), addSize.selected()));
     }
 }

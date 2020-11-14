@@ -3,7 +3,7 @@ package com.unascribed.blockrenderer.fabric.client.proxy;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.unascribed.blockrenderer.fabric.client.init.Keybindings;
 import com.unascribed.blockrenderer.fabric.client.render.RenderManager;
-import com.unascribed.blockrenderer.fabric.client.render.item.ItemRenderer;
+import com.unascribed.blockrenderer.fabric.client.render.Requests;
 import com.unascribed.blockrenderer.fabric.client.screens.SelectionScreen;
 import com.unascribed.blockrenderer.fabric.client.screens.item.EnterSizeScreen;
 import com.unascribed.blockrenderer.fabric.client.varia.StringUtils;
@@ -88,7 +88,7 @@ public class ClientProxy {
             return;
         }
 
-        RenderManager.push(ItemRenderer.single(stack, 512, false, false));
+        RenderManager.push(Requests.single(stack, 512, false, false));
     }
 
     private static boolean isKeyDown() {

@@ -1,14 +1,22 @@
---- a/client/render/item/ItemRenderer.java
-+++ b/client/render/item/ItemRenderer.java
-@@ -1,10 +1,10 @@
--package com.unascribed.blockrenderer.forge.client.render.item;
-+package com.unascribed.blockrenderer.fabric.client.render.item;
+--- a/client/render/Requests.java
++++ b/client/render/Requests.java
+@@ -1,14 +1,14 @@
+-package com.unascribed.blockrenderer.forge.client.render;
++package com.unascribed.blockrenderer.fabric.client.render;
  
  import com.google.common.base.Joiner;
+-import com.unascribed.blockrenderer.forge.client.render.item.BulkPngItemStackHandler;
+-import com.unascribed.blockrenderer.forge.client.render.item.DefaultGifItemStackHandler;
+-import com.unascribed.blockrenderer.forge.client.render.item.DefaultPngItemStackHandler;
+-import com.unascribed.blockrenderer.forge.client.render.item.ItemStackRenderer;
 -import com.unascribed.blockrenderer.forge.client.render.map.DefaultPngMapHandler;
 -import com.unascribed.blockrenderer.forge.client.render.map.MapRenderer;
 -import com.unascribed.blockrenderer.forge.client.varia.MiscUtils;
 -import com.unascribed.blockrenderer.forge.client.varia.StringUtils;
++import com.unascribed.blockrenderer.fabric.client.render.item.BulkPngItemStackHandler;
++import com.unascribed.blockrenderer.fabric.client.render.item.DefaultGifItemStackHandler;
++import com.unascribed.blockrenderer.fabric.client.render.item.DefaultPngItemStackHandler;
++import com.unascribed.blockrenderer.fabric.client.render.item.ItemStackRenderer;
 +import com.unascribed.blockrenderer.fabric.client.render.map.DefaultPngMapHandler;
 +import com.unascribed.blockrenderer.fabric.client.render.map.MapRenderer;
 +import com.unascribed.blockrenderer.fabric.client.varia.MiscUtils;
@@ -16,7 +24,7 @@
  import com.unascribed.blockrenderer.render.IRequest;
  import com.unascribed.blockrenderer.render.item.ItemStackParameters;
  import com.unascribed.blockrenderer.render.map.MapDecorations;
-@@ -13,8 +13,8 @@
+@@ -17,8 +17,8 @@
  import com.unascribed.blockrenderer.render.request.BulkRenderingRequest;
  import com.unascribed.blockrenderer.render.request.RenderingRequest;
  import com.unascribed.blockrenderer.varia.Files;
@@ -27,7 +35,7 @@
  
  import java.io.File;
  import java.util.List;
-@@ -34,7 +34,7 @@
+@@ -38,7 +38,7 @@
          );
      }
  

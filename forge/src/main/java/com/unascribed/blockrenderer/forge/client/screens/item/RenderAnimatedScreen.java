@@ -1,7 +1,7 @@
 package com.unascribed.blockrenderer.forge.client.screens.item;
 
 import com.unascribed.blockrenderer.forge.client.render.RenderManager;
-import com.unascribed.blockrenderer.forge.client.render.item.ItemRenderer;
+import com.unascribed.blockrenderer.forge.client.render.Requests;
 import com.unascribed.blockrenderer.forge.client.screens.widgets.HoverableCheckboxWidget;
 import com.unascribed.blockrenderer.forge.client.screens.widgets.HoverableTextFieldWidget;
 import net.minecraft.client.gui.screen.Screen;
@@ -88,7 +88,7 @@ public class RenderAnimatedScreen extends EnterSizeScreen {
         minecraft.setScreen(old);
         if (minecraft.level == null) return;
 
-        RenderManager.push(ItemRenderer.animated(stack, round(size), useId.selected(), addSize.selected(), Integer.parseInt(length.getValue()), autoLoop.selected()));
+        RenderManager.push(Requests.animated(stack, round(size), useId.selected(), addSize.selected(), Integer.parseInt(length.getValue()), autoLoop.selected()));
     }
 
 }

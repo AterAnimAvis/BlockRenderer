@@ -5,7 +5,7 @@
 +package com.unascribed.blockrenderer.fabric.client.screens.item;
  
 -import com.unascribed.blockrenderer.forge.client.render.RenderManager;
--import com.unascribed.blockrenderer.forge.client.render.item.ItemRenderer;
+-import com.unascribed.blockrenderer.forge.client.render.Requests;
 -import com.unascribed.blockrenderer.forge.client.screens.widgets.HoverableTinyButtonWidget;
 -import net.minecraft.client.gui.screen.Screen;
 -import net.minecraft.client.gui.widget.button.Button;
@@ -13,7 +13,7 @@
 -import net.minecraft.util.text.ITextComponent;
 -import net.minecraft.util.text.TranslationTextComponent;
 +import com.unascribed.blockrenderer.fabric.client.render.RenderManager;
-+import com.unascribed.blockrenderer.fabric.client.render.item.ItemRenderer;
++import com.unascribed.blockrenderer.fabric.client.render.Requests;
 +import com.unascribed.blockrenderer.fabric.client.screens.widgets.HoverableTinyButtonWidget;
 +import net.minecraft.client.gui.components.Button;
 +import net.minecraft.client.gui.screens.Screen;
