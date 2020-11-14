@@ -1,6 +1,6 @@
 --- a/client/proxy/ClientProxy.java
 +++ b/client/proxy/ClientProxy.java
-@@ -1,31 +1,45 @@
+@@ -1,30 +1,48 @@
 -package com.unascribed.blockrenderer.fabric.client.proxy;
 +package com.unascribed.blockrenderer.forge.client.proxy;
  
@@ -50,10 +50,8 @@
 -public class ClientProxy {
 +public class ClientProxy extends CommonProxy {
  
--    private static boolean down = false;
-+    private boolean down = false;
+     private static boolean down = false;
  
--    public static void onFrameStart() {
 +    @Override
 +    public void init() {
 +        MinecraftForge.EVENT_BUS.register(this);
@@ -64,11 +62,14 @@
 +    @SubscribeEvent(priority = EventPriority.HIGHEST)
 +    public void onFrameStart(TickEvent.RenderTickEvent e) {
 +        if (e.phase != TickEvent.Phase.START) return;
++        
++        onFrameStart();
++    }
 +
+     public static void onFrameStart() {
          RenderManager.onFrameStart();
  
-         if (!isKeyDown()) {
-@@ -39,13 +53,13 @@
+@@ -39,13 +57,13 @@
          Minecraft client = Minecraft.getInstance();
          Slot hovered = null;
          Screen currentScreen = client.screen;
@@ -85,7 +86,7 @@
  
              ItemStack input = hovered != null && hovered.hasItem() ? hovered.getItem() : null;
              if (input == null && player != null) input = player.getMainHandItem();
-@@ -55,25 +69,25 @@
+@@ -55,25 +73,25 @@
          }
  
          if (!isContainerScreen) {
@@ -115,7 +116,7 @@
              return;
          }
  
-@@ -105,26 +119,26 @@
+@@ -105,26 +123,26 @@
          if (currentScreen == null) return false;
  
          /* Non Containers seem to behave ok */
