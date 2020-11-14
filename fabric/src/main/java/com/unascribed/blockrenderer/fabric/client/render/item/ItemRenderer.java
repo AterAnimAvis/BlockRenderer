@@ -5,12 +5,12 @@ import com.unascribed.blockrenderer.fabric.client.render.map.DefaultPngMapHandle
 import com.unascribed.blockrenderer.fabric.client.render.map.MapDecorations;
 import com.unascribed.blockrenderer.fabric.client.render.map.MapParameters;
 import com.unascribed.blockrenderer.fabric.client.render.map.MapRenderer;
-import com.unascribed.blockrenderer.fabric.client.render.request.AnimatedRenderingRequest;
-import com.unascribed.blockrenderer.fabric.client.render.request.BulkRenderingRequest;
-import com.unascribed.blockrenderer.fabric.client.render.request.RenderingRequest;
 import com.unascribed.blockrenderer.fabric.client.varia.MiscUtils;
 import com.unascribed.blockrenderer.fabric.client.varia.StringUtils;
 import com.unascribed.blockrenderer.render.IRequest;
+import com.unascribed.blockrenderer.render.request.AnimatedRenderingRequest;
+import com.unascribed.blockrenderer.render.request.BulkRenderingRequest;
+import com.unascribed.blockrenderer.render.request.RenderingRequest;
 import com.unascribed.blockrenderer.varia.Files;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.saveddata.maps.MapItemSavedData;

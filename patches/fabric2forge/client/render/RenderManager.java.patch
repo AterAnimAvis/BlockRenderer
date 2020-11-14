@@ -7,9 +7,9 @@
 -import com.unascribed.blockrenderer.fabric.client.render.report.ProgressManager;
 +import com.unascribed.blockrenderer.forge.client.render.report.ProgressManager;
  import com.unascribed.blockrenderer.render.IAnimatedRenderer;
+ import com.unascribed.blockrenderer.render.IRenderManager;
  import com.unascribed.blockrenderer.render.IRenderer;
- import com.unascribed.blockrenderer.render.IRequest;
-@@ -10,9 +10,9 @@
+@@ -11,9 +11,9 @@
  import com.unascribed.blockrenderer.varia.gif.GifWriter;
  import com.unascribed.blockrenderer.varia.logging.Log;
  import com.unascribed.blockrenderer.varia.logging.Markers;
@@ -22,9 +22,9 @@
  import org.jetbrains.annotations.Nullable;
  
  import javax.imageio.stream.ImageOutputStream;
-@@ -28,9 +28,9 @@
+@@ -31,9 +31,9 @@
  
- public class RenderManager {
+     public static final IRenderManager INSTANCE = new RenderManager();
  
 -    private static final Function<String, Component> RENDERING_BULK = (name) -> new TranslatableComponent("block_renderer.render.bulk", name).withStyle(ChatFormatting.GOLD);
 -    private static final Component RENDERING_GIF = new TranslatableComponent("block_renderer.render.gif").withStyle(ChatFormatting.GOLD);
@@ -35,11 +35,3 @@
  
      private static final int AUTO_LOOP_LENGTH = 30;
  
-@@ -165,6 +165,7 @@
-         } finally {
-             renderer.teardown();
-         }
-+
-     }
- 
- }

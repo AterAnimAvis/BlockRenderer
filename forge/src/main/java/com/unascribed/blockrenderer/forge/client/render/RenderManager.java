@@ -2,6 +2,7 @@ package com.unascribed.blockrenderer.forge.client.render;
 
 import com.unascribed.blockrenderer.forge.client.render.report.ProgressManager;
 import com.unascribed.blockrenderer.render.IAnimatedRenderer;
+import com.unascribed.blockrenderer.render.IRenderManager;
 import com.unascribed.blockrenderer.render.IRenderer;
 import com.unascribed.blockrenderer.render.IRequest;
 import com.unascribed.blockrenderer.render.request.lambda.ImageHandler;
@@ -26,7 +27,9 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public class RenderManager {
+public class RenderManager implements IRenderManager {
+
+    public static final IRenderManager INSTANCE = new RenderManager();
 
     private static final Function<String, ITextComponent> RENDERING_BULK = (name) -> new TranslationTextComponent("block_renderer.render.bulk", name).withStyle(TextFormatting.GOLD);
     private static final ITextComponent RENDERING_GIF = new TranslationTextComponent("block_renderer.render.gif").withStyle(TextFormatting.GOLD);
@@ -53,8 +56,9 @@ public class RenderManager {
         isRendering = false;
     }
 
-    public static <S, T> void render(IRenderer<S, T> renderer, ImageHandler<T> handler,
-                                     S params, T value, Consumer<T> callback) {
+    @Override
+    public <S, T> void render(IRenderer<S, T> renderer, ImageHandler<T> handler,
+                              S params, T value, Consumer<T> callback) {
         isRendering = true;
 
         renderer.setup(params);
@@ -65,8 +69,9 @@ public class RenderManager {
         isRendering = false;
     }
 
-    public static <S, T> void bulk(IRenderer<S, T> renderer, ImageHandler<T> handler,
-                                   S params, String name, Collection<T> values) {
+    @Override
+    public <S, T> void bulk(IRenderer<S, T> renderer, ImageHandler<T> handler,
+                            S params, String name, Collection<T> values) {
         isRendering = true;
 
         renderer.setup(params);
@@ -86,13 +91,14 @@ public class RenderManager {
         isRendering = false;
     }
 
-    public static <S, T> void animated(IAnimatedRenderer<S, T> renderer,
-                                       Function<T, ImageOutputStream> provider,
-                                       Consumer<T> callback,
-                                       S params,
-                                       int length,
-                                       boolean loop,
-                                       T value) {
+    @Override
+    public <S, T> void animated(IAnimatedRenderer<S, T> renderer,
+                                Function<T, ImageOutputStream> provider,
+                                Consumer<T> callback,
+                                S params,
+                                int length,
+                                boolean loop,
+                                T value) {
         try {
             try (ImageOutputStream stream = provider.apply(value)) {
                 if (stream == null) return;
@@ -165,7 +171,6 @@ public class RenderManager {
         } finally {
             renderer.teardown();
         }
-
     }
 
 }
