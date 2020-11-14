@@ -1,18 +1,18 @@
 --- a/client/render/item/ItemStackRenderer.java
 +++ b/client/render/item/ItemStackRenderer.java
-@@ -1,18 +1,19 @@
+@@ -1,7 +1,8 @@
 -package com.unascribed.blockrenderer.forge.client.render.item;
 +package com.unascribed.blockrenderer.fabric.client.render.item;
  
 -import com.unascribed.blockrenderer.forge.client.varia.Identifiers;
 -import com.unascribed.blockrenderer.forge.client.varia.rendering.GL;
-+
 +import com.mojang.blaze3d.platform.Window;
 +import com.unascribed.blockrenderer.fabric.client.varia.Identifiers;
 +import com.unascribed.blockrenderer.fabric.client.varia.rendering.GL;
  import com.unascribed.blockrenderer.render.IAnimatedRenderer;
+ import com.unascribed.blockrenderer.render.item.ItemStackParameters;
  import com.unascribed.blockrenderer.render.request.lambda.ImageHandler;
- import com.unascribed.blockrenderer.varia.Images;
+@@ -9,11 +10,10 @@
  import com.unascribed.blockrenderer.varia.Maths;
  import com.unascribed.blockrenderer.varia.debug.Debug;
  import com.unascribed.blockrenderer.varia.rendering.TileRenderer;
@@ -27,7 +27,7 @@
  import org.jetbrains.annotations.Nullable;
  
  import java.util.function.LongSupplier;
-@@ -36,7 +37,7 @@
+@@ -37,7 +37,7 @@
      public void setup(ItemStackParameters parameters) {
          Debug.push("item/setup");
  
@@ -36,7 +36,7 @@
          int displayWidth = window.getWidth();
          int displayHeight = window.getHeight();
  
-@@ -80,7 +81,7 @@
+@@ -81,7 +81,7 @@
          LongSupplier oldSupplier = Util.timeSource;
          Util.timeSource = () -> nano;
  

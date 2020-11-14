@@ -3,6 +3,7 @@ package com.unascribed.blockrenderer.forge.client.render.item;
 import com.unascribed.blockrenderer.forge.client.varia.Identifiers;
 import com.unascribed.blockrenderer.forge.client.varia.rendering.GL;
 import com.unascribed.blockrenderer.render.IAnimatedRenderer;
+import com.unascribed.blockrenderer.render.item.ItemStackParameters;
 import com.unascribed.blockrenderer.render.request.lambda.ImageHandler;
 import com.unascribed.blockrenderer.varia.Images;
 import com.unascribed.blockrenderer.varia.Maths;

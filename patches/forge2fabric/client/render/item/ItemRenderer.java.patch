@@ -14,9 +14,9 @@
 +import com.unascribed.blockrenderer.fabric.client.varia.MiscUtils;
 +import com.unascribed.blockrenderer.fabric.client.varia.StringUtils;
  import com.unascribed.blockrenderer.render.IRequest;
+ import com.unascribed.blockrenderer.render.item.ItemStackParameters;
  import com.unascribed.blockrenderer.render.map.MapDecorations;
- import com.unascribed.blockrenderer.render.map.MapParameters;
-@@ -12,8 +12,8 @@
+@@ -13,8 +13,8 @@
  import com.unascribed.blockrenderer.render.request.BulkRenderingRequest;
  import com.unascribed.blockrenderer.render.request.RenderingRequest;
  import com.unascribed.blockrenderer.varia.Files;
@@ -27,7 +27,7 @@
  
  import java.io.File;
  import java.util.List;
-@@ -33,7 +33,7 @@
+@@ -34,7 +34,7 @@
          );
      }
  
