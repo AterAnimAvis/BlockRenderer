@@ -96,8 +96,8 @@ public class ProgressManager {
 
         GL.pushMatrix("progress/main");
 
-        int displayWidth = GL.window.getScaledWidth();
-        int displayHeight = GL.window.getScaledHeight();
+        int displayWidth = GL.window.getGuiScaledWidth();
+        int displayHeight = GL.window.getGuiScaledHeight();
         GL.setupOverlayRendering();
 
         // Draw the dirt background

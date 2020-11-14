@@ -39,7 +39,7 @@ public interface StringUtils {
     }
 
     static void addMessage(ITextComponent text) {
-        Minecraft.getInstance().ingameGUI.getChatGUI().printChatMessage(text);
+        Minecraft.getInstance().gui.getChat().addMessage(text);
     }
 
     static String dateTime() {
@@ -75,8 +75,8 @@ public interface StringUtils {
 
         component.setStyle(
                 component.getStyle()
-                        .setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslationTextComponent("block_renderer.file.tooltip")))
-                        .setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, path))
+                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslationTextComponent("block_renderer.file.tooltip")))
+                        .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, path))
                         .setUnderlined(true)
         );
 

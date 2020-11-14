@@ -52,7 +52,7 @@ public class ClientProxy extends CommonProxy {
 
         Minecraft client = Minecraft.getInstance();
         Slot hovered = null;
-        Screen currentScreen = client.currentScreen;
+        Screen currentScreen = client.screen;
         boolean isContainerScreen = currentScreen instanceof ContainerScreen<?>;
 
         // Intellij Bork-ing wants explicit null check.
@@ -61,18 +61,18 @@ public class ClientProxy extends CommonProxy {
         if (Screen.hasControlDown()) {
             PlayerEntity player = client.player;
 
-            ItemStack input = hovered != null && hovered.getHasStack() ? hovered.getStack() : null;
-            if (input == null && player != null) input = player.getHeldItemMainhand();
+            ItemStack input = hovered != null && hovered.hasItem() ? hovered.getItem() : null;
+            if (input == null && player != null) input = player.getMainHandItem();
 
-            client.displayGuiScreen(new SelectionScreen(client.currentScreen, input));
+            client.setScreen(new SelectionScreen(client.screen, input));
             return;
         }
 
         if (!isContainerScreen) {
             PlayerEntity player = client.player;
 
-            if (player != null && !player.getHeldItemMainhand().isEmpty()) {
-                renderStack(player.getHeldItemMainhand());
+            if (player != null && !player.getMainHandItem().isEmpty()) {
+                renderStack(player.getMainHandItem());
                 return;
             }
             StringUtils.addMessage(new TranslationTextComponent("msg.block_renderer.notContainer"));
@@ -84,7 +84,7 @@ public class ClientProxy extends CommonProxy {
             return;
         }
 
-        ItemStack stack = hovered.getStack();
+        ItemStack stack = hovered.getItem();
 
         if (stack.isEmpty()) {
             StringUtils.addMessage(new TranslationTextComponent("msg.block_renderer.slot.empty"));
@@ -98,7 +98,7 @@ public class ClientProxy extends CommonProxy {
         Minecraft client = Minecraft.getInstance();
 
         if (Screen.hasShiftDown()) {
-            client.displayGuiScreen(new EnterSizeScreen(client.currentScreen, stack));
+            client.setScreen(new EnterSizeScreen(client.screen, stack));
             return;
         }
 
@@ -107,13 +107,13 @@ public class ClientProxy extends CommonProxy {
 
     private static boolean isKeyDown() {
         Minecraft client = Minecraft.getInstance();
-        Screen currentScreen = client.currentScreen;
+        Screen currentScreen = client.screen;
 
         /* Unbound key */
-        if (Keybindings.render.isInvalid()) return false;
+        if (Keybindings.render.isUnbound()) return false;
 
         /* Has the Keybinding been triggered? */
-        if (Keybindings.render.isPressed()) return true;
+        if (Keybindings.render.isDown()) return true;
 
         /* Not in Screen so we should be ok */
         if (currentScreen == null) return false;
@@ -123,11 +123,11 @@ public class ClientProxy extends CommonProxy {
         if (!hasSlots) return false;
 
         /* TextFieldWidgets */
-        if (currentScreen.getListener() instanceof TextFieldWidget) return false;
+        if (currentScreen.getFocused() instanceof TextFieldWidget) return false;
 
         /* Recipe Books */
         if (currentScreen instanceof IRecipeShownListener) {
-            RecipeBookGui recipeBook = ((IRecipeShownListener) currentScreen).getRecipeGui();
+            RecipeBookGui recipeBook = ((IRecipeShownListener) currentScreen).getRecipeBookComponent();
             if (recipeBook.isVisible()) return false;
         }
 
@@ -135,10 +135,10 @@ public class ClientProxy extends CommonProxy {
         InputMappings.Input key = Keybindings.render.getKey();
 
         if (key.getType() == InputMappings.Type.MOUSE) {
-            return GLFW.glfwGetMouseButton(client.getMainWindow().getHandle(), key.getKeyCode()) == GLFW.GLFW_PRESS;
+            return GLFW.glfwGetMouseButton(client.getWindow().getWindow(), key.getValue()) == GLFW.GLFW_PRESS;
         }
 
-        return InputMappings.isKeyDown(client.getMainWindow().getHandle(), key.getKeyCode());
+        return InputMappings.isKeyDown(client.getWindow().getWindow(), key.getValue());
     }
 
 }

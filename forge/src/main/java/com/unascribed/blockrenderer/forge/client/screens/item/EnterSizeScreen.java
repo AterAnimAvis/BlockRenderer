@@ -43,7 +43,7 @@ public class EnterSizeScreen extends BaseItemScreen {
                         height - 32,
                         new TranslationTextComponent("block_renderer.gui.switch.bulk"),
                         new TranslationTextComponent("block_renderer.gui.switch.bulk.tooltip"),
-                        button -> minecraft.displayGuiScreen(new EnterNamespaceScreen(old, stack))),
+                        button -> minecraft.setScreen(new EnterNamespaceScreen(old, stack))),
                 enableSwitch
         );
     }
@@ -52,9 +52,9 @@ public class EnterSizeScreen extends BaseItemScreen {
     public void onRender(Button button) {
         assert minecraft != null;
 
-        minecraft.displayGuiScreen(old);
-        if (minecraft.world == null) return;
+        minecraft.setScreen(old);
+        if (minecraft.level == null) return;
 
-        RenderManager.push(ItemRenderer.single(stack, round(size), useId.isChecked(), addSize.isChecked()));
+        RenderManager.push(ItemRenderer.single(stack, round(size), useId.selected(), addSize.selected()));
     }
 }

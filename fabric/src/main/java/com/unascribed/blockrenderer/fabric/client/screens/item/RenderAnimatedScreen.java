@@ -52,7 +52,7 @@ public class RenderAnimatedScreen extends EnterSizeScreen {
         });
         length.setValue(prefill);
         length.setCanLoseFocus(false);
-        setFocused(length);
+        setInitialFocus(length);
     }
 
     @Override

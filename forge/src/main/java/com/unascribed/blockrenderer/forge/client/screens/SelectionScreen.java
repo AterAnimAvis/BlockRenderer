@@ -45,7 +45,7 @@ public class SelectionScreen extends Screen {
                 new TranslationTextComponent("block_renderer.gui.choose.map.tooltip"),
                 button -> {
                     assert stack != null;
-                    minecraft.displayGuiScreen(new RenderMapScreen(old, stack));
+                    minecraft.setScreen(new RenderMapScreen(old, stack));
                 }
         )).active = stack != null && Objects.equals(stack.getItem().getRegistryName(), new ResourceLocation("minecraft:filled_map"));
 
@@ -57,7 +57,7 @@ public class SelectionScreen extends Screen {
                 height / 2,
                 new TranslationTextComponent("block_renderer.gui.choose.item"),
                 new TranslationTextComponent("block_renderer.gui.choose.item.tooltip"),
-                button -> minecraft.displayGuiScreen(new EnterNamespaceScreen(old, stack))
+                button -> minecraft.setScreen(new EnterNamespaceScreen(old, stack))
         ));
 
         addButton(new ItemButtonWidget(
@@ -70,7 +70,7 @@ public class SelectionScreen extends Screen {
                 new TranslationTextComponent("block_renderer.gui.choose.animated.tooltip"),
                 button -> {
                     assert stack != null;
-                    minecraft.displayGuiScreen(new RenderAnimatedScreen(old, stack));
+                    minecraft.setScreen(new RenderAnimatedScreen(old, stack));
                 }
         )).active = stack != null;
     }
@@ -83,14 +83,14 @@ public class SelectionScreen extends Screen {
 
         super.render(stack, mouseX, mouseY, partialTicks);
 
-        drawCenteredString(stack, minecraft.fontRenderer, title, width / 2, height / 6, -1);
+        drawCenteredString(stack, minecraft.font, title, width / 2, height / 6, -1);
     }
 
     @Override
-    public void closeScreen() {
+    public void onClose() {
         assert minecraft != null;
 
-        minecraft.displayGuiScreen(old);
+        minecraft.setScreen(old);
     }
 
 }

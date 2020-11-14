@@ -61,7 +61,7 @@ public class ItemStackRenderer implements IAnimatedRenderer<ItemStackParameters,
         /* Save old blitOffset so we can reset it */
         blitOffset = renderer.blitOffset;
 
-        /* Modify zOffset */
+        /* Modify blitOffset */
         renderer.blitOffset = -BASE_Z_LEVEL / 2f;
 
         Debug.pop();
@@ -110,7 +110,7 @@ public class ItemStackRenderer implements IAnimatedRenderer<ItemStackParameters,
     public void teardown() {
         Debug.push("item/teardown");
 
-        /* Reset zOffset */
+        /* Reset blitOffset */
         renderer.blitOffset = blitOffset;
 
         /* Pop Stack */

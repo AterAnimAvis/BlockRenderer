@@ -28,9 +28,9 @@ import java.util.function.Function;
 
 public class RenderManager {
 
-    private static final Function<String, ITextComponent> RENDERING_BULK = (name) -> new TranslationTextComponent("block_renderer.render.bulk", name).mergeStyle(TextFormatting.GOLD);
-    private static final ITextComponent RENDERING_GIF = new TranslationTextComponent("block_renderer.render.gif").mergeStyle(TextFormatting.GOLD);
-    private static final ITextComponent RENDERING_AUTO = new TranslationTextComponent("block_renderer.render.auto_loop").mergeStyle(TextFormatting.GOLD);
+    private static final Function<String, ITextComponent> RENDERING_BULK = (name) -> new TranslationTextComponent("block_renderer.render.bulk", name).withStyle(TextFormatting.GOLD);
+    private static final ITextComponent RENDERING_GIF = new TranslationTextComponent("block_renderer.render.gif").withStyle(TextFormatting.GOLD);
+    private static final ITextComponent RENDERING_AUTO = new TranslationTextComponent("block_renderer.render.auto_loop").withStyle(TextFormatting.GOLD);
 
     private static final int AUTO_LOOP_LENGTH = 30;
 

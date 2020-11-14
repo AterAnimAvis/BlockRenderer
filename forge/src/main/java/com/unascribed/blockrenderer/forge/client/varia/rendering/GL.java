@@ -17,7 +17,7 @@ import static org.lwjgl.opengl.GL11.*;
 public interface GL {
 
     Minecraft client = Minecraft.getInstance();
-    MainWindow window = client.getMainWindow();
+    MainWindow window = client.getWindow();
 
     /* ================================================================================================== Matrix ==== */
 
@@ -63,11 +63,11 @@ public interface GL {
     /* ================================================================================================ Lighting ==== */
 
     static void setupItemStackLighting() {
-        RenderHelper.setupGui3DDiffuseLighting();
+        RenderHelper.setupFor3DItems();
     }
 
     static void displayLighting() {
-        RenderHelper.disableStandardItemLighting();
+        RenderHelper.setupForFlatItems();
     }
 
     /* =================================================================================================== State ==== */
@@ -98,25 +98,25 @@ public interface GL {
     }
 
     static void clearColorBuffer() {
-        RenderSystem.clear(GL11.GL_COLOR_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC);
+        RenderSystem.clear(GL11.GL_COLOR_BUFFER_BIT, Minecraft.ON_OSX);
     }
 
     static void clearDepthBuffer() {
-        RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC);
+        RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, Minecraft.ON_OSX);
     }
 
     /* ================================================================================================== Window ==== */
 
     static void unbindFBO() {
-        client.getFramebuffer().unbindFramebuffer();
+        client.getMainRenderTarget().unbindWrite();
     }
 
     static void flipFrame() {
-        window.flipFrame();
+        window.updateDisplay();
     }
 
     static void rebindFBO() {
-        client.getFramebuffer().bindFramebuffer(false);
+        client.getMainRenderTarget().bindWrite(false);
     }
 
     /* ============================================================================================= Projections ==== */
@@ -166,14 +166,13 @@ public interface GL {
 
     static void setupOverlayRendering() {
         Minecraft client = Minecraft.getInstance();
-        MainWindow window = client.getMainWindow();
-        double scaleFactor = window.getGuiScaleFactor();
+        MainWindow window = client.getWindow();
+        double scaleFactor = window.getGuiScale();
 
-        RenderSystem.clear(GL_DEPTH_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC);
+        RenderSystem.clear(GL_DEPTH_BUFFER_BIT, Minecraft.ON_OSX);
         RenderSystem.matrixMode(GL_PROJECTION);
         RenderSystem.loadIdentity();
-        RenderSystem.ortho(0.0D, window.getFramebufferWidth() / scaleFactor,
-                window.getFramebufferHeight() / scaleFactor, 0.0D, 1000.0D, 3000.0D);
+        RenderSystem.ortho(0.0D, window.getWidth() / scaleFactor, window.getHeight() / scaleFactor, 0.0D, 1000.0D, 3000.0D);
         RenderSystem.matrixMode(GL_MODELVIEW);
         RenderSystem.loadIdentity();
         RenderSystem.translatef(0.0F, 0.0F, -2000.0F);

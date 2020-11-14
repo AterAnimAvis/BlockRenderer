@@ -30,7 +30,7 @@ public class RenderAnimatedScreen extends EnterSizeScreen {
     @Override
     public void init() {
         assert minecraft != null;
-        minecraft.keyboardListener.enableRepeatEvents(true);
+        minecraft.keyboardHandler.setSendRepeatsToGui(true);
         boolean enabled = enabled();
 
         super.init();
@@ -39,9 +39,9 @@ public class RenderAnimatedScreen extends EnterSizeScreen {
 
         /* Note: This is the initializer, text can be null! */
         @SuppressWarnings("ConstantConditions")
-        String prefill = (length == null ? "20" : length.getText());
+        String prefill = (length == null ? "20" : length.getValue());
 
-        length = addButton(new HoverableTextFieldWidget(this, minecraft.fontRenderer, width / 2 - 100, height / 6 + 74, 200, 20, new TranslationTextComponent("block_renderer.gui.animatedLength"), new TranslationTextComponent("block_renderer.gui.animatedLength.tooltip")), enabled);
+        length = addButton(new HoverableTextFieldWidget(this, minecraft.font, width / 2 - 100, height / 6 + 74, 200, 20, new TranslationTextComponent("block_renderer.gui.animatedLength"), new TranslationTextComponent("block_renderer.gui.animatedLength.tooltip")), enabled);
         length.setResponder((value) -> {
             isInteger = false;
             try {
@@ -50,9 +50,9 @@ public class RenderAnimatedScreen extends EnterSizeScreen {
             } catch (NumberFormatException ignore) {
             }
         });
-        length.setText(prefill);
+        length.setValue(prefill);
         length.setCanLoseFocus(false);
-        setFocusedDefault(length);
+        setInitialFocus(length);
     }
 
     @Override
@@ -65,7 +65,7 @@ public class RenderAnimatedScreen extends EnterSizeScreen {
     @Override
     public void onClose() {
         assert minecraft != null;
-        minecraft.keyboardListener.enableRepeatEvents(false);
+        minecraft.keyboardHandler.setSendRepeatsToGui(false);
     }
 
     @Override
@@ -85,10 +85,10 @@ public class RenderAnimatedScreen extends EnterSizeScreen {
     public void onRender(Button button) {
         assert minecraft != null;
 
-        minecraft.displayGuiScreen(old);
-        if (minecraft.world == null) return;
+        minecraft.setScreen(old);
+        if (minecraft.level == null) return;
 
-        RenderManager.push(ItemRenderer.animated(stack, round(size), useId.isChecked(), addSize.isChecked(), Integer.parseInt(length.getText()), autoLoop.isChecked()));
+        RenderManager.push(ItemRenderer.animated(stack, round(size), useId.selected(), addSize.selected(), Integer.parseInt(length.getValue()), autoLoop.selected()));
     }
 
 }

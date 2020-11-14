@@ -56,7 +56,7 @@ public class EnterNamespaceScreen extends BaseItemScreen {
         text.setResponder((value) -> emptySpec = value.trim().isEmpty());
         text.setValue(oldText);
         text.setCanLoseFocus(false);
-        setFocused(text);
+        setInitialFocus(text);
 
         if (stack != null) {
             addButton(new HoverableTinyButtonWidget(

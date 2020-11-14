@@ -43,19 +43,19 @@ public class EnterNamespaceScreen extends BaseItemScreen {
     @Override
     public void init() {
         assert minecraft != null;
-        minecraft.keyboardListener.enableRepeatEvents(true);
+        minecraft.keyboardHandler.setSendRepeatsToGui(true);
 
         boolean enabled = enabled();
 
         /* Note: This is the initializer, text can be null! */
         @SuppressWarnings("ConstantConditions")
-        String oldText = (text == null ? prefill : text.getText());
+        String oldText = (text == null ? prefill : text.getValue());
 
-        text = addButton(new TextFieldWidget(minecraft.fontRenderer, width / 2 - 100, height / 6 + 50, 200, 20, new TranslationTextComponent("block_renderer.gui.namespace")), enabled);
+        text = addButton(new TextFieldWidget(minecraft.font, width / 2 - 100, height / 6 + 50, 200, 20, new TranslationTextComponent("block_renderer.gui.namespace")), enabled);
         text.setResponder((value) -> emptySpec = value.trim().isEmpty());
-        text.setText(oldText);
+        text.setValue(oldText);
         text.setCanLoseFocus(false);
-        setFocusedDefault(text);
+        setInitialFocus(text);
 
         if (stack != null) {
             addButton(new HoverableTinyButtonWidget(
@@ -64,7 +64,7 @@ public class EnterNamespaceScreen extends BaseItemScreen {
                     height - 32,
                     new TranslationTextComponent("block_renderer.gui.switch.single"),
                     new TranslationTextComponent("block_renderer.gui.switch.single.tooltip"),
-                    button -> minecraft.displayGuiScreen(new EnterSizeScreen(old, stack)))
+                    button -> minecraft.setScreen(new EnterSizeScreen(old, stack)))
             );
         }
 
@@ -83,7 +83,7 @@ public class EnterNamespaceScreen extends BaseItemScreen {
     @Override
     public void onClose() {
         assert minecraft != null;
-        minecraft.keyboardListener.enableRepeatEvents(false);
+        minecraft.keyboardHandler.setSendRepeatsToGui(false);
     }
 
     @Override
@@ -107,7 +107,7 @@ public class EnterNamespaceScreen extends BaseItemScreen {
 
         if (!emptySpec) return;
 
-        drawCenteredString(stack, minecraft.fontRenderer, new TranslationTextComponent("block_renderer.gui.emptySpec"), width / 2, height / 6 + 30, 0xFF5555);
+        drawCenteredString(stack, minecraft.font, new TranslationTextComponent("block_renderer.gui.emptySpec"), width / 2, height / 6 + 30, 0xFF5555);
     }
 
     @Override
@@ -116,9 +116,9 @@ public class EnterNamespaceScreen extends BaseItemScreen {
 
         if (!renderButton.visible) return;
 
-        minecraft.displayGuiScreen(old);
-        if (minecraft.world == null) return;
+        minecraft.setScreen(old);
+        if (minecraft.level == null) return;
 
-        RenderManager.push(ItemRenderer.bulk(text.getText(), round(size), useId.isChecked(), addSize.isChecked()));
+        RenderManager.push(ItemRenderer.bulk(text.getValue(), round(size), useId.selected(), addSize.selected()));
     }
 }

@@ -14,13 +14,9 @@ public class UpdateableSliderWidget extends OptionSlider {
     }
 
     public void update(double desired) {
-        sliderValue = option.normalizeValue(desired);
-
-        /* mcp: applyValue */
-        func_230972_a_();
-
-        /* mcp: updateMessage */
-        func_230979_b_();
+        value = option.toPct(desired);
+        applyValue();
+        updateMessage();
     }
 
 }

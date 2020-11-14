@@ -32,7 +32,7 @@ public class HoverableTinyButtonWidget extends Button {
     public void renderButton(MatrixStack stack, int mouseX, int mouseY, float partialTicks) {
         int i = this.getYImage(this.isHovered());
         Minecraft minecraft = Minecraft.getInstance();
-        minecraft.getTextureManager().bindTexture(WIDGETS_LOCATION);
+        minecraft.getTextureManager().bind(WIDGETS_LOCATION);
 
         GL.color(1.0F, 1.0F, 1.0F, alpha);
         GL.enableDefaultBlend();

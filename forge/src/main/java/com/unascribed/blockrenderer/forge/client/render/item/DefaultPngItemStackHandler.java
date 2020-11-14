@@ -31,8 +31,8 @@ public class DefaultPngItemStackHandler extends BaseItemStackHandler implements 
     @Override
     public void run() {
         Style open = Style.EMPTY
-                .applyFormatting(TextFormatting.GOLD)
-                .setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, folder.getAbsolutePath()));
+                .applyFormat(TextFormatting.GOLD)
+                .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, folder.getAbsolutePath()));
 
         StringUtils.addMessage(new StringTextComponent("> Finished Rendering").setStyle(open));
     }

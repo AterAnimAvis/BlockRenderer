@@ -37,19 +37,19 @@ public abstract class BaseScreen extends Screen {
     protected void init() {
         assert minecraft != null;
         boolean enabled = enabled();
-        addButton(new Button(width / 2 - 100, height / 6 + 120, 98, 20, new TranslationTextComponent("gui.cancel"), button -> minecraft.displayGuiScreen(old)));
+        addButton(new Button(width / 2 - 100, height / 6 + 120, 98, 20, new TranslationTextComponent("gui.cancel"), button -> minecraft.setScreen(old)));
 
         renderButton = addButton(new Button(width / 2 + 2, height / 6 + 120, 98, 20, new TranslationTextComponent("block_renderer.gui.render"), this::onRender), enabled);
 
         size = MathHelper.clamp(size, getMinSize(), getMaxSize());
 
         ExtendedSliderPercentageOption option = new ExtendedSliderPercentageOption("block_renderer.gui.renderSize", getMinSize(), getMaxSize(), 1, (settings) -> size, (settings, value) -> size = round(value), this::getSliderDisplay);
-        slider = addButton(new UpdateableSliderWidget(minecraft.gameSettings, width / 2 - 100, height / 6 + 80, 200, 20, option), enabled);
+        slider = addButton(new UpdateableSliderWidget(minecraft.options, width / 2 - 100, height / 6 + 80, 200, 20, option), enabled);
     }
 
     protected boolean enabled() {
         assert minecraft != null;
-        return minecraft.world != null;
+        return minecraft.level != null;
     }
 
     protected int getMinSize() {
@@ -86,22 +86,22 @@ public abstract class BaseScreen extends Screen {
 
         super.render(stack, mouseX, mouseY, partialTicks);
 
-        drawCenteredString(stack, minecraft.fontRenderer, title, width / 2, height / 6, -1);
+        drawCenteredString(stack, minecraft.font, title, width / 2, height / 6, -1);
 
         for (Widget widget : buttons)
             if (widget.isHovered())
                 widget.renderToolTip(stack, mouseX, mouseY);
 
-        if (minecraft.world != null) return;
+        if (minecraft.level != null) return;
 
-        drawCenteredString(stack, minecraft.fontRenderer, new TranslationTextComponent("block_renderer.gui.noWorld"), width / 2, height / 6 + 30, 0xFF5555);
+        drawCenteredString(stack, minecraft.font, new TranslationTextComponent("block_renderer.gui.noWorld"), width / 2, height / 6 + 30, 0xFF5555);
     }
 
     protected abstract void onRender(Button button);
 
     public ITextComponent getSliderDisplay(GameSettings settings, ExtendedSliderPercentageOption option) {
         int px = round(size);
-        return option.getDisplayPrefix().copyRaw().appendString(": " + px + "x" + px);
+        return option.getDisplayPrefix().copy().append(": " + px + "x" + px);
     }
 
     protected <T extends Widget> T addButton(T button, boolean active) {
@@ -114,10 +114,10 @@ public abstract class BaseScreen extends Screen {
     }
 
     @Override
-    public void closeScreen() {
+    public void onClose() {
         assert minecraft != null;
 
-        minecraft.displayGuiScreen(old);
+        minecraft.setScreen(old);
     }
 
 }

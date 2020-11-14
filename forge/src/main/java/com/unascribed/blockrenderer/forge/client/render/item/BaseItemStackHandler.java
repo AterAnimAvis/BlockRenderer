@@ -40,7 +40,7 @@ public class BaseItemStackHandler implements Consumer<ItemStack> {
     }
 
     protected void report(Object name, @Nullable File file) {
-        Style gold = Style.EMPTY.applyFormatting(TextFormatting.GOLD);
+        Style gold = Style.EMPTY.applyFormat(TextFormatting.GOLD);
 
         if (file == null) {
             StringUtils.addMessage(new TranslationTextComponent(
