@@ -21,8 +21,16 @@ public interface Display {
 
     };
 
+    static void drawRect(int x1, int y1, int x2, int y2, int color) {
+        drawRect(new PoseStack(), x1, y1, x2, y2, color);
+    }
+
     static void drawRect(PoseStack stack, int x1, int y1, int x2, int y2, int color) {
         GuiComponent.fill(stack, x1, y1, x2, y2, color);
+    }
+
+    static void drawCenteredString(Component component, int x, int y, int color) {
+        drawCenteredString(new PoseStack(), component, x, y, color);
     }
 
     static void drawCenteredString(PoseStack stack, Component component, int x, int y, int color) {

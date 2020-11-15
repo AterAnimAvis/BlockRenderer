@@ -1,13 +1,11 @@
 --- a/client/render/report/Reporter.java
 +++ b/client/render/report/Reporter.java
-@@ -1,16 +1,16 @@
+@@ -1,15 +1,15 @@
 -package com.unascribed.blockrenderer.forge.client.render.report;
 +package com.unascribed.blockrenderer.fabric.client.render.report;
  
--import com.mojang.blaze3d.matrix.MatrixStack;
 -import com.unascribed.blockrenderer.forge.client.varia.rendering.Display;
 -import com.unascribed.blockrenderer.forge.client.varia.rendering.GL;
-+import com.mojang.blaze3d.vertex.PoseStack;
 +import com.unascribed.blockrenderer.fabric.client.varia.rendering.Display;
 +import com.unascribed.blockrenderer.fabric.client.varia.rendering.GL;
  import com.unascribed.blockrenderer.render.report.BaseReporter;
@@ -24,7 +22,7 @@
  
      private static final int DARK_GREEN = 0xFF001100;
      private static final int LIGHT_GREEN = 0xFF55FF55;
-@@ -20,7 +20,7 @@
+@@ -19,7 +19,7 @@
      private static long lastRender = System.nanoTime();
  
      private Reporter() {
@@ -33,7 +31,7 @@
      }
  
      @Override
-@@ -34,8 +34,8 @@
+@@ -33,8 +33,8 @@
      }
  
      @Override
@@ -44,32 +42,3 @@
      }
  
      @Override
-@@ -58,7 +58,7 @@
-         Display.drawDirtBackground(displayWidth, displayHeight);
- 
-         // ...and the title
--        Display.drawCenteredString(new MatrixStack(), title, displayWidth / 2, displayHeight / 2 - 24, -1);
-+        Display.drawCenteredString(new PoseStack(), title, displayWidth / 2, displayHeight / 2 - 24, -1);
- 
-         // ...and the progress bar
-         renderProgressBar(displayWidth, displayHeight);
-@@ -69,7 +69,7 @@
-             GL.scale(0.5f, 0.5f, 1);
- 
-             // ...and the subtitle
--            Display.drawCenteredString(new MatrixStack(), message, displayWidth, displayHeight - 20, -1);
-+            Display.drawCenteredString(new PoseStack(), message, displayWidth, displayHeight - 20, -1);
- 
-             GL.popMatrix("progress/message");
-         }
-@@ -88,8 +88,8 @@
-         int hw = displayWidth / 2;
-         int hh = displayHeight / 2;
- 
--        Display.drawRect(new MatrixStack(), hw - 50, hh - 1, hw + 50, hh + 1, DARK_GREEN);
--        Display.drawRect(new MatrixStack(), hw - 50, hh - 1, hw - 50 + progress, hh + 1, LIGHT_GREEN);
-+        Display.drawRect(new PoseStack(), hw - 50, hh - 1, hw + 50, hh + 1, DARK_GREEN);
-+        Display.drawRect(new PoseStack(), hw - 50, hh - 1, hw - 50 + progress, hh + 1, LIGHT_GREEN);
-     }
- 
- }

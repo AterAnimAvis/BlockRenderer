@@ -18,8 +18,16 @@ public interface Display {
     Minecraft client = Minecraft.getInstance();
     FontRenderer font = client.font;
 
+    static void drawRect(int x1, int y1, int x2, int y2, int color) {
+        drawRect(new MatrixStack(), x1, y1, x2, y2, color);
+    }
+
     static void drawRect(MatrixStack stack, int x1, int y1, int x2, int y2, int color) {
         AbstractGui.fill(stack, x1, y1, x2, y2, color);
+    }
+
+    static void drawCenteredString(ITextComponent component, int x, int y, int color) {
+        drawCenteredString(new MatrixStack(), component, x, y, color);
     }
 
     static void drawCenteredString(MatrixStack stack, ITextComponent component, int x, int y, int color) {
@@ -28,10 +36,6 @@ public interface Display {
 
     static void drawCenteredString(MatrixStack stack, String str, int x, int y, int color) {
         font.drawShadow(stack, str, x - font.width(str) / 2F, y, color);
-    }
-
-    static void drawHoveringText(MatrixStack stack, List<ITextComponent> tooltip, int x, int y, int width, int height) {
-        GuiUtils.drawHoveringText(stack, tooltip, x, y, width, height, -1, font);
     }
 
     static void renderTooltip(Screen owner, MatrixStack stack, List<ITextComponent> tooltip, int x, int y) {
