@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
+import com.unascribed.blockrenderer.varia.rendering.DisplayI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
@@ -15,40 +16,45 @@ import java.util.List;
 
 import static com.unascribed.blockrenderer.Interop.GL;
 
-public interface Display {
+public class Display implements DisplayI<Component> {
 
-    Minecraft client = Minecraft.getInstance();
-    Font font = client.font;
-    Screen helper = new Screen(new TextComponent("DUMMY")) {
+    public static final Display INSTANCE = new Display();
+
+    private static final Minecraft client = Minecraft.getInstance();
+    private static final Font font = client.font;
+    private static final Screen helper = new Screen(new TextComponent("DUMMY")) {
 
     };
 
-    static void drawRect(int x1, int y1, int x2, int y2, int color) {
+    @Override
+    public void drawRect(int x1, int y1, int x2, int y2, int color) {
         drawRect(new PoseStack(), x1, y1, x2, y2, color);
     }
 
-    static void drawRect(PoseStack stack, int x1, int y1, int x2, int y2, int color) {
+    public static void drawRect(PoseStack stack, int x1, int y1, int x2, int y2, int color) {
         GuiComponent.fill(stack, x1, y1, x2, y2, color);
     }
 
-    static void drawCenteredString(Component component, int x, int y, int color) {
+    @Override
+    public void drawCenteredString(Component component, int x, int y, int color) {
         drawCenteredString(new PoseStack(), component, x, y, color);
     }
 
-    static void drawCenteredString(PoseStack stack, Component component, int x, int y, int color) {
+    public static void drawCenteredString(PoseStack stack, Component component, int x, int y, int color) {
         drawCenteredString(stack, component.getString(), x, y, color);
     }
 
-    static void drawCenteredString(PoseStack stack, String str, int x, int y, int color) {
+    public static void drawCenteredString(PoseStack stack, String str, int x, int y, int color) {
         font.drawShadow(stack, str, x - font.width(str) / 2F, y, color);
     }
 
-    static void renderTooltip(Screen owner, PoseStack stack, List<Component> tooltip, int x, int y) {
+    public static void renderTooltip(Screen owner, PoseStack stack, List<Component> tooltip, int x, int y) {
         helper.init(client, owner.width, owner.height);
         helper.renderComponentTooltip(stack, tooltip, x, y);
     }
 
-    static void drawDirtBackground(int scaledWidth, int scaledHeight) {
+    @Override
+    public void drawDirtBackground(int scaledWidth, int scaledHeight) {
         Tesselator tessellator = Tesselator.getInstance();
         BufferBuilder bufferbuilder = tessellator.getBuilder();
 

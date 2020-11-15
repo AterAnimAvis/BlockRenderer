@@ -7,31 +7,23 @@
 -import com.unascribed.blockrenderer.forge.client.varia.rendering.Display;
 +import com.unascribed.blockrenderer.fabric.client.varia.rendering.Display;
  import com.unascribed.blockrenderer.render.report.BaseReporter;
- import com.unascribed.blockrenderer.varia.Maths;
- import com.unascribed.blockrenderer.varia.Time;
- import com.unascribed.blockrenderer.varia.debug.Debug;
 -import net.minecraft.util.text.ITextComponent;
 -import net.minecraft.util.text.StringTextComponent;
 +import net.minecraft.network.chat.Component;
 +import net.minecraft.network.chat.TextComponent;
  
- import static com.unascribed.blockrenderer.Interop.GL;
- 
 -public class Reporter extends BaseReporter<ITextComponent> {
 +public class Reporter extends BaseReporter<Component> {
  
-     private static final int DARK_GREEN = 0xFF001100;
-     private static final int LIGHT_GREEN = 0xFF55FF55;
-@@ -20,7 +20,7 @@
-     private static long lastRender = System.nanoTime();
+     public static Reporter INSTANCE = new Reporter();
  
      private Reporter() {
--        super(new StringTextComponent("Rendering"));
-+        super(new TextComponent("Rendering"));
+-        super(new StringTextComponent("Rendering"), Display.INSTANCE);
++        super(new TextComponent("Rendering"), Display.INSTANCE);
      }
  
      @Override
-@@ -34,8 +34,8 @@
+@@ -24,8 +24,8 @@
      }
  
      @Override
@@ -41,4 +33,4 @@
 +        return new TextComponent(getProgressString());
      }
  
-     @Override
+ }
