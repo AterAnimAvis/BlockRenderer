@@ -1,49 +1,46 @@
 --- a/client/varia/rendering/GL.java
 +++ b/client/varia/rendering/GL.java
-@@ -1,14 +1,14 @@
+@@ -1,10 +1,10 @@
 -package com.unascribed.blockrenderer.forge.client.varia.rendering;
 +package com.unascribed.blockrenderer.fabric.client.varia.rendering;
  
- import com.mojang.blaze3d.platform.GlStateManager;
 +import com.mojang.blaze3d.platform.Lighting;
 +import com.mojang.blaze3d.platform.Window;
  import com.mojang.blaze3d.systems.RenderSystem;
- import com.unascribed.blockrenderer.Reference;
- import com.unascribed.blockrenderer.varia.logging.Log;
- import com.unascribed.blockrenderer.varia.logging.Markers;
- import com.unascribed.blockrenderer.varia.rendering.TileRenderer;
+ import com.unascribed.blockrenderer.varia.rendering.GLI;
 -import net.minecraft.client.MainWindow;
  import net.minecraft.client.Minecraft;
 -import net.minecraft.client.renderer.RenderHelper;
+ import org.intellij.lang.annotations.MagicConstant;
  import org.lwjgl.opengl.GL11;
  
- import static org.lwjgl.opengl.GL11.*;
-@@ -17,7 +17,7 @@
- public interface GL {
+@@ -16,7 +16,7 @@
+     public static final GLI INSTANCE = new GL();
  
-     Minecraft client = Minecraft.getInstance();
--    MainWindow window = client.getWindow();
-+    Window window = client.getWindow();
+     private static final Minecraft client = Minecraft.getInstance();
+-    private static final MainWindow window = client.getWindow();
++    private static final Window window = client.getWindow();
  
      /* ================================================================================================== Matrix ==== */
  
-@@ -63,11 +63,11 @@
-     /* ================================================================================================ Lighting ==== */
+@@ -51,12 +51,12 @@
  
-     static void setupItemStackLighting() {
+     @Override
+     public void setupItemStackLighting() {
 -        RenderHelper.setupFor3DItems();
 +        Lighting.setupFor3DItems();
      }
  
-     static void displayLighting() {
+     @Override
+     public void displayLighting() {
 -        RenderHelper.setupForFlatItems();
 +        Lighting.setupForFlatItems();
      }
  
      /* =================================================================================================== State ==== */
-@@ -166,7 +166,7 @@
- 
-     static void setupOverlayRendering() {
+@@ -139,7 +139,7 @@
+     @Override
+     public void setupOverlayRendering() {
          Minecraft client = Minecraft.getInstance();
 -        MainWindow window = client.getWindow();
 +        Window window = client.getWindow();

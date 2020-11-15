@@ -2,7 +2,6 @@ package com.unascribed.blockrenderer.fabric.client.render.item;
 
 import com.mojang.blaze3d.platform.Window;
 import com.unascribed.blockrenderer.fabric.client.varia.Identifiers;
-import com.unascribed.blockrenderer.fabric.client.varia.rendering.GL;
 import com.unascribed.blockrenderer.render.IAnimatedRenderer;
 import com.unascribed.blockrenderer.render.item.ItemStackParameters;
 import com.unascribed.blockrenderer.render.request.lambda.ImageHandler;
@@ -17,6 +16,8 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.LongSupplier;
+
+import static com.unascribed.blockrenderer.Interop.GL;
 
 public class ItemStackRenderer implements IAnimatedRenderer<ItemStackParameters, ItemStack> {
 

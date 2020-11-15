@@ -3,7 +3,6 @@ package com.unascribed.blockrenderer.fabric.client.screens.widgets;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.unascribed.blockrenderer.fabric.client.varia.Registries;
 import com.unascribed.blockrenderer.fabric.client.varia.rendering.Display;
-import com.unascribed.blockrenderer.fabric.client.varia.rendering.GL;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
@@ -15,6 +14,8 @@ import net.minecraft.world.item.ItemStack;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
+
+import static com.unascribed.blockrenderer.Interop.GL;
 
 public class ItemButtonWidget extends Button {
 

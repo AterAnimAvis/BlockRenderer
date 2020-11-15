@@ -1,13 +1,14 @@
 package com.unascribed.blockrenderer.forge.client.render.report;
 
 import com.unascribed.blockrenderer.forge.client.varia.rendering.Display;
-import com.unascribed.blockrenderer.forge.client.varia.rendering.GL;
 import com.unascribed.blockrenderer.render.report.BaseReporter;
 import com.unascribed.blockrenderer.varia.Maths;
 import com.unascribed.blockrenderer.varia.Time;
 import com.unascribed.blockrenderer.varia.debug.Debug;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
+
+import static com.unascribed.blockrenderer.Interop.GL;
 
 public class Reporter extends BaseReporter<ITextComponent> {
 
@@ -49,8 +50,8 @@ public class Reporter extends BaseReporter<ITextComponent> {
 
         GL.pushMatrix("progress/main");
 
-        int displayWidth = GL.window.getGuiScaledWidth();
-        int displayHeight = GL.window.getGuiScaledHeight();
+        int displayWidth = GL.getScaledWidth();
+        int displayHeight = GL.getScaledHeight();
         GL.setupOverlayRendering();
 
         // Draw the dirt background

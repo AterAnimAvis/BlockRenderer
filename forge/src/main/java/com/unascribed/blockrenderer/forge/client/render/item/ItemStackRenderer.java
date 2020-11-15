@@ -1,7 +1,6 @@
 package com.unascribed.blockrenderer.forge.client.render.item;
 
 import com.unascribed.blockrenderer.forge.client.varia.Identifiers;
-import com.unascribed.blockrenderer.forge.client.varia.rendering.GL;
 import com.unascribed.blockrenderer.render.IAnimatedRenderer;
 import com.unascribed.blockrenderer.render.item.ItemStackParameters;
 import com.unascribed.blockrenderer.render.request.lambda.ImageHandler;
@@ -17,6 +16,8 @@ import net.minecraft.util.Util;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.LongSupplier;
+
+import static com.unascribed.blockrenderer.Interop.GL;
 
 public class ItemStackRenderer implements IAnimatedRenderer<ItemStackParameters, ItemStack> {
 

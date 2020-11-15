@@ -1,17 +1,15 @@
 --- a/client/screens/widgets/ItemButtonWidget.java
 +++ b/client/screens/widgets/ItemButtonWidget.java
-@@ -1,16 +1,16 @@
+@@ -1,15 +1,15 @@
 -package com.unascribed.blockrenderer.fabric.client.screens.widgets;
 +package com.unascribed.blockrenderer.forge.client.screens.widgets;
  
 -import com.mojang.blaze3d.vertex.PoseStack;
 -import com.unascribed.blockrenderer.fabric.client.varia.Registries;
 -import com.unascribed.blockrenderer.fabric.client.varia.rendering.Display;
--import com.unascribed.blockrenderer.fabric.client.varia.rendering.GL;
 +import com.mojang.blaze3d.matrix.MatrixStack;
 +import com.unascribed.blockrenderer.forge.client.varia.Registries;
 +import com.unascribed.blockrenderer.forge.client.varia.rendering.Display;
-+import com.unascribed.blockrenderer.forge.client.varia.rendering.GL;
  import net.minecraft.client.Minecraft;
 -import net.minecraft.client.gui.components.Button;
 -import net.minecraft.client.gui.screens.Screen;
@@ -28,7 +26,7 @@
  
  import java.util.Collections;
  import java.util.List;
-@@ -21,16 +21,16 @@
+@@ -22,16 +22,16 @@
      public static final ResourceLocation CUSTOM_WIDGETS = new ResourceLocation("block_renderer:textures/gui/widgets.png");
  
      private final Screen owner;
@@ -48,7 +46,7 @@
          super(x - 32, y - 32, 64, 64, message, onPress);
          this.tooltip = tooltip;
          this.owner = owner;
-@@ -40,7 +40,7 @@
+@@ -41,7 +41,7 @@
      }
  
      @Override
@@ -57,7 +55,7 @@
  
          if (isHovered() && active)
              Display.drawRect(matrix, x, y, x + width, y + height, 0x33FFFFFF);
-@@ -84,7 +84,7 @@
+@@ -85,7 +85,7 @@
      }
  
      @Override

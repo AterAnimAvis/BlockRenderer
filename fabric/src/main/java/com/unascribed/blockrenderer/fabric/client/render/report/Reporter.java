@@ -1,13 +1,14 @@
 package com.unascribed.blockrenderer.fabric.client.render.report;
 
 import com.unascribed.blockrenderer.fabric.client.varia.rendering.Display;
-import com.unascribed.blockrenderer.fabric.client.varia.rendering.GL;
 import com.unascribed.blockrenderer.render.report.BaseReporter;
 import com.unascribed.blockrenderer.varia.Maths;
 import com.unascribed.blockrenderer.varia.Time;
 import com.unascribed.blockrenderer.varia.debug.Debug;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+
+import static com.unascribed.blockrenderer.Interop.GL;
 
 public class Reporter extends BaseReporter<Component> {
 
@@ -49,8 +50,8 @@ public class Reporter extends BaseReporter<Component> {
 
         GL.pushMatrix("progress/main");
 
-        int displayWidth = GL.window.getGuiScaledWidth();
-        int displayHeight = GL.window.getGuiScaledHeight();
+        int displayWidth = GL.getScaledWidth();
+        int displayHeight = GL.getScaledHeight();
         GL.setupOverlayRendering();
 
         // Draw the dirt background

@@ -13,6 +13,8 @@ import net.minecraft.network.chat.TextComponent;
 
 import java.util.List;
 
+import static com.unascribed.blockrenderer.Interop.GL;
+
 public interface Display {
 
     Minecraft client = Minecraft.getInstance();

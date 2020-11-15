@@ -1,19 +1,17 @@
 --- a/client/render/map/MapRenderer.java
 +++ b/client/render/map/MapRenderer.java
-@@ -1,7 +1,9 @@
+@@ -1,6 +1,8 @@
 -package com.unascribed.blockrenderer.forge.client.render.map;
 +package com.unascribed.blockrenderer.fabric.client.render.map;
  
 -import com.mojang.blaze3d.matrix.MatrixStack;
--import com.unascribed.blockrenderer.forge.client.varia.rendering.GL;
 +import com.mojang.blaze3d.platform.Window;
 +import com.mojang.blaze3d.vertex.PoseStack;
 +import com.mojang.blaze3d.vertex.Tesselator;
-+import com.unascribed.blockrenderer.fabric.client.varia.rendering.GL;
  import com.unascribed.blockrenderer.render.IRenderer;
  import com.unascribed.blockrenderer.render.map.MapDecorations;
  import com.unascribed.blockrenderer.render.map.MapParameters;
-@@ -10,18 +12,15 @@
+@@ -9,20 +11,17 @@
  import com.unascribed.blockrenderer.varia.Maths;
  import com.unascribed.blockrenderer.varia.debug.Debug;
  import com.unascribed.blockrenderer.varia.rendering.TileRenderer;
@@ -31,12 +29,14 @@
  
  import java.util.function.LongSupplier;
  
+ import static com.unascribed.blockrenderer.Interop.GL;
+ 
 -public class MapRenderer implements IRenderer<MapParameters, MapData> {
 +public class MapRenderer implements IRenderer<MapParameters, MapItemSavedData> {
  
      private static final float MAP_SIZE = 128.0F;
  
-@@ -35,7 +34,7 @@
+@@ -36,7 +35,7 @@
  
          decorations = parameters.decorations;
  
@@ -45,7 +45,7 @@
          int displayWidth = window.getWidth();
          int displayHeight = window.getHeight();
  
-@@ -59,7 +58,7 @@
+@@ -60,7 +59,7 @@
      }
  
      @Override
@@ -54,7 +54,7 @@
          assert tr != null;
  
          Debug.endFrame();
-@@ -72,10 +71,10 @@
+@@ -73,10 +72,10 @@
          LongSupplier oldSupplier = Util.timeSource;
          Util.timeSource = () -> 0;
  
@@ -68,7 +68,7 @@
              renderer.update(instance);
  
              do {
-@@ -86,7 +85,7 @@
+@@ -87,7 +86,7 @@
                  GL.clearFrameBuffer();
  
                  /* Render (MatrixStack, Buffers, Data, RenderBorder, LightMap) */

@@ -4,6 +4,7 @@ import com.unascribed.blockrenderer.Interop;
 import com.unascribed.blockrenderer.Reference;
 import com.unascribed.blockrenderer.forge.client.proxy.ClientProxy;
 import com.unascribed.blockrenderer.forge.client.render.RenderManager;
+import com.unascribed.blockrenderer.forge.client.varia.rendering.GL;
 import com.unascribed.blockrenderer.forge.proxy.CommonProxy;
 import com.unascribed.blockrenderer.forge.proxy.DedicatedProxy;
 import com.unascribed.blockrenderer.varia.logging.Log;
@@ -27,6 +28,8 @@ public class BlockRenderer {
         proxy.init();
 
         Interop.RENDER_MANAGER = RenderManager.INSTANCE;
+        Interop.GL = GL.INSTANCE;
+
         Log.info(Markers.ROOT, "Running Version: " + Reference.VERSION);
 
         registerDisplayTest(ModLoadingContext.get());

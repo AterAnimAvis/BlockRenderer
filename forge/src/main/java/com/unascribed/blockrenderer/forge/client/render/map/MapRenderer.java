@@ -1,7 +1,6 @@
 package com.unascribed.blockrenderer.forge.client.render.map;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.unascribed.blockrenderer.forge.client.varia.rendering.GL;
 import com.unascribed.blockrenderer.render.IRenderer;
 import com.unascribed.blockrenderer.render.map.MapDecorations;
 import com.unascribed.blockrenderer.render.map.MapParameters;
@@ -20,6 +19,8 @@ import net.minecraft.world.storage.MapData;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.LongSupplier;
+
+import static com.unascribed.blockrenderer.Interop.GL;
 
 public class MapRenderer implements IRenderer<MapParameters, MapData> {
 

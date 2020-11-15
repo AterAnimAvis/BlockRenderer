@@ -13,6 +13,8 @@ import net.minecraftforge.fml.client.gui.GuiUtils;
 
 import java.util.List;
 
+import static com.unascribed.blockrenderer.Interop.GL;
+
 public interface Display {
 
     Minecraft client = Minecraft.getInstance();

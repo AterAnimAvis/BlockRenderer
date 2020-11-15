@@ -1,16 +1,14 @@
 --- a/client/screens/widgets/HoverableTinyButtonWidget.java
 +++ b/client/screens/widgets/HoverableTinyButtonWidget.java
-@@ -1,13 +1,13 @@
+@@ -1,12 +1,12 @@
 -package com.unascribed.blockrenderer.forge.client.screens.widgets;
 +package com.unascribed.blockrenderer.fabric.client.screens.widgets;
  
 -import com.mojang.blaze3d.matrix.MatrixStack;
- import com.mojang.blaze3d.platform.GlStateManager;
 -import com.unascribed.blockrenderer.forge.client.varia.rendering.Display;
--import com.unascribed.blockrenderer.forge.client.varia.rendering.GL;
 +import com.mojang.blaze3d.vertex.PoseStack;
 +import com.unascribed.blockrenderer.fabric.client.varia.rendering.Display;
-+import com.unascribed.blockrenderer.fabric.client.varia.rendering.GL;
+ import com.unascribed.blockrenderer.varia.rendering.GLI;
  import net.minecraft.client.Minecraft;
 -import net.minecraft.client.gui.screen.Screen;
 -import net.minecraft.client.gui.widget.button.Button;
@@ -21,7 +19,7 @@
  
  import java.util.Collections;
  import java.util.List;
-@@ -16,20 +16,20 @@
+@@ -17,20 +17,20 @@
  public class HoverableTinyButtonWidget extends Button {
  
      private final Screen owner;
@@ -46,7 +44,7 @@
          int i = this.getYImage(this.isHovered());
          Minecraft minecraft = Minecraft.getInstance();
          minecraft.getTextureManager().bind(WIDGETS_LOCATION);
-@@ -45,7 +45,7 @@
+@@ -46,7 +46,7 @@
      }
  
      @Override

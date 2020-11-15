@@ -3,7 +3,6 @@ package com.unascribed.blockrenderer.forge.client.screens.widgets;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.unascribed.blockrenderer.forge.client.varia.Registries;
 import com.unascribed.blockrenderer.forge.client.varia.rendering.Display;
-import com.unascribed.blockrenderer.forge.client.varia.rendering.GL;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
@@ -15,6 +14,8 @@ import net.minecraft.util.text.ITextComponent;
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Supplier;
+
+import static com.unascribed.blockrenderer.Interop.GL;
 
 public class ItemButtonWidget extends Button {
 
