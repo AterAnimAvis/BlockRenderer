@@ -76,7 +76,7 @@ public class ItemButtonWidget extends Button {
         GL.translate(x, y, 32.0f);
         GL.scaleFixedZLevel(scale, -BASE_Z_LEVEL);
 
-        renderer.blitOffset = -BASE_Z_LEVEL / 2f;
+        renderer.blitOffset = BASE_Z_LEVEL / 2f;
         renderer.renderGuiItem(stack, 0, 0);
         renderer.blitOffset = 0.0F;
         GL.popMatrix();
