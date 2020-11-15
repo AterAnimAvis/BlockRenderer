@@ -1,17 +1,16 @@
---- a/client/render/report/ProgressManager.java
-+++ b/client/render/report/ProgressManager.java
-@@ -1,15 +1,14 @@
+--- a/client/render/report/Reporter.java
++++ b/client/render/report/Reporter.java
+@@ -1,16 +1,16 @@
 -package com.unascribed.blockrenderer.fabric.client.render.report;
 +package com.unascribed.blockrenderer.forge.client.render.report;
  
--
 -import com.mojang.blaze3d.vertex.PoseStack;
 -import com.unascribed.blockrenderer.fabric.client.varia.rendering.Display;
 -import com.unascribed.blockrenderer.fabric.client.varia.rendering.GL;
 +import com.mojang.blaze3d.matrix.MatrixStack;
 +import com.unascribed.blockrenderer.forge.client.varia.rendering.Display;
 +import com.unascribed.blockrenderer.forge.client.varia.rendering.GL;
- import com.unascribed.blockrenderer.render.report.BaseProgressManager;
+ import com.unascribed.blockrenderer.render.report.BaseReporter;
  import com.unascribed.blockrenderer.varia.Maths;
  import com.unascribed.blockrenderer.varia.Time;
  import com.unascribed.blockrenderer.varia.debug.Debug;
@@ -19,62 +18,42 @@
 -import net.minecraft.network.chat.TextComponent;
 +import net.minecraft.util.text.ITextComponent;
 +import net.minecraft.util.text.StringTextComponent;
- import org.jetbrains.annotations.NotNull;
- import org.jetbrains.annotations.Nullable;
  
-@@ -19,22 +18,22 @@
+-public class Reporter extends BaseReporter<Component> {
++public class Reporter extends BaseReporter<ITextComponent> {
+ 
+     private static final int DARK_GREEN = 0xFF001100;
      private static final int LIGHT_GREEN = 0xFF55FF55;
- 
-     @NotNull
--    public static Component title = new TextComponent("Rendering");
-+    public static ITextComponent title = new StringTextComponent("Rendering");
-     @Nullable
--    public static Component message = null;
-+    public static ITextComponent message = null;
- 
-     private static final BaseProgressManager MANAGER = new BaseProgressManager();
- 
+@@ -20,7 +20,7 @@
      private static long lastRender = System.nanoTime();
  
--    public static void init(Component title, int steps) {
-+    public static void init(ITextComponent title, int steps) {
-         reset();
-         MANAGER.init(steps);
- 
-         ProgressManager.title = title;
+     private Reporter() {
+-        super(new TextComponent("Rendering"));
++        super(new StringTextComponent("Rendering"));
      }
  
--    public static void push(@Nullable Component message) {
-+    public static void push(@Nullable ITextComponent message) {
-         ProgressManager.message = message;
-         MANAGER.push();
-     }
-@@ -50,12 +49,12 @@
+     @Override
+@@ -34,8 +34,8 @@
      }
  
-     private static void reset() {
--        title = new TextComponent("Rendering");
-+        title = new StringTextComponent("Rendering");
-         message = null;
+     @Override
+-    public Component getProgress() {
+-        return new TextComponent(getProgressString());
++    public ITextComponent getProgress() {
++        return new StringTextComponent(getProgressString());
      }
  
--    public static Component getProgress() {
--        return new TextComponent(MANAGER.getProgress());
-+    public static ITextComponent getProgress() {
-+        return new StringTextComponent(MANAGER.getProgress());
-     }
- 
-     public static void render() {
-@@ -77,7 +76,7 @@
+     @Override
+@@ -58,7 +58,7 @@
          Display.drawDirtBackground(displayWidth, displayHeight);
  
          // ...and the title
--        Display.drawCenteredString(new PoseStack(), ProgressManager.title, displayWidth / 2, displayHeight / 2 - 24, -1);
-+        Display.drawCenteredString(new MatrixStack(), ProgressManager.title, displayWidth / 2, displayHeight / 2 - 24, -1);
+-        Display.drawCenteredString(new PoseStack(), title, displayWidth / 2, displayHeight / 2 - 24, -1);
++        Display.drawCenteredString(new MatrixStack(), title, displayWidth / 2, displayHeight / 2 - 24, -1);
  
          // ...and the progress bar
          renderProgressBar(displayWidth, displayHeight);
-@@ -88,7 +87,7 @@
+@@ -69,7 +69,7 @@
              GL.scale(0.5f, 0.5f, 1);
  
              // ...and the subtitle
@@ -83,7 +62,7 @@
  
              GL.popMatrix("progress/message");
          }
-@@ -107,8 +106,8 @@
+@@ -88,8 +88,8 @@
          int hw = displayWidth / 2;
          int hh = displayHeight / 2;
  
