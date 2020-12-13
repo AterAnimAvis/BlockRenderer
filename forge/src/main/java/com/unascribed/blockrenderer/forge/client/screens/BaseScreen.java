@@ -8,7 +8,6 @@ import net.minecraft.client.GameSettings;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
@@ -42,7 +41,7 @@ public abstract class BaseScreen extends Screen {
 
         renderButton = addButton(new Button(width / 2 + 2, height / 6 + 120, 98, 20, translate("block_renderer.gui.render"), this::onRender), enabled);
 
-        size = MathHelper.clamp(size, getMinSize(), getMaxSize());
+        size = Maths.clamp(size, getMinSize(), getMaxSize());
 
         ExtendedSliderPercentageOption option = new ExtendedSliderPercentageOption("block_renderer.gui.renderSize", getMinSize(), getMaxSize(), 1, (settings) -> size, (settings, value) -> size = round(value), this::getSliderDisplay);
         slider = addButton(new UpdateableSliderWidget(minecraft.options, width / 2 - 100, height / 6 + 80, 200, 20, option), enabled);

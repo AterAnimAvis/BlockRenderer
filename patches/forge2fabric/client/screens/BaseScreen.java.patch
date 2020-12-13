@@ -1,6 +1,6 @@
 --- a/client/screens/BaseScreen.java
 +++ b/client/screens/BaseScreen.java
-@@ -1,19 +1,18 @@
+@@ -1,18 +1,18 @@
 -package com.unascribed.blockrenderer.forge.client.screens;
 +package com.unascribed.blockrenderer.fabric.client.screens;
  
@@ -15,7 +15,6 @@
 -import net.minecraft.client.gui.screen.Screen;
 -import net.minecraft.client.gui.widget.Widget;
 -import net.minecraft.client.gui.widget.button.Button;
--import net.minecraft.util.math.MathHelper;
 -import net.minecraft.util.text.ITextComponent;
 +import net.minecraft.client.Options;
 +import net.minecraft.client.gui.components.AbstractWidget;
@@ -30,7 +29,7 @@
  
  @SuppressWarnings("NotNullFieldNotInitialized")
  public abstract class BaseScreen extends Screen {
-@@ -29,7 +28,7 @@
+@@ -28,7 +28,7 @@
      protected UpdateableSliderWidget slider;
      protected Button renderButton;
  
@@ -39,16 +38,7 @@
          super(title);
          this.old = old;
      }
-@@ -42,7 +41,7 @@
- 
-         renderButton = addButton(new Button(width / 2 + 2, height / 6 + 120, 98, 20, translate("block_renderer.gui.render"), this::onRender), enabled);
- 
--        size = MathHelper.clamp(size, getMinSize(), getMaxSize());
-+        size = Maths.clamp(size, getMinSize(), getMaxSize());
- 
-         ExtendedSliderPercentageOption option = new ExtendedSliderPercentageOption("block_renderer.gui.renderSize", getMinSize(), getMaxSize(), 1, (settings) -> size, (settings, value) -> size = round(value), this::getSliderDisplay);
-         slider = addButton(new UpdateableSliderWidget(minecraft.options, width / 2 - 100, height / 6 + 80, 200, 20, option), enabled);
-@@ -80,7 +79,7 @@
+@@ -79,7 +79,7 @@
      }
  
      @Override
@@ -57,7 +47,7 @@
          assert minecraft != null;
  
          renderBackground(stack);
-@@ -89,7 +88,7 @@
+@@ -88,7 +88,7 @@
  
          drawCenteredString(stack, minecraft.font, title, width / 2, height / 6, -1);
  
@@ -66,7 +56,7 @@
              if (widget.isHovered())
                  widget.renderToolTip(stack, mouseX, mouseY);
  
-@@ -100,12 +99,12 @@
+@@ -99,12 +99,12 @@
  
      protected abstract void onRender(Button button);
  
