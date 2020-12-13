@@ -1,0 +1,15 @@
+--- a/client/varia/Styles.java
++++ b/client/varia/Styles.java
+@@ -1,9 +1,9 @@
+-package com.unascribed.blockrenderer.fabric.client.varia;
++package com.unascribed.blockrenderer.forge.client.varia;
+ 
+-import net.minecraft.ChatFormatting;
++import net.minecraft.util.text.TextFormatting;
+ 
+ public interface Styles {
+ 
+-    ChatFormatting GOLD = ChatFormatting.GOLD;
++    TextFormatting GOLD = TextFormatting.GOLD;
+ 
+ }

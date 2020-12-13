@@ -12,13 +12,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TranslationTextComponent;
 import org.jetbrains.annotations.Nullable;
 
+import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.translate;
+
 /*
  * Note: Screen's get initialized in init
  */
 @SuppressWarnings("NotNullFieldNotInitialized")
 public class EnterNamespaceScreen extends BaseItemScreen {
 
-    private static final TranslationTextComponent TITLE = new TranslationTextComponent("block_renderer.gui.namespace");
+    private static final TranslationTextComponent TITLE = translate("block_renderer.gui.namespace");
 
     private boolean emptySpec = false;
 
@@ -51,7 +53,7 @@ public class EnterNamespaceScreen extends BaseItemScreen {
         @SuppressWarnings("ConstantConditions")
         String oldText = (text == null ? prefill : text.getValue());
 
-        text = addButton(new TextFieldWidget(minecraft.font, width / 2 - 100, height / 6 + 50, 200, 20, new TranslationTextComponent("block_renderer.gui.namespace")), enabled);
+        text = addButton(new TextFieldWidget(minecraft.font, width / 2 - 100, height / 6 + 50, 200, 20, translate("block_renderer.gui.namespace")), enabled);
         text.setResponder((value) -> emptySpec = value.trim().isEmpty());
         text.setValue(oldText);
         text.setCanLoseFocus(false);
@@ -62,8 +64,8 @@ public class EnterNamespaceScreen extends BaseItemScreen {
                     this,
                     width - 32,
                     height - 32,
-                    new TranslationTextComponent("block_renderer.gui.switch.single"),
-                    new TranslationTextComponent("block_renderer.gui.switch.single.tooltip"),
+                    translate("block_renderer.gui.switch.single"),
+                    translate("block_renderer.gui.switch.single.tooltip"),
                     button -> minecraft.setScreen(new EnterSizeScreen(old, stack)))
             );
         }
@@ -107,7 +109,7 @@ public class EnterNamespaceScreen extends BaseItemScreen {
 
         if (!emptySpec) return;
 
-        drawCenteredString(stack, minecraft.font, new TranslationTextComponent("block_renderer.gui.emptySpec"), width / 2, height / 6 + 30, 0xFF5555);
+        drawCenteredString(stack, minecraft.font, translate("block_renderer.gui.emptySpec"), width / 2, height / 6 + 30, 0xFF5555);
     }
 
     @Override

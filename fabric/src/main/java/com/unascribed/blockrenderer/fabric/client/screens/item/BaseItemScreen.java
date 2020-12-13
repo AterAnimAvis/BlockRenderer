@@ -7,8 +7,9 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Checkbox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import org.jetbrains.annotations.Nullable;
+
+import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.translate;
 
 /*
  * Note: Screen's get initialized in init
@@ -31,8 +32,8 @@ public abstract class BaseItemScreen extends BaseScreen {
 
         super.init();
 
-        actualSize = addButton(new HoverableTinyButtonWidget(this, width / 2 + 104, height / 6 + 80, new TranslatableComponent("block_renderer.gui.actualSize"), new TranslatableComponent("block_renderer.gui.actualSize.tooltip"), button -> slider.update((int) minecraft.getWindow().getGuiScale() * 16)), enabled);
-        useId = addButton(new HoverableCheckboxWidget(this, width / 2 - 100, height / 6 + 144, 98, 20, new TranslatableComponent("block_renderer.gui.useId"), new TranslatableComponent("block_renderer.gui.useId.tooltip"), false), enabled);
-        addSize = addButton(new HoverableCheckboxWidget(this, width / 2 + 2, height / 6 + 144, 98, 20, new TranslatableComponent("block_renderer.gui.addSize"), new TranslatableComponent("block_renderer.gui.addSize.tooltip"), false), enabled);
+        actualSize = addButton(new HoverableTinyButtonWidget(this, width / 2 + 104, height / 6 + 80, translate("block_renderer.gui.actualSize"), translate("block_renderer.gui.actualSize.tooltip"), button -> slider.update((int) minecraft.getWindow().getGuiScale() * 16)), enabled);
+        useId = addButton(new HoverableCheckboxWidget(this, width / 2 - 100, height / 6 + 144, 98, 20, translate("block_renderer.gui.useId"), translate("block_renderer.gui.useId.tooltip"), false), enabled);
+        addSize = addButton(new HoverableCheckboxWidget(this, width / 2 + 2, height / 6 + 144, 98, 20, translate("block_renderer.gui.addSize"), translate("block_renderer.gui.addSize.tooltip"), false), enabled);
     }
 }

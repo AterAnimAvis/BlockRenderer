@@ -1,23 +1,24 @@
 --- a/client/render/RenderManager.java
 +++ b/client/render/RenderManager.java
-@@ -1,22 +1,22 @@
+@@ -1,23 +1,23 @@
 -package com.unascribed.blockrenderer.forge.client.render;
 +package com.unascribed.blockrenderer.fabric.client.render;
  
 -import com.unascribed.blockrenderer.forge.client.render.report.Reporter;
+-import com.unascribed.blockrenderer.forge.client.varia.Styles;
 +import com.unascribed.blockrenderer.fabric.client.render.report.Reporter;
++import com.unascribed.blockrenderer.fabric.client.varia.Styles;
  import com.unascribed.blockrenderer.render.BaseRenderManager;
  import com.unascribed.blockrenderer.render.IRequest;
 -import net.minecraft.util.text.ITextComponent;
--import net.minecraft.util.text.TextFormatting;
--import net.minecraft.util.text.TranslationTextComponent;
-+import net.minecraft.ChatFormatting;
 +import net.minecraft.network.chat.Component;
-+import net.minecraft.network.chat.TranslatableComponent;
  import org.jetbrains.annotations.Nullable;
  
  import java.util.PriorityQueue;
  import java.util.Queue;
+ 
+-import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.translate;
++import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.translate;
  
 -public class RenderManager extends BaseRenderManager<ITextComponent> {
 +public class RenderManager extends BaseRenderManager<Component> {
@@ -25,20 +26,19 @@
 -    public static final BaseRenderManager<ITextComponent> INSTANCE = new RenderManager();
 +    public static final BaseRenderManager<Component> INSTANCE = new RenderManager();
  
--    private static final ITextComponent RENDERING_GIF = new TranslationTextComponent("block_renderer.render.gif").withStyle(TextFormatting.GOLD);
--    private static final ITextComponent RENDERING_AUTO = new TranslationTextComponent("block_renderer.render.auto_loop").withStyle(TextFormatting.GOLD);
-+    private static final Component RENDERING_GIF = new TranslatableComponent("block_renderer.render.gif").withStyle(ChatFormatting.GOLD);
-+    private static final Component RENDERING_AUTO = new TranslatableComponent("block_renderer.render.auto_loop").withStyle(ChatFormatting.GOLD);
+-    private static final ITextComponent RENDERING_GIF = translate("block_renderer.render.gif").withStyle(Styles.GOLD);
+-    private static final ITextComponent RENDERING_AUTO = translate("block_renderer.render.auto_loop").withStyle(Styles.GOLD);
++    private static final Component RENDERING_GIF = translate("block_renderer.render.gif").withStyle(Styles.GOLD);
++    private static final Component RENDERING_AUTO = translate("block_renderer.render.auto_loop").withStyle(Styles.GOLD);
  
      public static Queue<IRequest> requests = new PriorityQueue<>();
      @Nullable
-@@ -41,7 +41,7 @@
+@@ -42,7 +42,7 @@
      }
  
      @Override
 -    protected ITextComponent renderingBulk(String name) {
--        return new TranslationTextComponent("block_renderer.render.bulk", name).withStyle(TextFormatting.GOLD);
 +    protected Component renderingBulk(String name) {
-+        return new TranslatableComponent("block_renderer.render.bulk", name).withStyle(ChatFormatting.GOLD);
+         return translate("block_renderer.render.bulk", name).withStyle(Styles.GOLD);
      }
  }

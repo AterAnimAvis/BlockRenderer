@@ -1,22 +1,23 @@
 package com.unascribed.blockrenderer.forge.client.render;
 
 import com.unascribed.blockrenderer.forge.client.render.report.Reporter;
+import com.unascribed.blockrenderer.forge.client.varia.Styles;
 import com.unascribed.blockrenderer.render.BaseRenderManager;
 import com.unascribed.blockrenderer.render.IRequest;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.PriorityQueue;
 import java.util.Queue;
 
+import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.translate;
+
 public class RenderManager extends BaseRenderManager<ITextComponent> {
 
     public static final BaseRenderManager<ITextComponent> INSTANCE = new RenderManager();
 
-    private static final ITextComponent RENDERING_GIF = new TranslationTextComponent("block_renderer.render.gif").withStyle(TextFormatting.GOLD);
-    private static final ITextComponent RENDERING_AUTO = new TranslationTextComponent("block_renderer.render.auto_loop").withStyle(TextFormatting.GOLD);
+    private static final ITextComponent RENDERING_GIF = translate("block_renderer.render.gif").withStyle(Styles.GOLD);
+    private static final ITextComponent RENDERING_AUTO = translate("block_renderer.render.auto_loop").withStyle(Styles.GOLD);
 
     public static Queue<IRequest> requests = new PriorityQueue<>();
     @Nullable
@@ -42,6 +43,6 @@ public class RenderManager extends BaseRenderManager<ITextComponent> {
 
     @Override
     protected ITextComponent renderingBulk(String name) {
-        return new TranslationTextComponent("block_renderer.render.bulk", name).withStyle(TextFormatting.GOLD);
+        return translate("block_renderer.render.bulk", name).withStyle(Styles.GOLD);
     }
 }

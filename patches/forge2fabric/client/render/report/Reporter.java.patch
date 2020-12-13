@@ -1,6 +1,6 @@
 --- a/client/render/report/Reporter.java
 +++ b/client/render/report/Reporter.java
-@@ -1,16 +1,16 @@
+@@ -1,12 +1,12 @@
 -package com.unascribed.blockrenderer.forge.client.render.report;
 +package com.unascribed.blockrenderer.fabric.client.render.report;
  
@@ -8,29 +8,22 @@
 +import com.unascribed.blockrenderer.fabric.client.varia.rendering.Display;
  import com.unascribed.blockrenderer.render.report.BaseReporter;
 -import net.minecraft.util.text.ITextComponent;
--import net.minecraft.util.text.StringTextComponent;
 +import net.minecraft.network.chat.Component;
-+import net.minecraft.network.chat.TextComponent;
+ 
+-import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.rawText;
++import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.rawText;
  
 -public class Reporter extends BaseReporter<ITextComponent> {
 +public class Reporter extends BaseReporter<Component> {
  
      public static Reporter INSTANCE = new Reporter();
  
-     private Reporter() {
--        super(new StringTextComponent("Rendering"), Display.INSTANCE);
-+        super(new TextComponent("Rendering"), Display.INSTANCE);
-     }
- 
-     @Override
-@@ -24,8 +24,8 @@
+@@ -25,7 +25,7 @@
      }
  
      @Override
 -    public ITextComponent getProgress() {
--        return new StringTextComponent(getProgressString());
 +    public Component getProgress() {
-+        return new TextComponent(getProgressString());
+         return rawText(getProgressString());
      }
  
- }

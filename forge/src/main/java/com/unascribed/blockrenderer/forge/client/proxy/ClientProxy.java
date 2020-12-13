@@ -6,7 +6,6 @@ import com.unascribed.blockrenderer.forge.client.render.Requests;
 import com.unascribed.blockrenderer.forge.client.screens.SelectionScreen;
 import com.unascribed.blockrenderer.forge.client.screens.item.EnterSizeScreen;
 import com.unascribed.blockrenderer.forge.client.varia.Registries;
-import com.unascribed.blockrenderer.forge.client.varia.StringUtils;
 import com.unascribed.blockrenderer.forge.proxy.CommonProxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.recipebook.IRecipeShownListener;
@@ -18,12 +17,14 @@ import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.lwjgl.glfw.GLFW;
+
+import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.addMessage;
+import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.translate;
 
 public class ClientProxy extends CommonProxy {
 
@@ -79,19 +80,19 @@ public class ClientProxy extends CommonProxy {
                 renderStack(player.getMainHandItem());
                 return;
             }
-            StringUtils.addMessage(new TranslationTextComponent("msg.block_renderer.notContainer"));
+            addMessage(translate("msg.block_renderer.notContainer"));
             return;
         }
 
         if (hovered == null) {
-            StringUtils.addMessage(new TranslationTextComponent("msg.block_renderer.slot.absent"));
+            addMessage(translate("msg.block_renderer.slot.absent"));
             return;
         }
 
         ItemStack stack = hovered.getItem();
 
         if (stack.isEmpty()) {
-            StringUtils.addMessage(new TranslationTextComponent("msg.block_renderer.slot.empty"));
+            addMessage(translate("msg.block_renderer.slot.empty"));
             return;
         }
 

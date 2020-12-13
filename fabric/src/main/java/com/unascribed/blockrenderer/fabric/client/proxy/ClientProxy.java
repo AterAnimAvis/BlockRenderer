@@ -15,11 +15,12 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.client.gui.screens.recipebook.RecipeUpdateListener;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.lwjgl.glfw.GLFW;
+
+import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.translate;
 
 public class ClientProxy {
 
@@ -61,19 +62,19 @@ public class ClientProxy {
                 renderStack(player.getMainHandItem());
                 return;
             }
-            StringUtils.addMessage(new TranslatableComponent("msg.block_renderer.notContainer"));
+            StringUtils.addMessage(translate("msg.block_renderer.notContainer"));
             return;
         }
 
         if (hovered == null) {
-            StringUtils.addMessage(new TranslatableComponent("msg.block_renderer.slot.absent"));
+            StringUtils.addMessage(translate("msg.block_renderer.slot.absent"));
             return;
         }
 
         ItemStack stack = hovered.getItem();
 
         if (stack.isEmpty()) {
-            StringUtils.addMessage(new TranslatableComponent("msg.block_renderer.slot.empty"));
+            StringUtils.addMessage(translate("msg.block_renderer.slot.empty"));
             return;
         }
 

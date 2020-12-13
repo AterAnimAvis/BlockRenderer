@@ -12,10 +12,12 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
+import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.translate;
+
 @SuppressWarnings("NotNullFieldNotInitialized")
 public class RenderAnimatedScreen extends EnterSizeScreen {
 
-    private static final TranslatableComponent TITLE = new TranslatableComponent("block_renderer.gui.renderAnimated");
+    private static final TranslatableComponent TITLE = translate("block_renderer.gui.renderAnimated");
 
     private Checkbox autoLoop;
 
@@ -35,13 +37,13 @@ public class RenderAnimatedScreen extends EnterSizeScreen {
 
         super.init();
 
-        autoLoop = addButton(new HoverableCheckboxWidget(this, width / 2 + 2, height / 6 + 166, 98, 20, new TranslatableComponent("block_renderer.gui.loop"), new TranslatableComponent("block_renderer.gui.loop.tooltip"), false), enabled);
+        autoLoop = addButton(new HoverableCheckboxWidget(this, width / 2 + 2, height / 6 + 166, 98, 20, translate("block_renderer.gui.loop"), translate("block_renderer.gui.loop.tooltip"), false), enabled);
 
         /* Note: This is the initializer, text can be null! */
         @SuppressWarnings("ConstantConditions")
         String prefill = (length == null ? "20" : length.getValue());
 
-        length = addButton(new HoverableTextFieldWidget(this, minecraft.font, width / 2 - 100, height / 6 + 74, 200, 20, new TranslatableComponent("block_renderer.gui.animatedLength"), new TranslatableComponent("block_renderer.gui.animatedLength.tooltip")), enabled);
+        length = addButton(new HoverableTextFieldWidget(this, minecraft.font, width / 2 - 100, height / 6 + 74, 200, 20, translate("block_renderer.gui.animatedLength"), translate("block_renderer.gui.animatedLength.tooltip")), enabled);
         length.setResponder((value) -> {
             isInteger = false;
             try {

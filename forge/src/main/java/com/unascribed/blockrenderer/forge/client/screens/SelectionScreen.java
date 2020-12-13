@@ -5,6 +5,7 @@ import com.unascribed.blockrenderer.forge.client.screens.item.EnterNamespaceScre
 import com.unascribed.blockrenderer.forge.client.screens.item.RenderAnimatedScreen;
 import com.unascribed.blockrenderer.forge.client.screens.map.RenderMapScreen;
 import com.unascribed.blockrenderer.forge.client.screens.widgets.ItemButtonWidget;
+import com.unascribed.blockrenderer.forge.client.varia.Identifiers;
 import com.unascribed.blockrenderer.forge.client.varia.Registries;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.item.Item;
@@ -15,9 +16,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
+import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.translate;
+
 public class SelectionScreen extends Screen {
 
-    private static final TranslationTextComponent TITLE = new TranslationTextComponent("block_renderer.gui.choose");
+    private static final TranslationTextComponent TITLE = translate("block_renderer.gui.choose");
 
     @Nullable
     private final Screen old;
@@ -41,13 +44,13 @@ public class SelectionScreen extends Screen {
                 Registries.MAP.lazyMap(Item::getDefaultInstance),
                 width / 2 - 64 - 12,
                 height / 2,
-                new TranslationTextComponent("block_renderer.gui.choose.map"),
-                new TranslationTextComponent("block_renderer.gui.choose.map.tooltip"),
+                translate("block_renderer.gui.choose.map"),
+                translate("block_renderer.gui.choose.map.tooltip"),
                 button -> {
                     assert stack != null;
                     minecraft.setScreen(new RenderMapScreen(old, stack));
                 }
-        )).active = stack != null && Objects.equals(stack.getItem().getRegistryName(), new ResourceLocation("minecraft:filled_map"));
+        )).active = stack != null && Objects.equals(Identifiers.get(stack.getItem()), new ResourceLocation("minecraft:filled_map"));
 
         addButton(new ItemButtonWidget(
                 this,
@@ -55,8 +58,8 @@ public class SelectionScreen extends Screen {
                 Registries.DISPENSER.lazyMap(Item::getDefaultInstance),
                 width / 2,
                 height / 2,
-                new TranslationTextComponent("block_renderer.gui.choose.item"),
-                new TranslationTextComponent("block_renderer.gui.choose.item.tooltip"),
+                translate("block_renderer.gui.choose.item"),
+                translate("block_renderer.gui.choose.item.tooltip"),
                 button -> minecraft.setScreen(new EnterNamespaceScreen(old, stack))
         ));
 
@@ -66,8 +69,8 @@ public class SelectionScreen extends Screen {
                 Registries.CUTTER.lazyMap(Item::getDefaultInstance),
                 width / 2 + 64 + 12,
                 height / 2,
-                new TranslationTextComponent("block_renderer.gui.choose.animated"),
-                new TranslationTextComponent("block_renderer.gui.choose.animated.tooltip"),
+                translate("block_renderer.gui.choose.animated"),
+                translate("block_renderer.gui.choose.animated.tooltip"),
                 button -> {
                     assert stack != null;
                     minecraft.setScreen(new RenderAnimatedScreen(old, stack));

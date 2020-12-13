@@ -10,9 +10,11 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
+import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.translate;
+
 public class EnterSizeScreen extends BaseItemScreen {
 
-    private static final TranslatableComponent TITLE = new TranslatableComponent("block_renderer.gui.renderItem");
+    private static final TranslatableComponent TITLE = translate("block_renderer.gui.renderItem");
 
     protected final ItemStack stack;
     private final boolean enableSwitch;
@@ -41,8 +43,8 @@ public class EnterSizeScreen extends BaseItemScreen {
                         this,
                         width - 32,
                         height - 32,
-                        new TranslatableComponent("block_renderer.gui.switch.bulk"),
-                        new TranslatableComponent("block_renderer.gui.switch.bulk.tooltip"),
+                        translate("block_renderer.gui.switch.bulk"),
+                        translate("block_renderer.gui.switch.bulk.tooltip"),
                         button -> minecraft.setScreen(new EnterNamespaceScreen(old, stack))),
                 enableSwitch
         );

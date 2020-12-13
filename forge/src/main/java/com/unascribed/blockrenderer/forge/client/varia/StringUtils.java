@@ -59,7 +59,7 @@ public interface StringUtils {
     }
 
     static ITextComponent asClickable(File file) {
-        StringTextComponent component = new StringTextComponent(file.getName());
+        StringTextComponent component = rawText(file.getName());
 
         String path;
 
@@ -75,12 +75,20 @@ public interface StringUtils {
 
         component.setStyle(
                 component.getStyle()
-                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslationTextComponent("block_renderer.file.tooltip")))
+                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, translate("block_renderer.file.tooltip")))
                         .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, path))
                         .setUnderlined(true)
         );
 
         return component;
+    }
+
+    static TranslationTextComponent translate(String name, Object... args) {
+        return new TranslationTextComponent(name, args);
+    }
+
+    static StringTextComponent rawText(String text) {
+        return new StringTextComponent(text);
     }
 
 }

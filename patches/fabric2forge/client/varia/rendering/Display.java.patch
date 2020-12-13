@@ -15,7 +15,6 @@
 -import net.minecraft.client.gui.GuiComponent;
 -import net.minecraft.client.gui.screens.Screen;
 -import net.minecraft.network.chat.Component;
--import net.minecraft.network.chat.TextComponent;
 +import net.minecraft.client.gui.AbstractGui;
 +import net.minecraft.client.gui.FontRenderer;
 +import net.minecraft.client.gui.screen.Screen;
@@ -28,6 +27,7 @@
  import java.util.List;
  
  import static com.unascribed.blockrenderer.Interop.GL;
+-import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.rawText;
  
 -public class Display implements DisplayI<Component> {
 +public class Display implements DisplayI<ITextComponent> {
@@ -36,7 +36,7 @@
  
      private static final Minecraft client = Minecraft.getInstance();
 -    private static final Font font = client.font;
--    private static final Screen helper = new Screen(new TextComponent("DUMMY")) {
+-    private static final Screen helper = new Screen(rawText("DUMMY")) {
 +    private static final FontRenderer font = client.font;
  
 -    };

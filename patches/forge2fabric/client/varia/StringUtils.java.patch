@@ -58,21 +58,33 @@
      }
  
 -    static ITextComponent asClickable(File file) {
--        StringTextComponent component = new StringTextComponent(file.getName());
+-        StringTextComponent component = rawText(file.getName());
 +    static Component asClickable(File file) {
-+        TextComponent component = new TextComponent(file.getName());
++        TextComponent component = rawText(file.getName());
  
          String path;
  
-@@ -75,9 +69,9 @@
- 
-         component.setStyle(
+@@ -77,18 +71,18 @@
                  component.getStyle()
--                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslationTextComponent("block_renderer.file.tooltip")))
-+                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslatableComponent("block_renderer.file.tooltip")))
+                         .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, translate("block_renderer.file.tooltip")))
                          .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, path))
 -                        .setUnderlined(true)
 +                        .withUnderlined(true)
          );
  
          return component;
+     }
+ 
+-    static TranslationTextComponent translate(String name, Object... args) {
+-        return new TranslationTextComponent(name, args);
++    static TranslatableComponent translate(String name, Object... args) {
++        return new TranslatableComponent(name, args);
+     }
+ 
+-    static StringTextComponent rawText(String text) {
+-        return new StringTextComponent(text);
++    static TextComponent rawText(String text) {
++        return new TextComponent(text);
+     }
+ 
+ }

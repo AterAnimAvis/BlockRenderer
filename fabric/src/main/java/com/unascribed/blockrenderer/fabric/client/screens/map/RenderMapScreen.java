@@ -14,10 +14,12 @@ import net.minecraft.world.item.MapItem;
 import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
 import org.jetbrains.annotations.Nullable;
 
+import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.translate;
+
 @SuppressWarnings("NotNullFieldNotInitialized")
 public class RenderMapScreen extends EnterSizeScreen {
 
-    private static final TranslatableComponent TITLE = new TranslatableComponent("block_renderer.gui.map");
+    private static final TranslatableComponent TITLE = translate("block_renderer.gui.map");
 
     @Nullable
     private final MapItemSavedData data;
@@ -35,13 +37,13 @@ public class RenderMapScreen extends EnterSizeScreen {
     public void init() {
         super.init();
 
-        decorationsButton = addButton(new Button(width / 2 - 100, height / 6 + 96, 200, 20, new TranslatableComponent("block_renderer.gui.map.decorations." + decorations.lowercaseName()), this::toggleDecorations), enabled());
+        decorationsButton = addButton(new Button(width / 2 - 100, height / 6 + 96, 200, 20, translate("block_renderer.gui.map.decorations." + decorations.lowercaseName()), this::toggleDecorations), enabled());
     }
 
     private void toggleDecorations(Button button) {
         decorations = MapDecorations.byId(decorations.ordinal() + 1);
         decorationsButton.setMessage(
-                new TranslatableComponent("block_renderer.gui.map.decorations." + decorations.lowercaseName())
+                translate("block_renderer.gui.map.decorations." + decorations.lowercaseName())
         );
     }
 
@@ -64,7 +66,7 @@ public class RenderMapScreen extends EnterSizeScreen {
         if (minecraft.level == null) return;
         if (data != null) return;
 
-        drawCenteredString(stack, minecraft.font, new TranslatableComponent("block_renderer.gui.noMapData"), width / 2, height / 6 + 30, 0xFF5555);
+        drawCenteredString(stack, minecraft.font, translate("block_renderer.gui.noMapData"), width / 2, height / 6 + 30, 0xFF5555);
     }
 
     @Override

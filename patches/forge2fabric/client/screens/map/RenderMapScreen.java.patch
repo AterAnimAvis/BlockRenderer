@@ -1,6 +1,6 @@
 --- a/client/screens/map/RenderMapScreen.java
 +++ b/client/screens/map/RenderMapScreen.java
-@@ -1,26 +1,26 @@
+@@ -1,28 +1,28 @@
 -package com.unascribed.blockrenderer.forge.client.screens.map;
 +package com.unascribed.blockrenderer.fabric.client.screens.map;
  
@@ -28,11 +28,14 @@
 +import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
  import org.jetbrains.annotations.Nullable;
  
+-import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.translate;
++import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.translate;
+ 
  @SuppressWarnings("NotNullFieldNotInitialized")
  public class RenderMapScreen extends EnterSizeScreen {
  
--    private static final TranslationTextComponent TITLE = new TranslationTextComponent("block_renderer.gui.map");
-+    private static final TranslatableComponent TITLE = new TranslatableComponent("block_renderer.gui.map");
+-    private static final TranslationTextComponent TITLE = translate("block_renderer.gui.map");
++    private static final TranslatableComponent TITLE = translate("block_renderer.gui.map");
  
      @Nullable
 -    private final MapData data;
@@ -40,7 +43,7 @@
      protected Button decorationsButton;
      protected MapDecorations decorations = MapDecorations.DEFAULT;
  
-@@ -28,20 +28,20 @@
+@@ -30,7 +30,7 @@
          super(TITLE, old, stack, false);
  
          minecraft = Minecraft.getInstance();
@@ -49,22 +52,7 @@
      }
  
      @Override
-     public void init() {
-         super.init();
- 
--        decorationsButton = addButton(new Button(width / 2 - 100, height / 6 + 96, 200, 20, new TranslationTextComponent("block_renderer.gui.map.decorations." + decorations.lowercaseName()), this::toggleDecorations), enabled());
-+        decorationsButton = addButton(new Button(width / 2 - 100, height / 6 + 96, 200, 20, new TranslatableComponent("block_renderer.gui.map.decorations." + decorations.lowercaseName()), this::toggleDecorations), enabled());
-     }
- 
-     private void toggleDecorations(Button button) {
-         decorations = MapDecorations.byId(decorations.ordinal() + 1);
-         decorationsButton.setMessage(
--                new TranslationTextComponent("block_renderer.gui.map.decorations." + decorations.lowercaseName())
-+                new TranslatableComponent("block_renderer.gui.map.decorations." + decorations.lowercaseName())
-         );
-     }
- 
-@@ -56,7 +56,7 @@
+@@ -58,7 +58,7 @@
      }
  
      @Override
@@ -73,12 +61,3 @@
          assert minecraft != null;
  
          super.render(stack, mouseX, mouseY, partialTicks);
-@@ -64,7 +64,7 @@
-         if (minecraft.level == null) return;
-         if (data != null) return;
- 
--        drawCenteredString(stack, minecraft.font, new TranslationTextComponent("block_renderer.gui.noMapData"), width / 2, height / 6 + 30, 0xFF5555);
-+        drawCenteredString(stack, minecraft.font, new TranslatableComponent("block_renderer.gui.noMapData"), width / 2, height / 6 + 30, 0xFF5555);
-     }
- 
-     @Override

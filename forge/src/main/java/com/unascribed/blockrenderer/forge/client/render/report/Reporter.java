@@ -3,14 +3,15 @@ package com.unascribed.blockrenderer.forge.client.render.report;
 import com.unascribed.blockrenderer.forge.client.varia.rendering.Display;
 import com.unascribed.blockrenderer.render.report.BaseReporter;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
+
+import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.rawText;
 
 public class Reporter extends BaseReporter<ITextComponent> {
 
     public static Reporter INSTANCE = new Reporter();
 
     private Reporter() {
-        super(new StringTextComponent("Rendering"), Display.INSTANCE);
+        super(rawText("Rendering"), Display.INSTANCE);
     }
 
     @Override
@@ -25,7 +26,7 @@ public class Reporter extends BaseReporter<ITextComponent> {
 
     @Override
     public ITextComponent getProgress() {
-        return new StringTextComponent(getProgressString());
+        return rawText(getProgressString());
     }
 
 }

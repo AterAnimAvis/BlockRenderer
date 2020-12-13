@@ -10,9 +10,10 @@ import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
+
+import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.translate;
 
 @SuppressWarnings("NotNullFieldNotInitialized")
 public abstract class BaseScreen extends Screen {
@@ -37,9 +38,9 @@ public abstract class BaseScreen extends Screen {
     protected void init() {
         assert minecraft != null;
         boolean enabled = enabled();
-        addButton(new Button(width / 2 - 100, height / 6 + 120, 98, 20, new TranslationTextComponent("gui.cancel"), button -> minecraft.setScreen(old)));
+        addButton(new Button(width / 2 - 100, height / 6 + 120, 98, 20, translate("gui.cancel"), button -> minecraft.setScreen(old)));
 
-        renderButton = addButton(new Button(width / 2 + 2, height / 6 + 120, 98, 20, new TranslationTextComponent("block_renderer.gui.render"), this::onRender), enabled);
+        renderButton = addButton(new Button(width / 2 + 2, height / 6 + 120, 98, 20, translate("block_renderer.gui.render"), this::onRender), enabled);
 
         size = MathHelper.clamp(size, getMinSize(), getMaxSize());
 
@@ -94,7 +95,7 @@ public abstract class BaseScreen extends Screen {
 
         if (minecraft.level != null) return;
 
-        drawCenteredString(stack, minecraft.font, new TranslationTextComponent("block_renderer.gui.noWorld"), width / 2, height / 6 + 30, 0xFF5555);
+        drawCenteredString(stack, minecraft.font, translate("block_renderer.gui.noWorld"), width / 2, height / 6 + 30, 0xFF5555);
     }
 
     protected abstract void onRender(Button button);

@@ -2,14 +2,14 @@ package com.unascribed.blockrenderer.forge.client.render.item;
 
 import com.unascribed.blockrenderer.forge.client.varia.Identifiers;
 import com.unascribed.blockrenderer.forge.client.varia.StringUtils;
+import com.unascribed.blockrenderer.forge.client.varia.Styles;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.function.Consumer;
+
+import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.translate;
 
 public class BaseItemStackHandler implements Consumer<ItemStack> {
 
@@ -40,21 +40,19 @@ public class BaseItemStackHandler implements Consumer<ItemStack> {
     }
 
     protected void report(Object name, @Nullable File file) {
-        Style gold = Style.EMPTY.applyFormat(TextFormatting.GOLD);
-
         if (file == null) {
-            StringUtils.addMessage(new TranslationTextComponent(
+            StringUtils.addMessage(translate(
                     "msg.block_renderer.render.success.nofile",
                     name,
                     StringUtils.asClickable(folder)
-            ).setStyle(gold));
+            ).withStyle(Styles.GOLD));
         } else {
-            StringUtils.addMessage(new TranslationTextComponent(
+            StringUtils.addMessage(translate(
                     "msg.block_renderer.render.success",
                     name,
                     StringUtils.asClickable(folder),
                     StringUtils.asClickable(file.getAbsoluteFile())
-            ).setStyle(gold));
+            ).withStyle(Styles.GOLD));
         }
     }
 

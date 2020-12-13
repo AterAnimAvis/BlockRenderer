@@ -10,11 +10,11 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 
 import java.util.List;
 
 import static com.unascribed.blockrenderer.Interop.GL;
+import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.rawText;
 
 public class Display implements DisplayI<Component> {
 
@@ -22,7 +22,7 @@ public class Display implements DisplayI<Component> {
 
     private static final Minecraft client = Minecraft.getInstance();
     private static final Font font = client.font;
-    private static final Screen helper = new Screen(new TextComponent("DUMMY")) {
+    private static final Screen helper = new Screen(rawText("DUMMY")) {
 
     };
 

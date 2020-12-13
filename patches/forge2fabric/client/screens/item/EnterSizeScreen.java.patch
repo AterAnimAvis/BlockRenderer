@@ -1,6 +1,6 @@
 --- a/client/screens/item/EnterSizeScreen.java
 +++ b/client/screens/item/EnterSizeScreen.java
-@@ -1,18 +1,18 @@
+@@ -1,20 +1,20 @@
 -package com.unascribed.blockrenderer.forge.client.screens.item;
 +package com.unascribed.blockrenderer.fabric.client.screens.item;
  
@@ -22,14 +22,17 @@
 +import net.minecraft.world.item.ItemStack;
  import org.jetbrains.annotations.Nullable;
  
+-import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.translate;
++import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.translate;
+ 
  public class EnterSizeScreen extends BaseItemScreen {
  
--    private static final TranslationTextComponent TITLE = new TranslationTextComponent("block_renderer.gui.renderItem");
-+    private static final TranslatableComponent TITLE = new TranslatableComponent("block_renderer.gui.renderItem");
+-    private static final TranslationTextComponent TITLE = translate("block_renderer.gui.renderItem");
++    private static final TranslatableComponent TITLE = translate("block_renderer.gui.renderItem");
  
      protected final ItemStack stack;
      private final boolean enableSwitch;
-@@ -21,7 +21,7 @@
+@@ -23,7 +23,7 @@
          this(TITLE, old, stack, true);
      }
  
@@ -38,14 +41,3 @@
          super(title, old);
          this.stack = stack;
          this.enableSwitch = enableSwitch;
-@@ -41,8 +41,8 @@
-                         this,
-                         width - 32,
-                         height - 32,
--                        new TranslationTextComponent("block_renderer.gui.switch.bulk"),
--                        new TranslationTextComponent("block_renderer.gui.switch.bulk.tooltip"),
-+                        new TranslatableComponent("block_renderer.gui.switch.bulk"),
-+                        new TranslatableComponent("block_renderer.gui.switch.bulk.tooltip"),
-                         button -> minecraft.setScreen(new EnterNamespaceScreen(old, stack))),
-                 enableSwitch
-         );

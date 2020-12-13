@@ -1,6 +1,6 @@
 --- a/client/proxy/ClientProxy.java
 +++ b/client/proxy/ClientProxy.java
-@@ -1,48 +1,30 @@
+@@ -1,49 +1,31 @@
 -package com.unascribed.blockrenderer.forge.client.proxy;
 +package com.unascribed.blockrenderer.fabric.client.proxy;
  
@@ -10,7 +10,6 @@
 -import com.unascribed.blockrenderer.forge.client.screens.SelectionScreen;
 -import com.unascribed.blockrenderer.forge.client.screens.item.EnterSizeScreen;
 -import com.unascribed.blockrenderer.forge.client.varia.Registries;
--import com.unascribed.blockrenderer.forge.client.varia.StringUtils;
 -import com.unascribed.blockrenderer.forge.proxy.CommonProxy;
 +import com.mojang.blaze3d.platform.InputConstants;
 +import com.unascribed.blockrenderer.fabric.client.init.Keybindings;
@@ -31,7 +30,6 @@
 -import net.minecraft.entity.player.PlayerEntity;
 -import net.minecraft.inventory.container.Slot;
 -import net.minecraft.item.ItemStack;
--import net.minecraft.util.text.TranslationTextComponent;
 -import net.minecraftforge.common.MinecraftForge;
 -import net.minecraftforge.event.TickEvent;
 -import net.minecraftforge.eventbus.api.EventPriority;
@@ -41,11 +39,14 @@
 +import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 +import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 +import net.minecraft.client.gui.screens.recipebook.RecipeUpdateListener;
-+import net.minecraft.network.chat.TranslatableComponent;
 +import net.minecraft.world.entity.player.Player;
 +import net.minecraft.world.inventory.Slot;
 +import net.minecraft.world.item.ItemStack;
  import org.lwjgl.glfw.GLFW;
+ 
+-import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.addMessage;
+-import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.translate;
++import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.translate;
  
 -public class ClientProxy extends CommonProxy {
 +public class ClientProxy {
@@ -69,7 +70,7 @@
      public static void onFrameStart() {
          RenderManager.onFrameStart();
  
-@@ -57,13 +39,13 @@
+@@ -58,13 +40,13 @@
          Minecraft client = Minecraft.getInstance();
          Slot hovered = null;
          Screen currentScreen = client.screen;
@@ -86,7 +87,7 @@
  
              ItemStack input = hovered != null && hovered.hasItem() ? hovered.getItem() : null;
              if (input == null && player != null) input = player.getMainHandItem();
-@@ -73,25 +55,25 @@
+@@ -74,25 +56,25 @@
          }
  
          if (!isContainerScreen) {
@@ -97,26 +98,26 @@
                  renderStack(player.getMainHandItem());
                  return;
              }
--            StringUtils.addMessage(new TranslationTextComponent("msg.block_renderer.notContainer"));
-+            StringUtils.addMessage(new TranslatableComponent("msg.block_renderer.notContainer"));
+-            addMessage(translate("msg.block_renderer.notContainer"));
++            StringUtils.addMessage(translate("msg.block_renderer.notContainer"));
              return;
          }
  
          if (hovered == null) {
--            StringUtils.addMessage(new TranslationTextComponent("msg.block_renderer.slot.absent"));
-+            StringUtils.addMessage(new TranslatableComponent("msg.block_renderer.slot.absent"));
+-            addMessage(translate("msg.block_renderer.slot.absent"));
++            StringUtils.addMessage(translate("msg.block_renderer.slot.absent"));
              return;
          }
  
          ItemStack stack = hovered.getItem();
  
          if (stack.isEmpty()) {
--            StringUtils.addMessage(new TranslationTextComponent("msg.block_renderer.slot.empty"));
-+            StringUtils.addMessage(new TranslatableComponent("msg.block_renderer.slot.empty"));
+-            addMessage(translate("msg.block_renderer.slot.empty"));
++            StringUtils.addMessage(translate("msg.block_renderer.slot.empty"));
              return;
          }
  
-@@ -123,26 +105,26 @@
+@@ -124,26 +106,26 @@
          if (currentScreen == null) return false;
  
          /* Non Containers seem to behave ok */

@@ -1,6 +1,5 @@
 package com.unascribed.blockrenderer.fabric.client.screens;
 
-
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.unascribed.blockrenderer.fabric.client.screens.item.EnterNamespaceScreen;
 import com.unascribed.blockrenderer.fabric.client.screens.item.RenderAnimatedScreen;
@@ -17,9 +16,11 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
+import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.translate;
+
 public class SelectionScreen extends Screen {
 
-    private static final TranslatableComponent TITLE = new TranslatableComponent("block_renderer.gui.choose");
+    private static final TranslatableComponent TITLE = translate("block_renderer.gui.choose");
 
     @Nullable
     private final Screen old;
@@ -43,8 +44,8 @@ public class SelectionScreen extends Screen {
                 Registries.mapLazy(Registries.MAP, Item::getDefaultInstance),
                 width / 2 - 64 - 12,
                 height / 2,
-                new TranslatableComponent("block_renderer.gui.choose.map"),
-                new TranslatableComponent("block_renderer.gui.choose.map.tooltip"),
+                translate("block_renderer.gui.choose.map"),
+                translate("block_renderer.gui.choose.map.tooltip"),
                 button -> {
                     assert stack != null;
                     minecraft.setScreen(new RenderMapScreen(old, stack));
@@ -57,8 +58,8 @@ public class SelectionScreen extends Screen {
                 Registries.mapLazy(Registries.DISPENSER, Item::getDefaultInstance),
                 width / 2,
                 height / 2,
-                new TranslatableComponent("block_renderer.gui.choose.item"),
-                new TranslatableComponent("block_renderer.gui.choose.item.tooltip"),
+                translate("block_renderer.gui.choose.item"),
+                translate("block_renderer.gui.choose.item.tooltip"),
                 button -> minecraft.setScreen(new EnterNamespaceScreen(old, stack))
         ));
 
@@ -68,8 +69,8 @@ public class SelectionScreen extends Screen {
                 Registries.mapLazy(Registries.CUTTER, Item::getDefaultInstance),
                 width / 2 + 64 + 12,
                 height / 2,
-                new TranslatableComponent("block_renderer.gui.choose.animated"),
-                new TranslatableComponent("block_renderer.gui.choose.animated.tooltip"),
+                translate("block_renderer.gui.choose.animated"),
+                translate("block_renderer.gui.choose.animated.tooltip"),
                 button -> {
                     assert stack != null;
                     minecraft.setScreen(new RenderAnimatedScreen(old, stack));

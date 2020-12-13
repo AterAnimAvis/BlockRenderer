@@ -2,14 +2,14 @@ package com.unascribed.blockrenderer.fabric.client.render.item;
 
 import com.unascribed.blockrenderer.fabric.client.varia.Identifiers;
 import com.unascribed.blockrenderer.fabric.client.varia.StringUtils;
-import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TranslatableComponent;
+import com.unascribed.blockrenderer.fabric.client.varia.Styles;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.util.function.Consumer;
+
+import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.translate;
 
 public class BaseItemStackHandler implements Consumer<ItemStack> {
 
@@ -40,21 +40,19 @@ public class BaseItemStackHandler implements Consumer<ItemStack> {
     }
 
     protected void report(Object name, @Nullable File file) {
-        Style gold = Style.EMPTY.applyFormat(ChatFormatting.GOLD);
-
         if (file == null) {
-            StringUtils.addMessage(new TranslatableComponent(
+            StringUtils.addMessage(translate(
                     "msg.block_renderer.render.success.nofile",
                     name,
                     StringUtils.asClickable(folder)
-            ).setStyle(gold));
+            ).withStyle(Styles.GOLD));
         } else {
-            StringUtils.addMessage(new TranslatableComponent(
+            StringUtils.addMessage(translate(
                     "msg.block_renderer.render.success",
                     name,
                     StringUtils.asClickable(folder),
                     StringUtils.asClickable(file.getAbsoluteFile())
-            ).setStyle(gold));
+            ).withStyle(Styles.GOLD));
         }
     }
 
