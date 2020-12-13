@@ -1,6 +1,6 @@
 --- a/client/proxy/ClientProxy.java
 +++ b/client/proxy/ClientProxy.java
-@@ -1,49 +1,31 @@
+@@ -1,24 +1,26 @@
 -package com.unascribed.blockrenderer.forge.client.proxy;
 +package com.unascribed.blockrenderer.fabric.client.proxy;
  
@@ -9,8 +9,6 @@
 -import com.unascribed.blockrenderer.forge.client.render.Requests;
 -import com.unascribed.blockrenderer.forge.client.screens.SelectionScreen;
 -import com.unascribed.blockrenderer.forge.client.screens.item.EnterSizeScreen;
--import com.unascribed.blockrenderer.forge.client.varia.Registries;
--import com.unascribed.blockrenderer.forge.proxy.CommonProxy;
 +import com.mojang.blaze3d.platform.InputConstants;
 +import com.unascribed.blockrenderer.fabric.client.init.Keybindings;
 +import com.unascribed.blockrenderer.fabric.client.render.RenderManager;
@@ -30,10 +28,6 @@
 -import net.minecraft.entity.player.PlayerEntity;
 -import net.minecraft.inventory.container.Slot;
 -import net.minecraft.item.ItemStack;
--import net.minecraftforge.common.MinecraftForge;
--import net.minecraftforge.event.TickEvent;
--import net.minecraftforge.eventbus.api.EventPriority;
--import net.minecraftforge.eventbus.api.SubscribeEvent;
 +import net.minecraft.client.gui.components.EditBox;
 +import net.minecraft.client.gui.screens.Screen;
 +import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -48,29 +42,9 @@
 -import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.translate;
 +import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.translate;
  
--public class ClientProxy extends CommonProxy {
-+public class ClientProxy {
+ public class ClientProxy {
  
-     private static boolean down = false;
- 
--    @Override
--    public void init() {
--        MinecraftForge.EVENT_BUS.register(this);
--
--        Registries.clazzLoad();
--    }
--
--    @SubscribeEvent(priority = EventPriority.HIGHEST)
--    public void onFrameStart(TickEvent.RenderTickEvent e) {
--        if (e.phase != TickEvent.Phase.START) return;
--
--        onFrameStart();
--    }
--
-     public static void onFrameStart() {
-         RenderManager.onFrameStart();
- 
-@@ -58,13 +40,13 @@
+@@ -38,13 +40,13 @@
          Minecraft client = Minecraft.getInstance();
          Slot hovered = null;
          Screen currentScreen = client.screen;
@@ -87,7 +61,7 @@
  
              ItemStack input = hovered != null && hovered.hasItem() ? hovered.getItem() : null;
              if (input == null && player != null) input = player.getMainHandItem();
-@@ -74,25 +56,25 @@
+@@ -54,25 +56,25 @@
          }
  
          if (!isContainerScreen) {
@@ -117,7 +91,7 @@
              return;
          }
  
-@@ -124,26 +106,26 @@
+@@ -104,26 +106,26 @@
          if (currentScreen == null) return false;
  
          /* Non Containers seem to behave ok */
