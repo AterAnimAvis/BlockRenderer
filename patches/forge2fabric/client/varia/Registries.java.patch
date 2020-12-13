@@ -1,6 +1,6 @@
 --- a/client/varia/Registries.java
 +++ b/client/varia/Registries.java
-@@ -1,17 +1,25 @@
+@@ -1,24 +1,24 @@
 -package com.unascribed.blockrenderer.forge.client.varia;
 +package com.unascribed.blockrenderer.fabric.client.varia;
  
@@ -13,9 +13,9 @@
 +import net.minecraft.util.LazyLoadedValue;
 +import net.minecraft.world.item.Item;
  
-+import java.util.function.Function;
-+import java.util.function.Supplier;
-+
+ import java.util.function.Function;
+ import java.util.function.Supplier;
+ 
  public interface Registries {
  
 -    RegistryObject<Item> MAP = RegistryObject.of(new ResourceLocation("minecraft:filled_map"), ForgeRegistries.ITEMS);
@@ -30,9 +30,9 @@
 +    static Item lookupItem(ResourceLocation identifier) {
 +        return Registry.ITEM.get(identifier);
      }
-+
+ 
+-    static <A extends Item, B> Supplier<B> mapLazy(RegistryObject<A> lazy, Function<A, B> mapper) {
 +    static <A, B> Supplier<B> mapLazy(LazyLoadedValue<A> lazy, Function<A, B> mapper) {
-+        return () -> mapper.apply(lazy.get());
- }
-+
-+}
+         return () -> mapper.apply(lazy.get());
+     }
+ 

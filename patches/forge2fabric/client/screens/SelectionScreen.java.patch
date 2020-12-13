@@ -42,33 +42,6 @@
  
      @Nullable
      private final Screen old;
-@@ -41,7 +41,7 @@
-         addButton(new ItemButtonWidget(
-                 this,
-                 itemRenderer,
--                Registries.MAP.lazyMap(Item::getDefaultInstance),
-+                Registries.mapLazy(Registries.MAP, Item::getDefaultInstance),
-                 width / 2 - 64 - 12,
-                 height / 2,
-                 translate("block_renderer.gui.choose.map"),
-@@ -55,7 +55,7 @@
-         addButton(new ItemButtonWidget(
-                 this,
-                 itemRenderer,
--                Registries.DISPENSER.lazyMap(Item::getDefaultInstance),
-+                Registries.mapLazy(Registries.DISPENSER, Item::getDefaultInstance),
-                 width / 2,
-                 height / 2,
-                 translate("block_renderer.gui.choose.item"),
-@@ -66,7 +66,7 @@
-         addButton(new ItemButtonWidget(
-                 this,
-                 itemRenderer,
--                Registries.CUTTER.lazyMap(Item::getDefaultInstance),
-+                Registries.mapLazy(Registries.CUTTER, Item::getDefaultInstance),
-                 width / 2 + 64 + 12,
-                 height / 2,
-                 translate("block_renderer.gui.choose.animated"),
 @@ -79,7 +79,7 @@
      }
  

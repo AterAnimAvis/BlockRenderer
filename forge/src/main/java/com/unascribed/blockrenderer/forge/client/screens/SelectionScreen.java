@@ -41,7 +41,7 @@ public class SelectionScreen extends Screen {
         addButton(new ItemButtonWidget(
                 this,
                 itemRenderer,
-                Registries.MAP.lazyMap(Item::getDefaultInstance),
+                Registries.mapLazy(Registries.MAP, Item::getDefaultInstance),
                 width / 2 - 64 - 12,
                 height / 2,
                 translate("block_renderer.gui.choose.map"),
@@ -55,7 +55,7 @@ public class SelectionScreen extends Screen {
         addButton(new ItemButtonWidget(
                 this,
                 itemRenderer,
-                Registries.DISPENSER.lazyMap(Item::getDefaultInstance),
+                Registries.mapLazy(Registries.DISPENSER, Item::getDefaultInstance),
                 width / 2,
                 height / 2,
                 translate("block_renderer.gui.choose.item"),
@@ -66,7 +66,7 @@ public class SelectionScreen extends Screen {
         addButton(new ItemButtonWidget(
                 this,
                 itemRenderer,
-                Registries.CUTTER.lazyMap(Item::getDefaultInstance),
+                Registries.mapLazy(Registries.CUTTER, Item::getDefaultInstance),
                 width / 2 + 64 + 12,
                 height / 2,
                 translate("block_renderer.gui.choose.animated"),
