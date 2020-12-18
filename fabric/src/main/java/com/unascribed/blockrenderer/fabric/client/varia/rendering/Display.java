@@ -6,7 +6,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.unascribed.blockrenderer.varia.rendering.DisplayI;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
@@ -21,7 +20,6 @@ public class Display implements DisplayI<Component> {
     public static final Display INSTANCE = new Display();
 
     private static final Minecraft client = Minecraft.getInstance();
-    private static final Font font = client.font;
     private static final Screen helper = new Screen(rawText("DUMMY")) {
 
     };
@@ -45,7 +43,7 @@ public class Display implements DisplayI<Component> {
     }
 
     public static void drawCenteredString(PoseStack stack, String str, int x, int y, int color) {
-        font.drawShadow(stack, str, x - font.width(str) / 2F, y, color);
+        client.font.drawShadow(stack, str, x - client.font.width(str) / 2F, y, color);
     }
 
     public static void renderTooltip(Screen owner, PoseStack stack, List<Component> tooltip, int x, int y) {

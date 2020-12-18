@@ -4,7 +4,6 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.unascribed.blockrenderer.varia.rendering.DisplayI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
@@ -21,7 +20,6 @@ public class Display implements DisplayI<ITextComponent> {
     public static final Display INSTANCE = new Display();
 
     private static final Minecraft client = Minecraft.getInstance();
-    private static final FontRenderer font = client.font;
 
     @Override
     public void drawRect(int x1, int y1, int x2, int y2, int color) {
@@ -42,11 +40,11 @@ public class Display implements DisplayI<ITextComponent> {
     }
 
     public static void drawCenteredString(MatrixStack stack, String str, int x, int y, int color) {
-        font.drawShadow(stack, str, x - font.width(str) / 2F, y, color);
+        client.font.drawShadow(stack, str, x - client.font.width(str) / 2F, y, color);
     }
 
     public static void renderTooltip(Screen owner, MatrixStack stack, List<ITextComponent> tooltip, int x, int y) {
-        GuiUtils.drawHoveringText(stack, tooltip, x, y, owner.width, owner.height, -1, font);
+        GuiUtils.drawHoveringText(stack, tooltip, x, y, owner.width, owner.height, -1, client.font);
     }
 
     @Override

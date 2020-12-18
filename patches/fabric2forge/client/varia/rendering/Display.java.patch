@@ -1,6 +1,6 @@
 --- a/client/varia/rendering/Display.java
 +++ b/client/varia/rendering/Display.java
-@@ -1,67 +1,63 @@
+@@ -1,65 +1,61 @@
 -package com.unascribed.blockrenderer.fabric.client.varia.rendering;
 +package com.unascribed.blockrenderer.forge.client.varia.rendering;
  
@@ -11,12 +11,10 @@
 +import com.mojang.blaze3d.matrix.MatrixStack;
  import com.unascribed.blockrenderer.varia.rendering.DisplayI;
  import net.minecraft.client.Minecraft;
--import net.minecraft.client.gui.Font;
 -import net.minecraft.client.gui.GuiComponent;
 -import net.minecraft.client.gui.screens.Screen;
 -import net.minecraft.network.chat.Component;
 +import net.minecraft.client.gui.AbstractGui;
-+import net.minecraft.client.gui.FontRenderer;
 +import net.minecraft.client.gui.screen.Screen;
 +import net.minecraft.client.renderer.BufferBuilder;
 +import net.minecraft.client.renderer.Tessellator;
@@ -35,9 +33,7 @@
      public static final Display INSTANCE = new Display();
  
      private static final Minecraft client = Minecraft.getInstance();
--    private static final Font font = client.font;
 -    private static final Screen helper = new Screen(rawText("DUMMY")) {
-+    private static final FontRenderer font = client.font;
  
 -    };
 -
@@ -67,14 +63,14 @@
  
 -    public static void drawCenteredString(PoseStack stack, String str, int x, int y, int color) {
 +    public static void drawCenteredString(MatrixStack stack, String str, int x, int y, int color) {
-         font.drawShadow(stack, str, x - font.width(str) / 2F, y, color);
+         client.font.drawShadow(stack, str, x - client.font.width(str) / 2F, y, color);
      }
  
 -    public static void renderTooltip(Screen owner, PoseStack stack, List<Component> tooltip, int x, int y) {
 -        helper.init(client, owner.width, owner.height);
 -        helper.renderComponentTooltip(stack, tooltip, x, y);
 +    public static void renderTooltip(Screen owner, MatrixStack stack, List<ITextComponent> tooltip, int x, int y) {
-+        GuiUtils.drawHoveringText(stack, tooltip, x, y, owner.width, owner.height, -1, font);
++        GuiUtils.drawHoveringText(stack, tooltip, x, y, owner.width, owner.height, -1, client.font);
      }
  
      @Override
