@@ -14,10 +14,10 @@ import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.trans
 
 public class RenderManager extends BaseRenderManager<Component> {
 
-    public static final BaseRenderManager<Component> INSTANCE = new RenderManager();
-
     private static final Component RENDERING_GIF = translate("block_renderer.render.gif").withStyle(Styles.GOLD);
     private static final Component RENDERING_AUTO = translate("block_renderer.render.auto_loop").withStyle(Styles.GOLD);
+
+    public static final BaseRenderManager<Component> INSTANCE = new RenderManager();
 
     public static Queue<IRequest> requests = new PriorityQueue<>();
     @Nullable

@@ -14,10 +14,10 @@ import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.transl
 
 public class RenderManager extends BaseRenderManager<ITextComponent> {
 
-    public static final BaseRenderManager<ITextComponent> INSTANCE = new RenderManager();
-
     private static final ITextComponent RENDERING_GIF = translate("block_renderer.render.gif").withStyle(Styles.GOLD);
     private static final ITextComponent RENDERING_AUTO = translate("block_renderer.render.auto_loop").withStyle(Styles.GOLD);
+
+    public static final BaseRenderManager<ITextComponent> INSTANCE = new RenderManager();
 
     public static Queue<IRequest> requests = new PriorityQueue<>();
     @Nullable
