@@ -7,4 +7,6 @@ public interface Time {
     long NANOS_IN_A_SECOND = 1_000_000_000L;
     long NANOS_PER_FRAME = NANOS_IN_A_SECOND / TICKS_IN_A_SECOND;
 
+    float NANOS_IN_A_SECOND_F = 1_000_000_000F;
+
 }
