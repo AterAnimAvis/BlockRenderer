@@ -14,7 +14,7 @@ import net.minecraft.world.item.MapItem;
 import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
 import org.jetbrains.annotations.Nullable;
 
-import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.translate;
+import static com.unascribed.blockrenderer.fabric.client.varia.Strings.translate;
 
 @SuppressWarnings("NotNullFieldNotInitialized")
 public class RenderMapScreen extends EnterSizeScreen {

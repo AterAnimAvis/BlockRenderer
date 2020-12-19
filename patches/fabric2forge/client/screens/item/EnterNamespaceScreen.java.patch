@@ -8,7 +8,7 @@
 -import com.unascribed.blockrenderer.fabric.client.render.RenderManager;
 -import com.unascribed.blockrenderer.fabric.client.render.Requests;
 -import com.unascribed.blockrenderer.fabric.client.screens.widgets.HoverableTinyButtonWidget;
--import com.unascribed.blockrenderer.fabric.client.varia.StringUtils;
+-import com.unascribed.blockrenderer.fabric.client.varia.Strings;
 -import net.minecraft.client.gui.components.Button;
 -import net.minecraft.client.gui.components.EditBox;
 -import net.minecraft.client.gui.screens.Screen;
@@ -18,7 +18,7 @@
 +import com.unascribed.blockrenderer.forge.client.render.RenderManager;
 +import com.unascribed.blockrenderer.forge.client.render.Requests;
 +import com.unascribed.blockrenderer.forge.client.screens.widgets.HoverableTinyButtonWidget;
-+import com.unascribed.blockrenderer.forge.client.varia.StringUtils;
++import com.unascribed.blockrenderer.forge.client.varia.Strings;
 +import net.minecraft.client.gui.screen.Screen;
 +import net.minecraft.client.gui.widget.TextFieldWidget;
 +import net.minecraft.client.gui.widget.button.Button;
@@ -26,8 +26,8 @@
 +import net.minecraft.util.text.TranslationTextComponent;
  import org.jetbrains.annotations.Nullable;
  
--import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.translate;
-+import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.translate;
+-import static com.unascribed.blockrenderer.fabric.client.varia.Strings.translate;
++import static com.unascribed.blockrenderer.forge.client.varia.Strings.translate;
  
  /*
   * Note: Screen's get initialized in init

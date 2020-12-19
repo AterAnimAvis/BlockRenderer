@@ -17,8 +17,8 @@ import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import org.lwjgl.glfw.GLFW;
 
-import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.addMessage;
-import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.translate;
+import static com.unascribed.blockrenderer.forge.client.varia.Strings.addMessage;
+import static com.unascribed.blockrenderer.forge.client.varia.Strings.translate;
 
 public class ClientProxy {
 

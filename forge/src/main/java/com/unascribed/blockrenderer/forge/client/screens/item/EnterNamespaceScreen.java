@@ -4,7 +4,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.unascribed.blockrenderer.forge.client.render.RenderManager;
 import com.unascribed.blockrenderer.forge.client.render.Requests;
 import com.unascribed.blockrenderer.forge.client.screens.widgets.HoverableTinyButtonWidget;
-import com.unascribed.blockrenderer.forge.client.varia.StringUtils;
+import com.unascribed.blockrenderer.forge.client.varia.Strings;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
@@ -12,7 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TranslationTextComponent;
 import org.jetbrains.annotations.Nullable;
 
-import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.translate;
+import static com.unascribed.blockrenderer.forge.client.varia.Strings.translate;
 
 /*
  * Note: Screen's get initialized in init
@@ -38,7 +38,7 @@ public class EnterNamespaceScreen extends BaseItemScreen {
 
     public EnterNamespaceScreen(@Nullable Screen old, @Nullable ItemStack stack) {
         super(TITLE, old);
-        this.prefill = StringUtils.getNamespace(stack);
+        this.prefill = Strings.getNamespace(stack);
         this.stack = stack;
     }
 

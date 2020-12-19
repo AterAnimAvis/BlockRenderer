@@ -9,7 +9,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 
-import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.translate;
+import static com.unascribed.blockrenderer.fabric.client.varia.Strings.translate;
 
 /*
  * Note: Screen's get initialized in init

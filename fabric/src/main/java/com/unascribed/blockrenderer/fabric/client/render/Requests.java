@@ -8,7 +8,7 @@ import com.unascribed.blockrenderer.fabric.client.render.item.ItemStackRenderer;
 import com.unascribed.blockrenderer.fabric.client.render.map.DefaultPngMapHandler;
 import com.unascribed.blockrenderer.fabric.client.render.map.MapRenderer;
 import com.unascribed.blockrenderer.fabric.client.varia.MiscUtils;
-import com.unascribed.blockrenderer.fabric.client.varia.StringUtils;
+import com.unascribed.blockrenderer.fabric.client.varia.Strings;
 import com.unascribed.blockrenderer.render.IRequest;
 import com.unascribed.blockrenderer.render.item.ItemStackParameters;
 import com.unascribed.blockrenderer.render.map.MapDecorations;
@@ -51,12 +51,12 @@ public class Requests {
     }
 
     public static IRequest bulk(String spec, int size, boolean useId, boolean addSize) {
-        Set<String> namespaces = StringUtils.getNamespaces(spec);
+        Set<String> namespaces = Strings.getNamespaces(spec);
         List<ItemStack> renders = MiscUtils.collectStacks(namespaces);
         String joined = Joiner.on(", ").join(namespaces);
 
         String sizeString = addSize ? size + "x" + size + "_" : "";
-        File folder = new File(Files.DEFAULT_FOLDER, StringUtils.dateTime() + "_" + sizeString + StringUtils.sanitize(joined) + "/");
+        File folder = new File(Files.DEFAULT_FOLDER, Strings.dateTime() + "_" + sizeString + Strings.sanitize(joined) + "/");
 
         BulkPngItemStackHandler handler = new BulkPngItemStackHandler(joined, folder, size, useId, false, false);
 

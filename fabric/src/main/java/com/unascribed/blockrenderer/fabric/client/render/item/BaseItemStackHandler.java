@@ -1,7 +1,7 @@
 package com.unascribed.blockrenderer.fabric.client.render.item;
 
 import com.unascribed.blockrenderer.fabric.client.varia.Identifiers;
-import com.unascribed.blockrenderer.fabric.client.varia.StringUtils;
+import com.unascribed.blockrenderer.fabric.client.varia.Strings;
 import com.unascribed.blockrenderer.fabric.client.varia.Styles;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
@@ -9,7 +9,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.util.function.Consumer;
 
-import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.translate;
+import static com.unascribed.blockrenderer.fabric.client.varia.Strings.translate;
 
 public class BaseItemStackHandler implements Consumer<ItemStack> {
 
@@ -41,17 +41,17 @@ public class BaseItemStackHandler implements Consumer<ItemStack> {
 
     protected void report(Object name, @Nullable File file) {
         if (file == null) {
-            StringUtils.addMessage(translate(
+            Strings.addMessage(translate(
                     "msg.block_renderer.render.success.nofile",
                     name,
-                    StringUtils.asClickable(folder)
+                    Strings.asClickable(folder)
             ).withStyle(Styles.GOLD));
         } else {
-            StringUtils.addMessage(translate(
+            Strings.addMessage(translate(
                     "msg.block_renderer.render.success",
                     name,
-                    StringUtils.asClickable(folder),
-                    StringUtils.asClickable(file.getAbsoluteFile())
+                    Strings.asClickable(folder),
+                    Strings.asClickable(file.getAbsoluteFile())
             ).withStyle(Styles.GOLD));
         }
     }
@@ -60,11 +60,11 @@ public class BaseItemStackHandler implements Consumer<ItemStack> {
         String sizeString = addSize ? size + "x" + size + "_" : "";
         String fileName = _getFilename(value, useIdentifier);
 
-        return (addDate ? StringUtils.dateTime() + "_" : "") + sizeString + fileName;
+        return (addDate ? Strings.dateTime() + "_" : "") + sizeString + fileName;
     }
 
     private String _getFilename(ItemStack value, boolean useIdentifier) {
-        return useIdentifier ? StringUtils.sanitize(Identifiers.get(value.getItem())) : StringUtils.sanitize(value.getDisplayName());
+        return useIdentifier ? Strings.sanitize(Identifiers.get(value.getItem())) : Strings.sanitize(value.getDisplayName());
     }
 
 }

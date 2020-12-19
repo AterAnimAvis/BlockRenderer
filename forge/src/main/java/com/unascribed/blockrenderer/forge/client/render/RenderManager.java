@@ -2,15 +2,15 @@ package com.unascribed.blockrenderer.forge.client.render;
 
 import com.unascribed.blockrenderer.forge.client.render.report.Reporter;
 import com.unascribed.blockrenderer.forge.client.varia.Styles;
-import com.unascribed.blockrenderer.render.BaseRenderManager;
 import com.unascribed.blockrenderer.render.IRequest;
+import com.unascribed.blockrenderer.render.manager.BaseRenderManager;
 import net.minecraft.util.text.ITextComponent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.translate;
+import static com.unascribed.blockrenderer.forge.client.varia.Strings.translate;
 
 public class RenderManager extends BaseRenderManager<ITextComponent> {
 

@@ -2,15 +2,15 @@ package com.unascribed.blockrenderer.fabric.client.render;
 
 import com.unascribed.blockrenderer.fabric.client.render.report.Reporter;
 import com.unascribed.blockrenderer.fabric.client.varia.Styles;
-import com.unascribed.blockrenderer.render.BaseRenderManager;
 import com.unascribed.blockrenderer.render.IRequest;
+import com.unascribed.blockrenderer.render.manager.BaseRenderManager;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.translate;
+import static com.unascribed.blockrenderer.fabric.client.varia.Strings.translate;
 
 public class RenderManager extends BaseRenderManager<Component> {
 

@@ -4,7 +4,7 @@ import com.unascribed.blockrenderer.fabric.client.varia.rendering.Display;
 import com.unascribed.blockrenderer.render.report.BaseReporter;
 import net.minecraft.network.chat.Component;
 
-import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.rawText;
+import static com.unascribed.blockrenderer.fabric.client.varia.Strings.rawText;
 
 public class Reporter extends BaseReporter<Component> {
 

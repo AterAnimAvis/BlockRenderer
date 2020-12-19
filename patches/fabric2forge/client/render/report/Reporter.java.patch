@@ -10,8 +10,8 @@
 -import net.minecraft.network.chat.Component;
 +import net.minecraft.util.text.ITextComponent;
  
--import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.rawText;
-+import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.rawText;
+-import static com.unascribed.blockrenderer.fabric.client.varia.Strings.rawText;
++import static com.unascribed.blockrenderer.forge.client.varia.Strings.rawText;
  
 -public class Reporter extends BaseReporter<Component> {
 +public class Reporter extends BaseReporter<ITextComponent> {

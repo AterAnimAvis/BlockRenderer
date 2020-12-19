@@ -13,7 +13,7 @@ import net.minecraft.network.chat.Component;
 import java.util.List;
 
 import static com.unascribed.blockrenderer.Interop.GL;
-import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.rawText;
+import static com.unascribed.blockrenderer.fabric.client.varia.Strings.rawText;
 
 public class Display implements DisplayI<Component> {
 
