@@ -55,7 +55,7 @@ public interface Strings {
     }
 
     static String sanitize(String str) {
-        return str.replaceAll("[^A-Za-z0-9-_ ]", "_");
+        return str.trim().replaceAll("[^A-Za-z0-9-_ ]", "_");
     }
 
     static ITextComponent asClickable(File file) {

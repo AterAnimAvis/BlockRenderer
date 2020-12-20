@@ -64,7 +64,7 @@ public class BaseItemStackHandler implements Consumer<ItemStack> {
     }
 
     private String _getFilename(ItemStack value, boolean useIdentifier) {
-        return useIdentifier ? Strings.sanitize(Identifiers.get(value.getItem())) : Strings.sanitize(value.getDisplayName());
+        return useIdentifier ? Strings.sanitize(Identifiers.get(value.getItem())) : Strings.sanitize(value.getHoverName());
     }
 
 }
