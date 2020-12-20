@@ -92,7 +92,7 @@ public class ItemStackRenderer implements IAnimatedRenderer<ItemStackParameters,
             GL.clearFrameBuffer();
 
             /* Render */
-            renderer.renderGuiItem(instance, 0, 0);
+            renderer.renderAndDecorateItem(instance, 0, 0);
 
             GL.popMatrix("item/render");
         } while (tr.endTile());

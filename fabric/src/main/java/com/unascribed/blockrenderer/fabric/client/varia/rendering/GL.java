@@ -56,7 +56,7 @@ public class GL implements GLI {
 
     @Override
     public void displayLighting() {
-        Lighting.setupForFlatItems();
+        Lighting.turnOff();
     }
 
     /* =================================================================================================== State ==== */

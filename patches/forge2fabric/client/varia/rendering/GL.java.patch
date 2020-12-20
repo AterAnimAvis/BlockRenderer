@@ -33,8 +33,8 @@
  
      @Override
      public void displayLighting() {
--        RenderHelper.setupForFlatItems();
-+        Lighting.setupForFlatItems();
+-        RenderHelper.turnOff();
++        Lighting.turnOff();
      }
  
      /* =================================================================================================== State ==== */
