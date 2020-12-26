@@ -10,9 +10,11 @@ import java.util.function.Supplier;
 
 public interface Registries {
 
-    Lazy<Item> MAP = new Lazy<>(() -> lookupItem(new Identifier("minecraft:filled_map")));
-    Lazy<Item> DISPENSER = new Lazy<>(() -> lookupItem(new Identifier("minecraft:dispenser")));
     Lazy<Item> CUTTER = new Lazy<>(() -> lookupItem(new Identifier("minecraft:stonecutter")));
+    Lazy<Item> DISPENSER = new Lazy<>(() -> lookupItem(new Identifier("minecraft:dispenser")));
+    Lazy<Item> EMPTY_MAP = new Lazy<>(() -> lookupItem(new Identifier("minecraft:map")));
+    Lazy<Item> MAP = new Lazy<>(() -> lookupItem(new Identifier("minecraft:filled_map")));
+    Lazy<Item> PATTERN = new Lazy<>(() -> lookupItem(new Identifier("minecraft:mojang_banner_pattern")));
 
     static Item lookupItem(Identifier identifier) {
         return Registry.ITEM.get(identifier);

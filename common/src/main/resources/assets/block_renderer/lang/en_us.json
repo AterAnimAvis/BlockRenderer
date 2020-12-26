@@ -55,6 +55,11 @@
   "block_renderer.gui.switch.bulk": "Bulk Render",
   "block_renderer.gui.switch.bulk.tooltip": "Switch to Bulk Render",
 
+  "block_renderer.gui.group": "Group Bulk Renders",
+  "block_renderer.gui.group.tooltip.0": "No Grouping",
+  "block_renderer.gui.group.tooltip.1": "Group by Tab",
+  "block_renderer.gui.group.tooltip.2": "Group by Item / Block",
+
   "block_renderer.gui.rendering":"Rendering %1$s entries from %2$s",
   "block_renderer.gui.rendered":"Rendered %1$s entries from %2$s",
   "block_renderer.gui.renderCancelled":"Operation cancelled",

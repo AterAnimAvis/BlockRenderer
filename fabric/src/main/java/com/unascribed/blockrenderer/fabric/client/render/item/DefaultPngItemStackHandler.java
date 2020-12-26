@@ -3,6 +3,8 @@ package com.unascribed.blockrenderer.fabric.client.render.item;
 import com.unascribed.blockrenderer.fabric.client.varia.StringUtils;
 import com.unascribed.blockrenderer.render.request.lambda.ImageHandler;
 import com.unascribed.blockrenderer.varia.Files;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.ClickEvent;
 import net.minecraft.text.LiteralText;
@@ -14,8 +16,15 @@ import java.io.File;
 
 public class DefaultPngItemStackHandler extends BaseItemStackHandler implements ImageHandler<ItemStack>, Runnable {
 
+    private final int grouped;
+
     public DefaultPngItemStackHandler(File folder, int size, boolean useIdentifier, boolean addSize, boolean addDate) {
+        this(folder, size, useIdentifier, addSize, addDate, 0);
+    }
+
+    public DefaultPngItemStackHandler(File folder, int size, boolean useIdentifier, boolean addSize, boolean addDate, int grouped) {
         super(folder, size, useIdentifier, addSize, addDate);
+        this.grouped = grouped;
     }
 
     @Override
@@ -35,6 +44,22 @@ public class DefaultPngItemStackHandler extends BaseItemStackHandler implements 
                 .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, folder.getAbsolutePath()));
 
         StringUtils.addMessage(new LiteralText("> Finished Rendering").setStyle(open));
+    }
+
+    @Override
+    protected String getFilename(ItemStack value) {
+        String result = super.getFilename(value);
+
+        switch (grouped) {
+            case 1:
+                ItemGroup group = value.getItem().getGroup();
+                if (group == null) return result;
+                return StringUtils.sanitize(group.getName()) + "/" + result;
+            case 2:
+                return (value.getItem() instanceof BlockItem ? "blocks" : "items") + "/" + result;
+        }
+
+        return result;
     }
 
 }

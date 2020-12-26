@@ -45,7 +45,7 @@ public class ItemRenderer {
         );
     }
 
-    public static IRequest bulk(String spec, int size, boolean useId, boolean addSize) {
+    public static IRequest bulk(String spec, int size, boolean useId, boolean addSize, int grouped) {
         Set<String> namespaces = StringUtils.getNamespaces(spec);
         List<ItemStack> renders = MiscUtils.collectStacks(namespaces);
         String joined = Joiner.on(", ").join(namespaces);
@@ -54,7 +54,7 @@ public class ItemRenderer {
         File folder = new File(Files.DEFAULT_FOLDER, StringUtils.dateTime() + "_" + sizeString + StringUtils.sanitize(joined) + "/");
 
         //TODO: Split out into BulkPngItemStackHandler
-        DefaultPngItemStackHandler handler = new DefaultPngItemStackHandler(folder, size, useId, false, false);
+        DefaultPngItemStackHandler handler = new DefaultPngItemStackHandler(folder, size, useId, false, false, grouped);
 
         return new BulkRenderingRequest<>(
                 new ItemStackRenderer(),
