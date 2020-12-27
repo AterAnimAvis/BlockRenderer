@@ -2,6 +2,7 @@ package com.unascribed.blockrenderer.client.proxy;
 
 import com.unascribed.blockrenderer.client.init.Keybindings;
 import com.unascribed.blockrenderer.client.render.RenderManager;
+import com.unascribed.blockrenderer.client.render.entity.EntityRequest;
 import com.unascribed.blockrenderer.client.render.item.ItemRenderer;
 import com.unascribed.blockrenderer.client.screens.SelectionScreen;
 import com.unascribed.blockrenderer.client.screens.item.EnterSizeScreen;
@@ -76,6 +77,12 @@ public class ClientProxy extends CommonProxy {
                 renderStack(player.getHeldItemMainhand());
                 return;
             }
+
+            if (client.pointedEntity != null) {
+                RenderManager.push(EntityRequest.single(client.pointedEntity, 512));
+                return;
+            }
+
             addMessage(new TranslationTextComponent("msg.block_renderer.notContainer"));
             return;
         }

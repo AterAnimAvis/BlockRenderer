@@ -3,12 +3,18 @@ package com.unascribed.blockrenderer.client.varia.rendering;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.unascribed.blockrenderer.Reference;
+import com.unascribed.blockrenderer.client.api.vendor.joml.Matrix4f;
+import com.unascribed.blockrenderer.client.api.vendor.joml.Vector3f;
+import com.unascribed.blockrenderer.client.api.vendor.joml.Vector4f;
 import com.unascribed.blockrenderer.client.varia.logging.Log;
 import com.unascribed.blockrenderer.client.varia.logging.Markers;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GLAllocation;
 import net.minecraft.client.renderer.RenderHelper;
 import org.lwjgl.opengl.GL11;
+
+import java.nio.FloatBuffer;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -67,6 +73,51 @@ public interface GL {
 
     static void displayLighting() {
         RenderHelper.disableStandardItemLighting();
+    }
+
+    Vector4f BUFFER = new Vector4f();
+    Vector3f DIFFUSE_LIGHT_0 = new Vector3f(0.2F, 1.0F, -0.7F).normalize();
+    Vector3f DIFFUSE_LIGHT_1 = new Vector3f(-0.2F, 1.0F, 0.7F).normalize();
+    FloatBuffer FLOAT_4_BUFFER = GLAllocation.createDirectFloatBuffer(4);
+
+    static void setupWorldDiffuseLighting(Matrix4f transform) {
+        RenderSystem.assertThread(RenderSystem::isOnRenderThread);
+        RenderSystem.pushMatrix();
+
+        RenderSystem.loadIdentity();
+
+        /* Enable Light Sources */
+        GlStateManager.enableLight(0);
+        GlStateManager.enableLight(1);
+
+        /* Setup Light 0 */
+        BUFFER.set(DIFFUSE_LIGHT_0, 1.0f).mul(transform);
+        setupLighting(GL_LIGHT0, BUFFER);
+
+        /* Setup Light 1 */
+        BUFFER.set(DIFFUSE_LIGHT_1, 1.0f).mul(transform);
+        setupLighting(GL_LIGHT1, BUFFER);
+
+        RenderSystem.shadeModel(GL_FLAT);
+
+        /* Setup Ambient Light */
+        GlStateManager.lightModel(GL_LIGHT_MODEL_AMBIENT, getBuffer(0.4F, 0.4F, 0.4F, 1.0F));
+
+        RenderSystem.popMatrix();
+    }
+
+    static void setupLighting(int light, Vector4f v) {
+        GlStateManager.light(light, GL_POSITION, getBuffer(v.x, v.y, v.z, 0.0F));
+        GlStateManager.light(light, GL_DIFFUSE, getBuffer(0.6F, 0.6F, 0.6F, 1.0F));
+        GlStateManager.light(light, GL_AMBIENT, getBuffer(0.0F, 0.0F, 0.0F, 1.0F));
+        GlStateManager.light(light, GL_SPECULAR, getBuffer(0.0F, 0.0F, 0.0F, 1.0F));
+    }
+
+    static FloatBuffer getBuffer(float f0, float f1, float f2, float f3) {
+        FLOAT_4_BUFFER.clear();
+        FLOAT_4_BUFFER.put(f0).put(f1).put(f2).put(f3);
+        FLOAT_4_BUFFER.flip();
+        return FLOAT_4_BUFFER;
     }
 
     /* =================================================================================================== State ==== */
@@ -177,4 +228,19 @@ public interface GL {
         RenderSystem.loadIdentity();
         RenderSystem.translatef(0.0F, 0.0F, -2000.0F);
     }
+
+    static void setupEntityRendering(TileRenderer renderer) {
+        RenderSystem.clear(GL_DEPTH_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC);
+
+        /* Projection */
+        RenderSystem.matrixMode(GL_PROJECTION);
+        RenderSystem.loadIdentity();
+
+        renderer.orthographic(0.0D, renderer.getImageWidth(), renderer.getImageHeight(), 0, -9000.0D, 9000.0D);
+
+        /* Model View */
+        RenderSystem.matrixMode(GL_MODELVIEW);
+        RenderSystem.loadIdentity();
+    }
+
 }

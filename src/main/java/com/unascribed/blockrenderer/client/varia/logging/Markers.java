@@ -12,6 +12,8 @@ public class Markers {
     public static final Marker FILE = marker("FILE");
     public static final Marker MANAGER = marker("MANAGER");
     public static final Marker PROGRESS = marker("PROGRESS");
+    public static final Marker BOUNDS = marker("SPI-BOUNDS");
+    public static final Marker STATE = marker("SPI-STATE");
 
     private static Marker marker() {
         return MarkerManager.getMarker(Reference.NAME);
