@@ -19,14 +19,14 @@ public class GifWriter implements Closeable {
     protected ImageWriteParam parameters;
     protected IIOMetadata metadata;
 
-    public GifWriter(ImageOutputStream stream, int delayMS, boolean loop) throws IOException {
+    public GifWriter(ImageOutputStream stream, int fps, boolean loop) throws IOException {
         writer = getGifWriter();
         parameters = writer.getDefaultWriteParam();
 
         ImageTypeSpecifier specifier = ImageTypeSpecifier.createFromBufferedImageType(BufferedImage.TYPE_INT_ARGB);
         metadata = writer.getDefaultImageMetadata(specifier, parameters);
 
-        setupMetadata(metadata, delayMS, loop);
+        setupMetadata(metadata, 1000 / fps, loop);
 
         writer.setOutput(stream);
         writer.prepareWriteSequence(null);
