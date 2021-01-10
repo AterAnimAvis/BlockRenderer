@@ -55,6 +55,11 @@ public class ProgressManager {
         last = now;
     }
 
+    public static void skip() {
+        push(getProgress());
+        pop();
+    }
+
     public static void end() {
         /* Log Time */
         long now = System.nanoTime();

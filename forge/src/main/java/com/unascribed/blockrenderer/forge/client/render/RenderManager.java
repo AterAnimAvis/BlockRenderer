@@ -84,6 +84,7 @@ public class RenderManager {
     private static final int FPS = 20;
     private static final int AUTO_LOOP_LENGTH = 30;
     private static final long NANOS_IN_A_SECOND = 1_000_000_000L;
+    private static final int MAX_CONSUME = FPS * AUTO_LOOP_LENGTH;
 
     public static <S, T> void animated(IAnimatedRenderer<S, T> renderer,
                                        Function<T, ImageOutputStream> provider,
@@ -118,29 +119,52 @@ public class RenderManager {
 
     private static final ITextComponent RENDERING_GIF = new StringTextComponent("Rendering GIF").mergeStyle(TextFormatting.GOLD);
     private static final ITextComponent RENDERING_AUTO = new StringTextComponent("Auto Loop").mergeStyle(TextFormatting.GOLD);
+    private static final ITextComponent RENDERING_SKIP = new StringTextComponent("Skipping First").mergeStyle(TextFormatting.GOLD);
 
     private static <S, T> void animated(IAnimatedRenderer<S, T> renderer, Consumer<T> callback, S params, int length, boolean loop, T value, ImageHandler<T> write) throws RuntimeException {
 
-        AtomicBoolean isSameAsInitial = new AtomicBoolean(false);
+        AtomicBoolean isSameAsInitial = new AtomicBoolean(true);
         AtomicReference<BufferedImage> initial = new AtomicReference<>();
 
         RenderManager.isRendering = true;
+        int frame = 0;
 
         renderer.setup(params);
 
         ImageHandler<T> init = (v, image) -> initial.compareAndSet(null, image);
         ImageHandler<T> checkImage = (v, image) -> isSameAsInitial.set(Images.same(initial.get(), image));
-        ImageHandler<T> writeFinal = checkImage.andThen((v, image) -> {
+        ImageHandler<T> checkWrite = checkImage.andThen(write);
+        ImageHandler<T> writeDifferent = checkImage.andThen((v, image) -> {
             if (!isSameAsInitial.get()) write.accept(v, image);
         });
+        ImageHandler<T> writeSame = checkImage.andThen((v, image) -> {
+            if (isSameAsInitial.get()) write.accept(v, image);
+        });
+
+        /* Skip First Frame + Render Second */
+        ProgressManager.init(RENDERING_SKIP, -1);
+        /* We need to handle the case where the target doesn't actually animate so we add a timeout */
+        int timeout = MAX_CONSUME;
+        while (isSameAsInitial.get() && timeout > 0) {
+            timeout--;
+            final ImageHandler<T> consumer = frame == 0 ? init : timeout == 0 ? write : writeDifferent;
+
+            ProgressManager.push(ProgressManager.getProgress());
+            renderer.render(value, consumer, NANOS_IN_A_SECOND / FPS * frame++);
+            ProgressManager.pop();
+
+            ProgressManager.render();
+        }
+        ProgressManager.end();
 
         /* Render for Specified Length */
         ProgressManager.init(RENDERING_GIF, length);
-        for (int i = 0; i < length; i++) {
-            final ImageHandler<T> consumer = i == 0 ? init.andThen(write) : i == length - 1 ? checkImage.andThen(write) : write;
+        ProgressManager.skip();
+        for (int i = 1; i < length; i++) {
+            final ImageHandler<T> consumer = i == length - 1 ? checkWrite : write;
 
             ProgressManager.push(ProgressManager.getProgress());
-            renderer.render(value, consumer, NANOS_IN_A_SECOND / FPS * i);
+            renderer.render(value, consumer, NANOS_IN_A_SECOND / FPS * frame++);
             ProgressManager.pop();
 
             ProgressManager.render();
@@ -153,10 +177,21 @@ public class RenderManager {
             ProgressManager.init(RENDERING_AUTO, -1);
             for (int i = 0; i < FPS * AUTO_LOOP_LENGTH; i++) {
                 ProgressManager.push(ProgressManager.getProgress());
-                renderer.render(value, writeFinal, NANOS_IN_A_SECOND / FPS * (length + i));
+                renderer.render(value, checkWrite, NANOS_IN_A_SECOND / FPS * frame++);
                 ProgressManager.pop();
 
+                ProgressManager.render();
                 if (isSameAsInitial.get()) break;
+            }
+            /* Consume Additional Frames */
+            timeout = MAX_CONSUME;
+            while (isSameAsInitial.get() && timeout > 0) {
+                timeout--;
+
+                ProgressManager.push(ProgressManager.getProgress());
+                renderer.render(value, writeSame, NANOS_IN_A_SECOND / FPS * frame++);
+                ProgressManager.pop();
+
                 ProgressManager.render();
             }
             ProgressManager.end();

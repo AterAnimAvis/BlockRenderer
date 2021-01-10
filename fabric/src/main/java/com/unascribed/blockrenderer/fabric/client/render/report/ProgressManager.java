@@ -1,6 +1,5 @@
 package com.unascribed.blockrenderer.fabric.client.render.report;
 
-
 import com.unascribed.blockrenderer.fabric.client.varia.rendering.Display;
 import com.unascribed.blockrenderer.fabric.client.varia.rendering.GL;
 import com.unascribed.blockrenderer.varia.debug.Debug;
@@ -54,6 +53,11 @@ public class ProgressManager {
         String subtitle = message == null ? "null" : message.getString();
         Log.debug(Markers.PROGRESS, new MessageFormatMessage("Step: {0} - {1} took {2,number,#.###}s", title.getString(), subtitle, time));
         last = now;
+    }
+
+    public static void skip() {
+        push(getProgress());
+        pop();
     }
 
     public static void end() {
