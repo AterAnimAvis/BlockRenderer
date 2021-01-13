@@ -65,7 +65,7 @@ public class EnterNamespaceScreen extends BaseItemScreen {
         text = addButton(new TextFieldWidget(minecraft.fontRenderer, width / 2 - 100, height / 6 + 50, 200, 20, new TranslationTextComponent("block_renderer.gui.namespace")), enabled);
         text.setResponder((value) -> emptySpec = value.trim().isEmpty());
         text.setText(oldText);
-        text.setCanLoseFocus(false);
+        addListener(text);
         setFocusedDefault(text);
 
         if (stack != null) {
@@ -127,19 +127,6 @@ public class EnterNamespaceScreen extends BaseItemScreen {
     public void onClose() {
         assert minecraft != null;
         minecraft.keyboardListener.enableRepeatEvents(false);
-    }
-
-    @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (text.keyPressed(keyCode, scanCode, modifiers)) return true;
-        return super.keyPressed(keyCode, scanCode, modifiers);
-    }
-
-    @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (text.mouseClicked(mouseX, mouseY, button)) return true;
-
-        return super.mouseClicked(mouseX, mouseY, button);
     }
 
     @Override

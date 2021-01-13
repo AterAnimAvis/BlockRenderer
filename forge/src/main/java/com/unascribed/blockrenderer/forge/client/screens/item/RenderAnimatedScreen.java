@@ -33,8 +33,6 @@ public class RenderAnimatedScreen extends EnterSizeScreen {
         minecraft.keyboardListener.enableRepeatEvents(true);
         boolean enabled = enabled();
 
-        super.init();
-
         autoLoop = addButton(new HoverableCheckboxWidget(this, width / 2 + 2, height / 6 + 166, 98, 20, new TranslationTextComponent("block_renderer.gui.loop"), new TranslationTextComponent("block_renderer.gui.loop.tooltip"), false), enabled);
 
         /* Note: This is the initializer, text can be null! */
@@ -51,8 +49,10 @@ public class RenderAnimatedScreen extends EnterSizeScreen {
             }
         });
         length.setText(prefill);
-        length.setCanLoseFocus(false);
+        addListener(length);
         setFocusedDefault(length);
+
+        super.init();
     }
 
     @Override
@@ -66,19 +66,6 @@ public class RenderAnimatedScreen extends EnterSizeScreen {
     public void onClose() {
         assert minecraft != null;
         minecraft.keyboardListener.enableRepeatEvents(false);
-    }
-
-    @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (length.keyPressed(keyCode, scanCode, modifiers)) return true;
-        return super.keyPressed(keyCode, scanCode, modifiers);
-    }
-
-    @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (length.mouseClicked(mouseX, mouseY, button)) return true;
-
-        return super.mouseClicked(mouseX, mouseY, button);
     }
 
     @Override

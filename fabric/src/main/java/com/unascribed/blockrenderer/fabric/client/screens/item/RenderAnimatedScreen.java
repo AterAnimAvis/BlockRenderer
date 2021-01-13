@@ -33,8 +33,6 @@ public class RenderAnimatedScreen extends EnterSizeScreen {
         client.keyboard.setRepeatEvents(true);
         boolean enabled = enabled();
 
-        super.init();
-
         autoLoop = addButton(new HoverableCheckboxWidget(this, width / 2 + 2, height / 6 + 166, 98, 20, new TranslatableText("block_renderer.gui.loop"), new TranslatableText("block_renderer.gui.loop.tooltip"), false), enabled);
 
         /* Note: This is the initializer, text can be null! */
@@ -51,8 +49,10 @@ public class RenderAnimatedScreen extends EnterSizeScreen {
             }
         });
         length.setText(prefill);
-        length.setFocusUnlocked(false);
-        setFocused(length);
+        addChild(length);
+        setInitialFocus(length);
+
+        super.init();
     }
 
     @Override
@@ -66,19 +66,6 @@ public class RenderAnimatedScreen extends EnterSizeScreen {
     public void onClose() {
         assert client != null;
         client.keyboard.setRepeatEvents(false);
-    }
-
-    @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (length.keyPressed(keyCode, scanCode, modifiers)) return true;
-        return super.keyPressed(keyCode, scanCode, modifiers);
-    }
-
-    @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (length.mouseClicked(mouseX, mouseY, button)) return true;
-
-        return super.mouseClicked(mouseX, mouseY, button);
     }
 
     @Override

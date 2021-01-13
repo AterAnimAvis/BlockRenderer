@@ -65,8 +65,8 @@ public class EnterNamespaceScreen extends BaseItemScreen {
         text = addButton(new TextFieldWidget(client.textRenderer, width / 2 - 100, height / 6 + 50, 200, 20, new TranslatableText("block_renderer.gui.namespace")), enabled);
         text.setChangedListener((value) -> emptySpec = value.trim().isEmpty());
         text.setText(oldText);
-        text.setFocusUnlocked(false);
-        setFocused(text);
+        addChild(text);
+        setInitialFocus(text);
 
         if (stack != null) {
             addButton(new HoverableTinyButtonWidget(
@@ -127,19 +127,6 @@ public class EnterNamespaceScreen extends BaseItemScreen {
     public void onClose() {
         assert client != null;
         client.keyboard.setRepeatEvents(false);
-    }
-
-    @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (text.keyPressed(keyCode, scanCode, modifiers)) return true;
-        return super.keyPressed(keyCode, scanCode, modifiers);
-    }
-
-    @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (text.mouseClicked(mouseX, mouseY, button)) return true;
-
-        return super.mouseClicked(mouseX, mouseY, button);
     }
 
     @Override
