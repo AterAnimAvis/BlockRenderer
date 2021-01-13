@@ -10,7 +10,7 @@ tasks.create("merge") {
     val forge = project(":forge").tasks["jar"].outputs.files.singleFile
     val fabric = project(":fabric").tasks["remapJar"].outputs.files.singleFile
     val common = project(":common").tasks["jar"].outputs.files.singleFile
-    val output = "build/libs/$modId-$minecraftVersion-$modVersion.jar"
+    val output = "build/libs/$modId-$minecraftVersion-forge-fabric-$modVersion.jar"
 
     inputs.files("merging.policy", forge, fabric, common)
     outputs.file(output)
