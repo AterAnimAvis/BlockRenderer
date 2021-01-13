@@ -17,6 +17,7 @@ public class RenderAnimatedScreen extends EnterSizeScreen {
 
     private static final TranslationTextComponent TITLE = new TranslationTextComponent("block_renderer.gui.renderAnimated");
 
+    private CheckboxButton asZip;
     private CheckboxButton autoLoop;
 
     private TextFieldWidget length;
@@ -33,6 +34,7 @@ public class RenderAnimatedScreen extends EnterSizeScreen {
         minecraft.keyboardListener.enableRepeatEvents(true);
         boolean enabled = enabled();
 
+        asZip = addButton(new HoverableCheckboxWidget(this, width / 2 - 100, height / 6 + 166, 98, 20, new TranslationTextComponent("block_renderer.gui.zip"), new TranslationTextComponent("block_renderer.gui.zip.tooltip"), false), enabled);
         autoLoop = addButton(new HoverableCheckboxWidget(this, width / 2 + 2, height / 6 + 166, 98, 20, new TranslationTextComponent("block_renderer.gui.loop"), new TranslationTextComponent("block_renderer.gui.loop.tooltip"), false), enabled);
 
         /* Note: This is the initializer, text can be null! */
@@ -75,7 +77,7 @@ public class RenderAnimatedScreen extends EnterSizeScreen {
         minecraft.displayGuiScreen(old);
         if (minecraft.world == null) return;
 
-        RenderManager.push(ItemRenderer.animated(stack, round(size), useId.isChecked(), addSize.isChecked(), Integer.parseInt(length.getText()), autoLoop.isChecked()));
+        RenderManager.push(ItemRenderer.animated(stack, round(size), useId.isChecked(), addSize.isChecked(), Integer.parseInt(length.getText()), autoLoop.isChecked(), asZip.isChecked()));
     }
 
 }

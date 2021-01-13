@@ -65,7 +65,7 @@ public class ItemRenderer {
         );
     }
 
-    public static IRequest animated(ItemStack stack, int size, boolean useId, boolean addSize, int length, boolean loop) {
+    public static IRequest animated(ItemStack stack, int size, boolean useId, boolean addSize, int length, boolean loop, boolean zip) {
         DefaultGifItemStackHandler handler = new DefaultGifItemStackHandler(Files.DEFAULT_FOLDER, size, useId, addSize, true);
 
         return new AnimatedRenderingRequest<>(
@@ -75,7 +75,10 @@ public class ItemRenderer {
                 length,
                 loop,
                 handler,
-                handler
+                handler,
+                zip,
+                StringUtils.getFilename(stack, size, true, addSize, useId),
+                handler::acceptZip
         );
     }
 

@@ -22,4 +22,8 @@ public class DefaultGifItemStackHandler extends BaseItemStackHandler implements 
         return Files.wrap("Exception whilst generating gif", () -> new FileImageOutputStream(future));
     }
 
+    public void acceptZip(File file) {
+        future = file;
+    }
+
 }

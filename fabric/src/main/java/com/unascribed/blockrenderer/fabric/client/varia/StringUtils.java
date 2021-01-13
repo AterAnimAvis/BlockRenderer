@@ -58,6 +58,13 @@ public interface StringUtils {
         return str.replaceAll("[^A-Za-z0-9-_ ]", "_");
     }
 
+    static String getFilename(ItemStack value, int size, boolean addDate, boolean addSize, boolean useIdentifier) {
+        String sizeString = addSize ? size + "x" + size + "_" : "";
+        String fileName = useIdentifier ? StringUtils.sanitize(Identifiers.get(value.getItem())) : StringUtils.sanitize(value.getName());
+
+        return (addDate ? StringUtils.dateTime() + "_" : "") + sizeString + fileName;
+    }
+
     static List<Text> getTooltipFromItem(ItemStack stack) {
         MinecraftClient minecraft = MinecraftClient.getInstance();
 

@@ -5,6 +5,7 @@ import com.unascribed.blockrenderer.render.IAnimatedRenderer;
 import com.unascribed.blockrenderer.render.IRenderer;
 import com.unascribed.blockrenderer.render.IRequest;
 import com.unascribed.blockrenderer.render.request.lambda.ImageHandler;
+import com.unascribed.blockrenderer.varia.Files;
 import com.unascribed.blockrenderer.varia.Images;
 import com.unascribed.blockrenderer.varia.gif.GifWriter;
 import com.unascribed.blockrenderer.varia.logging.Log;
@@ -14,16 +15,22 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import org.jetbrains.annotations.Nullable;
 
+import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageOutputStream;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 public class RenderManager {
 
@@ -92,8 +99,32 @@ public class RenderManager {
                                        S params,
                                        int length,
                                        boolean loop,
+                                       boolean zip,
+                                       String zipFile,
+                                       Consumer<File> zipFileCallback,
                                        T value) {
         try {
+            if (zip) {
+                File output = Files.getFile(Files.DEFAULT_FOLDER, zipFile, "zip");
+                zipFileCallback.accept(output);
+
+                AtomicInteger frame = new AtomicInteger(0);
+                try (ZipOutputStream stream = new ZipOutputStream(new FileOutputStream(output))) {
+                    ImageHandler<T> writeFrame = (v, img) -> {
+                        try {
+                            stream.putNextEntry(new ZipEntry(String.format("%04d.png", frame.getAndIncrement())));
+                            ImageIO.write(img, "PNG", stream);
+                            stream.closeEntry();
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    };
+
+                    animated(renderer, callback, params, length, loop, value, writeFrame);
+                }
+                return;
+            }
+
             try (ImageOutputStream stream = provider.apply(value)) {
                 if (stream == null) return;
 

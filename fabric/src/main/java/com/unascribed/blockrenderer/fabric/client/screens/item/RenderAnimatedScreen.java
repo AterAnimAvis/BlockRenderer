@@ -17,6 +17,7 @@ public class RenderAnimatedScreen extends EnterSizeScreen {
 
     private static final TranslatableText TITLE = new TranslatableText("block_renderer.gui.renderAnimated");
 
+    private CheckboxWidget asZip;
     private CheckboxWidget autoLoop;
 
     private TextFieldWidget length;
@@ -33,6 +34,7 @@ public class RenderAnimatedScreen extends EnterSizeScreen {
         client.keyboard.setRepeatEvents(true);
         boolean enabled = enabled();
 
+        asZip = addButton(new HoverableCheckboxWidget(this, width / 2 - 100, height / 6 + 166, 98, 20, new TranslatableText("block_renderer.gui.zip"), new TranslatableText("block_renderer.gui.zip.tooltip"), false), enabled);
         autoLoop = addButton(new HoverableCheckboxWidget(this, width / 2 + 2, height / 6 + 166, 98, 20, new TranslatableText("block_renderer.gui.loop"), new TranslatableText("block_renderer.gui.loop.tooltip"), false), enabled);
 
         /* Note: This is the initializer, text can be null! */
@@ -75,7 +77,7 @@ public class RenderAnimatedScreen extends EnterSizeScreen {
         client.openScreen(old);
         if (client.world == null) return;
 
-        RenderManager.push(ItemRenderer.animated(stack, round(size), useId.isChecked(), addSize.isChecked(), Integer.parseInt(length.getText()), autoLoop.isChecked()));
+        RenderManager.push(ItemRenderer.animated(stack, round(size), useId.isChecked(), addSize.isChecked(), Integer.parseInt(length.getText()), autoLoop.isChecked(), asZip.isChecked()));
     }
 
 }
