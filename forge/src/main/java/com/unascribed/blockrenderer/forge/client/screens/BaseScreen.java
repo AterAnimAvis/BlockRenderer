@@ -18,7 +18,7 @@ import org.lwjgl.glfw.GLFW;
 public abstract class BaseScreen extends Screen {
 
     public static final int MIN_SIZE = 16;
-    public static final int THRESHOLD = 32;
+    public static final int THRESHOLD = 16;
     public static final int MAX_SIZE = 2048;
 
     @Nullable

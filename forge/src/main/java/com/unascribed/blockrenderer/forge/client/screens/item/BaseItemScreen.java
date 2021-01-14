@@ -17,6 +17,7 @@ import org.jetbrains.annotations.Nullable;
 public abstract class BaseItemScreen extends BaseScreen {
 
     protected Button actualSize;
+    protected Button wikiSize;
     protected CheckboxButton useId;
     protected CheckboxButton addSize;
 
@@ -32,6 +33,8 @@ public abstract class BaseItemScreen extends BaseScreen {
         super.init();
 
         actualSize = addButton(new HoverableTinyButtonWidget(this, width / 2 + 104, height / 6 + 80, new TranslationTextComponent("block_renderer.gui.actualSize"), new TranslationTextComponent("block_renderer.gui.actualSize.tooltip"), button -> slider.update((int) minecraft.getMainWindow().getGuiScaleFactor() * 16)), enabled);
+        wikiSize = addButton(new HoverableTinyButtonWidget(this, width / 2 + 128, height / 6 + 80, new TranslationTextComponent("block_renderer.gui.wikiSize"), new TranslationTextComponent("block_renderer.gui.wikiSize.tooltip"), button -> slider.update(300)), enabled);
+
         useId = addButton(new HoverableCheckboxWidget(this, width / 2 - 100, height / 6 + 144, 98, 20, new TranslationTextComponent("block_renderer.gui.useId"), new TranslationTextComponent("block_renderer.gui.useId.tooltip"), false), enabled);
         addSize = addButton(new HoverableCheckboxWidget(this, width / 2 + 2, height / 6 + 144, 98, 20, new TranslationTextComponent("block_renderer.gui.addSize"), new TranslationTextComponent("block_renderer.gui.addSize.tooltip"), false), enabled);
     }
