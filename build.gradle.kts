@@ -163,7 +163,7 @@ project(":fabric") {
 
     dependencies {
         /* Via https://modmuss50.me/fabric.html */
-        "minecraft"("com.mojang:minecraft:1.16.3") //group = "com.mojang", name = "minecraft", version = "1.16.4")
+        "minecraft"(group = "com.mojang", name = "minecraft", version = minecraftVersion)
         "mappings"(group = "net.fabricmc", name = "yarn", version = "$minecraftVersion+build.$yarnBuild", classifier = "v2")
 
         "modImplementation"(group = "net.fabricmc", name = "fabric-loader", version = fabricLoaderVersion)
