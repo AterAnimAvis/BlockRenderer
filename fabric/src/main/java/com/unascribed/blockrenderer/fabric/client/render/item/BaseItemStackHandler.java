@@ -3,10 +3,10 @@ package com.unascribed.blockrenderer.fabric.client.render.item;
 import com.unascribed.blockrenderer.fabric.client.varia.Identifiers;
 import com.unascribed.blockrenderer.fabric.client.varia.StringUtils;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.ClickEvent;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.Style;
-import net.minecraft.util.Formatting;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.event.ClickEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
@@ -33,12 +33,12 @@ public class BaseItemStackHandler implements Consumer<ItemStack> {
 
     @Override
     public void accept(ItemStack value) {
-        Style open = Style.EMPTY.withFormatting(Formatting.GOLD);
+        Style open = Style.EMPTY.applyFormatting(TextFormatting.GOLD);
 
         if (future != null)
-            open = open.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, future.getAbsolutePath()));
+            open = open.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, future.getAbsolutePath()));
 
-        StringUtils.addMessage(new LiteralText("> Finished Rendering " + Identifiers.get(value.getItem())).setStyle(open));
+        StringUtils.addMessage(new StringTextComponent("> Finished Rendering " + Identifiers.get(value.getItem())).setStyle(open));
     }
 
     protected String getFilename(ItemStack value) {
@@ -49,7 +49,7 @@ public class BaseItemStackHandler implements Consumer<ItemStack> {
     }
 
     private String _getFilename(ItemStack value, boolean useIdentifier) {
-        return useIdentifier ? StringUtils.sanitize(Identifiers.get(value.getItem())) : StringUtils.sanitize(value.getName());
+        return useIdentifier ? StringUtils.sanitize(Identifiers.get(value.getItem())) : StringUtils.sanitize(value.getDisplayName());
     }
 
 }

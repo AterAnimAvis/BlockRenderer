@@ -10,9 +10,9 @@ import com.unascribed.blockrenderer.varia.Images;
 import com.unascribed.blockrenderer.varia.gif.GifWriter;
 import com.unascribed.blockrenderer.varia.logging.Log;
 import com.unascribed.blockrenderer.varia.logging.Markers;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
 import org.jetbrains.annotations.Nullable;
 
 import javax.imageio.ImageIO;
@@ -65,7 +65,7 @@ public class RenderManager {
         isRendering = false;
     }
 
-    private static final Text RENDERING_BULK = new LiteralText("Rendering Bulk").formatted(Formatting.GOLD);
+    private static final ITextComponent RENDERING_BULK = new StringTextComponent("Rendering Bulk").mergeStyle(TextFormatting.GOLD);
 
     public static <S, T> void bulk(IRenderer<S, T> renderer, ImageHandler<T> handler,
                                    S params, Collection<T> values) {
@@ -148,9 +148,9 @@ public class RenderManager {
         }
     }
 
-    private static final Text RENDERING_GIF = new LiteralText("Rendering GIF").formatted(Formatting.GOLD);
-    private static final Text RENDERING_AUTO = new LiteralText("Auto Loop").formatted(Formatting.GOLD);
-    private static final Text RENDERING_SKIP = new LiteralText("Skipping First").formatted(Formatting.GOLD);
+    private static final ITextComponent RENDERING_GIF = new StringTextComponent("Rendering GIF").mergeStyle(TextFormatting.GOLD);
+    private static final ITextComponent RENDERING_AUTO = new StringTextComponent("Auto Loop").mergeStyle(TextFormatting.GOLD);
+    private static final ITextComponent RENDERING_SKIP = new StringTextComponent("Skipping First").mergeStyle(TextFormatting.GOLD);
 
     private static <S, T> void animated(IAnimatedRenderer<S, T> renderer, Consumer<T> callback, S params, int length, boolean loop, T value, ImageHandler<T> write) throws RuntimeException {
 

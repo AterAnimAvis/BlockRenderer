@@ -1,5 +1,6 @@
 package com.unascribed.blockrenderer.fabric.client.render.map;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.unascribed.blockrenderer.fabric.client.varia.rendering.GL;
 import com.unascribed.blockrenderer.render.IRenderer;
 import com.unascribed.blockrenderer.render.request.lambda.ImageHandler;
@@ -7,18 +8,18 @@ import com.unascribed.blockrenderer.varia.Images;
 import com.unascribed.blockrenderer.varia.Maths;
 import com.unascribed.blockrenderer.varia.debug.Debug;
 import com.unascribed.blockrenderer.varia.rendering.TileRenderer;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.util.Window;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.item.map.MapState;
+import net.minecraft.client.MainWindow;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.MapItemRenderer;
+import net.minecraft.client.renderer.IRenderTypeBuffer;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.util.Util;
+import net.minecraft.world.storage.MapData;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.LongSupplier;
 
-public class MapRenderer implements IRenderer<MapParameters, MapState> {
+public class MapRenderer implements IRenderer<MapParameters, MapData> {
 
     private static final float MAP_SIZE = 128.0F;
 
@@ -32,7 +33,7 @@ public class MapRenderer implements IRenderer<MapParameters, MapState> {
 
         decorations = parameters.decorations;
 
-        Window window = MinecraftClient.getInstance().getWindow();
+        MainWindow window = Minecraft.getInstance().getMainWindow();
         int displayWidth = window.getFramebufferWidth();
         int displayHeight = window.getFramebufferHeight();
 
@@ -56,7 +57,7 @@ public class MapRenderer implements IRenderer<MapParameters, MapState> {
     }
 
     @Override
-    public void render(MapState instance, ImageHandler<MapState> consumer) {
+    public void render(MapData instance, ImageHandler<MapData> consumer) {
         assert tr != null;
 
         Debug.endFrame();
@@ -69,11 +70,11 @@ public class MapRenderer implements IRenderer<MapParameters, MapState> {
         LongSupplier oldSupplier = Util.nanoTimeSupplier;
         Util.nanoTimeSupplier = () -> 0;
 
-        MinecraftClient.getInstance().getTextureManager().tick();
+        Minecraft.getInstance().getTextureManager().tick();
 
-        VertexConsumerProvider.Immediate buffers = VertexConsumerProvider.immediate(Tessellator.getInstance().getBuffer());
-        try (net.minecraft.client.gui.MapRenderer renderer = new net.minecraft.client.gui.MapRenderer(MinecraftClient.getInstance().getTextureManager())) {
-            renderer.updateTexture(instance);
+        IRenderTypeBuffer.Impl buffers = IRenderTypeBuffer.getImpl(Tessellator.getInstance().getBuffer());
+        try (MapItemRenderer renderer = new MapItemRenderer(Minecraft.getInstance().getTextureManager())) {
+            renderer.updateMapTexture(instance);
 
             do {
                 tr.beginTile();
@@ -83,9 +84,9 @@ public class MapRenderer implements IRenderer<MapParameters, MapState> {
                 GL.clearFrameBuffer();
 
                 /* Render (MatrixStack, Buffers, Data, RenderBorder, LightMap) */
-                renderer.draw(new MatrixStack(), buffers, instance, decorations != MapDecorations.ALL, 240);
+                renderer.renderMap(new MatrixStack(), buffers, instance, decorations != MapDecorations.ALL, 240);
 
-                buffers.draw();
+                buffers.finish();
 
                 GL.popMatrix("map/render");
             } while (tr.endTile());

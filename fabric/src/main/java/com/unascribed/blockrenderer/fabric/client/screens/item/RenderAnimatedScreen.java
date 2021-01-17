@@ -5,20 +5,20 @@ import com.unascribed.blockrenderer.fabric.client.render.item.ItemRenderer;
 import com.unascribed.blockrenderer.fabric.client.screens.widgets.HoverableCheckboxWidget;
 import com.unascribed.blockrenderer.fabric.client.screens.widgets.HoverableTextFieldWidget;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.CheckboxWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.gui.widget.button.CheckboxButton;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.util.text.TranslationTextComponent;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("NotNullFieldNotInitialized")
 public class RenderAnimatedScreen extends EnterSizeScreen {
 
-    private static final TranslatableText TITLE = new TranslatableText("block_renderer.gui.renderAnimated");
+    private static final TranslationTextComponent TITLE = new TranslationTextComponent("block_renderer.gui.renderAnimated");
 
-    private CheckboxWidget asZip;
-    private CheckboxWidget autoLoop;
+    private CheckboxButton asZip;
+    private CheckboxButton autoLoop;
 
     private TextFieldWidget length;
 
@@ -30,19 +30,19 @@ public class RenderAnimatedScreen extends EnterSizeScreen {
 
     @Override
     public void init() {
-        assert client != null;
-        client.keyboard.setRepeatEvents(true);
+        assert minecraft != null;
+        minecraft.keyboardListener.enableRepeatEvents(true);
         boolean enabled = enabled();
 
-        asZip = addButton(new HoverableCheckboxWidget(this, width / 2 - 100, height / 6 + 166, 98, 20, new TranslatableText("block_renderer.gui.zip"), new TranslatableText("block_renderer.gui.zip.tooltip"), false), enabled);
-        autoLoop = addButton(new HoverableCheckboxWidget(this, width / 2 + 2, height / 6 + 166, 98, 20, new TranslatableText("block_renderer.gui.loop"), new TranslatableText("block_renderer.gui.loop.tooltip"), false), enabled);
+        asZip = addButton(new HoverableCheckboxWidget(this, width / 2 - 100, height / 6 + 166, 98, 20, new TranslationTextComponent("block_renderer.gui.zip"), new TranslationTextComponent("block_renderer.gui.zip.tooltip"), false), enabled);
+        autoLoop = addButton(new HoverableCheckboxWidget(this, width / 2 + 2, height / 6 + 166, 98, 20, new TranslationTextComponent("block_renderer.gui.loop"), new TranslationTextComponent("block_renderer.gui.loop.tooltip"), false), enabled);
 
         /* Note: This is the initializer, text can be null! */
         @SuppressWarnings("ConstantConditions")
         String prefill = (length == null ? "20" : length.getText());
 
-        length = addButton(new HoverableTextFieldWidget(this, client.textRenderer, width / 2 - 100, height / 6 + 74, 200, 20, new TranslatableText("block_renderer.gui.animatedLength"), new TranslatableText("block_renderer.gui.animatedLength.tooltip")), enabled);
-        length.setChangedListener((value) -> {
+        length = addButton(new HoverableTextFieldWidget(this, minecraft.fontRenderer, width / 2 - 100, height / 6 + 74, 200, 20, new TranslationTextComponent("block_renderer.gui.animatedLength"), new TranslationTextComponent("block_renderer.gui.animatedLength.tooltip")), enabled);
+        length.setResponder((value) -> {
             isInteger = false;
             try {
                 int v = Integer.parseInt(value);
@@ -51,8 +51,8 @@ public class RenderAnimatedScreen extends EnterSizeScreen {
             }
         });
         length.setText(prefill);
-        addChild(length);
-        setInitialFocus(length);
+        addListener(length);
+        setFocusedDefault(length);
 
         super.init();
     }
@@ -66,16 +66,16 @@ public class RenderAnimatedScreen extends EnterSizeScreen {
 
     @Override
     public void onClose() {
-        assert client != null;
-        client.keyboard.setRepeatEvents(false);
+        assert minecraft != null;
+        minecraft.keyboardListener.enableRepeatEvents(false);
     }
 
     @Override
-    public void onRender(ButtonWidget button) {
-        assert client != null;
+    public void onRender(Button button) {
+        assert minecraft != null;
 
-        client.openScreen(old);
-        if (client.world == null) return;
+        minecraft.displayGuiScreen(old);
+        if (minecraft.world == null) return;
 
         RenderManager.push(ItemRenderer.animated(stack, round(size), useId.isChecked(), addSize.isChecked(), Integer.parseInt(length.getText()), autoLoop.isChecked(), asZip.isChecked()));
     }

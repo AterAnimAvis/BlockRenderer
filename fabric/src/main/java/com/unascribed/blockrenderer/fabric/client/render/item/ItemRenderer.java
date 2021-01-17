@@ -13,7 +13,7 @@ import com.unascribed.blockrenderer.fabric.client.varia.StringUtils;
 import com.unascribed.blockrenderer.render.IRequest;
 import com.unascribed.blockrenderer.varia.Files;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.map.MapState;
+import net.minecraft.world.storage.MapData;
 
 import java.io.File;
 import java.util.List;
@@ -33,7 +33,7 @@ public class ItemRenderer {
         );
     }
 
-    public static IRequest single(ItemStack stack, MapState data, int size, boolean useId, boolean addSize, MapDecorations decorations) {
+    public static IRequest single(ItemStack stack, MapData data, int size, boolean useId, boolean addSize, MapDecorations decorations) {
         DefaultPngMapHandler handler = new DefaultPngMapHandler(stack, Files.DEFAULT_FOLDER, size, useId, addSize, true);
 
         return new RenderingRequest<>(

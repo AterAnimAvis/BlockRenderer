@@ -1,6 +1,5 @@
 package com.unascribed.blockrenderer.fabric.client.render.item;
 
-
 import com.unascribed.blockrenderer.fabric.client.varia.Identifiers;
 import com.unascribed.blockrenderer.fabric.client.varia.rendering.GL;
 import com.unascribed.blockrenderer.render.IAnimatedRenderer;
@@ -9,9 +8,8 @@ import com.unascribed.blockrenderer.varia.Images;
 import com.unascribed.blockrenderer.varia.Maths;
 import com.unascribed.blockrenderer.varia.debug.Debug;
 import com.unascribed.blockrenderer.varia.rendering.TileRenderer;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.client.util.Window;
+import net.minecraft.client.MainWindow;
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Util;
 import org.jetbrains.annotations.Nullable;
@@ -26,7 +24,7 @@ public class ItemStackRenderer implements IAnimatedRenderer<ItemStackParameters,
     private static final int BASE_Z_LEVEL = 100;
     private static final float ITEM_STACK_SIZE = 16;
 
-    private final ItemRenderer renderer = MinecraftClient.getInstance().getItemRenderer();
+    private final net.minecraft.client.renderer.ItemRenderer renderer = Minecraft.getInstance().getItemRenderer();
 
     private float zLevel;
 
@@ -37,7 +35,7 @@ public class ItemStackRenderer implements IAnimatedRenderer<ItemStackParameters,
     public void setup(ItemStackParameters parameters) {
         Debug.push("item/setup");
 
-        Window window = MinecraftClient.getInstance().getWindow();
+        MainWindow window = Minecraft.getInstance().getMainWindow();
         int displayWidth = window.getFramebufferWidth();
         int displayHeight = window.getFramebufferHeight();
 
@@ -59,10 +57,10 @@ public class ItemStackRenderer implements IAnimatedRenderer<ItemStackParameters,
         GL.scaleFixedZLevel(scale, -BASE_Z_LEVEL);
 
         /* Save old zOffset so we can reset it */
-        zLevel = renderer.zOffset;
+        zLevel = renderer.zLevel;
 
         /* Modify zOffset */
-        renderer.zOffset = -BASE_Z_LEVEL / 2f;
+        renderer.zLevel = -BASE_Z_LEVEL / 2f;
 
         Debug.pop();
     }
@@ -81,7 +79,7 @@ public class ItemStackRenderer implements IAnimatedRenderer<ItemStackParameters,
         LongSupplier oldSupplier = Util.nanoTimeSupplier;
         Util.nanoTimeSupplier = () -> nano;
 
-        MinecraftClient.getInstance().getTextureManager().tick();
+        Minecraft.getInstance().getTextureManager().tick();
 
         do {
             tr.beginTile();
@@ -91,7 +89,7 @@ public class ItemStackRenderer implements IAnimatedRenderer<ItemStackParameters,
             GL.clearFrameBuffer();
 
             /* Render */
-            renderer.renderInGuiWithOverrides(instance, 0, 0);
+            renderer.renderItemIntoGUI(instance, 0, 0);
 
             GL.popMatrix("item/render");
         } while (tr.endTile());
@@ -111,7 +109,7 @@ public class ItemStackRenderer implements IAnimatedRenderer<ItemStackParameters,
         Debug.push("item/teardown");
 
         /* Reset zOffset */
-        renderer.zOffset = zLevel;
+        renderer.zLevel = zLevel;
 
         /* Pop Stack */
         GL.popMatrix("item/teardown");

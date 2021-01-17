@@ -6,10 +6,10 @@ import com.unascribed.blockrenderer.varia.Files;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.ClickEvent;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.Style;
-import net.minecraft.util.Formatting;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.event.ClickEvent;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -40,10 +40,10 @@ public class DefaultPngItemStackHandler extends BaseItemStackHandler implements 
     @Override
     public void run() {
         Style open = Style.EMPTY
-                .withFormatting(Formatting.GOLD)
-                .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, folder.getAbsolutePath()));
+                .setFormatting(TextFormatting.GOLD)
+                .setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, folder.getAbsolutePath()));
 
-        StringUtils.addMessage(new LiteralText("> Finished Rendering").setStyle(open));
+        StringUtils.addMessage(new StringTextComponent("> Finished Rendering").setStyle(open));
     }
 
     @Override
@@ -54,7 +54,7 @@ public class DefaultPngItemStackHandler extends BaseItemStackHandler implements 
             case 1:
                 ItemGroup group = value.getItem().getGroup();
                 if (group == null) return result;
-                return StringUtils.sanitize(group.getName()) + "/" + result;
+                return StringUtils.sanitize(group.getGroupName()) + "/" + result;
             case 2:
                 return (value.getItem() instanceof BlockItem ? "blocks" : "items") + "/" + result;
         }

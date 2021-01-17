@@ -1,14 +1,14 @@
 package com.unascribed.blockrenderer.fabric.client.render.report;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.unascribed.blockrenderer.fabric.client.varia.rendering.Display;
 import com.unascribed.blockrenderer.fabric.client.varia.rendering.GL;
 import com.unascribed.blockrenderer.varia.debug.Debug;
 import com.unascribed.blockrenderer.varia.logging.Log;
 import com.unascribed.blockrenderer.varia.logging.Markers;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
 import org.apache.logging.log4j.message.MessageFormatMessage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -19,9 +19,9 @@ public class ProgressManager {
     private static final int LIGHT_GREEN = 0xFF55FF55;
 
     @NotNull
-    public static Text title = new LiteralText("Rendering");
+    public static ITextComponent title = new StringTextComponent("Rendering");
     @Nullable
-    public static Text message = null;
+    public static ITextComponent message = null;
 
     public static int steps = -1;
     public static int step = 0;
@@ -29,7 +29,7 @@ public class ProgressManager {
     private static long start;
     private static long last;
 
-    public static void init(Text title, int steps) {
+    public static void init(ITextComponent title, int steps) {
         reset();
 
         ProgressManager.title = title;
@@ -38,7 +38,7 @@ public class ProgressManager {
         last = start;
     }
 
-    public static void push(@Nullable Text message) {
+    public static void push(@Nullable ITextComponent message) {
         ProgressManager.message = message;
 
         step++;
@@ -73,18 +73,18 @@ public class ProgressManager {
     }
 
     public static void reset() {
-        title = new LiteralText("Rendering");
+        title = new StringTextComponent("Rendering");
         message = null;
         steps = -1;
         step = 0;
         start = 0;
     }
 
-    public static Text getProgress() {
+    public static ITextComponent getProgress() {
         //TODO: Rendered, Total, Remaining + Elapsed Time
-        if (steps > 0) return new LiteralText(String.format("%s / %s", step + 1, steps));
+        if (steps > 0) return new StringTextComponent(String.format("%s / %s", step + 1, steps));
 
-        return new LiteralText(String.format("%s", step));
+        return new StringTextComponent(String.format("%s", step));
     }
 
     public static void render() {

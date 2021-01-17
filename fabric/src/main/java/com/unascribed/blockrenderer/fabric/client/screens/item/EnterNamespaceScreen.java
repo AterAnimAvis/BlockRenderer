@@ -1,5 +1,6 @@
 package com.unascribed.blockrenderer.fabric.client.screens.item;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.unascribed.blockrenderer.fabric.client.render.RenderManager;
 import com.unascribed.blockrenderer.fabric.client.render.item.ItemRenderer;
 import com.unascribed.blockrenderer.fabric.client.screens.widgets.HoverableTinyButtonWidget;
@@ -7,12 +8,11 @@ import com.unascribed.blockrenderer.fabric.client.screens.widgets.ItemButtonMult
 import com.unascribed.blockrenderer.fabric.client.varia.Registries;
 import com.unascribed.blockrenderer.fabric.client.varia.StringUtils;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.util.text.TranslationTextComponent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
@@ -28,7 +28,7 @@ public class EnterNamespaceScreen extends BaseItemScreen {
     private static final int GROUP_BY_TAB = 1; // Banner Pattern
     private static final int GROUP_BY_TYPE = 2; // Block
 
-    private static final TranslatableText TITLE = new TranslatableText("block_renderer.gui.namespace");
+    private static final TranslationTextComponent TITLE = new TranslationTextComponent("block_renderer.gui.namespace");
 
     private boolean emptySpec = false;
 
@@ -53,8 +53,8 @@ public class EnterNamespaceScreen extends BaseItemScreen {
 
     @Override
     public void init() {
-        assert client != null;
-        client.keyboard.setRepeatEvents(true);
+        assert minecraft != null;
+        minecraft.keyboardListener.enableRepeatEvents(true);
 
         boolean enabled = enabled();
 
@@ -62,26 +62,26 @@ public class EnterNamespaceScreen extends BaseItemScreen {
         @SuppressWarnings("ConstantConditions")
         String oldText = (text == null ? prefill : text.getText());
 
-        text = addButton(new TextFieldWidget(client.textRenderer, width / 2 - 100, height / 6 + 50, 200, 20, new TranslatableText("block_renderer.gui.namespace")), enabled);
-        text.setChangedListener((value) -> emptySpec = value.trim().isEmpty());
+        text = addButton(new TextFieldWidget(minecraft.fontRenderer, width / 2 - 100, height / 6 + 50, 200, 20, new TranslationTextComponent("block_renderer.gui.namespace")), enabled);
+        text.setResponder((value) -> emptySpec = value.trim().isEmpty());
         text.setText(oldText);
-        addChild(text);
-        setInitialFocus(text);
+        addListener(text);
+        setFocusedDefault(text);
 
         if (stack != null) {
             addButton(new HoverableTinyButtonWidget(
                     this,
                     width - 32,
                     height - 32,
-                    new TranslatableText("block_renderer.gui.switch.single"),
-                    new TranslatableText("block_renderer.gui.switch.single.tooltip"),
-                    button -> client.openScreen(new EnterSizeScreen(old, stack)))
+                    new TranslationTextComponent("block_renderer.gui.switch.single"),
+                    new TranslationTextComponent("block_renderer.gui.switch.single.tooltip"),
+                    button -> minecraft.displayGuiScreen(new EnterSizeScreen(old, stack)))
             );
         }
 
-        final Supplier<ItemStack> EMPTY_MAP = Registries.mapLazy(Registries.EMPTY_MAP, Item::getDefaultStack);
-        final Supplier<ItemStack> PATTERN = Registries.mapLazy(Registries.PATTERN, Item::getDefaultStack);
-        final Supplier<ItemStack> DISPENSER = Registries.mapLazy(Registries.DISPENSER, Item::getDefaultStack);
+        final Supplier<ItemStack> EMPTY_MAP = Registries.mapLazy(Registries.EMPTY_MAP, Item::getDefaultInstance);
+        final Supplier<ItemStack> PATTERN = Registries.mapLazy(Registries.PATTERN, Item::getDefaultInstance);
+        final Supplier<ItemStack> DISPENSER = Registries.mapLazy(Registries.DISPENSER, Item::getDefaultInstance);
 
         grouped = addButton(new ItemButtonMultiWidget(
                 this,
@@ -100,10 +100,10 @@ public class EnterNamespaceScreen extends BaseItemScreen {
                 },
                 12,
                 height - 32,
-                new TranslatableText("block_renderer.gui.group"),
+                new TranslationTextComponent("block_renderer.gui.group"),
                 (state) -> {
                     if (state < 0 || state > 2) throw new RuntimeException("Unsupported Group Type");
-                    return Collections.singletonList(new TranslatableText("block_renderer.gui.group.tooltip." + state));
+                    return Collections.singletonList(new TranslationTextComponent("block_renderer.gui.group.tooltip." + state));
                 },
                 button -> {
                     grouped.state += 1;
@@ -125,29 +125,29 @@ public class EnterNamespaceScreen extends BaseItemScreen {
 
     @Override
     public void onClose() {
-        assert client != null;
-        client.keyboard.setRepeatEvents(false);
+        assert minecraft != null;
+        minecraft.keyboardListener.enableRepeatEvents(false);
     }
 
     @Override
     public void render(MatrixStack stack, int mouseX, int mouseY, float partialTicks) {
-        assert client != null;
+        assert minecraft != null;
 
         super.render(stack, mouseX, mouseY, partialTicks);
 
         if (!emptySpec) return;
 
-        drawCenteredText(stack, client.textRenderer, new TranslatableText("block_renderer.gui.emptySpec"), width / 2, height / 6 + 30, 0xFF5555);
+        drawCenteredString(stack, minecraft.fontRenderer, new TranslationTextComponent("block_renderer.gui.emptySpec"), width / 2, height / 6 + 30, 0xFF5555);
     }
 
     @Override
-    public void onRender(ButtonWidget button) {
-        assert client != null;
+    public void onRender(Button button) {
+        assert minecraft != null;
 
         if (!renderButton.visible) return;
 
-        client.openScreen(old);
-        if (client.world == null) return;
+        minecraft.displayGuiScreen(old);
+        if (minecraft.world == null) return;
 
         RenderManager.push(ItemRenderer.bulk(text.getText(), round(size), useId.isChecked(), addSize.isChecked(), grouped.state));
     }

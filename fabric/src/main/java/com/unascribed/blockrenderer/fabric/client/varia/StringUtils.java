@@ -1,12 +1,16 @@
 package com.unascribed.blockrenderer.fabric.client.varia;
 
 import com.google.common.collect.Sets;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.item.TooltipContext;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.*;
-import net.minecraft.util.Identifier;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.util.text.event.HoverEvent;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
@@ -23,7 +27,7 @@ public interface StringUtils {
     static String getNamespace(@Nullable ItemStack stack) {
         if (stack == null) return "";
 
-        return Registry.ITEM.getId(stack.getItem()).getNamespace();
+        return Registry.ITEM.getKey(stack.getItem()).getNamespace();
     }
 
     static Set<String> getNamespaces(String namespaceSpec) {
@@ -35,22 +39,22 @@ public interface StringUtils {
     }
 
     static void addMessage(String text) {
-        addMessage(new LiteralText(text));
+        addMessage(new StringTextComponent(text));
     }
 
-    static void addMessage(Text text) {
-        MinecraftClient.getInstance().inGameHud.getChatHud().addMessage(text);
+    static void addMessage(ITextComponent text) {
+        Minecraft.getInstance().ingameGUI.getChatGUI().printChatMessage(text);
     }
 
     static String dateTime() {
         return DATETIME_FORMAT.format(new Date());
     }
 
-    static String sanitize(Text text) {
+    static String sanitize(ITextComponent text) {
         return sanitize(text.getString());
     }
 
-    static String sanitize(Identifier identifier) {
+    static String sanitize(ResourceLocation identifier) {
         return sanitize(identifier.toString());
     }
 
@@ -60,23 +64,23 @@ public interface StringUtils {
 
     static String getFilename(ItemStack value, int size, boolean addDate, boolean addSize, boolean useIdentifier) {
         String sizeString = addSize ? size + "x" + size + "_" : "";
-        String fileName = useIdentifier ? StringUtils.sanitize(Identifiers.get(value.getItem())) : StringUtils.sanitize(value.getName());
+        String fileName = useIdentifier ? StringUtils.sanitize(Identifiers.get(value.getItem())) : StringUtils.sanitize(value.getDisplayName());
 
         return (addDate ? StringUtils.dateTime() + "_" : "") + sizeString + fileName;
     }
 
-    static List<Text> getTooltipFromItem(ItemStack stack) {
-        MinecraftClient minecraft = MinecraftClient.getInstance();
+    static List<ITextComponent> getTooltipFromItem(ItemStack stack) {
+        Minecraft minecraft = Minecraft.getInstance();
 
-        return stack.getTooltip(minecraft.player, TooltipContext.Default.NORMAL);
+        return stack.getTooltip(minecraft.player, ITooltipFlag.TooltipFlags.NORMAL);
     }
 
-    static Text getRenderSuccess(File folder, File file) {
-        return new TranslatableText("msg.block_renderer.render.success", asClickable(folder), asClickable(file));
+    static ITextComponent getRenderSuccess(File folder, File file) {
+        return new TranslationTextComponent("msg.block_renderer.render.success", asClickable(folder), asClickable(file));
     }
 
-    static Text asClickable(File file) {
-        LiteralText component = new LiteralText(file.getName());
+    static ITextComponent asClickable(File file) {
+        StringTextComponent component = new StringTextComponent(file.getName());
 
         String path;
 
@@ -92,9 +96,9 @@ public interface StringUtils {
 
         component.setStyle(
                 component.getStyle()
-                        .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslatableText("block_renderer.file.tooltip")))
-                        .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, path))
-                        .withUnderline(true)
+                        .setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslationTextComponent("block_renderer.file.tooltip")))
+                        .setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, path))
+                        .func_244282_c(true)
         );
 
         return component;

@@ -4,10 +4,10 @@ import com.unascribed.blockrenderer.fabric.client.screens.BaseScreen;
 import com.unascribed.blockrenderer.fabric.client.screens.widgets.HoverableCheckboxWidget;
 import com.unascribed.blockrenderer.fabric.client.screens.widgets.HoverableTinyButtonWidget;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.CheckboxWidget;
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.gui.widget.button.CheckboxButton;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import org.jetbrains.annotations.Nullable;
 
 /*
@@ -16,26 +16,26 @@ import org.jetbrains.annotations.Nullable;
 @SuppressWarnings("NotNullFieldNotInitialized")
 public abstract class BaseItemScreen extends BaseScreen {
 
-    protected ButtonWidget actualSize;
-    protected ButtonWidget wikiSize;
-    protected CheckboxWidget useId;
-    protected CheckboxWidget addSize;
+    protected Button actualSize;
+    protected Button wikiSize;
+    protected CheckboxButton useId;
+    protected CheckboxButton addSize;
 
-    public BaseItemScreen(Text title, @Nullable Screen old) {
+    public BaseItemScreen(ITextComponent title, @Nullable Screen old) {
         super(title, old);
     }
 
     @Override
     public void init() {
-        assert client != null;
+        assert minecraft != null;
         boolean enabled = enabled();
 
         super.init();
 
-        actualSize = addButton(new HoverableTinyButtonWidget(this, width / 2 + 104, height / 6 + 80, new TranslatableText("block_renderer.gui.actualSize"), new TranslatableText("block_renderer.gui.actualSize.tooltip"), button -> slider.update((int) client.getWindow().getScaleFactor() * 16)), enabled);
-        wikiSize = addButton(new HoverableTinyButtonWidget(this, width / 2 + 128, height / 6 + 80, new TranslatableText("block_renderer.gui.wikiSize"), new TranslatableText("block_renderer.gui.wikiSize.tooltip"), button -> slider.update(300)), enabled);
+        actualSize = addButton(new HoverableTinyButtonWidget(this, width / 2 + 104, height / 6 + 80, new TranslationTextComponent("block_renderer.gui.actualSize"), new TranslationTextComponent("block_renderer.gui.actualSize.tooltip"), button -> slider.update((int) minecraft.getMainWindow().getGuiScaleFactor() * 16)), enabled);
+        wikiSize = addButton(new HoverableTinyButtonWidget(this, width / 2 + 128, height / 6 + 80, new TranslationTextComponent("block_renderer.gui.wikiSize"), new TranslationTextComponent("block_renderer.gui.wikiSize.tooltip"), button -> slider.update(300)), enabled);
 
-        useId = addButton(new HoverableCheckboxWidget(this, width / 2 - 100, height / 6 + 144, 98, 20, new TranslatableText("block_renderer.gui.useId"), new TranslatableText("block_renderer.gui.useId.tooltip"), false), enabled);
-        addSize = addButton(new HoverableCheckboxWidget(this, width / 2 + 2, height / 6 + 144, 98, 20, new TranslatableText("block_renderer.gui.addSize"), new TranslatableText("block_renderer.gui.addSize.tooltip"), false), enabled);
+        useId = addButton(new HoverableCheckboxWidget(this, width / 2 - 100, height / 6 + 144, 98, 20, new TranslationTextComponent("block_renderer.gui.useId"), new TranslationTextComponent("block_renderer.gui.useId.tooltip"), false), enabled);
+        addSize = addButton(new HoverableCheckboxWidget(this, width / 2 + 2, height / 6 + 144, 98, 20, new TranslationTextComponent("block_renderer.gui.addSize"), new TranslationTextComponent("block_renderer.gui.addSize.tooltip"), false), enabled);
     }
 }

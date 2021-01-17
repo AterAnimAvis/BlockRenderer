@@ -161,10 +161,16 @@ project(":fabric") {
 
     /* =============================================================================================== Minecraft ==== */
 
+    repositories {
+        mavenLocal {
+            content { includeModule("net.fabricmc", "yarn") }
+        }
+    }
+
     dependencies {
         /* Via https://modmuss50.me/fabric.html */
         "minecraft"(group = "com.mojang", name = "minecraft", version = minecraftVersion)
-        "mappings"(group = "net.fabricmc", name = "yarn", version = "$minecraftVersion+build.$yarnBuild", classifier = "v2")
+        "mappings"(group = "net.fabricmc", name = "yarn", version = "$minecraftVersion+build.$yarnBuild")
 
         "modImplementation"(group = "net.fabricmc", name = "fabric-loader", version = fabricLoaderVersion)
         "modImplementation"(group = "net.fabricmc.fabric-api", name = "fabric-api", version = fabricApiVersion)

@@ -6,9 +6,9 @@ import com.unascribed.blockrenderer.Reference;
 import com.unascribed.blockrenderer.varia.logging.Log;
 import com.unascribed.blockrenderer.varia.logging.Markers;
 import com.unascribed.blockrenderer.varia.rendering.TileRenderer;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.DiffuseLighting;
-import net.minecraft.client.util.Window;
+import net.minecraft.client.MainWindow;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderHelper;
 import org.lwjgl.opengl.GL11;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -16,8 +16,8 @@ import static org.lwjgl.opengl.GL11.*;
 @SuppressWarnings("deprecation")
 public interface GL {
 
-    MinecraftClient client = MinecraftClient.getInstance();
-    Window window = client.getWindow();
+    Minecraft client = Minecraft.getInstance();
+    MainWindow window = client.getMainWindow();
 
     /* ================================================================================================== Matrix ==== */
 
@@ -63,11 +63,11 @@ public interface GL {
     /* ================================================================================================ Lighting ==== */
 
     static void setupItemStackLighting() {
-        DiffuseLighting.enableGuiDepthLighting();
+        RenderHelper.setupGui3DDiffuseLighting();
     }
 
     static void displayLighting() {
-        DiffuseLighting.disableGuiDepthLighting();
+        RenderHelper.disableStandardItemLighting();
     }
 
     /* =================================================================================================== State ==== */
@@ -81,7 +81,7 @@ public interface GL {
         RenderSystem.defaultBlendFunc();
     }
 
-    static void blendFunction(GlStateManager.SrcFactor source, GlStateManager.DstFactor dest) {
+    static void blendFunction(GlStateManager.SourceFactor source, GlStateManager.DestFactor dest) {
         RenderSystem.blendFunc(source, dest);
     }
 
@@ -98,25 +98,25 @@ public interface GL {
     }
 
     static void clearColorBuffer() {
-        RenderSystem.clear(GL11.GL_COLOR_BUFFER_BIT, MinecraftClient.IS_SYSTEM_MAC);
+        RenderSystem.clear(GL11.GL_COLOR_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC);
     }
 
     static void clearDepthBuffer() {
-        RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, MinecraftClient.IS_SYSTEM_MAC);
+        RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC);
     }
 
     /* ================================================================================================== Window ==== */
 
     static void unbindFBO() {
-        client.getFramebuffer().endWrite();
+        client.getFramebuffer().unbindFramebuffer();
     }
 
     static void flipFrame() {
-        window.swapBuffers();
+        window.flipFrame();
     }
 
     static void rebindFBO() {
-        client.getFramebuffer().beginWrite(false);
+        client.getFramebuffer().bindFramebuffer(false);
     }
 
     /* ============================================================================================= Projections ==== */
@@ -165,11 +165,11 @@ public interface GL {
     }
 
     static void setupOverlayRendering() {
-        MinecraftClient client = MinecraftClient.getInstance();
-        Window window = client.getWindow();
-        double scaleFactor = window.getScaleFactor();
+        Minecraft client = Minecraft.getInstance();
+        MainWindow window = client.getMainWindow();
+        double scaleFactor = window.getGuiScaleFactor();
 
-        RenderSystem.clear(GL_DEPTH_BUFFER_BIT, MinecraftClient.IS_SYSTEM_MAC);
+        RenderSystem.clear(GL_DEPTH_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC);
         RenderSystem.matrixMode(GL_PROJECTION);
         RenderSystem.loadIdentity();
         RenderSystem.ortho(0.0D, window.getFramebufferWidth() / scaleFactor,

@@ -8,17 +8,17 @@ import com.unascribed.blockrenderer.fabric.client.screens.item.EnterSizeScreen;
 import com.unascribed.blockrenderer.fabric.client.varia.StringUtils;
 import com.unascribed.blockrenderer.fabric.mixin.accessor.IHoveredSlot;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.recipebook.IRecipeShownListener;
+import net.minecraft.client.gui.recipebook.RecipeBookGui;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.gui.screen.recipebook.RecipeBookProvider;
-import net.minecraft.client.gui.screen.recipebook.RecipeBookWidget;
+import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.util.InputUtil;
+import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.screen.slot.Slot;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.util.text.TranslationTextComponent;
 import org.lwjgl.glfw.GLFW;
 
 public class ClientProxy {
@@ -36,7 +36,7 @@ public class ClientProxy {
         if (down) return;
         down = true;
 
-        MinecraftClient client = MinecraftClient.getInstance();
+        Minecraft client = Minecraft.getInstance();
         Slot hovered = null;
         Screen currentScreen = client.currentScreen;
         boolean isContainerScreen = currentScreen instanceof IHoveredSlot;
@@ -47,33 +47,33 @@ public class ClientProxy {
         if (Screen.hasControlDown()) {
             PlayerEntity player = client.player;
 
-            ItemStack input = hovered != null && hovered.hasStack() ? hovered.getStack() : null;
-            if (input == null && player != null) input = player.getMainHandStack();
+            ItemStack input = hovered != null && hovered.getHasStack() ? hovered.getStack() : null;
+            if (input == null && player != null) input = player.getHeldItemMainhand();
 
-            client.openScreen(new SelectionScreen(client.currentScreen, input));
+            client.displayGuiScreen(new SelectionScreen(client.currentScreen, input));
             return;
         }
 
         if (!isContainerScreen) {
             PlayerEntity player = client.player;
 
-            if (player != null && !player.getMainHandStack().isEmpty()) {
-                renderStack(player.getMainHandStack());
+            if (player != null && !player.getHeldItemMainhand().isEmpty()) {
+                renderStack(player.getHeldItemMainhand());
                 return;
             }
-            StringUtils.addMessage(new TranslatableText("msg.block_renderer.notContainer"));
+            StringUtils.addMessage(new TranslationTextComponent("msg.block_renderer.notContainer"));
             return;
         }
 
         if (hovered == null) {
-            StringUtils.addMessage(new TranslatableText("msg.block_renderer.slot.absent"));
+            StringUtils.addMessage(new TranslationTextComponent("msg.block_renderer.slot.absent"));
             return;
         }
 
         ItemStack stack = hovered.getStack();
 
         if (stack.isEmpty()) {
-            StringUtils.addMessage(new TranslatableText("msg.block_renderer.slot.empty"));
+            StringUtils.addMessage(new TranslationTextComponent("msg.block_renderer.slot.empty"));
             return;
         }
 
@@ -81,10 +81,10 @@ public class ClientProxy {
     }
 
     private static void renderStack(ItemStack stack) {
-        MinecraftClient client = MinecraftClient.getInstance();
+        Minecraft client = Minecraft.getInstance();
 
         if (Screen.hasShiftDown()) {
-            client.openScreen(new EnterSizeScreen(client.currentScreen, stack));
+            client.displayGuiScreen(new EnterSizeScreen(client.currentScreen, stack));
             return;
         }
 
@@ -92,11 +92,11 @@ public class ClientProxy {
     }
 
     private static boolean isKeyDown() {
-        MinecraftClient client = MinecraftClient.getInstance();
+        Minecraft client = Minecraft.getInstance();
         Screen currentScreen = client.currentScreen;
 
         /* Unbound key */
-        if (Keybindings.render.isUnbound()) return false;
+        if (Keybindings.render.isInvalid()) return false;
 
         /* Has the Keybinding been triggered? */
         if (Keybindings.render.isPressed()) return true;
@@ -105,26 +105,26 @@ public class ClientProxy {
         if (currentScreen == null) return false;
 
         /* Non Containers seem to behave ok */
-        boolean hasSlots = currentScreen instanceof HandledScreen<?>;
+        boolean hasSlots = currentScreen instanceof ContainerScreen<?>;
         if (!hasSlots) return false;
 
         /* TextFieldWidgets */
-        if (currentScreen.getFocused() instanceof TextFieldWidget) return false;
+        if (currentScreen.getListener() instanceof TextFieldWidget) return false;
 
         /* Recipe Books */
-        if (currentScreen instanceof RecipeBookProvider) {
-            RecipeBookWidget recipeBook = ((RecipeBookProvider) currentScreen).getRecipeBookWidget();
-            if (recipeBook.isOpen()) return false;
+        if (currentScreen instanceof IRecipeShownListener) {
+            RecipeBookGui recipeBook = ((IRecipeShownListener) currentScreen).getRecipeGui();
+            if (recipeBook.isVisible()) return false;
         }
 
         /* Actually Check to see if the key is down */
-        InputUtil.Key key = KeyBindingHelper.getBoundKeyOf(Keybindings.render);
+        InputMappings.Input key = KeyBindingHelper.getBoundKeyOf(Keybindings.render);
 
-        if (key.getCategory() == InputUtil.Type.MOUSE) {
-            return GLFW.glfwGetMouseButton(client.getWindow().getHandle(), key.getCode()) == GLFW.GLFW_PRESS;
+        if (key.getType() == InputMappings.Type.MOUSE) {
+            return GLFW.glfwGetMouseButton(client.getMainWindow().getHandle(), key.getKeyCode()) == GLFW.GLFW_PRESS;
         }
 
-        return InputUtil.isKeyPressed(client.getWindow().getHandle(), key.getCode());
+        return InputMappings.isKeyDown(client.getMainWindow().getHandle(), key.getKeyCode());
     }
 
 }

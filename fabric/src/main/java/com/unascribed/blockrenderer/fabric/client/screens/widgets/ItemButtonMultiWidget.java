@@ -1,31 +1,31 @@
 package com.unascribed.blockrenderer.fabric.client.screens.widgets;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.unascribed.blockrenderer.fabric.client.varia.rendering.Display;
 import com.unascribed.blockrenderer.fabric.client.varia.rendering.GL;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.render.item.ItemRenderer;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.widget.button.Button;
+import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
+import net.minecraft.util.text.ITextComponent;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
-public class ItemButtonMultiWidget extends ButtonWidget {
+public class ItemButtonMultiWidget extends Button {
 
     private final Screen owner;
-    private final Function<Integer, List<Text>> tooltip;
+    private final Function<Integer, List<ITextComponent>> tooltip;
     private final ItemRenderer renderer;
     private final Function<Integer, ItemStack> stack;
     public int state = 0;
 
-    public ItemButtonMultiWidget(Screen owner, ItemRenderer renderer, Function<Integer, ItemStack> stack, int x, int y, Text message, Text tooltip, PressAction onPress) {
+    public ItemButtonMultiWidget(Screen owner, ItemRenderer renderer, Function<Integer, ItemStack> stack, int x, int y, ITextComponent message, ITextComponent tooltip, IPressable onPress) {
         this(owner, renderer, stack, x, y, message, (state) -> Collections.singletonList(tooltip), onPress);
     }
 
-    public ItemButtonMultiWidget(Screen owner, ItemRenderer renderer, Function<Integer, ItemStack> stack, int x, int y, Text message, Function<Integer, List<Text>> tooltip, PressAction onPress) {
+    public ItemButtonMultiWidget(Screen owner, ItemRenderer renderer, Function<Integer, ItemStack> stack, int x, int y, ITextComponent message, Function<Integer, List<ITextComponent>> tooltip, IPressable onPress) {
         super(x, y, 20, 20, message, onPress);
         this.tooltip = tooltip;
         this.owner = owner;
@@ -53,9 +53,9 @@ public class ItemButtonMultiWidget extends ButtonWidget {
         GL.translate(x, y, 32.0f);
         GL.scaleFixedZLevel(scale, -BASE_Z_LEVEL);
 
-        renderer.zOffset = -BASE_Z_LEVEL / 2f;
-        renderer.renderInGuiWithOverrides(stack, 0, 0);
-        renderer.zOffset = 0.0F;
+        renderer.zLevel = -BASE_Z_LEVEL / 2f;
+        renderer.renderItemIntoGUI(stack, 0, 0);
+        renderer.zLevel = 0.0F;
         GL.popMatrix();
 
     }
