@@ -4,6 +4,10 @@ import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.IForgeRegistryEntry;
+
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 public interface Registries {
 
@@ -15,5 +19,9 @@ public interface Registries {
 
     static void clazzLoad() {
         // INTENTIONAL LEFT BLANK
+    }
+
+    static <A extends IForgeRegistryEntry<? super A>, B> Supplier<B> mapLazy(RegistryObject<A> lazy, Function<A, B> mapper) {
+        return lazy.lazyMap(mapper);
     }
 }

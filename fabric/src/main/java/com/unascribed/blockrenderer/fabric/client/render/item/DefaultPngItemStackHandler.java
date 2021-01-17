@@ -40,7 +40,7 @@ public class DefaultPngItemStackHandler extends BaseItemStackHandler implements 
     @Override
     public void run() {
         Style open = Style.EMPTY
-                .setFormatting(TextFormatting.GOLD)
+                .applyFormatting(TextFormatting.GOLD)
                 .setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, folder.getAbsolutePath()));
 
         StringUtils.addMessage(new StringTextComponent("> Finished Rendering").setStyle(open));
@@ -54,7 +54,7 @@ public class DefaultPngItemStackHandler extends BaseItemStackHandler implements 
             case 1:
                 ItemGroup group = value.getItem().getGroup();
                 if (group == null) return result;
-                return StringUtils.sanitize(group.getGroupName()) + "/" + result;
+                return StringUtils.sanitize(group.getPath()) + "/" + result;
             case 2:
                 return (value.getItem() instanceof BlockItem ? "blocks" : "items") + "/" + result;
         }

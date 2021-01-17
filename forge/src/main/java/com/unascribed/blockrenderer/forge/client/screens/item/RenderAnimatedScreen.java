@@ -65,7 +65,7 @@ public class RenderAnimatedScreen extends EnterSizeScreen {
     }
 
     @Override
-    public void onClose() {
+    public void closeScreen() {
         assert minecraft != null;
         minecraft.keyboardListener.enableRepeatEvents(false);
     }

@@ -6,9 +6,3 @@
  
  import net.minecraft.client.GameSettings;
  import net.minecraft.client.settings.SliderPercentageOption;
-@@ -17,4 +17,5 @@
-     public ITextComponent getDisplayPrefix() {
-         return super.getBaseMessageTranslation();
-     }
-+
- }

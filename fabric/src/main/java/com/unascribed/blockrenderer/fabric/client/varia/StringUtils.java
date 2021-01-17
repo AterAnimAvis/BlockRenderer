@@ -18,6 +18,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 public interface StringUtils {
@@ -27,7 +28,9 @@ public interface StringUtils {
     static String getNamespace(@Nullable ItemStack stack) {
         if (stack == null) return "";
 
-        return Registry.ITEM.getKey(stack.getItem()).getNamespace();
+        ResourceLocation identifier = Registry.ITEM.getKey(stack.getItem());
+
+        return Objects.equals(identifier, new ResourceLocation("air")) ? "" : identifier.getNamespace();
     }
 
     static Set<String> getNamespaces(String namespaceSpec) {

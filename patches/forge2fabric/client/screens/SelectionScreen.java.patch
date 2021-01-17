@@ -1,6 +1,6 @@
 --- a/client/screens/SelectionScreen.java
 +++ b/client/screens/SelectionScreen.java
-@@ -1,15 +1,17 @@
+@@ -1,12 +1,12 @@
 -package com.unascribed.blockrenderer.forge.client.screens;
 +package com.unascribed.blockrenderer.fabric.client.screens;
  
@@ -9,6 +9,7 @@
 -import com.unascribed.blockrenderer.forge.client.screens.item.RenderAnimatedScreen;
 -import com.unascribed.blockrenderer.forge.client.screens.map.RenderMapScreen;
 -import com.unascribed.blockrenderer.forge.client.screens.widgets.ItemButtonWidget;
+-import com.unascribed.blockrenderer.forge.client.varia.Identifiers;
 -import com.unascribed.blockrenderer.forge.client.varia.Registries;
 +import com.unascribed.blockrenderer.fabric.client.screens.item.EnterNamespaceScreen;
 +import com.unascribed.blockrenderer.fabric.client.screens.item.RenderAnimatedScreen;
@@ -19,59 +20,3 @@
  import net.minecraft.client.gui.screen.Screen;
  import net.minecraft.item.Item;
  import net.minecraft.item.ItemStack;
- import net.minecraft.util.ResourceLocation;
-+import net.minecraft.util.text.ITextComponent;
- import net.minecraft.util.text.TranslationTextComponent;
- import org.jetbrains.annotations.Nullable;
- 
-@@ -17,7 +19,7 @@
- 
- public class SelectionScreen extends Screen {
- 
--    private static final TranslationTextComponent TITLE = new TranslationTextComponent("block_renderer.gui.choose");
-+    private static final ITextComponent TITLE = new TranslationTextComponent("block_renderer.gui.choose");
- 
-     @Nullable
-     private final Screen old;
-@@ -38,7 +40,7 @@
-         addButton(new ItemButtonWidget(
-                 this,
-                 itemRenderer,
--                Registries.MAP.lazyMap(Item::getDefaultInstance),
-+                Registries.mapLazy(Registries.MAP, Item::getDefaultInstance),
-                 width / 2 - 64 - 12,
-                 height / 2,
-                 new TranslationTextComponent("block_renderer.gui.choose.map"),
-@@ -47,12 +49,12 @@
-                     assert stack != null;
-                     minecraft.displayGuiScreen(new RenderMapScreen(old, stack));
-                 }
--        )).active = stack != null && Objects.equals(stack.getItem().getRegistryName(), new ResourceLocation("minecraft:filled_map"));
-+        )).active = stack != null && Objects.equals(Identifiers.get(stack.getItem()), new ResourceLocation("minecraft:filled_map"));
- 
-         addButton(new ItemButtonWidget(
-                 this,
-                 itemRenderer,
--                Registries.DISPENSER.lazyMap(Item::getDefaultInstance),
-+                Registries.mapLazy(Registries.DISPENSER, Item::getDefaultInstance),
-                 width / 2,
-                 height / 2,
-                 new TranslationTextComponent("block_renderer.gui.choose.item"),
-@@ -63,7 +65,7 @@
-         addButton(new ItemButtonWidget(
-                 this,
-                 itemRenderer,
--                Registries.CUTTER.lazyMap(Item::getDefaultInstance),
-+                Registries.mapLazy(Registries.CUTTER, Item::getDefaultInstance),
-                 width / 2 + 64 + 12,
-                 height / 2,
-                 new TranslationTextComponent("block_renderer.gui.choose.animated"),
-@@ -87,7 +89,7 @@
-     }
- 
-     @Override
--    public void closeScreen() {
-+    public void onClose() {
-         assert minecraft != null;
- 
-         minecraft.displayGuiScreen(old);

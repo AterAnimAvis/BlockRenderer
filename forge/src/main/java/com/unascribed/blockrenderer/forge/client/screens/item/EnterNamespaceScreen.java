@@ -79,9 +79,9 @@ public class EnterNamespaceScreen extends BaseItemScreen {
             );
         }
 
-        final Supplier<ItemStack> EMPTY_MAP = Registries.EMPTY_MAP.lazyMap(Item::getDefaultInstance);
-        final Supplier<ItemStack> PATTERN = Registries.PATTERN.lazyMap(Item::getDefaultInstance);
-        final Supplier<ItemStack> DISPENSER = Registries.DISPENSER.lazyMap(Item::getDefaultInstance);
+        final Supplier<ItemStack> EMPTY_MAP = Registries.mapLazy(Registries.EMPTY_MAP, Item::getDefaultInstance);
+        final Supplier<ItemStack> PATTERN = Registries.mapLazy(Registries.PATTERN, Item::getDefaultInstance);
+        final Supplier<ItemStack> DISPENSER = Registries.mapLazy(Registries.DISPENSER, Item::getDefaultInstance);
 
         grouped = addButton(new ItemButtonMultiWidget(
                 this,
@@ -124,7 +124,7 @@ public class EnterNamespaceScreen extends BaseItemScreen {
     }
 
     @Override
-    public void onClose() {
+    public void closeScreen() {
         assert minecraft != null;
         minecraft.keyboardListener.enableRepeatEvents(false);
     }

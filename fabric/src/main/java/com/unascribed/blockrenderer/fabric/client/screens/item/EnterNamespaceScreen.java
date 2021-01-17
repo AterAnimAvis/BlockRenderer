@@ -124,7 +124,7 @@ public class EnterNamespaceScreen extends BaseItemScreen {
     }
 
     @Override
-    public void onClose() {
+    public void closeScreen() {
         assert minecraft != null;
         minecraft.keyboardListener.enableRepeatEvents(false);
     }

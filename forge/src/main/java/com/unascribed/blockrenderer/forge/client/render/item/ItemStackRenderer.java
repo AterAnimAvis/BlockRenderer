@@ -80,7 +80,7 @@ public class ItemStackRenderer implements IAnimatedRenderer<ItemStackParameters,
         LongSupplier oldSupplier = Util.nanoTimeSupplier;
         Util.nanoTimeSupplier = () -> nano;
 
-        Minecraft.getInstance().textureManager.tick();
+        Minecraft.getInstance().getTextureManager().tick();
 
         do {
             tr.beginTile();

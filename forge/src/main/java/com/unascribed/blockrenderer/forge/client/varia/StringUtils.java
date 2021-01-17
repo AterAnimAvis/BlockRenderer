@@ -41,7 +41,7 @@ public interface StringUtils {
     }
 
     static void addMessage(String text) {
-        Minecraft.getInstance().ingameGUI.getChatGUI().printChatMessage(new StringTextComponent(text));
+        addMessage(new StringTextComponent(text));
     }
 
     static void addMessage(ITextComponent text) {

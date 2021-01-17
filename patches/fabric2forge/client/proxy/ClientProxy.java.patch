@@ -23,7 +23,7 @@
  import net.minecraft.client.Minecraft;
  import net.minecraft.client.gui.recipebook.IRecipeShownListener;
  import net.minecraft.client.gui.recipebook.RecipeBookGui;
-@@ -19,13 +19,27 @@
+@@ -19,12 +19,30 @@
  import net.minecraft.inventory.container.Slot;
  import net.minecraft.item.ItemStack;
  import net.minecraft.util.text.TranslationTextComponent;
@@ -36,10 +36,8 @@
 -public class ClientProxy {
 +public class ClientProxy extends CommonProxy {
  
--    private static boolean down = false;
-+    private boolean down = false;
+     private static boolean down = false;
  
--    public static void onFrameStart() {
 +    @Override
 +    public void init() {
 +        MinecraftForge.EVENT_BUS.register(this);
@@ -51,10 +49,13 @@
 +    public void onFrameStart(TickEvent.RenderTickEvent e) {
 +        if (e.phase != TickEvent.Phase.START) return;
 +
++        onFrameStart();
++    }
++
+     public static void onFrameStart() {
          RenderManager.onFrameStart();
  
-         if (!isKeyDown()) {
-@@ -39,10 +53,10 @@
+@@ -39,10 +57,10 @@
          Minecraft client = Minecraft.getInstance();
          Slot hovered = null;
          Screen currentScreen = client.currentScreen;
@@ -67,7 +68,7 @@
  
          if (Screen.hasControlDown()) {
              PlayerEntity player = client.player;
-@@ -118,7 +132,7 @@
+@@ -118,7 +136,7 @@
          }
  
          /* Actually Check to see if the key is down */

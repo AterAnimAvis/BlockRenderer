@@ -191,6 +191,7 @@ public class RenderManager {
         /* Render for Specified Length */
         ProgressManager.init(RENDERING_GIF, length);
         ProgressManager.skip();
+
         for (int i = 1; i < length; i++) {
             final ImageHandler<T> consumer = i == length - 1 ? checkWrite : write;
 

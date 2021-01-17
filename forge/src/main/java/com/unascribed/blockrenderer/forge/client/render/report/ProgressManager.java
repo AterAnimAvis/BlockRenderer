@@ -3,10 +3,10 @@ package com.unascribed.blockrenderer.forge.client.render.report;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.unascribed.blockrenderer.forge.client.varia.rendering.Display;
 import com.unascribed.blockrenderer.forge.client.varia.rendering.GL;
+import com.unascribed.blockrenderer.varia.Maths;
 import com.unascribed.blockrenderer.varia.debug.Debug;
 import com.unascribed.blockrenderer.varia.logging.Log;
 import com.unascribed.blockrenderer.varia.logging.Markers;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import org.apache.logging.log4j.message.MessageFormatMessage;
@@ -128,7 +128,7 @@ public class ProgressManager {
     }
 
     private static void renderProgressBar(int displayWidth, int displayHeight) {
-        int progress = steps > 0 ? MathHelper.clamp(100 * step / steps, 0, 100) : 100;
+        int progress = steps > 0 ? Maths.clamp(100 * step / steps, 0, 100) : 100;
 
         int hw = displayWidth / 2;
         int hh = displayHeight / 2;

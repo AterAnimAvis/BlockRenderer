@@ -20,16 +20,3 @@
  import net.minecraft.client.gui.screen.Screen;
  import net.minecraft.client.gui.widget.TextFieldWidget;
  import net.minecraft.client.gui.widget.button.Button;
-@@ -79,9 +79,9 @@
-             );
-         }
- 
--        final Supplier<ItemStack> EMPTY_MAP = Registries.mapLazy(Registries.EMPTY_MAP, Item::getDefaultInstance);
--        final Supplier<ItemStack> PATTERN = Registries.mapLazy(Registries.PATTERN, Item::getDefaultInstance);
--        final Supplier<ItemStack> DISPENSER = Registries.mapLazy(Registries.DISPENSER, Item::getDefaultInstance);
-+        final Supplier<ItemStack> EMPTY_MAP = Registries.EMPTY_MAP.lazyMap(Item::getDefaultInstance);
-+        final Supplier<ItemStack> PATTERN = Registries.PATTERN.lazyMap(Item::getDefaultInstance);
-+        final Supplier<ItemStack> DISPENSER = Registries.DISPENSER.lazyMap(Item::getDefaultInstance);
- 
-         grouped = addButton(new ItemButtonMultiWidget(
-                 this,

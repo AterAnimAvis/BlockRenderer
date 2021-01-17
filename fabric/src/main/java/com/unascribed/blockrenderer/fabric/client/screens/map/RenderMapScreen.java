@@ -28,7 +28,7 @@ public class RenderMapScreen extends EnterSizeScreen {
         super(TITLE, old, stack, false);
 
         minecraft = Minecraft.getInstance();
-        data = minecraft.world != null ? FilledMapItem.getData(stack, minecraft.world) : null;
+        data = minecraft.world != null ? FilledMapItem.getMapData(stack, minecraft.world) : null;
     }
 
     @Override

@@ -8,7 +8,6 @@ import net.minecraft.client.GameSettings;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.client.gui.widget.button.Button;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import org.jetbrains.annotations.Nullable;
@@ -41,7 +40,7 @@ public abstract class BaseScreen extends Screen {
 
         renderButton = addButton(new Button(width / 2 + 2, height / 6 + 120, 98, 20, new TranslationTextComponent("block_renderer.gui.render"), this::onRender), enabled);
 
-        size = MathHelper.clamp(size, getMinSize(), getMaxSize());
+        size = Maths.clamp(size, getMinSize(), getMaxSize());
 
         ExtendedSliderPercentageOption option = new ExtendedSliderPercentageOption("block_renderer.gui.renderSize", getMinSize(), getMaxSize(), 1, (settings) -> size, (settings, value) -> size = round(value), this::getSliderDisplay);
         slider = addButton(new UpdateableSliderWidget(minecraft.gameSettings, width / 2 - 100, height / 6 + 80, 200, 20, option), enabled);
@@ -101,7 +100,7 @@ public abstract class BaseScreen extends Screen {
 
     public ITextComponent getSliderDisplay(GameSettings settings, ExtendedSliderPercentageOption option) {
         int px = round(size);
-        return option.getDisplayPrefix().deepCopy().appendString(": " + px + "x" + px);
+        return option.getDisplayPrefix().copyRaw().appendString(": " + px + "x" + px);
     }
 
     protected <T extends Widget> T addButton(T button, boolean active) {
@@ -114,7 +113,7 @@ public abstract class BaseScreen extends Screen {
     }
 
     @Override
-    public void onClose() {
+    public void closeScreen() {
         assert minecraft != null;
 
         minecraft.displayGuiScreen(old);

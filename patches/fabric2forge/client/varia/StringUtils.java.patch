@@ -19,27 +19,27 @@
  import org.jetbrains.annotations.Nullable;
  
  import java.io.File;
-@@ -27,7 +27,9 @@
+@@ -18,7 +18,6 @@
+ import java.text.SimpleDateFormat;
+ import java.util.Date;
+ import java.util.List;
+-import java.util.Objects;
+ import java.util.Set;
+ 
+ public interface StringUtils {
+@@ -28,9 +27,9 @@
      static String getNamespace(@Nullable ItemStack stack) {
          if (stack == null) return "";
  
--        return Registry.ITEM.getKey(stack.getItem()).getNamespace();
+-        ResourceLocation identifier = Registry.ITEM.getKey(stack.getItem());
 +        ResourceLocation identifier = ForgeRegistries.ITEMS.getKey(stack.getItem());
-+
+ 
+-        return Objects.equals(identifier, new ResourceLocation("air")) ? "" : identifier.getNamespace();
 +        return identifier == null ? "" : identifier.getNamespace();
      }
  
      static Set<String> getNamespaces(String namespaceSpec) {
-@@ -39,7 +41,7 @@
-     }
- 
-     static void addMessage(String text) {
--        addMessage(new StringTextComponent(text));
-+        Minecraft.getInstance().ingameGUI.getChatGUI().printChatMessage(new StringTextComponent(text));
-     }
- 
-     static void addMessage(ITextComponent text) {
-@@ -98,7 +100,7 @@
+@@ -101,7 +100,7 @@
                  component.getStyle()
                          .setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslationTextComponent("block_renderer.file.tooltip")))
                          .setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, path))

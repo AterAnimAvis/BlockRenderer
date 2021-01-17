@@ -4,5 +4,5 @@
 -package com.unascribed.blockrenderer.fabric.client.screens.widgets;
 +package com.unascribed.blockrenderer.forge.client.screens.widgets;
  
+ import com.unascribed.blockrenderer.varia.Maths;
  import net.minecraft.client.GameSettings;
- import net.minecraft.client.gui.widget.OptionSlider;

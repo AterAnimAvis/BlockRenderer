@@ -27,7 +27,7 @@ import org.lwjgl.glfw.GLFW;
 
 public class ClientProxy extends CommonProxy {
 
-    private boolean down = false;
+    private static boolean down = false;
 
     @Override
     public void init() {
@@ -40,6 +40,10 @@ public class ClientProxy extends CommonProxy {
     public void onFrameStart(TickEvent.RenderTickEvent e) {
         if (e.phase != TickEvent.Phase.START) return;
 
+        onFrameStart();
+    }
+
+    public static void onFrameStart() {
         RenderManager.onFrameStart();
 
         if (!isKeyDown()) {

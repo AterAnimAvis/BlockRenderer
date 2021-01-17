@@ -70,10 +70,10 @@ public class MapRenderer implements IRenderer<MapParameters, MapData> {
         LongSupplier oldSupplier = Util.nanoTimeSupplier;
         Util.nanoTimeSupplier = () -> 0;
 
-        Minecraft.getInstance().textureManager.tick();
+        Minecraft.getInstance().getTextureManager().tick();
 
         IRenderTypeBuffer.Impl buffers = IRenderTypeBuffer.getImpl(Tessellator.getInstance().getBuffer());
-        try (MapItemRenderer renderer = new MapItemRenderer(Minecraft.getInstance().textureManager)) {
+        try (MapItemRenderer renderer = new MapItemRenderer(Minecraft.getInstance().getTextureManager())) {
             renderer.updateMapTexture(instance);
 
             do {

@@ -89,7 +89,7 @@ public class SelectionScreen extends Screen {
     }
 
     @Override
-    public void onClose() {
+    public void closeScreen() {
         assert minecraft != null;
 
         minecraft.displayGuiScreen(old);

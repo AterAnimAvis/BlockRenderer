@@ -1,9 +1,9 @@
 package com.unascribed.blockrenderer.forge.client.screens.widgets;
 
+import com.unascribed.blockrenderer.varia.Maths;
 import net.minecraft.client.GameSettings;
 import net.minecraft.client.gui.widget.OptionSlider;
 import net.minecraft.client.settings.SliderPercentageOption;
-import net.minecraft.util.math.MathHelper;
 import org.lwjgl.glfw.GLFW;
 
 public class UpdateableSliderWidget extends OptionSlider {
@@ -47,7 +47,7 @@ public class UpdateableSliderWidget extends OptionSlider {
     }
 
     private void setSliderValue(double desiredRatio) {
-        sliderValue = MathHelper.clamp(desiredRatio, 0.0D, 1.0D);
+        sliderValue = Maths.clamp(desiredRatio, 0.0D, 1.0D);
 
         /* mcp: applyValue */
         func_230972_a_();

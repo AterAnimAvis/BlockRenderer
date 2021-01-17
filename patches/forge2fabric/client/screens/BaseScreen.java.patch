@@ -12,7 +12,7 @@
  import com.unascribed.blockrenderer.varia.Maths;
  import net.minecraft.client.GameSettings;
  import net.minecraft.client.gui.screen.Screen;
-@@ -101,7 +101,7 @@
+@@ -100,7 +100,7 @@
  
      public ITextComponent getSliderDisplay(GameSettings settings, ExtendedSliderPercentageOption option) {
          int px = round(size);
@@ -21,12 +21,3 @@
      }
  
      protected <T extends Widget> T addButton(T button, boolean active) {
-@@ -114,7 +114,7 @@
-     }
- 
-     @Override
--    public void closeScreen() {
-+    public void onClose() {
-         assert minecraft != null;
- 
-         minecraft.displayGuiScreen(old);

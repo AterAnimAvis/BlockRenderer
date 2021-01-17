@@ -1,6 +1,6 @@
 --- a/client/varia/Registries.java
 +++ b/client/varia/Registries.java
-@@ -1,19 +1,27 @@
+@@ -1,27 +1,27 @@
 -package com.unascribed.blockrenderer.forge.client.varia;
 +package com.unascribed.blockrenderer.fabric.client.varia;
  
@@ -9,11 +9,12 @@
  import net.minecraft.util.ResourceLocation;
 -import net.minecraftforge.fml.RegistryObject;
 -import net.minecraftforge.registries.ForgeRegistries;
+-import net.minecraftforge.registries.IForgeRegistryEntry;
 +import net.minecraft.util.registry.Registry;
  
-+import java.util.function.Function;
-+import java.util.function.Supplier;
-+
+ import java.util.function.Function;
+ import java.util.function.Supplier;
+ 
  public interface Registries {
  
 -    RegistryObject<Item> CUTTER = RegistryObject.of(new ResourceLocation("minecraft:stonecutter"), ForgeRegistries.ITEMS);
@@ -32,9 +33,11 @@
 +    static Item lookupItem(ResourceLocation identifier) {
 +        return Registry.ITEM.getOrDefault(identifier);
      }
-+
+ 
+-    static <A extends IForgeRegistryEntry<? super A>, B> Supplier<B> mapLazy(RegistryObject<A> lazy, Function<A, B> mapper) {
+-        return lazy.lazyMap(mapper);
 +    static <A, B> Supplier<B> mapLazy(LazyValue<A> lazy, Function<A, B> mapper) {
 +        return () -> mapper.apply(lazy.getValue());
- }
+     }
 +
-+}
+ }

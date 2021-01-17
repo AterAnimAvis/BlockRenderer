@@ -16,12 +16,3 @@
  import net.minecraft.client.Minecraft;
  import net.minecraft.client.gui.screen.Screen;
  import net.minecraft.client.gui.widget.button.Button;
-@@ -28,7 +28,7 @@
-         super(TITLE, old, stack, false);
- 
-         minecraft = Minecraft.getInstance();
--        data = minecraft.world != null ? FilledMapItem.getData(stack, minecraft.world) : null;
-+        data = minecraft.world != null ? FilledMapItem.getMapData(stack, minecraft.world) : null;
-     }
- 
-     @Override

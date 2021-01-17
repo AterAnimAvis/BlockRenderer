@@ -17,4 +17,5 @@ public class ExtendedSliderPercentageOption extends SliderPercentageOption {
     public ITextComponent getDisplayPrefix() {
         return super.getBaseMessageTranslation();
     }
+
 }

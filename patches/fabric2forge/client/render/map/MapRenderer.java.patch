@@ -10,16 +10,3 @@
  import com.unascribed.blockrenderer.render.IRenderer;
  import com.unascribed.blockrenderer.render.request.lambda.ImageHandler;
  import com.unascribed.blockrenderer.varia.Images;
-@@ -70,10 +70,10 @@
-         LongSupplier oldSupplier = Util.nanoTimeSupplier;
-         Util.nanoTimeSupplier = () -> 0;
- 
--        Minecraft.getInstance().getTextureManager().tick();
-+        Minecraft.getInstance().textureManager.tick();
- 
-         IRenderTypeBuffer.Impl buffers = IRenderTypeBuffer.getImpl(Tessellator.getInstance().getBuffer());
--        try (MapItemRenderer renderer = new MapItemRenderer(Minecraft.getInstance().getTextureManager())) {
-+        try (MapItemRenderer renderer = new MapItemRenderer(Minecraft.getInstance().textureManager)) {
-             renderer.updateMapTexture(instance);
- 
-             do {
