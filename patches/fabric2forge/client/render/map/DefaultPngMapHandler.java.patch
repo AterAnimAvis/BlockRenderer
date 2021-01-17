@@ -1,0 +1,11 @@
+--- a/client/render/map/DefaultPngMapHandler.java
++++ b/client/render/map/DefaultPngMapHandler.java
+@@ -1,6 +1,6 @@
+-package com.unascribed.blockrenderer.fabric.client.render.map;
++package com.unascribed.blockrenderer.forge.client.render.map;
+ 
+-import com.unascribed.blockrenderer.fabric.client.render.item.DefaultPngItemStackHandler;
++import com.unascribed.blockrenderer.forge.client.render.item.DefaultPngItemStackHandler;
+ import com.unascribed.blockrenderer.render.request.lambda.ImageHandler;
+ import net.minecraft.item.ItemStack;
+ import net.minecraft.world.storage.MapData;

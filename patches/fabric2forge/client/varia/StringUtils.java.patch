@@ -1,0 +1,50 @@
+--- a/client/varia/StringUtils.java
++++ b/client/varia/StringUtils.java
+@@ -1,16 +1,16 @@
+-package com.unascribed.blockrenderer.fabric.client.varia;
++package com.unascribed.blockrenderer.forge.client.varia;
+ 
+ import com.google.common.collect.Sets;
+ import net.minecraft.client.Minecraft;
+ import net.minecraft.client.util.ITooltipFlag;
+ import net.minecraft.item.ItemStack;
+ import net.minecraft.util.ResourceLocation;
+-import net.minecraft.util.registry.Registry;
+ import net.minecraft.util.text.ITextComponent;
+ import net.minecraft.util.text.StringTextComponent;
+ import net.minecraft.util.text.TranslationTextComponent;
+ import net.minecraft.util.text.event.ClickEvent;
+ import net.minecraft.util.text.event.HoverEvent;
++import net.minecraftforge.registries.ForgeRegistries;
+ import org.jetbrains.annotations.Nullable;
+ 
+ import java.io.File;
+@@ -27,7 +27,9 @@
+     static String getNamespace(@Nullable ItemStack stack) {
+         if (stack == null) return "";
+ 
+-        return Registry.ITEM.getKey(stack.getItem()).getNamespace();
++        ResourceLocation identifier = ForgeRegistries.ITEMS.getKey(stack.getItem());
++
++        return identifier == null ? "" : identifier.getNamespace();
+     }
+ 
+     static Set<String> getNamespaces(String namespaceSpec) {
+@@ -39,7 +41,7 @@
+     }
+ 
+     static void addMessage(String text) {
+-        addMessage(new StringTextComponent(text));
++        Minecraft.getInstance().ingameGUI.getChatGUI().printChatMessage(new StringTextComponent(text));
+     }
+ 
+     static void addMessage(ITextComponent text) {
+@@ -98,7 +100,7 @@
+                 component.getStyle()
+                         .setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslationTextComponent("block_renderer.file.tooltip")))
+                         .setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, path))
+-                        .func_244282_c(true)
++                        .setUnderlined(true)
+         );
+ 
+         return component;

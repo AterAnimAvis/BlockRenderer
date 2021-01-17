@@ -1,0 +1,15 @@
+--- a/client/screens/item/EnterSizeScreen.java
++++ b/client/screens/item/EnterSizeScreen.java
+@@ -1,8 +1,8 @@
+-package com.unascribed.blockrenderer.fabric.client.screens.item;
++package com.unascribed.blockrenderer.forge.client.screens.item;
+ 
+-import com.unascribed.blockrenderer.fabric.client.render.RenderManager;
+-import com.unascribed.blockrenderer.fabric.client.render.item.ItemRenderer;
+-import com.unascribed.blockrenderer.fabric.client.screens.widgets.HoverableTinyButtonWidget;
++import com.unascribed.blockrenderer.forge.client.render.RenderManager;
++import com.unascribed.blockrenderer.forge.client.render.item.ItemRenderer;
++import com.unascribed.blockrenderer.forge.client.screens.widgets.HoverableTinyButtonWidget;
+ import net.minecraft.client.gui.screen.Screen;
+ import net.minecraft.client.gui.widget.button.Button;
+ import net.minecraft.item.ItemStack;

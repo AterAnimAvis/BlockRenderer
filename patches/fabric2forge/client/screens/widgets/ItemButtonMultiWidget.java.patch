@@ -1,0 +1,23 @@
+--- a/client/screens/widgets/ItemButtonMultiWidget.java
++++ b/client/screens/widgets/ItemButtonMultiWidget.java
+@@ -1,8 +1,8 @@
+-package com.unascribed.blockrenderer.fabric.client.screens.widgets;
++package com.unascribed.blockrenderer.forge.client.screens.widgets;
+ 
+ import com.mojang.blaze3d.matrix.MatrixStack;
+-import com.unascribed.blockrenderer.fabric.client.varia.rendering.Display;
+-import com.unascribed.blockrenderer.fabric.client.varia.rendering.GL;
++import com.unascribed.blockrenderer.forge.client.varia.rendering.Display;
++import com.unascribed.blockrenderer.forge.client.varia.rendering.GL;
+ import net.minecraft.client.gui.screen.Screen;
+ import net.minecraft.client.gui.widget.button.Button;
+ import net.minecraft.client.renderer.ItemRenderer;
+@@ -54,7 +54,7 @@
+         GL.scaleFixedZLevel(scale, -BASE_Z_LEVEL);
+ 
+         renderer.zLevel = -BASE_Z_LEVEL / 2f;
+-        renderer.renderItemIntoGUI(stack, 0, 0);
++        renderer.renderItemAndEffectIntoGUI(stack, 0, 0);
+         renderer.zLevel = 0.0F;
+         GL.popMatrix();
+ 

@@ -1,0 +1,78 @@
+--- a/client/proxy/ClientProxy.java
++++ b/client/proxy/ClientProxy.java
+@@ -1,13 +1,13 @@
+-package com.unascribed.blockrenderer.fabric.client.proxy;
++package com.unascribed.blockrenderer.forge.client.proxy;
+ 
+-import com.unascribed.blockrenderer.fabric.client.init.Keybindings;
+-import com.unascribed.blockrenderer.fabric.client.render.RenderManager;
+-import com.unascribed.blockrenderer.fabric.client.render.item.ItemRenderer;
+-import com.unascribed.blockrenderer.fabric.client.screens.SelectionScreen;
+-import com.unascribed.blockrenderer.fabric.client.screens.item.EnterSizeScreen;
+-import com.unascribed.blockrenderer.fabric.client.varia.StringUtils;
+-import com.unascribed.blockrenderer.fabric.mixin.accessor.IHoveredSlot;
+-import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
++import com.unascribed.blockrenderer.forge.client.init.Keybindings;
++import com.unascribed.blockrenderer.forge.client.render.RenderManager;
++import com.unascribed.blockrenderer.forge.client.render.item.ItemRenderer;
++import com.unascribed.blockrenderer.forge.client.screens.SelectionScreen;
++import com.unascribed.blockrenderer.forge.client.screens.item.EnterSizeScreen;
++import com.unascribed.blockrenderer.forge.client.varia.Registries;
++import com.unascribed.blockrenderer.forge.client.varia.StringUtils;
++import com.unascribed.blockrenderer.forge.proxy.CommonProxy;
+ import net.minecraft.client.Minecraft;
+ import net.minecraft.client.gui.recipebook.IRecipeShownListener;
+ import net.minecraft.client.gui.recipebook.RecipeBookGui;
+@@ -19,13 +19,27 @@
+ import net.minecraft.inventory.container.Slot;
+ import net.minecraft.item.ItemStack;
+ import net.minecraft.util.text.TranslationTextComponent;
++import net.minecraftforge.common.MinecraftForge;
++import net.minecraftforge.event.TickEvent;
++import net.minecraftforge.eventbus.api.EventPriority;
++import net.minecraftforge.eventbus.api.SubscribeEvent;
+ import org.lwjgl.glfw.GLFW;
+ 
+-public class ClientProxy {
++public class ClientProxy extends CommonProxy {
+ 
+-    private static boolean down = false;
++    private boolean down = false;
+ 
+-    public static void onFrameStart() {
++    @Override
++    public void init() {
++        MinecraftForge.EVENT_BUS.register(this);
++
++        Registries.clazzLoad();
++    }
++
++    @SubscribeEvent(priority = EventPriority.HIGHEST)
++    public void onFrameStart(TickEvent.RenderTickEvent e) {
++        if (e.phase != TickEvent.Phase.START) return;
++
+         RenderManager.onFrameStart();
+ 
+         if (!isKeyDown()) {
+@@ -39,10 +53,10 @@
+         Minecraft client = Minecraft.getInstance();
+         Slot hovered = null;
+         Screen currentScreen = client.currentScreen;
+-        boolean isContainerScreen = currentScreen instanceof IHoveredSlot;
++        boolean isContainerScreen = currentScreen instanceof ContainerScreen<?>;
+ 
+         // Intellij Bork-ing wants explicit null check.
+-        if (currentScreen != null && isContainerScreen) hovered = ((IHoveredSlot) currentScreen).block_renderer$accessor$hoveredSlot();
++        if (currentScreen != null && isContainerScreen) hovered = ((ContainerScreen<?>) currentScreen).getSlotUnderMouse();
+ 
+         if (Screen.hasControlDown()) {
+             PlayerEntity player = client.player;
+@@ -118,7 +132,7 @@
+         }
+ 
+         /* Actually Check to see if the key is down */
+-        InputMappings.Input key = KeyBindingHelper.getBoundKeyOf(Keybindings.render);
++        InputMappings.Input key = Keybindings.render.getKey();
+ 
+         if (key.getType() == InputMappings.Type.MOUSE) {
+             return GLFW.glfwGetMouseButton(client.getMainWindow().getHandle(), key.getKeyCode()) == GLFW.GLFW_PRESS;

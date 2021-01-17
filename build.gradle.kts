@@ -44,6 +44,13 @@ val jetbrainsAnnotationVersion: String by extra
 /* ================================================================================= Config -> Test Dependencies ==== */
 val junitVersion: String by extra
 
+
+/* ===================================================================================================== Plugins ==== */
+
+plugins {
+    id("uk.jamierocks.propatcher") version "1.3.2" apply false
+}
+
 subprojects {
     /* ================================================================================================= Plugins ==== */
     apply(plugin = "java")
@@ -213,6 +220,27 @@ project(":fabric") {
 
 apply(from = "$rootDir/merge.gradle.kts")
 
+tasks.create("generatePatches") {
+    group = "build-tasks"
+    dependsOn("generateForge2FabricPatches", "generateFabric2ForgePatches")
+}
+
+tasks.create<MakePatchesTask>("generateForge2FabricPatches") {
+    group = "build-tasks"
+
+    root = file("forge/src/main/java/com/unascribed/blockrenderer/forge")
+    target = file("fabric/src/main/java/com/unascribed/blockrenderer/fabric")
+    patches = file("patches/forge2fabric")
+}
+
+tasks.create<MakePatchesTask>("generateFabric2ForgePatches") {
+    group = "build-tasks"
+
+    root = file("fabric/src/main/java/com/unascribed/blockrenderer/fabric")
+    target = file("forge/src/main/java/com/unascribed/blockrenderer/forge")
+    patches = file("patches/fabric2forge")
+}
+
 /* =================================================================================================== Utilities ==== */
 
 typealias Date = java.util.Date
@@ -243,3 +271,5 @@ fun NamedDomainObjectContainerScope<RunConfig>.config(name: String, project: Pro
         mods { create(modId) { sources(sourceSet, commonSourceSet) } }
     }
 }
+
+typealias MakePatchesTask = uk.jamierocks.propatcher.task.MakePatchesTask

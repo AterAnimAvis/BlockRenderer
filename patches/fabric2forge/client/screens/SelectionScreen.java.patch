@@ -1,0 +1,77 @@
+--- a/client/screens/SelectionScreen.java
++++ b/client/screens/SelectionScreen.java
+@@ -1,17 +1,15 @@
+-package com.unascribed.blockrenderer.fabric.client.screens;
++package com.unascribed.blockrenderer.forge.client.screens;
+ 
+ import com.mojang.blaze3d.matrix.MatrixStack;
+-import com.unascribed.blockrenderer.fabric.client.screens.item.EnterNamespaceScreen;
+-import com.unascribed.blockrenderer.fabric.client.screens.item.RenderAnimatedScreen;
+-import com.unascribed.blockrenderer.fabric.client.screens.map.RenderMapScreen;
+-import com.unascribed.blockrenderer.fabric.client.screens.widgets.ItemButtonWidget;
+-import com.unascribed.blockrenderer.fabric.client.varia.Identifiers;
+-import com.unascribed.blockrenderer.fabric.client.varia.Registries;
++import com.unascribed.blockrenderer.forge.client.screens.item.EnterNamespaceScreen;
++import com.unascribed.blockrenderer.forge.client.screens.item.RenderAnimatedScreen;
++import com.unascribed.blockrenderer.forge.client.screens.map.RenderMapScreen;
++import com.unascribed.blockrenderer.forge.client.screens.widgets.ItemButtonWidget;
++import com.unascribed.blockrenderer.forge.client.varia.Registries;
+ import net.minecraft.client.gui.screen.Screen;
+ import net.minecraft.item.Item;
+ import net.minecraft.item.ItemStack;
+ import net.minecraft.util.ResourceLocation;
+-import net.minecraft.util.text.ITextComponent;
+ import net.minecraft.util.text.TranslationTextComponent;
+ import org.jetbrains.annotations.Nullable;
+ 
+@@ -19,7 +17,7 @@
+ 
+ public class SelectionScreen extends Screen {
+ 
+-    private static final ITextComponent TITLE = new TranslationTextComponent("block_renderer.gui.choose");
++    private static final TranslationTextComponent TITLE = new TranslationTextComponent("block_renderer.gui.choose");
+ 
+     @Nullable
+     private final Screen old;
+@@ -40,7 +38,7 @@
+         addButton(new ItemButtonWidget(
+                 this,
+                 itemRenderer,
+-                Registries.mapLazy(Registries.MAP, Item::getDefaultInstance),
++                Registries.MAP.lazyMap(Item::getDefaultInstance),
+                 width / 2 - 64 - 12,
+                 height / 2,
+                 new TranslationTextComponent("block_renderer.gui.choose.map"),
+@@ -49,12 +47,12 @@
+                     assert stack != null;
+                     minecraft.displayGuiScreen(new RenderMapScreen(old, stack));
+                 }
+-        )).active = stack != null && Objects.equals(Identifiers.get(stack.getItem()), new ResourceLocation("minecraft:filled_map"));
++        )).active = stack != null && Objects.equals(stack.getItem().getRegistryName(), new ResourceLocation("minecraft:filled_map"));
+ 
+         addButton(new ItemButtonWidget(
+                 this,
+                 itemRenderer,
+-                Registries.mapLazy(Registries.DISPENSER, Item::getDefaultInstance),
++                Registries.DISPENSER.lazyMap(Item::getDefaultInstance),
+                 width / 2,
+                 height / 2,
+                 new TranslationTextComponent("block_renderer.gui.choose.item"),
+@@ -65,7 +63,7 @@
+         addButton(new ItemButtonWidget(
+                 this,
+                 itemRenderer,
+-                Registries.mapLazy(Registries.CUTTER, Item::getDefaultInstance),
++                Registries.CUTTER.lazyMap(Item::getDefaultInstance),
+                 width / 2 + 64 + 12,
+                 height / 2,
+                 new TranslationTextComponent("block_renderer.gui.choose.animated"),
+@@ -89,7 +87,7 @@
+     }
+ 
+     @Override
+-    public void onClose() {
++    public void closeScreen() {
+         assert minecraft != null;
+ 
+         minecraft.displayGuiScreen(old);

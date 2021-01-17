@@ -1,0 +1,8 @@
+--- a/client/varia/rendering/GL.java
++++ b/client/varia/rendering/GL.java
+@@ -1,4 +1,4 @@
+-package com.unascribed.blockrenderer.fabric.client.varia.rendering;
++package com.unascribed.blockrenderer.forge.client.varia.rendering;
+ 
+ import com.mojang.blaze3d.platform.GlStateManager;
+ import com.mojang.blaze3d.systems.RenderSystem;

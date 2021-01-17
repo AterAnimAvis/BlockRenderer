@@ -1,0 +1,12 @@
+--- a/client/screens/widgets/HoverableTextFieldWidget.java
++++ b/client/screens/widgets/HoverableTextFieldWidget.java
+@@ -1,7 +1,7 @@
+-package com.unascribed.blockrenderer.forge.client.screens.widgets;
++package com.unascribed.blockrenderer.fabric.client.screens.widgets;
+ 
+ import com.mojang.blaze3d.matrix.MatrixStack;
+-import com.unascribed.blockrenderer.forge.client.varia.rendering.Display;
++import com.unascribed.blockrenderer.fabric.client.varia.rendering.Display;
+ import net.minecraft.client.gui.FontRenderer;
+ import net.minecraft.client.gui.screen.Screen;
+ import net.minecraft.client.gui.widget.TextFieldWidget;

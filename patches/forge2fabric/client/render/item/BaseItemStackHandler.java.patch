@@ -1,0 +1,13 @@
+--- a/client/render/item/BaseItemStackHandler.java
++++ b/client/render/item/BaseItemStackHandler.java
+@@ -1,7 +1,7 @@
+-package com.unascribed.blockrenderer.forge.client.render.item;
++package com.unascribed.blockrenderer.fabric.client.render.item;
+ 
+-import com.unascribed.blockrenderer.forge.client.varia.Identifiers;
+-import com.unascribed.blockrenderer.forge.client.varia.StringUtils;
++import com.unascribed.blockrenderer.fabric.client.varia.Identifiers;
++import com.unascribed.blockrenderer.fabric.client.varia.StringUtils;
+ import net.minecraft.item.ItemStack;
+ import net.minecraft.util.text.StringTextComponent;
+ import net.minecraft.util.text.Style;

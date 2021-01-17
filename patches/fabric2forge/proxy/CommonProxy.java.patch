@@ -1,0 +1,10 @@
+--- /dev/null
++++ b/proxy/CommonProxy.java
+@@ -0,0 +1,7 @@
++package com.unascribed.blockrenderer.forge.proxy;
++
++public abstract class CommonProxy {
++
++    public abstract void init();
++
++}

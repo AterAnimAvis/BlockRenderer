@@ -1,0 +1,17 @@
+--- a/client/screens/item/RenderAnimatedScreen.java
++++ b/client/screens/item/RenderAnimatedScreen.java
+@@ -1,9 +1,9 @@
+-package com.unascribed.blockrenderer.fabric.client.screens.item;
++package com.unascribed.blockrenderer.forge.client.screens.item;
+ 
+-import com.unascribed.blockrenderer.fabric.client.render.RenderManager;
+-import com.unascribed.blockrenderer.fabric.client.render.item.ItemRenderer;
+-import com.unascribed.blockrenderer.fabric.client.screens.widgets.HoverableCheckboxWidget;
+-import com.unascribed.blockrenderer.fabric.client.screens.widgets.HoverableTextFieldWidget;
++import com.unascribed.blockrenderer.forge.client.render.RenderManager;
++import com.unascribed.blockrenderer.forge.client.render.item.ItemRenderer;
++import com.unascribed.blockrenderer.forge.client.screens.widgets.HoverableCheckboxWidget;
++import com.unascribed.blockrenderer.forge.client.screens.widgets.HoverableTextFieldWidget;
+ import net.minecraft.client.gui.screen.Screen;
+ import net.minecraft.client.gui.widget.TextFieldWidget;
+ import net.minecraft.client.gui.widget.button.Button;

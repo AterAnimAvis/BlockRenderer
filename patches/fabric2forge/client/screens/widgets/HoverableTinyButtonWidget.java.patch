@@ -1,0 +1,15 @@
+--- a/client/screens/widgets/HoverableTinyButtonWidget.java
++++ b/client/screens/widgets/HoverableTinyButtonWidget.java
+@@ -1,9 +1,9 @@
+-package com.unascribed.blockrenderer.fabric.client.screens.widgets;
++package com.unascribed.blockrenderer.forge.client.screens.widgets;
+ 
+ import com.mojang.blaze3d.matrix.MatrixStack;
+ import com.mojang.blaze3d.platform.GlStateManager;
+-import com.unascribed.blockrenderer.fabric.client.varia.rendering.Display;
+-import com.unascribed.blockrenderer.fabric.client.varia.rendering.GL;
++import com.unascribed.blockrenderer.forge.client.varia.rendering.Display;
++import com.unascribed.blockrenderer.forge.client.varia.rendering.GL;
+ import net.minecraft.client.Minecraft;
+ import net.minecraft.client.gui.screen.Screen;
+ import net.minecraft.client.gui.widget.button.Button;

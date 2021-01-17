@@ -1,0 +1,32 @@
+--- a/client/screens/BaseScreen.java
++++ b/client/screens/BaseScreen.java
+@@ -1,8 +1,8 @@
+-package com.unascribed.blockrenderer.forge.client.screens;
++package com.unascribed.blockrenderer.fabric.client.screens;
+ 
+ import com.mojang.blaze3d.matrix.MatrixStack;
+-import com.unascribed.blockrenderer.forge.client.screens.widgets.UpdateableSliderWidget;
+-import com.unascribed.blockrenderer.forge.client.screens.widgets.options.ExtendedSliderPercentageOption;
++import com.unascribed.blockrenderer.fabric.client.screens.widgets.UpdateableSliderWidget;
++import com.unascribed.blockrenderer.fabric.client.screens.widgets.options.ExtendedSliderPercentageOption;
+ import com.unascribed.blockrenderer.varia.Maths;
+ import net.minecraft.client.GameSettings;
+ import net.minecraft.client.gui.screen.Screen;
+@@ -101,7 +101,7 @@
+ 
+     public ITextComponent getSliderDisplay(GameSettings settings, ExtendedSliderPercentageOption option) {
+         int px = round(size);
+-        return option.getDisplayPrefix().copyRaw().appendString(": " + px + "x" + px);
++        return option.getDisplayPrefix().deepCopy().appendString(": " + px + "x" + px);
+     }
+ 
+     protected <T extends Widget> T addButton(T button, boolean active) {
+@@ -114,7 +114,7 @@
+     }
+ 
+     @Override
+-    public void closeScreen() {
++    public void onClose() {
+         assert minecraft != null;
+ 
+         minecraft.displayGuiScreen(old);

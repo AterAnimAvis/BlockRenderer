@@ -1,0 +1,35 @@
+--- a/client/screens/item/EnterNamespaceScreen.java
++++ b/client/screens/item/EnterNamespaceScreen.java
+@@ -1,12 +1,12 @@
+-package com.unascribed.blockrenderer.forge.client.screens.item;
++package com.unascribed.blockrenderer.fabric.client.screens.item;
+ 
+ import com.mojang.blaze3d.matrix.MatrixStack;
+-import com.unascribed.blockrenderer.forge.client.render.RenderManager;
+-import com.unascribed.blockrenderer.forge.client.render.item.ItemRenderer;
+-import com.unascribed.blockrenderer.forge.client.screens.widgets.HoverableTinyButtonWidget;
+-import com.unascribed.blockrenderer.forge.client.screens.widgets.ItemButtonMultiWidget;
+-import com.unascribed.blockrenderer.forge.client.varia.Registries;
+-import com.unascribed.blockrenderer.forge.client.varia.StringUtils;
++import com.unascribed.blockrenderer.fabric.client.render.RenderManager;
++import com.unascribed.blockrenderer.fabric.client.render.item.ItemRenderer;
++import com.unascribed.blockrenderer.fabric.client.screens.widgets.HoverableTinyButtonWidget;
++import com.unascribed.blockrenderer.fabric.client.screens.widgets.ItemButtonMultiWidget;
++import com.unascribed.blockrenderer.fabric.client.varia.Registries;
++import com.unascribed.blockrenderer.fabric.client.varia.StringUtils;
+ import net.minecraft.client.gui.screen.Screen;
+ import net.minecraft.client.gui.widget.TextFieldWidget;
+ import net.minecraft.client.gui.widget.button.Button;
+@@ -79,9 +79,9 @@
+             );
+         }
+ 
+-        final Supplier<ItemStack> EMPTY_MAP = Registries.EMPTY_MAP.lazyMap(Item::getDefaultInstance);
+-        final Supplier<ItemStack> PATTERN = Registries.PATTERN.lazyMap(Item::getDefaultInstance);
+-        final Supplier<ItemStack> DISPENSER = Registries.DISPENSER.lazyMap(Item::getDefaultInstance);
++        final Supplier<ItemStack> EMPTY_MAP = Registries.mapLazy(Registries.EMPTY_MAP, Item::getDefaultInstance);
++        final Supplier<ItemStack> PATTERN = Registries.mapLazy(Registries.PATTERN, Item::getDefaultInstance);
++        final Supplier<ItemStack> DISPENSER = Registries.mapLazy(Registries.DISPENSER, Item::getDefaultInstance);
+ 
+         grouped = addButton(new ItemButtonMultiWidget(
+                 this,

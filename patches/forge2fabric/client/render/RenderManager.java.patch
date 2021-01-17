@@ -1,0 +1,19 @@
+--- a/client/render/RenderManager.java
++++ b/client/render/RenderManager.java
+@@ -1,6 +1,6 @@
+-package com.unascribed.blockrenderer.forge.client.render;
++package com.unascribed.blockrenderer.fabric.client.render;
+ 
+-import com.unascribed.blockrenderer.forge.client.render.report.ProgressManager;
++import com.unascribed.blockrenderer.fabric.client.render.report.ProgressManager;
+ import com.unascribed.blockrenderer.render.IAnimatedRenderer;
+ import com.unascribed.blockrenderer.render.IRenderer;
+ import com.unascribed.blockrenderer.render.IRequest;
+@@ -191,6 +191,7 @@
+         /* Render for Specified Length */
+         ProgressManager.init(RENDERING_GIF, length);
+         ProgressManager.skip();
++
+         for (int i = 1; i < length; i++) {
+             final ImageHandler<T> consumer = i == length - 1 ? checkWrite : write;
+ 

@@ -1,0 +1,14 @@
+--- a/client/render/report/ProgressManager.java
++++ b/client/render/report/ProgressManager.java
+@@ -1,8 +1,8 @@
+-package com.unascribed.blockrenderer.forge.client.render.report;
++package com.unascribed.blockrenderer.fabric.client.render.report;
+ 
+ import com.mojang.blaze3d.matrix.MatrixStack;
+-import com.unascribed.blockrenderer.forge.client.varia.rendering.Display;
+-import com.unascribed.blockrenderer.forge.client.varia.rendering.GL;
++import com.unascribed.blockrenderer.fabric.client.varia.rendering.Display;
++import com.unascribed.blockrenderer.fabric.client.varia.rendering.GL;
+ import com.unascribed.blockrenderer.varia.debug.Debug;
+ import com.unascribed.blockrenderer.varia.logging.Log;
+ import com.unascribed.blockrenderer.varia.logging.Markers;
