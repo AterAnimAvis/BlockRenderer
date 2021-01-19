@@ -6,13 +6,13 @@
  
  import com.mojang.blaze3d.matrix.MatrixStack;
 -import com.unascribed.blockrenderer.forge.client.render.RenderManager;
--import com.unascribed.blockrenderer.forge.client.render.item.ItemRenderer;
+-import com.unascribed.blockrenderer.forge.client.render.Requests;
 -import com.unascribed.blockrenderer.forge.client.screens.widgets.HoverableTinyButtonWidget;
 -import com.unascribed.blockrenderer.forge.client.screens.widgets.ItemButtonMultiWidget;
 -import com.unascribed.blockrenderer.forge.client.varia.Registries;
 -import com.unascribed.blockrenderer.forge.client.varia.StringUtils;
 +import com.unascribed.blockrenderer.fabric.client.render.RenderManager;
-+import com.unascribed.blockrenderer.fabric.client.render.item.ItemRenderer;
++import com.unascribed.blockrenderer.fabric.client.render.Requests;
 +import com.unascribed.blockrenderer.fabric.client.screens.widgets.HoverableTinyButtonWidget;
 +import com.unascribed.blockrenderer.fabric.client.screens.widgets.ItemButtonMultiWidget;
 +import com.unascribed.blockrenderer.fabric.client.varia.Registries;

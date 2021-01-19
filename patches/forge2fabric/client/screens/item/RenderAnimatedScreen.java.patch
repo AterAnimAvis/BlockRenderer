@@ -5,11 +5,11 @@
 +package com.unascribed.blockrenderer.fabric.client.screens.item;
  
 -import com.unascribed.blockrenderer.forge.client.render.RenderManager;
--import com.unascribed.blockrenderer.forge.client.render.item.ItemRenderer;
+-import com.unascribed.blockrenderer.forge.client.render.Requests;
 -import com.unascribed.blockrenderer.forge.client.screens.widgets.HoverableCheckboxWidget;
 -import com.unascribed.blockrenderer.forge.client.screens.widgets.HoverableTextFieldWidget;
 +import com.unascribed.blockrenderer.fabric.client.render.RenderManager;
-+import com.unascribed.blockrenderer.fabric.client.render.item.ItemRenderer;
++import com.unascribed.blockrenderer.fabric.client.render.Requests;
 +import com.unascribed.blockrenderer.fabric.client.screens.widgets.HoverableCheckboxWidget;
 +import com.unascribed.blockrenderer.fabric.client.screens.widgets.HoverableTextFieldWidget;
  import net.minecraft.client.gui.screen.Screen;

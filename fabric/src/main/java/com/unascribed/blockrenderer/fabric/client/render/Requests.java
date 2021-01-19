@@ -1,10 +1,13 @@
-package com.unascribed.blockrenderer.forge.client.render.item;
+package com.unascribed.blockrenderer.fabric.client.render;
 
 import com.google.common.base.Joiner;
-import com.unascribed.blockrenderer.forge.client.render.map.DefaultPngMapHandler;
-import com.unascribed.blockrenderer.forge.client.render.map.MapRenderer;
-import com.unascribed.blockrenderer.forge.client.varia.MiscUtils;
-import com.unascribed.blockrenderer.forge.client.varia.StringUtils;
+import com.unascribed.blockrenderer.fabric.client.render.item.DefaultGifItemStackHandler;
+import com.unascribed.blockrenderer.fabric.client.render.item.DefaultPngItemStackHandler;
+import com.unascribed.blockrenderer.fabric.client.render.item.ItemStackRenderer;
+import com.unascribed.blockrenderer.fabric.client.render.map.DefaultPngMapHandler;
+import com.unascribed.blockrenderer.fabric.client.render.map.MapRenderer;
+import com.unascribed.blockrenderer.fabric.client.varia.MiscUtils;
+import com.unascribed.blockrenderer.fabric.client.varia.StringUtils;
 import com.unascribed.blockrenderer.render.IRequest;
 import com.unascribed.blockrenderer.render.item.ItemStackParameters;
 import com.unascribed.blockrenderer.render.map.MapDecorations;
@@ -20,7 +23,7 @@ import java.io.File;
 import java.util.List;
 import java.util.Set;
 
-public class ItemRenderer {
+public class Requests {
 
     public static IRequest single(ItemStack stack, int size, boolean useId, boolean addSize) {
         DefaultPngItemStackHandler handler = new DefaultPngItemStackHandler(Files.DEFAULT_FOLDER, size, useId, addSize, true);

@@ -2,7 +2,7 @@ package com.unascribed.blockrenderer.forge.client.screens.map;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.unascribed.blockrenderer.forge.client.render.RenderManager;
-import com.unascribed.blockrenderer.forge.client.render.item.ItemRenderer;
+import com.unascribed.blockrenderer.forge.client.render.Requests;
 import com.unascribed.blockrenderer.forge.client.screens.item.EnterSizeScreen;
 import com.unascribed.blockrenderer.render.map.MapDecorations;
 import net.minecraft.client.Minecraft;
@@ -76,6 +76,6 @@ public class RenderMapScreen extends EnterSizeScreen {
         if (data == null) return;
 
         //TODO: Map Background Image? "textures/map/map_background.png"
-        RenderManager.push(ItemRenderer.single(stack, data, round(size), useId.isChecked(), addSize.isChecked(), decorations));
+        RenderManager.push(Requests.single(stack, data, round(size), useId.isChecked(), addSize.isChecked(), decorations));
     }
 }

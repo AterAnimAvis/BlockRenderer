@@ -2,7 +2,7 @@ package com.unascribed.blockrenderer.forge.client.screens.item;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.unascribed.blockrenderer.forge.client.render.RenderManager;
-import com.unascribed.blockrenderer.forge.client.render.item.ItemRenderer;
+import com.unascribed.blockrenderer.forge.client.render.Requests;
 import com.unascribed.blockrenderer.forge.client.screens.widgets.HoverableTinyButtonWidget;
 import com.unascribed.blockrenderer.forge.client.screens.widgets.ItemButtonMultiWidget;
 import com.unascribed.blockrenderer.forge.client.varia.Registries;
@@ -149,6 +149,6 @@ public class EnterNamespaceScreen extends BaseItemScreen {
         minecraft.displayGuiScreen(old);
         if (minecraft.world == null) return;
 
-        RenderManager.push(ItemRenderer.bulk(text.getText(), round(size), useId.isChecked(), addSize.isChecked(), grouped.state));
+        RenderManager.push(Requests.bulk(text.getText(), round(size), useId.isChecked(), addSize.isChecked(), grouped.state));
     }
 }

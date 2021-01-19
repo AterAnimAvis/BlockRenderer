@@ -1,14 +1,20 @@
---- a/client/render/item/ItemRenderer.java
-+++ b/client/render/item/ItemRenderer.java
-@@ -1,10 +1,10 @@
--package com.unascribed.blockrenderer.fabric.client.render.item;
-+package com.unascribed.blockrenderer.forge.client.render.item;
+--- a/client/render/Requests.java
++++ b/client/render/Requests.java
+@@ -1,13 +1,13 @@
+-package com.unascribed.blockrenderer.fabric.client.render;
++package com.unascribed.blockrenderer.forge.client.render;
  
  import com.google.common.base.Joiner;
+-import com.unascribed.blockrenderer.fabric.client.render.item.DefaultGifItemStackHandler;
+-import com.unascribed.blockrenderer.fabric.client.render.item.DefaultPngItemStackHandler;
+-import com.unascribed.blockrenderer.fabric.client.render.item.ItemStackRenderer;
 -import com.unascribed.blockrenderer.fabric.client.render.map.DefaultPngMapHandler;
 -import com.unascribed.blockrenderer.fabric.client.render.map.MapRenderer;
 -import com.unascribed.blockrenderer.fabric.client.varia.MiscUtils;
 -import com.unascribed.blockrenderer.fabric.client.varia.StringUtils;
++import com.unascribed.blockrenderer.forge.client.render.item.DefaultGifItemStackHandler;
++import com.unascribed.blockrenderer.forge.client.render.item.DefaultPngItemStackHandler;
++import com.unascribed.blockrenderer.forge.client.render.item.ItemStackRenderer;
 +import com.unascribed.blockrenderer.forge.client.render.map.DefaultPngMapHandler;
 +import com.unascribed.blockrenderer.forge.client.render.map.MapRenderer;
 +import com.unascribed.blockrenderer.forge.client.varia.MiscUtils;
