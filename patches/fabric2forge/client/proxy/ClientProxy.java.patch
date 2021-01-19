@@ -1,6 +1,6 @@
 --- a/client/proxy/ClientProxy.java
 +++ b/client/proxy/ClientProxy.java
-@@ -1,13 +1,13 @@
+@@ -1,13 +1,11 @@
 -package com.unascribed.blockrenderer.fabric.client.proxy;
 +package com.unascribed.blockrenderer.forge.client.proxy;
  
@@ -17,48 +17,20 @@
 +import com.unascribed.blockrenderer.forge.client.render.Requests;
 +import com.unascribed.blockrenderer.forge.client.screens.SelectionScreen;
 +import com.unascribed.blockrenderer.forge.client.screens.item.EnterSizeScreen;
-+import com.unascribed.blockrenderer.forge.client.varia.Registries;
 +import com.unascribed.blockrenderer.forge.client.varia.StringUtils;
-+import com.unascribed.blockrenderer.forge.proxy.CommonProxy;
  import net.minecraft.client.Minecraft;
  import net.minecraft.client.gui.recipebook.IRecipeShownListener;
  import net.minecraft.client.gui.recipebook.RecipeBookGui;
-@@ -18,14 +18,32 @@
- import net.minecraft.entity.player.PlayerEntity;
- import net.minecraft.inventory.container.Slot;
+@@ -20,7 +18,7 @@
  import net.minecraft.item.ItemStack;
-+import net.minecraftforge.common.MinecraftForge;
-+import net.minecraftforge.event.TickEvent;
-+import net.minecraftforge.eventbus.api.EventPriority;
-+import net.minecraftforge.eventbus.api.SubscribeEvent;
  import org.lwjgl.glfw.GLFW;
  
 -import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.translate;
 +import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.translate;
  
--public class ClientProxy {
-+public class ClientProxy extends CommonProxy {
+ public class ClientProxy {
  
-     private static boolean down = false;
- 
-+    @Override
-+    public void init() {
-+        MinecraftForge.EVENT_BUS.register(this);
-+
-+        Registries.clazzLoad();
-+    }
-+
-+    @SubscribeEvent(priority = EventPriority.HIGHEST)
-+    public void onFrameStart(TickEvent.RenderTickEvent e) {
-+        if (e.phase != TickEvent.Phase.START) return;
-+
-+        onFrameStart();
-+    }
-+
-     public static void onFrameStart() {
-         RenderManager.onFrameStart();
- 
-@@ -40,10 +58,10 @@
+@@ -40,10 +38,10 @@
          Minecraft client = Minecraft.getInstance();
          Slot hovered = null;
          Screen currentScreen = client.currentScreen;
@@ -71,7 +43,7 @@
  
          if (Screen.hasControlDown()) {
              PlayerEntity player = client.player;
-@@ -119,7 +137,7 @@
+@@ -119,7 +117,7 @@
          }
  
          /* Actually Check to see if the key is down */

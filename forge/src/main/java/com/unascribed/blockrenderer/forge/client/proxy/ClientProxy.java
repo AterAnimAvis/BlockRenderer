@@ -5,9 +5,7 @@ import com.unascribed.blockrenderer.forge.client.render.RenderManager;
 import com.unascribed.blockrenderer.forge.client.render.Requests;
 import com.unascribed.blockrenderer.forge.client.screens.SelectionScreen;
 import com.unascribed.blockrenderer.forge.client.screens.item.EnterSizeScreen;
-import com.unascribed.blockrenderer.forge.client.varia.Registries;
 import com.unascribed.blockrenderer.forge.client.varia.StringUtils;
-import com.unascribed.blockrenderer.forge.proxy.CommonProxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.recipebook.IRecipeShownListener;
 import net.minecraft.client.gui.recipebook.RecipeBookGui;
@@ -18,31 +16,13 @@ import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.lwjgl.glfw.GLFW;
 
 import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.translate;
 
-public class ClientProxy extends CommonProxy {
+public class ClientProxy {
 
     private static boolean down = false;
-
-    @Override
-    public void init() {
-        MinecraftForge.EVENT_BUS.register(this);
-
-        Registries.clazzLoad();
-    }
-
-    @SubscribeEvent(priority = EventPriority.HIGHEST)
-    public void onFrameStart(TickEvent.RenderTickEvent e) {
-        if (e.phase != TickEvent.Phase.START) return;
-
-        onFrameStart();
-    }
 
     public static void onFrameStart() {
         RenderManager.onFrameStart();
