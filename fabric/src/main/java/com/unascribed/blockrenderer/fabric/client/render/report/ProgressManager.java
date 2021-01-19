@@ -3,13 +3,11 @@ package com.unascribed.blockrenderer.fabric.client.render.report;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.unascribed.blockrenderer.fabric.client.varia.rendering.Display;
 import com.unascribed.blockrenderer.fabric.client.varia.rendering.GL;
+import com.unascribed.blockrenderer.render.report.BaseProgressManager;
 import com.unascribed.blockrenderer.varia.Maths;
 import com.unascribed.blockrenderer.varia.debug.Debug;
-import com.unascribed.blockrenderer.varia.logging.Log;
-import com.unascribed.blockrenderer.varia.logging.Markers;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
-import org.apache.logging.log4j.message.MessageFormatMessage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -23,36 +21,22 @@ public class ProgressManager {
     @Nullable
     public static ITextComponent message = null;
 
-    public static int steps = -1;
-    public static int step = 0;
-
-    private static long start;
-    private static long last;
+    private static final BaseProgressManager MANAGER = new BaseProgressManager();
 
     public static void init(ITextComponent title, int steps) {
         reset();
+        MANAGER.init(steps);
 
         ProgressManager.title = title;
-        ProgressManager.steps = steps;
-        start = System.nanoTime();
-        last = start;
     }
 
     public static void push(@Nullable ITextComponent message) {
         ProgressManager.message = message;
-
-        step++;
-
-        if (steps >= 0 && step > steps) Log.warn(Markers.PROGRESS, "Too many steps");
+        MANAGER.push();
     }
 
     public static void pop() {
-        /* Log Time */
-        long now = System.nanoTime();
-        float time = (now - last) / 1_000_000_000F;
-        String subtitle = message == null ? "null" : message.getString();
-        Log.debug(Markers.PROGRESS, new MessageFormatMessage("Step: {0} - {1} took {2,number,#.###}s", title.getString(), subtitle, time));
-        last = now;
+        MANAGER.pop(title.getString(), message == null ? "null" : message.getString());
     }
 
     public static void skip() {
@@ -61,30 +45,18 @@ public class ProgressManager {
     }
 
     public static void end() {
-        /* Log Time */
-        long now = System.nanoTime();
-        if (start != 0) {
-            float time = (now - start) / 1_000_000_000F;
-            String subtitle = message == null ? "null" : message.getString();
-            Log.debug(Markers.PROGRESS, new MessageFormatMessage("Finished: {0} - {1} took {2,number,#.###}s", title.getString(), subtitle, time));
-        }
-
+        MANAGER.end(title.getString(), message == null ? "null" : message.getString());
         reset();
     }
 
-    public static void reset() {
+    private static void reset() {
         title = new StringTextComponent("Rendering");
         message = null;
-        steps = -1;
-        step = 0;
-        start = 0;
+        MANAGER.reset();
     }
 
     public static ITextComponent getProgress() {
-        //TODO: Rendered, Total, Remaining + Elapsed Time
-        if (steps > 0) return new StringTextComponent(String.format("%s / %s", step + 1, steps));
-
-        return new StringTextComponent(String.format("%s", step));
+        return new StringTextComponent(MANAGER.getProgress());
     }
 
     public static void render() {
@@ -128,7 +100,7 @@ public class ProgressManager {
     }
 
     private static void renderProgressBar(int displayWidth, int displayHeight) {
-        int progress = steps > 0 ? Maths.clamp(100 * step / steps, 0, 100) : 100;
+        int progress = MANAGER.steps > 0 ? Maths.clamp(100 * MANAGER.step / MANAGER.steps, 0, 100) : 100;
 
         int hw = displayWidth / 2;
         int hh = displayHeight / 2;
