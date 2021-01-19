@@ -38,8 +38,8 @@
 -
          Log.info(Markers.ROOT, "Running Version: " + Reference.VERSION);
  
-         InternalAPI.setRenderManager(RenderManager.INSTANCE);
          InternalAPI.setGL(GL.INSTANCE);
+         InternalAPI.setRenderManager(RenderManager.INSTANCE);
 -
 -        registerDisplayTest(ModLoadingContext.get());
      }

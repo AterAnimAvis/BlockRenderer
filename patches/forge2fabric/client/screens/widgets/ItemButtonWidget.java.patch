@@ -13,16 +13,6 @@
  import com.unascribed.blockrenderer.varia.rendering.GLI;
  import net.minecraft.client.Minecraft;
  import net.minecraft.client.gui.screen.Screen;
-@@ -20,8 +20,8 @@
- public class ItemButtonWidget extends Button {
- 
-     public static final ResourceLocation CUSTOM_WIDGETS = new ResourceLocation("block_renderer:textures/gui/widgets.png");
--    private final GLI GL = InternalAPI.getGL();
- 
-+    private final GLI GL = InternalAPI.getGL();
-     private final Screen owner;
-     private final Supplier<List<ITextComponent>> tooltip;
-     private final ItemRenderer renderer;
 @@ -38,7 +38,7 @@
          this.owner = owner;
          this.renderer = renderer;

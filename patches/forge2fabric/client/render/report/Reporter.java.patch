@@ -8,5 +8,5 @@
 -import com.unascribed.blockrenderer.forge.client.varia.rendering.Display;
 +import com.unascribed.blockrenderer.fabric.client.varia.rendering.Display;
  import com.unascribed.blockrenderer.render.report.BaseReporter;
- import com.unascribed.blockrenderer.varia.Maths;
- import com.unascribed.blockrenderer.varia.debug.Debug;
+ import net.minecraft.util.text.ITextComponent;
+ import net.minecraft.util.text.StringTextComponent;

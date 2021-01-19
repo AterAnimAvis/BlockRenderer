@@ -6,7 +6,7 @@
  
  import com.mojang.blaze3d.matrix.MatrixStack;
  import com.unascribed.blockrenderer.InternalAPI;
-@@ -11,7 +11,7 @@
+@@ -12,7 +12,7 @@
  import net.minecraft.client.renderer.Tessellator;
  import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
  import net.minecraft.util.text.ITextComponent;
@@ -15,24 +15,24 @@
  
  import java.util.List;
  
-@@ -20,10 +20,7 @@
-     GLI GL = InternalAPI.getGL();
-     Minecraft client = Minecraft.getInstance();
-     FontRenderer font = client.fontRenderer;
--    Screen helper = new Screen(new StringTextComponent("DUMMY")) {
+@@ -23,10 +23,7 @@
+     private static final GLI GL = InternalAPI.getGL();
+     private static final Minecraft client = Minecraft.getInstance();
+     private static final FontRenderer font = client.fontRenderer;
+-    private static final Screen helper = new Screen(new StringTextComponent("DUMMY")) {
  
 -    };
 -
-     static void drawRect(int x1, int y1, int x2, int y2, int color) {
+     @Override
+     public void drawRect(int x1, int y1, int x2, int y2, int color) {
          drawRect(new MatrixStack(), x1, y1, x2, y2, color);
-     }
-@@ -45,8 +42,7 @@
+@@ -50,8 +47,7 @@
      }
  
-     static void renderTooltip(Screen owner, MatrixStack stack, List<ITextComponent> tooltip, int x, int y) {
+     public static void renderTooltip(Screen owner, MatrixStack stack, List<ITextComponent> tooltip, int x, int y) {
 -        helper.init(client, owner.width, owner.height);
 -        helper.func_243308_b(stack, tooltip, x, y);
 +        GuiUtils.drawHoveringText(stack, tooltip, x, y, owner.width, owner.height, -1, font);
      }
  
-     static void drawDirtBackground(int scaledWidth, int scaledHeight) {
+     @Override

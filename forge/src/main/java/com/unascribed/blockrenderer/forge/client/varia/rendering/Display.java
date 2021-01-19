@@ -2,6 +2,7 @@ package com.unascribed.blockrenderer.forge.client.varia.rendering;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.unascribed.blockrenderer.InternalAPI;
+import com.unascribed.blockrenderer.varia.rendering.DisplayI;
 import com.unascribed.blockrenderer.varia.rendering.GLI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
@@ -15,37 +16,42 @@ import net.minecraftforge.fml.client.gui.GuiUtils;
 
 import java.util.List;
 
-public interface Display {
+public class Display implements DisplayI<ITextComponent> {
 
-    GLI GL = InternalAPI.getGL();
-    Minecraft client = Minecraft.getInstance();
-    FontRenderer font = client.fontRenderer;
+    public static final Display INSTANCE = new Display();
 
-    static void drawRect(int x1, int y1, int x2, int y2, int color) {
+    private static final GLI GL = InternalAPI.getGL();
+    private static final Minecraft client = Minecraft.getInstance();
+    private static final FontRenderer font = client.fontRenderer;
+
+    @Override
+    public void drawRect(int x1, int y1, int x2, int y2, int color) {
         drawRect(new MatrixStack(), x1, y1, x2, y2, color);
     }
 
-    static void drawRect(MatrixStack stack, int x1, int y1, int x2, int y2, int color) {
+    public static void drawRect(MatrixStack stack, int x1, int y1, int x2, int y2, int color) {
         AbstractGui.fill(stack, x1, y1, x2, y2, color);
     }
 
-    static void drawCenteredString(ITextComponent component, int x, int y, int color) {
+    @Override
+    public void drawCenteredString(ITextComponent component, int x, int y, int color) {
         drawCenteredString(new MatrixStack(), component, x, y, color);
     }
 
-    static void drawCenteredString(MatrixStack stack, ITextComponent component, int x, int y, int color) {
+    public static void drawCenteredString(MatrixStack stack, ITextComponent component, int x, int y, int color) {
         drawCenteredString(stack, component.getString(), x, y, color);
     }
 
-    static void drawCenteredString(MatrixStack stack, String str, int x, int y, int color) {
+    public static void drawCenteredString(MatrixStack stack, String str, int x, int y, int color) {
         font.drawStringWithShadow(stack, str, x - font.getStringWidth(str) / 2F, y, color);
     }
 
-    static void renderTooltip(Screen owner, MatrixStack stack, List<ITextComponent> tooltip, int x, int y) {
+    public static void renderTooltip(Screen owner, MatrixStack stack, List<ITextComponent> tooltip, int x, int y) {
         GuiUtils.drawHoveringText(stack, tooltip, x, y, owner.width, owner.height, -1, font);
     }
 
-    static void drawDirtBackground(int scaledWidth, int scaledHeight) {
+    @Override
+    public void drawDirtBackground(int scaledWidth, int scaledHeight) {
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferbuilder = tessellator.getBuffer();
 
