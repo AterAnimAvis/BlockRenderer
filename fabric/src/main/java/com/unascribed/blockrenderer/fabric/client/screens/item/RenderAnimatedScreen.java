@@ -1,7 +1,7 @@
 package com.unascribed.blockrenderer.fabric.client.screens.item;
 
-import com.unascribed.blockrenderer.fabric.client.render.RenderManager;
 import com.unascribed.blockrenderer.fabric.client.render.Requests;
+import com.unascribed.blockrenderer.fabric.client.render.manager.RenderManager;
 import com.unascribed.blockrenderer.fabric.client.screens.widgets.HoverableCheckboxWidget;
 import com.unascribed.blockrenderer.fabric.client.screens.widgets.HoverableTextFieldWidget;
 import net.minecraft.client.gui.screen.Screen;

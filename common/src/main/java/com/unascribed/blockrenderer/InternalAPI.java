@@ -1,6 +1,6 @@
 package com.unascribed.blockrenderer;
 
-import com.unascribed.blockrenderer.render.IRenderManager;
+import com.unascribed.blockrenderer.render.manager.IRenderManager;
 import com.unascribed.blockrenderer.varia.rendering.GLI;
 import org.jetbrains.annotations.Nullable;
 

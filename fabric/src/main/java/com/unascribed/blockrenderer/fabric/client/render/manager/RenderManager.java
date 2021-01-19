@@ -1,8 +1,8 @@
-package com.unascribed.blockrenderer.fabric.client.render;
+package com.unascribed.blockrenderer.fabric.client.render.manager;
 
 import com.unascribed.blockrenderer.fabric.client.render.report.Reporter;
-import com.unascribed.blockrenderer.render.BaseRenderManager;
 import com.unascribed.blockrenderer.render.IRequest;
+import com.unascribed.blockrenderer.render.manager.BaseRenderManager;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import org.jetbrains.annotations.Nullable;

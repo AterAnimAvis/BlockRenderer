@@ -3,7 +3,7 @@ package com.unascribed.blockrenderer.fabric;
 import com.unascribed.blockrenderer.InternalAPI;
 import com.unascribed.blockrenderer.Reference;
 import com.unascribed.blockrenderer.fabric.client.init.Keybindings;
-import com.unascribed.blockrenderer.fabric.client.render.RenderManager;
+import com.unascribed.blockrenderer.fabric.client.render.manager.RenderManager;
 import com.unascribed.blockrenderer.fabric.client.varia.rendering.GL;
 import com.unascribed.blockrenderer.varia.logging.Log;
 import com.unascribed.blockrenderer.varia.logging.Markers;

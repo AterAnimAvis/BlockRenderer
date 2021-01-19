@@ -1,8 +1,8 @@
 package com.unascribed.blockrenderer.forge.client.screens.item;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.unascribed.blockrenderer.forge.client.render.RenderManager;
 import com.unascribed.blockrenderer.forge.client.render.Requests;
+import com.unascribed.blockrenderer.forge.client.render.manager.RenderManager;
 import com.unascribed.blockrenderer.forge.client.screens.widgets.HoverableTinyButtonWidget;
 import com.unascribed.blockrenderer.forge.client.screens.widgets.ItemButtonMultiWidget;
 import com.unascribed.blockrenderer.forge.client.varia.Registries;

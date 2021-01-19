@@ -1,8 +1,8 @@
 package com.unascribed.blockrenderer.fabric.client.screens.map;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.unascribed.blockrenderer.fabric.client.render.RenderManager;
 import com.unascribed.blockrenderer.fabric.client.render.Requests;
+import com.unascribed.blockrenderer.fabric.client.render.manager.RenderManager;
 import com.unascribed.blockrenderer.fabric.client.screens.item.EnterSizeScreen;
 import com.unascribed.blockrenderer.render.map.MapDecorations;
 import net.minecraft.client.Minecraft;

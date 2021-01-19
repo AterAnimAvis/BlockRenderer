@@ -1,8 +1,8 @@
 package com.unascribed.blockrenderer.fabric.client.proxy;
 
 import com.unascribed.blockrenderer.fabric.client.init.Keybindings;
-import com.unascribed.blockrenderer.fabric.client.render.RenderManager;
 import com.unascribed.blockrenderer.fabric.client.render.Requests;
+import com.unascribed.blockrenderer.fabric.client.render.manager.RenderManager;
 import com.unascribed.blockrenderer.fabric.client.screens.SelectionScreen;
 import com.unascribed.blockrenderer.fabric.client.screens.item.EnterSizeScreen;
 import com.unascribed.blockrenderer.fabric.client.varia.Strings;

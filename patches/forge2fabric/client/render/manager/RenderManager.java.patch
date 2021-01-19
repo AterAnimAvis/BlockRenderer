@@ -1,13 +1,13 @@
---- a/client/render/RenderManager.java
-+++ b/client/render/RenderManager.java
+--- a/client/render/manager/RenderManager.java
++++ b/client/render/manager/RenderManager.java
 @@ -1,6 +1,6 @@
--package com.unascribed.blockrenderer.forge.client.render;
-+package com.unascribed.blockrenderer.fabric.client.render;
+-package com.unascribed.blockrenderer.forge.client.render.manager;
++package com.unascribed.blockrenderer.fabric.client.render.manager;
  
 -import com.unascribed.blockrenderer.forge.client.render.report.Reporter;
 +import com.unascribed.blockrenderer.fabric.client.render.report.Reporter;
- import com.unascribed.blockrenderer.render.BaseRenderManager;
  import com.unascribed.blockrenderer.render.IRequest;
+ import com.unascribed.blockrenderer.render.manager.BaseRenderManager;
  import net.minecraft.util.text.ITextComponent;
 @@ -10,7 +10,7 @@
  import java.util.PriorityQueue;

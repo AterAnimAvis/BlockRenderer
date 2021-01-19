@@ -1,5 +1,7 @@
-package com.unascribed.blockrenderer.render;
+package com.unascribed.blockrenderer.render.manager;
 
+import com.unascribed.blockrenderer.render.IAnimatedRenderer;
+import com.unascribed.blockrenderer.render.IRenderer;
 import com.unascribed.blockrenderer.render.report.BaseReporter;
 import com.unascribed.blockrenderer.render.request.lambda.ImageHandler;
 import com.unascribed.blockrenderer.varia.Files;

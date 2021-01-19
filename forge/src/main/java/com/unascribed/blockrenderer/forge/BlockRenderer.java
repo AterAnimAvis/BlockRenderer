@@ -4,7 +4,7 @@ import com.unascribed.blockrenderer.InternalAPI;
 import com.unascribed.blockrenderer.Reference;
 import com.unascribed.blockrenderer.forge.client.init.Keybindings;
 import com.unascribed.blockrenderer.forge.client.proxy.ClientProxy;
-import com.unascribed.blockrenderer.forge.client.render.RenderManager;
+import com.unascribed.blockrenderer.forge.client.render.manager.RenderManager;
 import com.unascribed.blockrenderer.forge.client.varia.Registries;
 import com.unascribed.blockrenderer.forge.client.varia.rendering.GL;
 import com.unascribed.blockrenderer.varia.logging.Log;

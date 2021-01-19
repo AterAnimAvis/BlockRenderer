@@ -1,8 +1,8 @@
 package com.unascribed.blockrenderer.forge.client.proxy;
 
 import com.unascribed.blockrenderer.forge.client.init.Keybindings;
-import com.unascribed.blockrenderer.forge.client.render.RenderManager;
 import com.unascribed.blockrenderer.forge.client.render.Requests;
+import com.unascribed.blockrenderer.forge.client.render.manager.RenderManager;
 import com.unascribed.blockrenderer.forge.client.screens.SelectionScreen;
 import com.unascribed.blockrenderer.forge.client.screens.item.EnterSizeScreen;
 import com.unascribed.blockrenderer.forge.client.varia.Strings;

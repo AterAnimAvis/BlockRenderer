@@ -1,8 +1,8 @@
 package com.unascribed.blockrenderer.fabric.client.screens.item;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.unascribed.blockrenderer.fabric.client.render.RenderManager;
 import com.unascribed.blockrenderer.fabric.client.render.Requests;
+import com.unascribed.blockrenderer.fabric.client.render.manager.RenderManager;
 import com.unascribed.blockrenderer.fabric.client.screens.widgets.HoverableTinyButtonWidget;
 import com.unascribed.blockrenderer.fabric.client.screens.widgets.ItemButtonMultiWidget;
 import com.unascribed.blockrenderer.fabric.client.varia.Registries;
