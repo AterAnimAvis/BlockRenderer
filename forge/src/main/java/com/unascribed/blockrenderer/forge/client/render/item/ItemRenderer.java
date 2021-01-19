@@ -2,12 +2,12 @@ package com.unascribed.blockrenderer.forge.client.render.item;
 
 import com.google.common.base.Joiner;
 import com.unascribed.blockrenderer.forge.client.render.map.DefaultPngMapHandler;
-import com.unascribed.blockrenderer.forge.client.render.map.MapDecorations;
-import com.unascribed.blockrenderer.forge.client.render.map.MapParameters;
 import com.unascribed.blockrenderer.forge.client.render.map.MapRenderer;
 import com.unascribed.blockrenderer.forge.client.varia.MiscUtils;
 import com.unascribed.blockrenderer.forge.client.varia.StringUtils;
 import com.unascribed.blockrenderer.render.IRequest;
+import com.unascribed.blockrenderer.render.map.MapDecorations;
+import com.unascribed.blockrenderer.render.map.MapParameters;
 import com.unascribed.blockrenderer.render.request.AnimatedRenderingRequest;
 import com.unascribed.blockrenderer.render.request.BulkRenderingRequest;
 import com.unascribed.blockrenderer.render.request.RenderingRequest;

@@ -1,18 +1,16 @@
 --- a/client/screens/map/RenderMapScreen.java
 +++ b/client/screens/map/RenderMapScreen.java
-@@ -1,10 +1,10 @@
+@@ -1,9 +1,9 @@
 -package com.unascribed.blockrenderer.fabric.client.screens.map;
 +package com.unascribed.blockrenderer.forge.client.screens.map;
  
  import com.mojang.blaze3d.matrix.MatrixStack;
 -import com.unascribed.blockrenderer.fabric.client.render.RenderManager;
 -import com.unascribed.blockrenderer.fabric.client.render.item.ItemRenderer;
--import com.unascribed.blockrenderer.fabric.client.render.map.MapDecorations;
 -import com.unascribed.blockrenderer.fabric.client.screens.item.EnterSizeScreen;
 +import com.unascribed.blockrenderer.forge.client.render.RenderManager;
 +import com.unascribed.blockrenderer.forge.client.render.item.ItemRenderer;
-+import com.unascribed.blockrenderer.forge.client.render.map.MapDecorations;
 +import com.unascribed.blockrenderer.forge.client.screens.item.EnterSizeScreen;
+ import com.unascribed.blockrenderer.render.map.MapDecorations;
  import net.minecraft.client.Minecraft;
  import net.minecraft.client.gui.screen.Screen;
- import net.minecraft.client.gui.widget.button.Button;

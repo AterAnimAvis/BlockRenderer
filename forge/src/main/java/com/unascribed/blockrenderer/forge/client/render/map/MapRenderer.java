@@ -3,6 +3,8 @@ package com.unascribed.blockrenderer.forge.client.render.map;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.unascribed.blockrenderer.forge.client.varia.rendering.GL;
 import com.unascribed.blockrenderer.render.IRenderer;
+import com.unascribed.blockrenderer.render.map.MapDecorations;
+import com.unascribed.blockrenderer.render.map.MapParameters;
 import com.unascribed.blockrenderer.render.request.lambda.ImageHandler;
 import com.unascribed.blockrenderer.varia.Images;
 import com.unascribed.blockrenderer.varia.Maths;
