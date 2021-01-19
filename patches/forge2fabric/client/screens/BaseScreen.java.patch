@@ -12,12 +12,3 @@
  import com.unascribed.blockrenderer.varia.Maths;
  import net.minecraft.client.GameSettings;
  import net.minecraft.client.gui.screen.Screen;
-@@ -100,7 +100,7 @@
- 
-     public ITextComponent getSliderDisplay(GameSettings settings, ExtendedSliderPercentageOption option) {
-         int px = round(size);
--        return option.getDisplayPrefix().copyRaw().appendString(": " + px + "x" + px);
-+        return option.getDisplayPrefix().deepCopy().appendString(": " + px + "x" + px);
-     }
- 
-     protected <T extends Widget> T addButton(T button, boolean active) {
