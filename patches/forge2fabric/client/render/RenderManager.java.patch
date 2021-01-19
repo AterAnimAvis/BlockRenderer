@@ -6,6 +6,6 @@
  
 -import com.unascribed.blockrenderer.forge.client.render.report.Reporter;
 +import com.unascribed.blockrenderer.fabric.client.render.report.Reporter;
- import com.unascribed.blockrenderer.render.IAnimatedRenderer;
- import com.unascribed.blockrenderer.render.IRenderManager;
- import com.unascribed.blockrenderer.render.IRenderer;
+ import com.unascribed.blockrenderer.render.BaseRenderManager;
+ import com.unascribed.blockrenderer.render.IRequest;
+ import net.minecraft.util.text.ITextComponent;
