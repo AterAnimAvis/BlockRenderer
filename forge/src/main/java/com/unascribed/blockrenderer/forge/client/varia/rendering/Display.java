@@ -6,7 +6,6 @@ import com.unascribed.blockrenderer.varia.rendering.DisplayI;
 import com.unascribed.blockrenderer.varia.rendering.GLI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
@@ -22,7 +21,6 @@ public class Display implements DisplayI<ITextComponent> {
 
     private static final GLI GL = InternalAPI.getGL();
     private static final Minecraft client = Minecraft.getInstance();
-    private static final FontRenderer font = client.fontRenderer;
 
     @Override
     public void drawRect(int x1, int y1, int x2, int y2, int color) {
@@ -43,11 +41,11 @@ public class Display implements DisplayI<ITextComponent> {
     }
 
     public static void drawCenteredString(MatrixStack stack, String str, int x, int y, int color) {
-        font.drawStringWithShadow(stack, str, x - font.getStringWidth(str) / 2F, y, color);
+        client.fontRenderer.drawStringWithShadow(stack, str, x - client.fontRenderer.getStringWidth(str) / 2F, y, color);
     }
 
     public static void renderTooltip(Screen owner, MatrixStack stack, List<ITextComponent> tooltip, int x, int y) {
-        GuiUtils.drawHoveringText(stack, tooltip, x, y, owner.width, owner.height, -1, font);
+        GuiUtils.drawHoveringText(stack, tooltip, x, y, owner.width, owner.height, -1, client.fontRenderer);
     }
 
     @Override
