@@ -1,6 +1,6 @@
-package com.unascribed.blockrenderer.fabric.client.render.request;
+package com.unascribed.blockrenderer.render.request;
 
-import com.unascribed.blockrenderer.fabric.client.render.RenderManager;
+import com.unascribed.blockrenderer.Interop;
 import com.unascribed.blockrenderer.render.IRenderer;
 import com.unascribed.blockrenderer.render.IRequest;
 import com.unascribed.blockrenderer.render.request.lambda.ImageHandler;
@@ -32,7 +32,7 @@ public class RenderingRequest<S, T> implements IRequest {
      */
     @Override
     public boolean render() {
-        RenderManager.render(renderer, handler, parameters, value, callback);
+        Interop.RENDER_MANAGER.render(renderer, handler, parameters, value, callback);
 
         return true;
     }

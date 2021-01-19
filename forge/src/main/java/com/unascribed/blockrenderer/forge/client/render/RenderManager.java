@@ -2,6 +2,7 @@ package com.unascribed.blockrenderer.forge.client.render;
 
 import com.unascribed.blockrenderer.forge.client.render.report.ProgressManager;
 import com.unascribed.blockrenderer.render.IAnimatedRenderer;
+import com.unascribed.blockrenderer.render.IRenderManager;
 import com.unascribed.blockrenderer.render.IRenderer;
 import com.unascribed.blockrenderer.render.IRequest;
 import com.unascribed.blockrenderer.render.request.lambda.ImageHandler;
@@ -32,7 +33,9 @@ import java.util.function.Function;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-public class RenderManager {
+public class RenderManager implements IRenderManager {
+
+    public static final IRenderManager INSTANCE = new RenderManager();
 
     public static boolean isRendering = false;
     public static Queue<IRequest> requests = new PriorityQueue<>();
@@ -53,8 +56,9 @@ public class RenderManager {
         isRendering = false;
     }
 
-    public static <S, T> void render(IRenderer<S, T> renderer, ImageHandler<T> handler,
-                                     S params, T value, Consumer<T> callback) {
+    @Override
+    public <S, T> void render(IRenderer<S, T> renderer, ImageHandler<T> handler,
+                              S params, T value, Consumer<T> callback) {
         isRendering = true;
 
         renderer.setup(params);
@@ -67,8 +71,9 @@ public class RenderManager {
 
     private static final ITextComponent RENDERING_BULK = new StringTextComponent("Rendering Bulk").mergeStyle(TextFormatting.GOLD);
 
-    public static <S, T> void bulk(IRenderer<S, T> renderer, ImageHandler<T> handler,
-                                   S params, Collection<T> values) {
+    @Override
+    public <S, T> void bulk(IRenderer<S, T> renderer, ImageHandler<T> handler,
+                            S params, Collection<T> values) {
         isRendering = true;
 
         renderer.setup(params);
@@ -93,16 +98,17 @@ public class RenderManager {
     private static final long NANOS_IN_A_SECOND = 1_000_000_000L;
     private static final int MAX_CONSUME = FPS * AUTO_LOOP_LENGTH;
 
-    public static <S, T> void animated(IAnimatedRenderer<S, T> renderer,
-                                       Function<T, ImageOutputStream> provider,
-                                       Consumer<T> callback,
-                                       S params,
-                                       int length,
-                                       boolean loop,
-                                       boolean zip,
-                                       String zipFile,
-                                       Consumer<File> zipFileCallback,
-                                       T value) {
+    @Override
+    public <S, T> void animated(IAnimatedRenderer<S, T> renderer,
+                                Function<T, ImageOutputStream> provider,
+                                Consumer<T> callback,
+                                S params,
+                                int length,
+                                boolean loop,
+                                boolean zip,
+                                String zipFile,
+                                Consumer<File> zipFileCallback,
+                                T value) {
         try {
             if (zip) {
                 File output = Files.getFile(Files.DEFAULT_FOLDER, zipFile, "zip");
