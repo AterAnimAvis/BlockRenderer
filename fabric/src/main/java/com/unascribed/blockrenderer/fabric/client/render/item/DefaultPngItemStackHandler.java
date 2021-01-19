@@ -6,7 +6,6 @@ import com.unascribed.blockrenderer.varia.Files;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
@@ -43,7 +42,7 @@ public class DefaultPngItemStackHandler extends BaseItemStackHandler implements 
                 .applyFormatting(TextFormatting.GOLD)
                 .setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, folder.getAbsolutePath()));
 
-        StringUtils.addMessage(new StringTextComponent("> Finished Rendering").setStyle(open));
+        StringUtils.addMessage(StringUtils.rawText("> Finished Rendering").setStyle(open));
     }
 
     @Override

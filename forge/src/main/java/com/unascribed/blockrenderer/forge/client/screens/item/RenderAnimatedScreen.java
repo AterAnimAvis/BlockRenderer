@@ -12,10 +12,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TranslationTextComponent;
 import org.jetbrains.annotations.Nullable;
 
+import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.translate;
+
 @SuppressWarnings("NotNullFieldNotInitialized")
 public class RenderAnimatedScreen extends EnterSizeScreen {
 
-    private static final TranslationTextComponent TITLE = new TranslationTextComponent("block_renderer.gui.renderAnimated");
+    private static final TranslationTextComponent TITLE = translate("block_renderer.gui.renderAnimated");
 
     private CheckboxButton asZip;
     private CheckboxButton autoLoop;
@@ -34,14 +36,14 @@ public class RenderAnimatedScreen extends EnterSizeScreen {
         minecraft.keyboardListener.enableRepeatEvents(true);
         boolean enabled = enabled();
 
-        asZip = addButton(new HoverableCheckboxWidget(this, width / 2 - 100, height / 6 + 166, 98, 20, new TranslationTextComponent("block_renderer.gui.zip"), new TranslationTextComponent("block_renderer.gui.zip.tooltip"), false), enabled);
-        autoLoop = addButton(new HoverableCheckboxWidget(this, width / 2 + 2, height / 6 + 166, 98, 20, new TranslationTextComponent("block_renderer.gui.loop"), new TranslationTextComponent("block_renderer.gui.loop.tooltip"), false), enabled);
+        asZip = addButton(new HoverableCheckboxWidget(this, width / 2 - 100, height / 6 + 166, 98, 20, translate("block_renderer.gui.zip"), translate("block_renderer.gui.zip.tooltip"), false), enabled);
+        autoLoop = addButton(new HoverableCheckboxWidget(this, width / 2 + 2, height / 6 + 166, 98, 20, translate("block_renderer.gui.loop"), translate("block_renderer.gui.loop.tooltip"), false), enabled);
 
         /* Note: This is the initializer, text can be null! */
         @SuppressWarnings("ConstantConditions")
         String prefill = (length == null ? "20" : length.getText());
 
-        length = addButton(new HoverableTextFieldWidget(this, minecraft.fontRenderer, width / 2 - 100, height / 6 + 74, 200, 20, new TranslationTextComponent("block_renderer.gui.animatedLength"), new TranslationTextComponent("block_renderer.gui.animatedLength.tooltip")), enabled);
+        length = addButton(new HoverableTextFieldWidget(this, minecraft.fontRenderer, width / 2 - 100, height / 6 + 74, 200, 20, translate("block_renderer.gui.animatedLength"), translate("block_renderer.gui.animatedLength.tooltip")), enabled);
         length.setResponder((value) -> {
             isInteger = false;
             try {

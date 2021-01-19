@@ -13,3 +13,12 @@
  import net.minecraft.client.gui.screen.Screen;
  import net.minecraft.client.gui.widget.button.Button;
  import net.minecraft.item.ItemStack;
+@@ -10,7 +10,7 @@
+ import net.minecraft.util.text.TranslationTextComponent;
+ import org.jetbrains.annotations.Nullable;
+ 
+-import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.translate;
++import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.translate;
+ 
+ public class EnterSizeScreen extends BaseItemScreen {
+ 

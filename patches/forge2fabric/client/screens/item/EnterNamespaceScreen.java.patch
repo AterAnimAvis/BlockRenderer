@@ -20,3 +20,12 @@
  import net.minecraft.client.gui.screen.Screen;
  import net.minecraft.client.gui.widget.TextFieldWidget;
  import net.minecraft.client.gui.widget.button.Button;
+@@ -18,7 +18,7 @@
+ import java.util.Collections;
+ import java.util.function.Supplier;
+ 
+-import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.translate;
++import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.translate;
+ 
+ /*
+  * Note: Screen's get initialized in init

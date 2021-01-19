@@ -18,12 +18,13 @@ import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import org.lwjgl.glfw.GLFW;
+
+import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.translate;
 
 public class ClientProxy extends CommonProxy {
 
@@ -79,19 +80,19 @@ public class ClientProxy extends CommonProxy {
                 renderStack(player.getHeldItemMainhand());
                 return;
             }
-            StringUtils.addMessage(new TranslationTextComponent("msg.block_renderer.notContainer"));
+            StringUtils.addMessage(translate("msg.block_renderer.notContainer"));
             return;
         }
 
         if (hovered == null) {
-            StringUtils.addMessage(new TranslationTextComponent("msg.block_renderer.slot.absent"));
+            StringUtils.addMessage(translate("msg.block_renderer.slot.absent"));
             return;
         }
 
         ItemStack stack = hovered.getStack();
 
         if (stack.isEmpty()) {
-            StringUtils.addMessage(new TranslationTextComponent("msg.block_renderer.slot.empty"));
+            StringUtils.addMessage(translate("msg.block_renderer.slot.empty"));
             return;
         }
 

@@ -12,9 +12,10 @@ import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
 
 import java.util.List;
+
+import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.rawText;
 
 public class Display implements DisplayI<ITextComponent> {
 
@@ -23,7 +24,7 @@ public class Display implements DisplayI<ITextComponent> {
     private static final GLI GL = InternalAPI.getGL();
     private static final Minecraft client = Minecraft.getInstance();
     private static final FontRenderer font = client.fontRenderer;
-    private static final Screen helper = new Screen(new StringTextComponent("DUMMY")) {
+    private static final Screen helper = new Screen(rawText("DUMMY")) {
 
     };
 

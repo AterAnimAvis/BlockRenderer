@@ -6,27 +6,31 @@
  
  import com.mojang.blaze3d.matrix.MatrixStack;
  import com.unascribed.blockrenderer.InternalAPI;
-@@ -12,7 +12,7 @@
+@@ -12,10 +12,11 @@
  import net.minecraft.client.renderer.Tessellator;
  import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
  import net.minecraft.util.text.ITextComponent;
 -import net.minecraftforge.fml.client.gui.GuiUtils;
-+import net.minecraft.util.text.StringTextComponent;
  
  import java.util.List;
  
-@@ -23,7 +23,10 @@
++import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.rawText;
++
+ public class Display implements DisplayI<ITextComponent> {
+ 
+     public static final Display INSTANCE = new Display();
+@@ -23,7 +24,10 @@
      private static final GLI GL = InternalAPI.getGL();
      private static final Minecraft client = Minecraft.getInstance();
      private static final FontRenderer font = client.fontRenderer;
-+    private static final Screen helper = new Screen(new StringTextComponent("DUMMY")) {
++    private static final Screen helper = new Screen(rawText("DUMMY")) {
  
 +    };
 +
      @Override
      public void drawRect(int x1, int y1, int x2, int y2, int color) {
          drawRect(new MatrixStack(), x1, y1, x2, y2, color);
-@@ -47,7 +50,8 @@
+@@ -47,7 +51,8 @@
      }
  
      public static void renderTooltip(Screen owner, MatrixStack stack, List<ITextComponent> tooltip, int x, int y) {

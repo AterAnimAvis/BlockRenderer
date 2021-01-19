@@ -4,14 +4,15 @@ import com.unascribed.blockrenderer.InternalAPI;
 import com.unascribed.blockrenderer.fabric.client.varia.rendering.Display;
 import com.unascribed.blockrenderer.render.report.BaseReporter;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
+
+import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.rawText;
 
 public class Reporter extends BaseReporter<ITextComponent> {
 
     public static final Reporter INSTANCE = new Reporter();
 
     private Reporter() {
-        super(Display.INSTANCE, InternalAPI.getGL(), new StringTextComponent("Rendering"));
+        super(Display.INSTANCE, InternalAPI.getGL(), rawText("Rendering"));
     }
 
     @Override
@@ -26,7 +27,7 @@ public class Reporter extends BaseReporter<ITextComponent> {
 
     @Override
     public ITextComponent getProgress() {
-        return new StringTextComponent(getProgressString());
+        return rawText(getProgressString());
     }
 
 }

@@ -18,6 +18,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collections;
 import java.util.function.Supplier;
 
+import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.translate;
+
 /*
  * Note: Screen's get initialized in init
  */
@@ -28,7 +30,7 @@ public class EnterNamespaceScreen extends BaseItemScreen {
     private static final int GROUP_BY_TAB = 1; // Banner Pattern
     private static final int GROUP_BY_TYPE = 2; // Block
 
-    private static final TranslationTextComponent TITLE = new TranslationTextComponent("block_renderer.gui.namespace");
+    private static final TranslationTextComponent TITLE = translate("block_renderer.gui.namespace");
 
     private boolean emptySpec = false;
 
@@ -62,7 +64,7 @@ public class EnterNamespaceScreen extends BaseItemScreen {
         @SuppressWarnings("ConstantConditions")
         String oldText = (text == null ? prefill : text.getText());
 
-        text = addButton(new TextFieldWidget(minecraft.fontRenderer, width / 2 - 100, height / 6 + 50, 200, 20, new TranslationTextComponent("block_renderer.gui.namespace")), enabled);
+        text = addButton(new TextFieldWidget(minecraft.fontRenderer, width / 2 - 100, height / 6 + 50, 200, 20, translate("block_renderer.gui.namespace")), enabled);
         text.setResponder((value) -> emptySpec = value.trim().isEmpty());
         text.setText(oldText);
         addListener(text);
@@ -73,8 +75,8 @@ public class EnterNamespaceScreen extends BaseItemScreen {
                     this,
                     width - 32,
                     height - 32,
-                    new TranslationTextComponent("block_renderer.gui.switch.single"),
-                    new TranslationTextComponent("block_renderer.gui.switch.single.tooltip"),
+                    translate("block_renderer.gui.switch.single"),
+                    translate("block_renderer.gui.switch.single.tooltip"),
                     button -> minecraft.displayGuiScreen(new EnterSizeScreen(old, stack)))
             );
         }
@@ -100,10 +102,10 @@ public class EnterNamespaceScreen extends BaseItemScreen {
                 },
                 12,
                 height - 32,
-                new TranslationTextComponent("block_renderer.gui.group"),
+                translate("block_renderer.gui.group"),
                 (state) -> {
                     if (state < 0 || state > 2) throw new RuntimeException("Unsupported Group Type");
-                    return Collections.singletonList(new TranslationTextComponent("block_renderer.gui.group.tooltip." + state));
+                    return Collections.singletonList(translate("block_renderer.gui.group.tooltip." + state));
                 },
                 button -> {
                     grouped.state += 1;
@@ -137,7 +139,7 @@ public class EnterNamespaceScreen extends BaseItemScreen {
 
         if (!emptySpec) return;
 
-        drawCenteredString(stack, minecraft.fontRenderer, new TranslationTextComponent("block_renderer.gui.emptySpec"), width / 2, height / 6 + 30, 0xFF5555);
+        drawCenteredString(stack, minecraft.fontRenderer, translate("block_renderer.gui.emptySpec"), width / 2, height / 6 + 30, 0xFF5555);
     }
 
     @Override

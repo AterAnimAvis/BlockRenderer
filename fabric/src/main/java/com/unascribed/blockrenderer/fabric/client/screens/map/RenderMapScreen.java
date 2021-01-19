@@ -14,10 +14,12 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.storage.MapData;
 import org.jetbrains.annotations.Nullable;
 
+import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.translate;
+
 @SuppressWarnings("NotNullFieldNotInitialized")
 public class RenderMapScreen extends EnterSizeScreen {
 
-    private static final TranslationTextComponent TITLE = new TranslationTextComponent("block_renderer.gui.map");
+    private static final TranslationTextComponent TITLE = translate("block_renderer.gui.map");
 
     @Nullable
     private final MapData data;
@@ -35,13 +37,13 @@ public class RenderMapScreen extends EnterSizeScreen {
     public void init() {
         super.init();
 
-        decorationsButton = addButton(new Button(width / 2 - 100, height / 6 + 96, 200, 20, new TranslationTextComponent("block_renderer.gui.map.decorations." + decorations.lowercaseName()), this::toggleDecorations), enabled());
+        decorationsButton = addButton(new Button(width / 2 - 100, height / 6 + 96, 200, 20, translate("block_renderer.gui.map.decorations." + decorations.lowercaseName()), this::toggleDecorations), enabled());
     }
 
     private void toggleDecorations(Button button) {
         decorations = MapDecorations.byId(decorations.ordinal() + 1);
         decorationsButton.setMessage(
-                new TranslationTextComponent("block_renderer.gui.map.decorations." + decorations.lowercaseName())
+                translate("block_renderer.gui.map.decorations." + decorations.lowercaseName())
         );
     }
 
@@ -64,7 +66,7 @@ public class RenderMapScreen extends EnterSizeScreen {
         if (minecraft.world == null) return;
         if (data != null) return;
 
-        drawCenteredString(stack, minecraft.fontRenderer, new TranslationTextComponent("block_renderer.gui.noMapData"), width / 2, height / 6 + 30, 0xFF5555);
+        drawCenteredString(stack, minecraft.fontRenderer, translate("block_renderer.gui.noMapData"), width / 2, height / 6 + 30, 0xFF5555);
     }
 
     @Override

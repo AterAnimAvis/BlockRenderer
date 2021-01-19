@@ -3,7 +3,6 @@ package com.unascribed.blockrenderer.forge.client.render.item;
 import com.unascribed.blockrenderer.forge.client.varia.Identifiers;
 import com.unascribed.blockrenderer.forge.client.varia.StringUtils;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
@@ -38,7 +37,7 @@ public class BaseItemStackHandler implements Consumer<ItemStack> {
         if (future != null)
             open = open.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, future.getAbsolutePath()));
 
-        StringUtils.addMessage(new StringTextComponent("> Finished Rendering " + Identifiers.get(value.getItem())).setStyle(open));
+        StringUtils.addMessage(StringUtils.rawText("> Finished Rendering " + Identifiers.get(value.getItem())).setStyle(open));
     }
 
     protected String getFilename(ItemStack value) {

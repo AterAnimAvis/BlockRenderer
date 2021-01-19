@@ -42,7 +42,7 @@ public interface StringUtils {
     }
 
     static void addMessage(String text) {
-        addMessage(new StringTextComponent(text));
+        addMessage(rawText(text));
     }
 
     static void addMessage(ITextComponent text) {
@@ -67,9 +67,9 @@ public interface StringUtils {
 
     static String getFilename(ItemStack value, int size, boolean addDate, boolean addSize, boolean useIdentifier) {
         String sizeString = addSize ? size + "x" + size + "_" : "";
-        String fileName = useIdentifier ? StringUtils.sanitize(Identifiers.get(value.getItem())) : StringUtils.sanitize(value.getDisplayName());
+        String fileName = useIdentifier ? sanitize(Identifiers.get(value.getItem())) : sanitize(value.getDisplayName());
 
-        return (addDate ? StringUtils.dateTime() + "_" : "") + sizeString + fileName;
+        return (addDate ? dateTime() + "_" : "") + sizeString + fileName;
     }
 
     static List<ITextComponent> getTooltipFromItem(ItemStack stack) {
@@ -79,11 +79,11 @@ public interface StringUtils {
     }
 
     static ITextComponent getRenderSuccess(File folder, File file) {
-        return new TranslationTextComponent("msg.block_renderer.render.success", asClickable(folder), asClickable(file));
+        return translate("msg.block_renderer.render.success", asClickable(folder), asClickable(file));
     }
 
     static ITextComponent asClickable(File file) {
-        StringTextComponent component = new StringTextComponent(file.getName());
+        StringTextComponent component = rawText(file.getName());
 
         String path;
 
@@ -99,12 +99,20 @@ public interface StringUtils {
 
         component.setStyle(
                 component.getStyle()
-                        .setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslationTextComponent("block_renderer.file.tooltip")))
+                        .setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, translate("block_renderer.file.tooltip")))
                         .setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, path))
                         .func_244282_c(true)
         );
 
         return component;
+    }
+
+    static TranslationTextComponent translate(String name, Object... args) {
+        return new TranslationTextComponent(name, args);
+    }
+
+    static StringTextComponent rawText(String text) {
+        return new StringTextComponent(text);
     }
 
 }

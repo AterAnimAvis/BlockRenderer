@@ -41,7 +41,7 @@
      static Set<String> getNamespaces(String namespaceSpec) {
 @@ -100,7 +101,7 @@
                  component.getStyle()
-                         .setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new TranslationTextComponent("block_renderer.file.tooltip")))
+                         .setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, translate("block_renderer.file.tooltip")))
                          .setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, path))
 -                        .setUnderlined(true)
 +                        .func_244282_c(true)

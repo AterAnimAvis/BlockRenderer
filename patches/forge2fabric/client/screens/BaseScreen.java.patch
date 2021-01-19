@@ -12,3 +12,12 @@
  import com.unascribed.blockrenderer.varia.Maths;
  import net.minecraft.client.GameSettings;
  import net.minecraft.client.gui.screen.Screen;
+@@ -12,7 +12,7 @@
+ import org.jetbrains.annotations.Nullable;
+ import org.lwjgl.glfw.GLFW;
+ 
+-import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.translate;
++import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.translate;
+ 
+ @SuppressWarnings("NotNullFieldNotInitialized")
+ public abstract class BaseScreen extends Screen {

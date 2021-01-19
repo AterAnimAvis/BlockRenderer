@@ -1,6 +1,6 @@
 --- a/client/screens/item/BaseItemScreen.java
 +++ b/client/screens/item/BaseItemScreen.java
-@@ -1,8 +1,8 @@
+@@ -1,15 +1,15 @@
 -package com.unascribed.blockrenderer.fabric.client.screens.item;
 +package com.unascribed.blockrenderer.forge.client.screens.item;
  
@@ -13,3 +13,11 @@
  import net.minecraft.client.gui.screen.Screen;
  import net.minecraft.client.gui.widget.button.Button;
  import net.minecraft.client.gui.widget.button.CheckboxButton;
+ import net.minecraft.util.text.ITextComponent;
+ import org.jetbrains.annotations.Nullable;
+ 
+-import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.translate;
++import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.translate;
+ 
+ /*
+  * Note: Screen's get initialized in init

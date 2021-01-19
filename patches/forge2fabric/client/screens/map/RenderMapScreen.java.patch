@@ -14,3 +14,12 @@
  import com.unascribed.blockrenderer.render.map.MapDecorations;
  import net.minecraft.client.Minecraft;
  import net.minecraft.client.gui.screen.Screen;
+@@ -14,7 +14,7 @@
+ import net.minecraft.world.storage.MapData;
+ import org.jetbrains.annotations.Nullable;
+ 
+-import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.translate;
++import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.translate;
+ 
+ @SuppressWarnings("NotNullFieldNotInitialized")
+ public class RenderMapScreen extends EnterSizeScreen {
