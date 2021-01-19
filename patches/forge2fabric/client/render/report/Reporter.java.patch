@@ -1,5 +1,5 @@
---- a/client/render/report/ProgressManager.java
-+++ b/client/render/report/ProgressManager.java
+--- a/client/render/report/Reporter.java
++++ b/client/render/report/Reporter.java
 @@ -1,8 +1,8 @@
 -package com.unascribed.blockrenderer.forge.client.render.report;
 +package com.unascribed.blockrenderer.fabric.client.render.report;
@@ -9,6 +9,6 @@
 -import com.unascribed.blockrenderer.forge.client.varia.rendering.GL;
 +import com.unascribed.blockrenderer.fabric.client.varia.rendering.Display;
 +import com.unascribed.blockrenderer.fabric.client.varia.rendering.GL;
- import com.unascribed.blockrenderer.render.report.BaseProgressManager;
+ import com.unascribed.blockrenderer.render.report.BaseReporter;
  import com.unascribed.blockrenderer.varia.Maths;
  import com.unascribed.blockrenderer.varia.debug.Debug;

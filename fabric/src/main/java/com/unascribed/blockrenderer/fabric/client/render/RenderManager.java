@@ -1,6 +1,6 @@
 package com.unascribed.blockrenderer.fabric.client.render;
 
-import com.unascribed.blockrenderer.fabric.client.render.report.ProgressManager;
+import com.unascribed.blockrenderer.fabric.client.render.report.Reporter;
 import com.unascribed.blockrenderer.render.IAnimatedRenderer;
 import com.unascribed.blockrenderer.render.IRenderManager;
 import com.unascribed.blockrenderer.render.IRenderer;
@@ -42,6 +42,8 @@ public class RenderManager implements IRenderManager {
     @Nullable
     private static IRequest request = null;
 
+    public Reporter reporter = Reporter.INSTANCE;
+
     public static void push(IRequest request) {
         requests.add(request);
     }
@@ -78,15 +80,15 @@ public class RenderManager implements IRenderManager {
 
         renderer.setup(params);
 
-        ProgressManager.init(RENDERING_BULK, values.size());
+        reporter.init(RENDERING_BULK, values.size());
         for (T value : values) {
-            ProgressManager.push(ProgressManager.getProgress());
+            reporter.push(reporter.getProgress());
             renderer.render(value, handler);
-            ProgressManager.pop();
+            reporter.pop();
 
-            ProgressManager.render();
+            reporter.render();
         }
-        ProgressManager.end();
+        reporter.end();
 
         renderer.teardown();
 
@@ -149,7 +151,7 @@ public class RenderManager implements IRenderManager {
         } catch (Exception e) {
             Log.error(Markers.MANAGER, "Exception", e);
         } finally {
-            ProgressManager.end();
+            reporter.end();
             isRendering = false;
         }
     }
@@ -158,7 +160,7 @@ public class RenderManager implements IRenderManager {
     private static final ITextComponent RENDERING_AUTO = new StringTextComponent("Auto Loop").mergeStyle(TextFormatting.GOLD);
     private static final ITextComponent RENDERING_SKIP = new StringTextComponent("Skipping First").mergeStyle(TextFormatting.GOLD);
 
-    private static <S, T> void animated(IAnimatedRenderer<S, T> renderer, Consumer<T> callback, S params, int length, boolean loop, T value, ImageHandler<T> write) throws RuntimeException {
+    private <S, T> void animated(IAnimatedRenderer<S, T> renderer, Consumer<T> callback, S params, int length, boolean loop, T value, ImageHandler<T> write) throws RuntimeException {
 
         AtomicBoolean isSameAsInitial = new AtomicBoolean(true);
         AtomicReference<BufferedImage> initial = new AtomicReference<>();
@@ -179,46 +181,46 @@ public class RenderManager implements IRenderManager {
         });
 
         /* Skip First Frame + Render Second */
-        ProgressManager.init(RENDERING_SKIP, -1);
+        reporter.init(RENDERING_SKIP, -1);
         /* We need to handle the case where the target doesn't actually animate so we add a timeout */
         int timeout = MAX_CONSUME;
         while (isSameAsInitial.get() && timeout > 0) {
             timeout--;
             final ImageHandler<T> consumer = frame == 0 ? init : timeout == 0 ? write : writeDifferent;
 
-            ProgressManager.push(ProgressManager.getProgress());
+            reporter.push(reporter.getProgress());
             renderer.render(value, consumer, NANOS_IN_A_SECOND / FPS * frame++);
-            ProgressManager.pop();
+            reporter.pop();
 
-            ProgressManager.render();
+            reporter.render();
         }
-        ProgressManager.end();
+        reporter.end();
 
         /* Render for Specified Length */
-        ProgressManager.init(RENDERING_GIF, length);
-        ProgressManager.skip();
+        reporter.init(RENDERING_GIF, length);
+        reporter.skip();
 
         for (int i = 1; i < length; i++) {
             final ImageHandler<T> consumer = i == length - 1 ? checkWrite : write;
 
-            ProgressManager.push(ProgressManager.getProgress());
+            reporter.push(reporter.getProgress());
             renderer.render(value, consumer, NANOS_IN_A_SECOND / FPS * frame++);
-            ProgressManager.pop();
+            reporter.pop();
 
-            ProgressManager.render();
+            reporter.render();
 
         }
-        ProgressManager.end();
+        reporter.end();
 
         if (loop) {
             /* Search for Loop Point */
-            ProgressManager.init(RENDERING_AUTO, -1);
+            reporter.init(RENDERING_AUTO, -1);
             for (int i = 0; i < FPS * AUTO_LOOP_LENGTH; i++) {
-                ProgressManager.push(ProgressManager.getProgress());
+                reporter.push(reporter.getProgress());
                 renderer.render(value, checkWrite, NANOS_IN_A_SECOND / FPS * frame++);
-                ProgressManager.pop();
+                reporter.pop();
 
-                ProgressManager.render();
+                reporter.render();
                 if (isSameAsInitial.get()) break;
             }
             /* Consume Additional Frames */
@@ -226,13 +228,13 @@ public class RenderManager implements IRenderManager {
             while (isSameAsInitial.get() && timeout > 0) {
                 timeout--;
 
-                ProgressManager.push(ProgressManager.getProgress());
+                reporter.push(reporter.getProgress());
                 renderer.render(value, writeSame, NANOS_IN_A_SECOND / FPS * frame++);
-                ProgressManager.pop();
+                reporter.pop();
 
-                ProgressManager.render();
+                reporter.render();
             }
-            ProgressManager.end();
+            reporter.end();
         }
 
         callback.accept(value);

@@ -3,63 +3,40 @@ package com.unascribed.blockrenderer.forge.client.render.report;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.unascribed.blockrenderer.forge.client.varia.rendering.Display;
 import com.unascribed.blockrenderer.forge.client.varia.rendering.GL;
-import com.unascribed.blockrenderer.render.report.BaseProgressManager;
+import com.unascribed.blockrenderer.render.report.BaseReporter;
 import com.unascribed.blockrenderer.varia.Maths;
 import com.unascribed.blockrenderer.varia.debug.Debug;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
-public class ProgressManager {
+public class Reporter extends BaseReporter<ITextComponent> {
 
     private static final int DARK_GREEN = 0xFF001100;
     private static final int LIGHT_GREEN = 0xFF55FF55;
 
-    @NotNull
-    public static ITextComponent title = new StringTextComponent("Rendering");
-    @Nullable
-    public static ITextComponent message = null;
+    public static final Reporter INSTANCE = new Reporter();
 
-    private static final BaseProgressManager MANAGER = new BaseProgressManager();
-
-    public static void init(ITextComponent title, int steps) {
-        reset();
-        MANAGER.init(steps);
-
-        ProgressManager.title = title;
+    private Reporter() {
+        super(new StringTextComponent("Rendering"));
     }
 
-    public static void push(@Nullable ITextComponent message) {
-        ProgressManager.message = message;
-        MANAGER.push();
+    @Override
+    public void pop() {
+        pop(title.getString(), message == null ? "null" : message.getString());
     }
 
-    public static void pop() {
-        MANAGER.pop(title.getString(), message == null ? "null" : message.getString());
+    @Override
+    public void end() {
+        end(title.getString(), message == null ? "null" : message.getString());
     }
 
-    public static void skip() {
-        push(getProgress());
-        pop();
+    @Override
+    public ITextComponent getProgress() {
+        return new StringTextComponent(getProgressString());
     }
 
-    public static void end() {
-        MANAGER.end(title.getString(), message == null ? "null" : message.getString());
-        reset();
-    }
-
-    private static void reset() {
-        title = new StringTextComponent("Rendering");
-        message = null;
-        MANAGER.reset();
-    }
-
-    public static ITextComponent getProgress() {
-        return new StringTextComponent(MANAGER.getProgress());
-    }
-
-    public static void render() {
+    @Override
+    public void render() {
         Debug.endFrame();
         Debug.push("progress-bar");
 
@@ -75,7 +52,7 @@ public class ProgressManager {
         Display.drawDirtBackground(displayWidth, displayHeight);
 
         // ...and the title
-        Display.drawCenteredString(new MatrixStack(), ProgressManager.title, displayWidth / 2, displayHeight / 2 - 24, -1);
+        Display.drawCenteredString(new MatrixStack(), title, displayWidth / 2, displayHeight / 2 - 24, -1);
 
         // ...and the progress bar
         renderProgressBar(displayWidth, displayHeight);
@@ -99,8 +76,8 @@ public class ProgressManager {
         Debug.pop();
     }
 
-    private static void renderProgressBar(int displayWidth, int displayHeight) {
-        int progress = MANAGER.steps > 0 ? Maths.clamp(100 * MANAGER.step / MANAGER.steps, 0, 100) : 100;
+    private void renderProgressBar(int displayWidth, int displayHeight) {
+        int progress = steps > 0 ? Maths.clamp(100 * step / steps, 0, 100) : 100;
 
         int hw = displayWidth / 2;
         int hh = displayHeight / 2;

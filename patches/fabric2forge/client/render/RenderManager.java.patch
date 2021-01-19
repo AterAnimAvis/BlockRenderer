@@ -4,8 +4,8 @@
 -package com.unascribed.blockrenderer.fabric.client.render;
 +package com.unascribed.blockrenderer.forge.client.render;
  
--import com.unascribed.blockrenderer.fabric.client.render.report.ProgressManager;
-+import com.unascribed.blockrenderer.forge.client.render.report.ProgressManager;
+-import com.unascribed.blockrenderer.fabric.client.render.report.Reporter;
++import com.unascribed.blockrenderer.forge.client.render.report.Reporter;
  import com.unascribed.blockrenderer.render.IAnimatedRenderer;
  import com.unascribed.blockrenderer.render.IRenderManager;
  import com.unascribed.blockrenderer.render.IRenderer;
