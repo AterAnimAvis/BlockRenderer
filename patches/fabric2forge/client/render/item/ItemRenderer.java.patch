@@ -14,5 +14,5 @@
 +import com.unascribed.blockrenderer.forge.client.varia.MiscUtils;
 +import com.unascribed.blockrenderer.forge.client.varia.StringUtils;
  import com.unascribed.blockrenderer.render.IRequest;
+ import com.unascribed.blockrenderer.render.item.ItemStackParameters;
  import com.unascribed.blockrenderer.render.map.MapDecorations;
- import com.unascribed.blockrenderer.render.map.MapParameters;

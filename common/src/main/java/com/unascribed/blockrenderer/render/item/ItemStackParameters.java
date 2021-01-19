@@ -1,4 +1,4 @@
-package com.unascribed.blockrenderer.forge.client.render.item;
+package com.unascribed.blockrenderer.render.item;
 
 public class ItemStackParameters {
 
