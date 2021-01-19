@@ -5,7 +5,7 @@ import com.unascribed.blockrenderer.fabric.client.render.RenderManager;
 import com.unascribed.blockrenderer.fabric.client.render.Requests;
 import com.unascribed.blockrenderer.fabric.client.screens.SelectionScreen;
 import com.unascribed.blockrenderer.fabric.client.screens.item.EnterSizeScreen;
-import com.unascribed.blockrenderer.fabric.client.varia.StringUtils;
+import com.unascribed.blockrenderer.fabric.client.varia.Strings;
 import com.unascribed.blockrenderer.fabric.mixin.accessor.IHoveredSlot;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.minecraft.client.Minecraft;
@@ -20,7 +20,7 @@ import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import org.lwjgl.glfw.GLFW;
 
-import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.translate;
+import static com.unascribed.blockrenderer.fabric.client.varia.Strings.translate;
 
 public class ClientProxy {
 
@@ -62,19 +62,19 @@ public class ClientProxy {
                 renderStack(player.getHeldItemMainhand());
                 return;
             }
-            StringUtils.addMessage(translate("msg.block_renderer.notContainer"));
+            Strings.addMessage(translate("msg.block_renderer.notContainer"));
             return;
         }
 
         if (hovered == null) {
-            StringUtils.addMessage(translate("msg.block_renderer.slot.absent"));
+            Strings.addMessage(translate("msg.block_renderer.slot.absent"));
             return;
         }
 
         ItemStack stack = hovered.getStack();
 
         if (stack.isEmpty()) {
-            StringUtils.addMessage(translate("msg.block_renderer.slot.empty"));
+            Strings.addMessage(translate("msg.block_renderer.slot.empty"));
             return;
         }
 

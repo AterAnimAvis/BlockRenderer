@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
-import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.rawText;
+import static com.unascribed.blockrenderer.fabric.client.varia.Strings.rawText;
 
 public class RenderManager extends BaseRenderManager<ITextComponent> {
 

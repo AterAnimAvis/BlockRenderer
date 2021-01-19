@@ -5,7 +5,7 @@ import com.unascribed.blockrenderer.forge.client.render.RenderManager;
 import com.unascribed.blockrenderer.forge.client.render.Requests;
 import com.unascribed.blockrenderer.forge.client.screens.SelectionScreen;
 import com.unascribed.blockrenderer.forge.client.screens.item.EnterSizeScreen;
-import com.unascribed.blockrenderer.forge.client.varia.StringUtils;
+import com.unascribed.blockrenderer.forge.client.varia.Strings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.recipebook.IRecipeShownListener;
 import net.minecraft.client.gui.recipebook.RecipeBookGui;
@@ -18,7 +18,7 @@ import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import org.lwjgl.glfw.GLFW;
 
-import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.translate;
+import static com.unascribed.blockrenderer.forge.client.varia.Strings.translate;
 
 public class ClientProxy {
 
@@ -60,19 +60,19 @@ public class ClientProxy {
                 renderStack(player.getHeldItemMainhand());
                 return;
             }
-            StringUtils.addMessage(translate("msg.block_renderer.notContainer"));
+            Strings.addMessage(translate("msg.block_renderer.notContainer"));
             return;
         }
 
         if (hovered == null) {
-            StringUtils.addMessage(translate("msg.block_renderer.slot.absent"));
+            Strings.addMessage(translate("msg.block_renderer.slot.absent"));
             return;
         }
 
         ItemStack stack = hovered.getStack();
 
         if (stack.isEmpty()) {
-            StringUtils.addMessage(translate("msg.block_renderer.slot.empty"));
+            Strings.addMessage(translate("msg.block_renderer.slot.empty"));
             return;
         }
 

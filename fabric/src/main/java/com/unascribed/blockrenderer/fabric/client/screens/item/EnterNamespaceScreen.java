@@ -6,7 +6,7 @@ import com.unascribed.blockrenderer.fabric.client.render.Requests;
 import com.unascribed.blockrenderer.fabric.client.screens.widgets.HoverableTinyButtonWidget;
 import com.unascribed.blockrenderer.fabric.client.screens.widgets.ItemButtonMultiWidget;
 import com.unascribed.blockrenderer.fabric.client.varia.Registries;
-import com.unascribed.blockrenderer.fabric.client.varia.StringUtils;
+import com.unascribed.blockrenderer.fabric.client.varia.Strings;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.gui.widget.button.Button;
@@ -18,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collections;
 import java.util.function.Supplier;
 
-import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.translate;
+import static com.unascribed.blockrenderer.fabric.client.varia.Strings.translate;
 
 /*
  * Note: Screen's get initialized in init
@@ -49,7 +49,7 @@ public class EnterNamespaceScreen extends BaseItemScreen {
 
     public EnterNamespaceScreen(@Nullable Screen old, @Nullable ItemStack stack) {
         super(TITLE, old);
-        this.prefill = StringUtils.getNamespace(stack);
+        this.prefill = Strings.getNamespace(stack);
         this.stack = stack;
     }
 

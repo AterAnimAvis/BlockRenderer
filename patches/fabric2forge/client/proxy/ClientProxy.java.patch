@@ -9,7 +9,7 @@
 -import com.unascribed.blockrenderer.fabric.client.render.Requests;
 -import com.unascribed.blockrenderer.fabric.client.screens.SelectionScreen;
 -import com.unascribed.blockrenderer.fabric.client.screens.item.EnterSizeScreen;
--import com.unascribed.blockrenderer.fabric.client.varia.StringUtils;
+-import com.unascribed.blockrenderer.fabric.client.varia.Strings;
 -import com.unascribed.blockrenderer.fabric.mixin.accessor.IHoveredSlot;
 -import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 +import com.unascribed.blockrenderer.forge.client.init.Keybindings;
@@ -17,7 +17,7 @@
 +import com.unascribed.blockrenderer.forge.client.render.Requests;
 +import com.unascribed.blockrenderer.forge.client.screens.SelectionScreen;
 +import com.unascribed.blockrenderer.forge.client.screens.item.EnterSizeScreen;
-+import com.unascribed.blockrenderer.forge.client.varia.StringUtils;
++import com.unascribed.blockrenderer.forge.client.varia.Strings;
  import net.minecraft.client.Minecraft;
  import net.minecraft.client.gui.recipebook.IRecipeShownListener;
  import net.minecraft.client.gui.recipebook.RecipeBookGui;
@@ -25,8 +25,8 @@
  import net.minecraft.item.ItemStack;
  import org.lwjgl.glfw.GLFW;
  
--import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.translate;
-+import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.translate;
+-import static com.unascribed.blockrenderer.fabric.client.varia.Strings.translate;
++import static com.unascribed.blockrenderer.forge.client.varia.Strings.translate;
  
  public class ClientProxy {
  

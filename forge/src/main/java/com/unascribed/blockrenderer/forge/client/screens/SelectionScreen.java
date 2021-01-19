@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
-import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.translate;
+import static com.unascribed.blockrenderer.forge.client.varia.Strings.translate;
 
 public class SelectionScreen extends Screen {
 

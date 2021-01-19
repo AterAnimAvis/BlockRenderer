@@ -4,8 +4,8 @@
 -package com.unascribed.blockrenderer.forge.client.render.item;
 +package com.unascribed.blockrenderer.fabric.client.render.item;
  
--import com.unascribed.blockrenderer.forge.client.varia.StringUtils;
-+import com.unascribed.blockrenderer.fabric.client.varia.StringUtils;
+-import com.unascribed.blockrenderer.forge.client.varia.Strings;
++import com.unascribed.blockrenderer.fabric.client.varia.Strings;
  import com.unascribed.blockrenderer.render.request.lambda.ImageHandler;
  import com.unascribed.blockrenderer.varia.Files;
  import net.minecraft.item.BlockItem;

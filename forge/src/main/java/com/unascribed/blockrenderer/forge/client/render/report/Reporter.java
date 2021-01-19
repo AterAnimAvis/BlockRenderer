@@ -5,7 +5,7 @@ import com.unascribed.blockrenderer.forge.client.varia.rendering.Display;
 import com.unascribed.blockrenderer.render.report.BaseReporter;
 import net.minecraft.util.text.ITextComponent;
 
-import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.rawText;
+import static com.unascribed.blockrenderer.forge.client.varia.Strings.rawText;
 
 public class Reporter extends BaseReporter<ITextComponent> {
 

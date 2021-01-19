@@ -1,7 +1,7 @@
 package com.unascribed.blockrenderer.forge.client.render.item;
 
 import com.unascribed.blockrenderer.forge.client.varia.Identifiers;
-import com.unascribed.blockrenderer.forge.client.varia.StringUtils;
+import com.unascribed.blockrenderer.forge.client.varia.Strings;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
@@ -37,18 +37,18 @@ public class BaseItemStackHandler implements Consumer<ItemStack> {
         if (future != null)
             open = open.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, future.getAbsolutePath()));
 
-        StringUtils.addMessage(StringUtils.rawText("> Finished Rendering " + Identifiers.get(value.getItem())).setStyle(open));
+        Strings.addMessage(Strings.rawText("> Finished Rendering " + Identifiers.get(value.getItem())).setStyle(open));
     }
 
     protected String getFilename(ItemStack value) {
         String sizeString = addSize ? size + "x" + size + "_" : "";
         String fileName = _getFilename(value, useIdentifier);
 
-        return (addDate ? StringUtils.dateTime() + "_" : "") + sizeString + fileName;
+        return (addDate ? Strings.dateTime() + "_" : "") + sizeString + fileName;
     }
 
     private String _getFilename(ItemStack value, boolean useIdentifier) {
-        return useIdentifier ? StringUtils.sanitize(Identifiers.get(value.getItem())) : StringUtils.sanitize(value.getDisplayName());
+        return useIdentifier ? Strings.sanitize(Identifiers.get(value.getItem())) : Strings.sanitize(value.getDisplayName());
     }
 
 }

@@ -1,6 +1,6 @@
 package com.unascribed.blockrenderer.fabric.client.render.item;
 
-import com.unascribed.blockrenderer.fabric.client.varia.StringUtils;
+import com.unascribed.blockrenderer.fabric.client.varia.Strings;
 import com.unascribed.blockrenderer.render.request.lambda.ImageHandler;
 import com.unascribed.blockrenderer.varia.Files;
 import net.minecraft.item.BlockItem;
@@ -42,7 +42,7 @@ public class DefaultPngItemStackHandler extends BaseItemStackHandler implements 
                 .applyFormatting(TextFormatting.GOLD)
                 .setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, folder.getAbsolutePath()));
 
-        StringUtils.addMessage(StringUtils.rawText("> Finished Rendering").setStyle(open));
+        Strings.addMessage(Strings.rawText("> Finished Rendering").setStyle(open));
     }
 
     @Override
@@ -53,7 +53,7 @@ public class DefaultPngItemStackHandler extends BaseItemStackHandler implements 
             case 1:
                 ItemGroup group = value.getItem().getGroup();
                 if (group == null) return result;
-                return StringUtils.sanitize(group.getPath()) + "/" + result;
+                return Strings.sanitize(group.getPath()) + "/" + result;
             case 2:
                 return (value.getItem() instanceof BlockItem ? "blocks" : "items") + "/" + result;
         }

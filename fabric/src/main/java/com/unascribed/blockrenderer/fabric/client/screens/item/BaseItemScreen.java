@@ -9,7 +9,7 @@ import net.minecraft.client.gui.widget.button.CheckboxButton;
 import net.minecraft.util.text.ITextComponent;
 import org.jetbrains.annotations.Nullable;
 
-import static com.unascribed.blockrenderer.fabric.client.varia.StringUtils.translate;
+import static com.unascribed.blockrenderer.fabric.client.varia.Strings.translate;
 
 /*
  * Note: Screen's get initialized in init

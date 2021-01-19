@@ -14,7 +14,7 @@ import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.storage.MapData;
 import org.jetbrains.annotations.Nullable;
 
-import static com.unascribed.blockrenderer.forge.client.varia.StringUtils.translate;
+import static com.unascribed.blockrenderer.forge.client.varia.Strings.translate;
 
 @SuppressWarnings("NotNullFieldNotInitialized")
 public class RenderMapScreen extends EnterSizeScreen {

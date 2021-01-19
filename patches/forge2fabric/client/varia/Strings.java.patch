@@ -1,50 +1,50 @@
---- a/client/varia/StringUtils.java
-+++ b/client/varia/StringUtils.java
+--- a/client/varia/Strings.java
++++ b/client/varia/Strings.java
 @@ -1,16 +1,16 @@
--package com.unascribed.blockrenderer.fabric.client.varia;
-+package com.unascribed.blockrenderer.forge.client.varia;
+-package com.unascribed.blockrenderer.forge.client.varia;
++package com.unascribed.blockrenderer.fabric.client.varia;
  
  import com.google.common.collect.Sets;
  import net.minecraft.client.Minecraft;
  import net.minecraft.client.util.ITooltipFlag;
  import net.minecraft.item.ItemStack;
  import net.minecraft.util.ResourceLocation;
--import net.minecraft.util.registry.Registry;
++import net.minecraft.util.registry.Registry;
  import net.minecraft.util.text.ITextComponent;
  import net.minecraft.util.text.StringTextComponent;
  import net.minecraft.util.text.TranslationTextComponent;
  import net.minecraft.util.text.event.ClickEvent;
  import net.minecraft.util.text.event.HoverEvent;
-+import net.minecraftforge.registries.ForgeRegistries;
+-import net.minecraftforge.registries.ForgeRegistries;
  import org.jetbrains.annotations.Nullable;
  
  import java.io.File;
-@@ -18,7 +18,6 @@
+@@ -18,6 +18,7 @@
  import java.text.SimpleDateFormat;
  import java.util.Date;
  import java.util.List;
--import java.util.Objects;
++import java.util.Objects;
  import java.util.Set;
  
- public interface StringUtils {
-@@ -28,9 +27,9 @@
+ public interface Strings {
+@@ -27,9 +28,9 @@
      static String getNamespace(@Nullable ItemStack stack) {
          if (stack == null) return "";
  
--        ResourceLocation identifier = Registry.ITEM.getKey(stack.getItem());
-+        ResourceLocation identifier = ForgeRegistries.ITEMS.getKey(stack.getItem());
+-        ResourceLocation identifier = ForgeRegistries.ITEMS.getKey(stack.getItem());
++        ResourceLocation identifier = Registry.ITEM.getKey(stack.getItem());
  
--        return Objects.equals(identifier, new ResourceLocation("air")) ? "" : identifier.getNamespace();
-+        return identifier == null ? "" : identifier.getNamespace();
+-        return identifier == null ? "" : identifier.getNamespace();
++        return Objects.equals(identifier, new ResourceLocation("air")) ? "" : identifier.getNamespace();
      }
  
      static Set<String> getNamespaces(String namespaceSpec) {
-@@ -101,7 +100,7 @@
+@@ -100,7 +101,7 @@
                  component.getStyle()
                          .setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, translate("block_renderer.file.tooltip")))
                          .setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, path))
--                        .func_244282_c(true)
-+                        .setUnderlined(true)
+-                        .setUnderlined(true)
++                        .func_244282_c(true)
          );
  
          return component;

@@ -1,16 +1,16 @@
-package com.unascribed.blockrenderer.forge.client.varia;
+package com.unascribed.blockrenderer.fabric.client.varia;
 
 import com.google.common.collect.Sets;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.HoverEvent;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
@@ -18,18 +18,19 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
-public interface StringUtils {
+public interface Strings {
 
     DateFormat DATETIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss");
 
     static String getNamespace(@Nullable ItemStack stack) {
         if (stack == null) return "";
 
-        ResourceLocation identifier = ForgeRegistries.ITEMS.getKey(stack.getItem());
+        ResourceLocation identifier = Registry.ITEM.getKey(stack.getItem());
 
-        return identifier == null ? "" : identifier.getNamespace();
+        return Objects.equals(identifier, new ResourceLocation("air")) ? "" : identifier.getNamespace();
     }
 
     static Set<String> getNamespaces(String namespaceSpec) {
@@ -100,7 +101,7 @@ public interface StringUtils {
                 component.getStyle()
                         .setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, translate("block_renderer.file.tooltip")))
                         .setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, path))
-                        .setUnderlined(true)
+                        .func_244282_c(true)
         );
 
         return component;

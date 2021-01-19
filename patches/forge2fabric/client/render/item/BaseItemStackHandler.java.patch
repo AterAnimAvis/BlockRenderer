@@ -5,9 +5,9 @@
 +package com.unascribed.blockrenderer.fabric.client.render.item;
  
 -import com.unascribed.blockrenderer.forge.client.varia.Identifiers;
--import com.unascribed.blockrenderer.forge.client.varia.StringUtils;
+-import com.unascribed.blockrenderer.forge.client.varia.Strings;
 +import com.unascribed.blockrenderer.fabric.client.varia.Identifiers;
-+import com.unascribed.blockrenderer.fabric.client.varia.StringUtils;
++import com.unascribed.blockrenderer.fabric.client.varia.Strings;
  import net.minecraft.item.ItemStack;
  import net.minecraft.util.text.Style;
  import net.minecraft.util.text.TextFormatting;

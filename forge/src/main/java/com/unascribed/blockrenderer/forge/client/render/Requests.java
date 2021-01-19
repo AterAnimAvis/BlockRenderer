@@ -7,7 +7,7 @@ import com.unascribed.blockrenderer.forge.client.render.item.ItemStackRenderer;
 import com.unascribed.blockrenderer.forge.client.render.map.DefaultPngMapHandler;
 import com.unascribed.blockrenderer.forge.client.render.map.MapRenderer;
 import com.unascribed.blockrenderer.forge.client.varia.MiscUtils;
-import com.unascribed.blockrenderer.forge.client.varia.StringUtils;
+import com.unascribed.blockrenderer.forge.client.varia.Strings;
 import com.unascribed.blockrenderer.render.IRequest;
 import com.unascribed.blockrenderer.render.item.ItemStackParameters;
 import com.unascribed.blockrenderer.render.map.MapDecorations;
@@ -50,12 +50,12 @@ public class Requests {
     }
 
     public static IRequest bulk(String spec, int size, boolean useId, boolean addSize, int grouped) {
-        Set<String> namespaces = StringUtils.getNamespaces(spec);
+        Set<String> namespaces = Strings.getNamespaces(spec);
         List<ItemStack> renders = MiscUtils.collectStacks(namespaces);
         String joined = Joiner.on(", ").join(namespaces);
 
         String sizeString = addSize ? size + "x" + size + "_" : "";
-        File folder = new File(Files.DEFAULT_FOLDER, StringUtils.dateTime() + "_" + sizeString + StringUtils.sanitize(joined) + "/");
+        File folder = new File(Files.DEFAULT_FOLDER, Strings.dateTime() + "_" + sizeString + Strings.sanitize(joined) + "/");
 
         //TODO: Split out into BulkPngItemStackHandler
         DefaultPngItemStackHandler handler = new DefaultPngItemStackHandler(folder, size, useId, false, false, grouped);
@@ -81,7 +81,7 @@ public class Requests {
                 handler,
                 handler,
                 zip,
-                StringUtils.getFilename(stack, size, true, addSize, useId),
+                Strings.getFilename(stack, size, true, addSize, useId),
                 handler::acceptZip
         );
     }
