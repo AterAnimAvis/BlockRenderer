@@ -21,8 +21,16 @@ public interface Display {
 
     };
 
+    static void drawRect(int x1, int y1, int x2, int y2, int color) {
+        drawRect(new MatrixStack(), x1, y1, x2, y2, color);
+    }
+
     static void drawRect(MatrixStack stack, int x1, int y1, int x2, int y2, int color) {
         AbstractGui.fill(stack, x1, y1, x2, y2, color);
+    }
+
+    static void drawCenteredString(ITextComponent component, int x, int y, int color) {
+        drawCenteredString(new MatrixStack(), component, x, y, color);
     }
 
     static void drawCenteredString(MatrixStack stack, ITextComponent component, int x, int y, int color) {

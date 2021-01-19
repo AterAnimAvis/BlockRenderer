@@ -23,17 +23,12 @@
  
 -    };
 -
-     static void drawRect(MatrixStack stack, int x1, int y1, int x2, int y2, int color) {
-         AbstractGui.fill(stack, x1, y1, x2, y2, color);
+     static void drawRect(int x1, int y1, int x2, int y2, int color) {
+         drawRect(new MatrixStack(), x1, y1, x2, y2, color);
      }
-@@ -33,9 +30,12 @@
-         font.drawStringWithShadow(stack, str, x - font.getStringWidth(str) / 2F, y, color);
+@@ -42,8 +39,7 @@
      }
  
-+    static void drawHoveringText(MatrixStack stack, List<ITextComponent> tooltip, int x, int y, int width, int height) {
-+        GuiUtils.drawHoveringText(stack, tooltip, x, y, width, height, -1, font);
-+    }
-+
      static void renderTooltip(Screen owner, MatrixStack stack, List<ITextComponent> tooltip, int x, int y) {
 -        helper.init(client, owner.width, owner.height);
 -        helper.func_243308_b(stack, tooltip, x, y);

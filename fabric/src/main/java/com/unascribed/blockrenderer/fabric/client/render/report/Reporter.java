@@ -1,6 +1,5 @@
 package com.unascribed.blockrenderer.fabric.client.render.report;
 
-import com.mojang.blaze3d.matrix.MatrixStack;
 import com.unascribed.blockrenderer.fabric.client.varia.rendering.Display;
 import com.unascribed.blockrenderer.fabric.client.varia.rendering.GL;
 import com.unascribed.blockrenderer.render.report.BaseReporter;
@@ -52,7 +51,7 @@ public class Reporter extends BaseReporter<ITextComponent> {
         Display.drawDirtBackground(displayWidth, displayHeight);
 
         // ...and the title
-        Display.drawCenteredString(new MatrixStack(), title, displayWidth / 2, displayHeight / 2 - 24, -1);
+        Display.drawCenteredString(title, displayWidth / 2, displayHeight / 2 - 24, -1);
 
         // ...and the progress bar
         renderProgressBar(displayWidth, displayHeight);
@@ -63,7 +62,7 @@ public class Reporter extends BaseReporter<ITextComponent> {
             GL.scale(0.5f, 0.5f, 1);
 
             // ...and the subtitle
-            Display.drawCenteredString(new MatrixStack(), message, displayWidth, displayHeight - 20, -1);
+            Display.drawCenteredString(message, displayWidth, displayHeight - 20, -1);
 
             GL.popMatrix("progress/message");
         }
@@ -82,8 +81,8 @@ public class Reporter extends BaseReporter<ITextComponent> {
         int hw = displayWidth / 2;
         int hh = displayHeight / 2;
 
-        Display.drawRect(new MatrixStack(), hw - 50, hh - 1, hw + 50, hh + 1, DARK_GREEN);
-        Display.drawRect(new MatrixStack(), hw - 50, hh - 1, hw - 50 + progress, hh + 1, LIGHT_GREEN);
+        Display.drawRect(hw - 50, hh - 1, hw + 50, hh + 1, DARK_GREEN);
+        Display.drawRect(hw - 50, hh - 1, hw - 50 + progress, hh + 1, LIGHT_GREEN);
     }
 
 }
