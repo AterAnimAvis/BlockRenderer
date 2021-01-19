@@ -1,17 +1,19 @@
 --- a/BlockRenderer.java
 +++ b/BlockRenderer.java
-@@ -1,46 +1,23 @@
+@@ -1,49 +1,26 @@
 -package com.unascribed.blockrenderer.forge;
 +package com.unascribed.blockrenderer.fabric;
  
- import com.unascribed.blockrenderer.Interop;
+ import com.unascribed.blockrenderer.InternalAPI;
  import com.unascribed.blockrenderer.Reference;
 -import com.unascribed.blockrenderer.forge.client.proxy.ClientProxy;
 -import com.unascribed.blockrenderer.forge.client.render.RenderManager;
+-import com.unascribed.blockrenderer.forge.client.varia.rendering.GL;
 -import com.unascribed.blockrenderer.forge.proxy.CommonProxy;
 -import com.unascribed.blockrenderer.forge.proxy.DedicatedProxy;
 +import com.unascribed.blockrenderer.fabric.client.init.Keybindings;
 +import com.unascribed.blockrenderer.fabric.client.render.RenderManager;
++import com.unascribed.blockrenderer.fabric.client.varia.rendering.GL;
  import com.unascribed.blockrenderer.varia.logging.Log;
  import com.unascribed.blockrenderer.varia.logging.Markers;
 -import net.minecraftforge.fml.DistExecutor;
@@ -34,8 +36,10 @@
      public BlockRenderer() {
 -        proxy.init();
 -
-         Interop.RENDER_MANAGER = RenderManager.INSTANCE;
          Log.info(Markers.ROOT, "Running Version: " + Reference.VERSION);
+ 
+         InternalAPI.setRenderManager(RenderManager.INSTANCE);
+         InternalAPI.setGL(GL.INSTANCE);
 -
 -        registerDisplayTest(ModLoadingContext.get());
      }

@@ -1,6 +1,6 @@
 package com.unascribed.blockrenderer.render.request;
 
-import com.unascribed.blockrenderer.Interop;
+import com.unascribed.blockrenderer.InternalAPI;
 import com.unascribed.blockrenderer.render.IAnimatedRenderer;
 import com.unascribed.blockrenderer.render.IRequest;
 
@@ -49,7 +49,7 @@ public class AnimatedRenderingRequest<S, T> implements IRequest {
      */
     @Override
     public boolean render() {
-        Interop.RENDER_MANAGER.animated(renderer, provider, callback, parameters, length, loop, zip, zipFile, zipFileCallback, value);
+        InternalAPI.getRenderManager().animated(renderer, provider, callback, parameters, length, loop, zip, zipFile, zipFileCallback, value);
         return true;
     }
 

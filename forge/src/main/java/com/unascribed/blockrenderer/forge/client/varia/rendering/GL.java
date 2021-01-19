@@ -1,170 +1,143 @@
 package com.unascribed.blockrenderer.forge.client.varia.rendering;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.unascribed.blockrenderer.Reference;
-import com.unascribed.blockrenderer.varia.logging.Log;
-import com.unascribed.blockrenderer.varia.logging.Markers;
-import com.unascribed.blockrenderer.varia.rendering.TileRenderer;
+import com.unascribed.blockrenderer.varia.rendering.GLI;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
+import org.intellij.lang.annotations.MagicConstant;
 import org.lwjgl.opengl.GL11;
 
 import static org.lwjgl.opengl.GL11.*;
 
 @SuppressWarnings("deprecation")
-public interface GL {
+public class GL implements GLI {
+
+    public static final GLI INSTANCE = new GL();
 
     Minecraft client = Minecraft.getInstance();
     MainWindow window = client.getMainWindow();
 
     /* ================================================================================================== Matrix ==== */
 
-    static void pushMatrix() {
+    @Override
+    public void pushMatrix() {
         RenderSystem.pushMatrix();
     }
 
-    static void pushMatrix(String debug) {
-        RenderSystem.pushMatrix();
-        if (Reference.DEVELOPMENT)
-            Log.debug(Markers.OPEN_GL_DEBUG, "> Push Matrix {}", debug);
-    }
-
-    static void popMatrix() {
+    @Override
+    public void popMatrix() {
         RenderSystem.popMatrix();
     }
 
-    static void popMatrix(String debug) {
-        RenderSystem.popMatrix();
-        if (Reference.DEVELOPMENT)
-            Log.debug(Markers.OPEN_GL_DEBUG, "< Pop Matrix {}", debug);
-    }
-
-    static void loadIdentity() {
+    @Override
+    public void loadIdentity() {
         RenderSystem.loadIdentity();
     }
 
     /* ========================================================================================= Transformations ==== */
 
-    static void translate(float x, float y, float z) {
+    @Override
+    public void translate(float x, float y, float z) {
         RenderSystem.translatef(x, y, z);
     }
 
-    static void scale(float x, float y, float z) {
+    @Override
+    public void scale(float x, float y, float z) {
         RenderSystem.scalef(x, y, z);
-    }
-
-    static void scaleFixedZLevel(float scale, float zLevel) {
-        translate(0F, 0F, scale * zLevel);
-        scale(scale, scale, scale);
     }
 
     /* ================================================================================================ Lighting ==== */
 
-    static void setupItemStackLighting() {
+    @Override
+    public void setupItemStackLighting() {
         RenderHelper.setupGui3DDiffuseLighting();
     }
 
-    static void displayLighting() {
+    @Override
+    public void displayLighting() {
         RenderHelper.disableStandardItemLighting();
     }
 
     /* =================================================================================================== State ==== */
 
-    static void color(float r, float g, float b, float a) {
+    @Override
+    public void color(float r, float g, float b, float a) {
         RenderSystem.color4f(r, g, b, a);
     }
 
-    static void enableDefaultBlend() {
+    @Override
+    public void enableDefaultBlend() {
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
     }
 
-    static void blendFunction(GlStateManager.SourceFactor source, GlStateManager.DestFactor dest) {
+    @Override
+    public void blendFunction(
+            @MagicConstant(valuesFromClass = SourceFactor.class) int source,
+            @MagicConstant(valuesFromClass = DestFactor.class) int dest
+    ) {
         RenderSystem.blendFunc(source, dest);
     }
 
     /* ================================================================================================== Buffer ==== */
 
-    static void clearFrameBuffer() {
-        resetClearColor();
-        clearColorBuffer();
-        clearDepthBuffer();
-    }
-
-    static void resetClearColor() {
+    @Override
+    public void resetClearColor() {
         RenderSystem.clearColor(0, 0, 0, 0);
     }
 
-    static void clearColorBuffer() {
+    @Override
+    public void clearColorBuffer() {
         RenderSystem.clear(GL11.GL_COLOR_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC);
     }
 
-    static void clearDepthBuffer() {
+    @Override
+    public void clearDepthBuffer() {
         RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC);
     }
 
     /* ================================================================================================== Window ==== */
 
-    static void unbindFBO() {
+    @Override
+    public void unbindFBO() {
         client.getFramebuffer().unbindFramebuffer();
     }
 
-    static void flipFrame() {
+    @Override
+    public void flipFrame() {
         window.flipFrame();
     }
 
-    static void rebindFBO() {
+    @Override
+    public void rebindFBO() {
         client.getFramebuffer().bindFramebuffer(false);
+    }
+
+    @Override
+    public int getScaledWidth() {
+        return window.getScaledWidth();
+    }
+
+    @Override
+    public int getScaledHeight() {
+        return window.getScaledHeight();
     }
 
     /* ============================================================================================= Projections ==== */
 
-    static void matrixModeProjection() {
+    @Override
+    public void matrixModeProjection() {
         RenderSystem.matrixMode(GL11.GL_PROJECTION);
     }
 
-    static void matrixModeModelView() {
+    @Override
+    public void matrixModeModelView() {
         RenderSystem.matrixMode(GL11.GL_MODELVIEW);
     }
 
-    static void setupItemStackRendering(TileRenderer tr) {
-        clearDepthBuffer();
-
-        /* Projection */
-        matrixModeProjection();
-        loadIdentity();
-
-        /* Setup Orthographic Projection */
-        /*
-            Whilst we can switch the top/bottom parameters to save flipping the image later,
-            culling issues sometime occur.
-        */
-        tr.orthographic(0.0, tr.getImageWidth(), tr.getImageHeight(), 0, 1000.0, 3000.0);
-
-        /* Model View */
-        matrixModeModelView();
-        loadIdentity();
-        translate(0f, 0f, -2000f);
-    }
-
-    static void setupMapRendering(TileRenderer tr) {
-        clearDepthBuffer();
-
-        /* Projection */
-        matrixModeProjection();
-        loadIdentity();
-
-        //TODO: Reduce Near / Far
-        tr.orthographic(0.0, tr.getImageWidth(), tr.getImageHeight(), 0, -1000.0F, 3000.0f);
-
-        /* Model View */
-        matrixModeModelView();
-        loadIdentity();
-    }
-
-    static void setupOverlayRendering() {
+    @Override
+    public void setupOverlayRendering() {
         Minecraft client = Minecraft.getInstance();
         MainWindow window = client.getMainWindow();
         double scaleFactor = window.getGuiScaleFactor();

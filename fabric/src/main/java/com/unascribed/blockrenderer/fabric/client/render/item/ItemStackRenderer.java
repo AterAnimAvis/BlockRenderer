@@ -1,13 +1,14 @@
 package com.unascribed.blockrenderer.fabric.client.render.item;
 
+import com.unascribed.blockrenderer.InternalAPI;
 import com.unascribed.blockrenderer.fabric.client.varia.Identifiers;
-import com.unascribed.blockrenderer.fabric.client.varia.rendering.GL;
 import com.unascribed.blockrenderer.render.IAnimatedRenderer;
 import com.unascribed.blockrenderer.render.item.ItemStackParameters;
 import com.unascribed.blockrenderer.render.request.lambda.ImageHandler;
 import com.unascribed.blockrenderer.varia.Images;
 import com.unascribed.blockrenderer.varia.Maths;
 import com.unascribed.blockrenderer.varia.debug.Debug;
+import com.unascribed.blockrenderer.varia.rendering.GLI;
 import com.unascribed.blockrenderer.varia.rendering.TileRenderer;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
@@ -26,6 +27,7 @@ public class ItemStackRenderer implements IAnimatedRenderer<ItemStackParameters,
     private static final int BASE_Z_LEVEL = 100;
     private static final float ITEM_STACK_SIZE = 16;
 
+    private final GLI GL = InternalAPI.getGL();
     private final ItemRenderer renderer = Minecraft.getInstance().getItemRenderer();
 
     private float zLevel;

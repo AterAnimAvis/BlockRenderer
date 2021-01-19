@@ -1,9 +1,9 @@
 package com.unascribed.blockrenderer.forge.client.screens.widgets;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.unascribed.blockrenderer.InternalAPI;
 import com.unascribed.blockrenderer.forge.client.varia.rendering.Display;
-import com.unascribed.blockrenderer.forge.client.varia.rendering.GL;
+import com.unascribed.blockrenderer.varia.rendering.GLI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
@@ -15,6 +15,7 @@ import java.util.function.Supplier;
 
 public class HoverableTinyButtonWidget extends Button {
 
+    private final GLI GL = InternalAPI.getGL();
     private final Screen owner;
     private final Supplier<List<ITextComponent>> tooltip;
 
@@ -36,7 +37,7 @@ public class HoverableTinyButtonWidget extends Button {
 
         GL.color(1.0F, 1.0F, 1.0F, alpha);
         GL.enableDefaultBlend();
-        GL.blendFunction(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        GL.blendFunction(GLI.SourceFactor.SRC_ALPHA, GLI.DestFactor.ONE_MINUS_SRC_ALPHA);
 
         blit(stack, x, y, 0, 46 + i * 20, width / 2, height);
         blit(stack, x + width / 2, y, 200 - width / 2, 46 + i * 20, width / 2, height);

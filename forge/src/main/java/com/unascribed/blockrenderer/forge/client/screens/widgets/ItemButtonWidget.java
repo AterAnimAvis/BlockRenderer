@@ -1,9 +1,10 @@
 package com.unascribed.blockrenderer.forge.client.screens.widgets;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.unascribed.blockrenderer.InternalAPI;
 import com.unascribed.blockrenderer.forge.client.varia.Registries;
 import com.unascribed.blockrenderer.forge.client.varia.rendering.Display;
-import com.unascribed.blockrenderer.forge.client.varia.rendering.GL;
+import com.unascribed.blockrenderer.varia.rendering.GLI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
@@ -20,6 +21,7 @@ public class ItemButtonWidget extends Button {
 
     public static final ResourceLocation CUSTOM_WIDGETS = new ResourceLocation("block_renderer:textures/gui/widgets.png");
 
+    private final GLI GL = InternalAPI.getGL();
     private final Screen owner;
     private final Supplier<List<ITextComponent>> tooltip;
     private final ItemRenderer renderer;

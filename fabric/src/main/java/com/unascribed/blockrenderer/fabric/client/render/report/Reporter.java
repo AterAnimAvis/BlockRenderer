@@ -1,10 +1,11 @@
 package com.unascribed.blockrenderer.fabric.client.render.report;
 
+import com.unascribed.blockrenderer.InternalAPI;
 import com.unascribed.blockrenderer.fabric.client.varia.rendering.Display;
-import com.unascribed.blockrenderer.fabric.client.varia.rendering.GL;
 import com.unascribed.blockrenderer.render.report.BaseReporter;
 import com.unascribed.blockrenderer.varia.Maths;
 import com.unascribed.blockrenderer.varia.debug.Debug;
+import com.unascribed.blockrenderer.varia.rendering.GLI;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 
@@ -14,6 +15,8 @@ public class Reporter extends BaseReporter<ITextComponent> {
     private static final int LIGHT_GREEN = 0xFF55FF55;
 
     public static final Reporter INSTANCE = new Reporter();
+
+    private final GLI GL = InternalAPI.getGL();
 
     private Reporter() {
         super(new StringTextComponent("Rendering"));
@@ -43,8 +46,8 @@ public class Reporter extends BaseReporter<ITextComponent> {
 
         GL.pushMatrix("progress/main");
 
-        int displayWidth = GL.window.getScaledWidth();
-        int displayHeight = GL.window.getScaledHeight();
+        int displayWidth = GL.getScaledWidth();
+        int displayHeight = GL.getScaledHeight();
         GL.setupOverlayRendering();
 
         // Draw the dirt background

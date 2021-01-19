@@ -1,9 +1,10 @@
 package com.unascribed.blockrenderer.forge;
 
-import com.unascribed.blockrenderer.Interop;
+import com.unascribed.blockrenderer.InternalAPI;
 import com.unascribed.blockrenderer.Reference;
 import com.unascribed.blockrenderer.forge.client.proxy.ClientProxy;
 import com.unascribed.blockrenderer.forge.client.render.RenderManager;
+import com.unascribed.blockrenderer.forge.client.varia.rendering.GL;
 import com.unascribed.blockrenderer.forge.proxy.CommonProxy;
 import com.unascribed.blockrenderer.forge.proxy.DedicatedProxy;
 import com.unascribed.blockrenderer.varia.logging.Log;
@@ -26,8 +27,10 @@ public class BlockRenderer {
     public BlockRenderer() {
         proxy.init();
 
-        Interop.RENDER_MANAGER = RenderManager.INSTANCE;
         Log.info(Markers.ROOT, "Running Version: " + Reference.VERSION);
+
+        InternalAPI.setGL(GL.INSTANCE);
+        InternalAPI.setRenderManager(RenderManager.INSTANCE);
 
         registerDisplayTest(ModLoadingContext.get());
     }

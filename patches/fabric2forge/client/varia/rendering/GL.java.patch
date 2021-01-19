@@ -4,5 +4,5 @@
 -package com.unascribed.blockrenderer.fabric.client.varia.rendering;
 +package com.unascribed.blockrenderer.forge.client.varia.rendering;
  
- import com.mojang.blaze3d.platform.GlStateManager;
  import com.mojang.blaze3d.systems.RenderSystem;
+ import com.unascribed.blockrenderer.varia.rendering.GLI;

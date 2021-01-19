@@ -1,8 +1,9 @@
 package com.unascribed.blockrenderer.fabric.client.screens.widgets;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.unascribed.blockrenderer.InternalAPI;
 import com.unascribed.blockrenderer.fabric.client.varia.rendering.Display;
-import com.unascribed.blockrenderer.fabric.client.varia.rendering.GL;
+import com.unascribed.blockrenderer.varia.rendering.GLI;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.renderer.ItemRenderer;
@@ -15,6 +16,7 @@ import java.util.function.Function;
 
 public class ItemButtonMultiWidget extends Button {
 
+    private final GLI GL = InternalAPI.getGL();
     private final Screen owner;
     private final Function<Integer, List<ITextComponent>> tooltip;
     private final ItemRenderer renderer;

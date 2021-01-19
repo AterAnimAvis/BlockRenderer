@@ -1,7 +1,7 @@
 package com.unascribed.blockrenderer.fabric.client.render.map;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.unascribed.blockrenderer.fabric.client.varia.rendering.GL;
+import com.unascribed.blockrenderer.InternalAPI;
 import com.unascribed.blockrenderer.render.IRenderer;
 import com.unascribed.blockrenderer.render.map.MapDecorations;
 import com.unascribed.blockrenderer.render.map.MapParameters;
@@ -9,6 +9,7 @@ import com.unascribed.blockrenderer.render.request.lambda.ImageHandler;
 import com.unascribed.blockrenderer.varia.Images;
 import com.unascribed.blockrenderer.varia.Maths;
 import com.unascribed.blockrenderer.varia.debug.Debug;
+import com.unascribed.blockrenderer.varia.rendering.GLI;
 import com.unascribed.blockrenderer.varia.rendering.TileRenderer;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
@@ -24,6 +25,8 @@ import java.util.function.LongSupplier;
 public class MapRenderer implements IRenderer<MapParameters, MapData> {
 
     private static final float MAP_SIZE = 128.0F;
+    
+    private final GLI GL = InternalAPI.getGL();
 
     @Nullable
     private TileRenderer tr;

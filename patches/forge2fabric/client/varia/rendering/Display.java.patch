@@ -5,8 +5,8 @@
 +package com.unascribed.blockrenderer.fabric.client.varia.rendering;
  
  import com.mojang.blaze3d.matrix.MatrixStack;
- import net.minecraft.client.Minecraft;
-@@ -9,7 +9,7 @@
+ import com.unascribed.blockrenderer.InternalAPI;
+@@ -11,7 +11,7 @@
  import net.minecraft.client.renderer.Tessellator;
  import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
  import net.minecraft.util.text.ITextComponent;
@@ -15,8 +15,8 @@
  
  import java.util.List;
  
-@@ -17,7 +17,10 @@
- 
+@@ -20,7 +20,10 @@
+     GLI GL = InternalAPI.getGL();
      Minecraft client = Minecraft.getInstance();
      FontRenderer font = client.fontRenderer;
 +    Screen helper = new Screen(new StringTextComponent("DUMMY")) {
@@ -26,7 +26,7 @@
      static void drawRect(int x1, int y1, int x2, int y2, int color) {
          drawRect(new MatrixStack(), x1, y1, x2, y2, color);
      }
-@@ -39,7 +42,8 @@
+@@ -42,7 +45,8 @@
      }
  
      static void renderTooltip(Screen owner, MatrixStack stack, List<ITextComponent> tooltip, int x, int y) {

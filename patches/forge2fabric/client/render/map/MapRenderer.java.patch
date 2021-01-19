@@ -1,12 +1,16 @@
 --- a/client/render/map/MapRenderer.java
 +++ b/client/render/map/MapRenderer.java
-@@ -1,7 +1,7 @@
+@@ -1,4 +1,4 @@
 -package com.unascribed.blockrenderer.forge.client.render.map;
 +package com.unascribed.blockrenderer.fabric.client.render.map;
  
  import com.mojang.blaze3d.matrix.MatrixStack;
--import com.unascribed.blockrenderer.forge.client.varia.rendering.GL;
-+import com.unascribed.blockrenderer.fabric.client.varia.rendering.GL;
- import com.unascribed.blockrenderer.render.IRenderer;
- import com.unascribed.blockrenderer.render.map.MapDecorations;
- import com.unascribed.blockrenderer.render.map.MapParameters;
+ import com.unascribed.blockrenderer.InternalAPI;
+@@ -25,7 +25,6 @@
+ public class MapRenderer implements IRenderer<MapParameters, MapData> {
+ 
+     private static final float MAP_SIZE = 128.0F;
+-    
+     private final GLI GL = InternalAPI.getGL();
+ 
+     @Nullable

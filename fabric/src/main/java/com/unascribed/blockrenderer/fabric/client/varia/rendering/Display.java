@@ -1,6 +1,8 @@
 package com.unascribed.blockrenderer.fabric.client.varia.rendering;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
+import com.unascribed.blockrenderer.InternalAPI;
+import com.unascribed.blockrenderer.varia.rendering.GLI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
@@ -15,6 +17,7 @@ import java.util.List;
 
 public interface Display {
 
+    GLI GL = InternalAPI.getGL();
     Minecraft client = Minecraft.getInstance();
     FontRenderer font = client.fontRenderer;
     Screen helper = new Screen(new StringTextComponent("DUMMY")) {
