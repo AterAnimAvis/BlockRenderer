@@ -63,6 +63,7 @@ public class Requests {
         return new BulkRenderingRequest<>(
                 new ItemStackRenderer(),
                 new ItemStackParameters(size),
+                joined,
                 renders,
                 handler,
                 handler

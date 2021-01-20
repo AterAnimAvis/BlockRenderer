@@ -1,6 +1,8 @@
 package com.unascribed.blockrenderer.render.report;
 
+import com.unascribed.blockrenderer.varia.Colors;
 import com.unascribed.blockrenderer.varia.Maths;
+import com.unascribed.blockrenderer.varia.Time;
 import com.unascribed.blockrenderer.varia.debug.Debug;
 import com.unascribed.blockrenderer.varia.logging.Log;
 import com.unascribed.blockrenderer.varia.logging.Markers;
@@ -10,9 +12,6 @@ import org.apache.logging.log4j.message.MessageFormatMessage;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class BaseReporter<Component> {
-
-    private static final int DARK_GREEN = 0xFF001100;
-    private static final int LIGHT_GREEN = 0xFF55FF55;
 
     private final DisplayI<Component> Display;
     private final GLI GL;
@@ -28,6 +27,7 @@ public abstract class BaseReporter<Component> {
 
     private long start;
     private long last;
+    private long lastRender;
 
     public BaseReporter(DisplayI<Component> display, GLI gl, Component title) {
         this.Display = display;
@@ -57,7 +57,7 @@ public abstract class BaseReporter<Component> {
     protected void pop(String title, String subtitle) {
         /* Log Time */
         long now = System.nanoTime();
-        float time = (now - last) / 1_000_000_000F;
+        float time = (now - last) / Time.NANOS_IN_A_SECOND_F;
         Log.debug(Markers.PROGRESS, new MessageFormatMessage("Step: {0} - {1} took {2,number,#.###}s", title, subtitle, time));
         last = now;
     }
@@ -68,7 +68,7 @@ public abstract class BaseReporter<Component> {
         /* Log Time */
         long now = System.nanoTime();
         if (start != 0) {
-            float time = (now - start) / 1_000_000_000F;
+            float time = (now - start) / Time.NANOS_IN_A_SECOND_F;
             Log.debug(Markers.PROGRESS, new MessageFormatMessage("Finished: {0} - {1} took {2,number,#.###}s", title, subtitle, time));
         }
 
@@ -99,6 +99,9 @@ public abstract class BaseReporter<Component> {
     }
 
     public void render() {
+        if (System.nanoTime() - lastRender < (Time.NANOS_PER_FRAME)) return;
+        lastRender = System.nanoTime();
+
         Debug.endFrame();
         Debug.push("progress-bar");
 
@@ -144,8 +147,8 @@ public abstract class BaseReporter<Component> {
         int hw = displayWidth / 2;
         int hh = displayHeight / 2;
 
-        Display.drawRect(hw - 50, hh - 1, hw + 50, hh + 1, DARK_GREEN);
-        Display.drawRect(hw - 50, hh - 1, hw - 50 + progress, hh + 1, LIGHT_GREEN);
+        Display.drawRect(hw - 50, hh - 1, hw + 50, hh + 1, Colors.DARK_GREEN);
+        Display.drawRect(hw - 50, hh - 1, hw - 50 + progress, hh + 1, Colors.LIGHT_GREEN);
     }
 
 }

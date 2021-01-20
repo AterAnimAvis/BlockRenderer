@@ -9,15 +9,16 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.function.Function;
 
-import static com.unascribed.blockrenderer.forge.client.varia.Strings.rawText;
+import static com.unascribed.blockrenderer.forge.client.varia.Strings.translate;
 
 public class RenderManager extends BaseRenderManager<ITextComponent> {
 
-    private static final ITextComponent RENDERING_BULK = rawText("Rendering Bulk").mergeStyle(TextFormatting.GOLD);
-    private static final ITextComponent RENDERING_GIF = rawText("Rendering GIF").mergeStyle(TextFormatting.GOLD);
-    private static final ITextComponent RENDERING_AUTO = rawText("Auto Loop").mergeStyle(TextFormatting.GOLD);
-    private static final ITextComponent RENDERING_SKIP = rawText("Skipping First").mergeStyle(TextFormatting.GOLD);
+    private static final Function<String, ITextComponent> RENDERING_BULK = (name) -> translate("block_renderer.render.bulk", name).mergeStyle(TextFormatting.GOLD);
+    private static final ITextComponent RENDERING_GIF = translate("block_renderer.render.gif").mergeStyle(TextFormatting.GOLD);
+    private static final ITextComponent RENDERING_AUTO = translate("block_renderer.render.auto_loop").mergeStyle(TextFormatting.GOLD);
+    private static final ITextComponent RENDERING_SKIP = translate("block_renderer.render.skip_frame").mergeStyle(TextFormatting.GOLD);
 
     public static final BaseRenderManager<ITextComponent> INSTANCE = new RenderManager();
 

@@ -11,17 +11,20 @@ public class BulkRenderingRequest<S, T> implements IRequest {
 
     private final IRenderer<S, T> renderer;
     private final S parameters;
+    private final String name;
     private final Collection<T> values;
     private final ImageHandler<T> handler;
     private final Runnable callback;
 
     public BulkRenderingRequest(IRenderer<S, T> renderer,
                                 S parameters,
+                                String name,
                                 Collection<T> values,
                                 ImageHandler<T> handler,
                                 Runnable callback) {
         this.renderer = renderer;
         this.parameters = parameters;
+        this.name = name;
         this.values = values;
         this.handler = handler;
         this.callback = callback;
@@ -32,7 +35,7 @@ public class BulkRenderingRequest<S, T> implements IRequest {
      */
     @Override
     public boolean render() {
-        InternalAPI.getRenderManager().bulk(renderer, handler, parameters, values);
+        InternalAPI.getRenderManager().bulk(renderer, handler, name, parameters, values);
         callback.run();
 
         return true;

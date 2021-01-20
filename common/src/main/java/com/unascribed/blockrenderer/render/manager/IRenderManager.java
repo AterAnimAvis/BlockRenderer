@@ -14,7 +14,7 @@ public interface IRenderManager {
 
     <S, T> void render(IRenderer<S, T> renderer, ImageHandler<T> handler, S params, T value, Consumer<T> callback);
 
-    <S, T> void bulk(IRenderer<S, T> renderer, ImageHandler<T> handler, S params, Collection<T> values);
+    <S, T> void bulk(IRenderer<S, T> renderer, ImageHandler<T> handler, String name, S params, Collection<T> values);
 
     <S, T> void animated(IAnimatedRenderer<S, T> renderer, Function<T, ImageOutputStream> provider, Consumer<T> callback, S params, int length, boolean loop, boolean zip, String zipFile, Consumer<File> zipFileCallback, T value);
 

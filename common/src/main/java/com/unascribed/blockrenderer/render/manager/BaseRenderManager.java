@@ -6,6 +6,7 @@ import com.unascribed.blockrenderer.render.report.BaseReporter;
 import com.unascribed.blockrenderer.render.request.lambda.ImageHandler;
 import com.unascribed.blockrenderer.varia.Files;
 import com.unascribed.blockrenderer.varia.Images;
+import com.unascribed.blockrenderer.varia.Time;
 import com.unascribed.blockrenderer.varia.gif.GifWriter;
 import com.unascribed.blockrenderer.varia.logging.Log;
 import com.unascribed.blockrenderer.varia.logging.Markers;
@@ -27,20 +28,15 @@ import java.util.zip.ZipOutputStream;
 
 public abstract class BaseRenderManager<Component> implements IRenderManager {
 
-    private static final int FPS = 20;
-    private static final int AUTO_LOOP_LENGTH = 30;
-    private static final long NANOS_IN_A_SECOND = 1_000_000_000L;
-    private static final int MAX_CONSUME = FPS * AUTO_LOOP_LENGTH;
-
     BaseReporter<Component> reporter;
 
-    final Component RENDERING_BULK;
+    final Function<String, Component> RENDERING_BULK;
     final Component RENDERING_GIF;
     final Component RENDERING_AUTO;
     final Component RENDERING_SKIP;
 
     protected BaseRenderManager(BaseReporter<Component> reporter,
-                                Component renderingBulk,
+                                Function<String, Component> renderingBulk,
                                 Component renderingGIF,
                                 Component renderingAuto,
                                 Component renderingSkip) {
@@ -67,13 +63,12 @@ public abstract class BaseRenderManager<Component> implements IRenderManager {
     }
 
     @Override
-    public <S, T> void bulk(IRenderer<S, T> renderer, ImageHandler<T> handler,
-                            S params, Collection<T> values) {
+    public <S, T> void bulk(IRenderer<S, T> renderer, ImageHandler<T> handler, String name, S params, Collection<T> values) {
         isRendering = true;
 
         renderer.setup(params);
 
-        reporter.init(RENDERING_BULK, values.size());
+        reporter.init(RENDERING_BULK.apply(name), values.size());
         for (T value : values) {
             reporter.push(reporter.getProgress());
             renderer.render(value, handler);
@@ -124,7 +119,7 @@ public abstract class BaseRenderManager<Component> implements IRenderManager {
             try (ImageOutputStream stream = provider.apply(value)) {
                 if (stream == null) return;
 
-                try (GifWriter writer = new GifWriter(stream, FPS, true)) {
+                try (GifWriter writer = new GifWriter(stream, Time.TICKS_IN_A_SECOND, true)) {
                     ImageHandler<T> writeFrame = (v, img) -> {
                         try {
                             writer.writeFrame(img);
@@ -167,13 +162,13 @@ public abstract class BaseRenderManager<Component> implements IRenderManager {
         /* Skip First Frame + Render Second */
         reporter.init(RENDERING_SKIP, -1);
         /* We need to handle the case where the target doesn't actually animate so we add a timeout */
-        int timeout = MAX_CONSUME;
+        int timeout = Time.MAX_CONSUME;
         while (isSameAsInitial.get() && timeout > 0) {
             timeout--;
             final ImageHandler<T> consumer = frame == 0 ? init : timeout == 0 ? write : writeDifferent;
 
             reporter.push(reporter.getProgress());
-            renderer.render(value, consumer, NANOS_IN_A_SECOND / FPS * frame++);
+            renderer.render(value, consumer, Time.NANOS_PER_FRAME * frame++);
             reporter.pop();
 
             reporter.render();
@@ -188,7 +183,7 @@ public abstract class BaseRenderManager<Component> implements IRenderManager {
             final ImageHandler<T> consumer = i == length - 1 ? checkWrite : write;
 
             reporter.push(reporter.getProgress());
-            renderer.render(value, consumer, NANOS_IN_A_SECOND / FPS * frame++);
+            renderer.render(value, consumer, Time.NANOS_PER_FRAME * frame++);
             reporter.pop();
 
             reporter.render();
@@ -199,21 +194,21 @@ public abstract class BaseRenderManager<Component> implements IRenderManager {
         if (loop) {
             /* Search for Loop Point */
             reporter.init(RENDERING_AUTO, -1);
-            for (int i = 0; i < FPS * AUTO_LOOP_LENGTH; i++) {
+            for (int i = 0; i < Time.AUTO_LOOP; i++) {
                 reporter.push(reporter.getProgress());
-                renderer.render(value, checkWrite, NANOS_IN_A_SECOND / FPS * frame++);
+                renderer.render(value, checkWrite, Time.NANOS_PER_FRAME * frame++);
                 reporter.pop();
 
                 reporter.render();
                 if (isSameAsInitial.get()) break;
             }
             /* Consume Additional Frames */
-            timeout = MAX_CONSUME;
+            timeout = Time.MAX_CONSUME;
             while (isSameAsInitial.get() && timeout > 0) {
                 timeout--;
 
                 reporter.push(reporter.getProgress());
-                renderer.render(value, writeSame, NANOS_IN_A_SECOND / FPS * frame++);
+                renderer.render(value, writeSame, Time.NANOS_PER_FRAME * frame++);
                 reporter.pop();
 
                 reporter.render();

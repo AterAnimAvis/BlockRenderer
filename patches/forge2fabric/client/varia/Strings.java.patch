@@ -1,33 +1,28 @@
 --- a/client/varia/Strings.java
 +++ b/client/varia/Strings.java
-@@ -1,16 +1,16 @@
+@@ -1,18 +1,19 @@
 -package com.unascribed.blockrenderer.forge.client.varia;
 +package com.unascribed.blockrenderer.fabric.client.varia;
  
  import com.google.common.collect.Sets;
  import net.minecraft.client.Minecraft;
- import net.minecraft.client.util.ITooltipFlag;
  import net.minecraft.item.ItemStack;
  import net.minecraft.util.ResourceLocation;
 +import net.minecraft.util.registry.Registry;
  import net.minecraft.util.text.ITextComponent;
  import net.minecraft.util.text.StringTextComponent;
  import net.minecraft.util.text.TranslationTextComponent;
- import net.minecraft.util.text.event.ClickEvent;
- import net.minecraft.util.text.event.HoverEvent;
 -import net.minecraftforge.registries.ForgeRegistries;
  import org.jetbrains.annotations.Nullable;
  
- import java.io.File;
-@@ -18,6 +18,7 @@
+ import java.text.DateFormat;
  import java.text.SimpleDateFormat;
  import java.util.Date;
- import java.util.List;
 +import java.util.Objects;
  import java.util.Set;
  
  public interface Strings {
-@@ -27,9 +28,9 @@
+@@ -22,9 +23,9 @@
      static String getNamespace(@Nullable ItemStack stack) {
          if (stack == null) return "";
  
@@ -39,12 +34,3 @@
      }
  
      static Set<String> getNamespaces(String namespaceSpec) {
-@@ -100,7 +101,7 @@
-                 component.getStyle()
-                         .setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, translate("block_renderer.file.tooltip")))
-                         .setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, path))
--                        .setUnderlined(true)
-+                        .func_244282_c(true)
-         );
- 
-         return component;
