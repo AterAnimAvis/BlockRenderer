@@ -1,8 +1,0 @@
---- a/client/render/map/MapRenderer.java
-+++ b/client/render/map/MapRenderer.java
-@@ -1,4 +1,4 @@
--package com.unascribed.blockrenderer.fabric.client.render.map;
-+package com.unascribed.blockrenderer.forge.client.render.map;
- 
- import com.mojang.blaze3d.matrix.MatrixStack;
- import com.unascribed.blockrenderer.InternalAPI;
