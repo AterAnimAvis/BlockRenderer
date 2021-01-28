@@ -44,6 +44,9 @@ val jetbrainsAnnotationVersion: String by extra
 /* ================================================================================= Config -> Test Dependencies ==== */
 val junitVersion: String by extra
 
+/* =========================================================================================== Config -> Patches ==== */
+val enableForge2Fabric: String by extra
+val enableFabric2Forge: String by extra
 
 /* ===================================================================================================== Plugins ==== */
 
@@ -220,13 +223,17 @@ project(":fabric") {
 
 apply(from = "$rootDir/merge.gradle.kts")
 
+/* ===================================================================================================== Patches ==== */
+
 tasks.create("generatePatches") {
     group = "build-tasks"
+
     dependsOn("generateForge2FabricPatches", "generateFabric2ForgePatches")
 }
 
 tasks.create<MakePatchesTask>("generateForge2FabricPatches") {
     group = "build-tasks"
+    enabled = enableForge2Fabric.toBoolean()
 
     root = file("forge/src/main/java/com/unascribed/blockrenderer/forge")
     target = file("fabric/src/main/java/com/unascribed/blockrenderer/fabric")
@@ -235,6 +242,7 @@ tasks.create<MakePatchesTask>("generateForge2FabricPatches") {
 
 tasks.create<MakePatchesTask>("generateFabric2ForgePatches") {
     group = "build-tasks"
+    enabled = enableFabric2Forge.toBoolean()
 
     root = file("fabric/src/main/java/com/unascribed/blockrenderer/fabric")
     target = file("forge/src/main/java/com/unascribed/blockrenderer/forge")
