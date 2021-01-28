@@ -6,6 +6,10 @@ public interface DisplayI<Component> {
 
     void drawCenteredString(Component component, int x, int y, int color);
 
-    void drawDirtBackground(int scaledWidth, int scaledHeight);
+    void drawDirtBackground(int scaledWidth, int scaledHeight, float alpha);
+
+    default void drawDirtBackground(int scaledWidth, int scaledHeight) {
+        drawDirtBackground(scaledWidth, scaledHeight, 1.0F);
+    }
 
 }

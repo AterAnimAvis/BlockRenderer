@@ -6,6 +6,7 @@ import com.unascribed.blockrenderer.forge.client.render.item.DefaultPngItemStack
 import com.unascribed.blockrenderer.forge.client.render.item.ItemStackRenderer;
 import com.unascribed.blockrenderer.forge.client.render.map.DefaultPngMapHandler;
 import com.unascribed.blockrenderer.forge.client.render.map.MapRenderer;
+import com.unascribed.blockrenderer.forge.client.render.request.BulkRenderingRequest;
 import com.unascribed.blockrenderer.forge.client.varia.MiscUtils;
 import com.unascribed.blockrenderer.forge.client.varia.Strings;
 import com.unascribed.blockrenderer.render.IRequest;
@@ -13,7 +14,6 @@ import com.unascribed.blockrenderer.render.item.ItemStackParameters;
 import com.unascribed.blockrenderer.render.map.MapDecorations;
 import com.unascribed.blockrenderer.render.map.MapParameters;
 import com.unascribed.blockrenderer.render.request.AnimatedRenderingRequest;
-import com.unascribed.blockrenderer.render.request.BulkRenderingRequest;
 import com.unascribed.blockrenderer.render.request.RenderingRequest;
 import com.unascribed.blockrenderer.varia.Files;
 import net.minecraft.item.ItemStack;
@@ -65,6 +65,7 @@ public class Requests {
                 new ItemStackParameters(size),
                 joined,
                 renders,
+                ItemStack::getDisplayName,
                 handler,
                 handler
         );

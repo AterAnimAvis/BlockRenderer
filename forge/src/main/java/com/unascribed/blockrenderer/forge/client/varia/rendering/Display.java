@@ -49,13 +49,13 @@ public class Display implements DisplayI<ITextComponent> {
     }
 
     @Override
-    public void drawDirtBackground(int scaledWidth, int scaledHeight) {
+    public void drawDirtBackground(int scaledWidth, int scaledHeight, float alpha) {
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferbuilder = tessellator.getBuffer();
 
         client.getTextureManager().bindTexture(AbstractGui.BACKGROUND_LOCATION);
 
-        GL.color(1.0F, 1.0F, 1.0F, 1.0F);
+        GL.color(1.0F, 1.0F, 1.0F, alpha);
         bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR_TEX);
 
         // 0 h

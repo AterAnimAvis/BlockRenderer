@@ -1,6 +1,6 @@
 --- a/client/render/Requests.java
 +++ b/client/render/Requests.java
-@@ -1,13 +1,13 @@
+@@ -1,14 +1,14 @@
 -package com.unascribed.blockrenderer.forge.client.render;
 +package com.unascribed.blockrenderer.fabric.client.render;
  
@@ -10,6 +10,7 @@
 -import com.unascribed.blockrenderer.forge.client.render.item.ItemStackRenderer;
 -import com.unascribed.blockrenderer.forge.client.render.map.DefaultPngMapHandler;
 -import com.unascribed.blockrenderer.forge.client.render.map.MapRenderer;
+-import com.unascribed.blockrenderer.forge.client.render.request.BulkRenderingRequest;
 -import com.unascribed.blockrenderer.forge.client.varia.MiscUtils;
 -import com.unascribed.blockrenderer.forge.client.varia.Strings;
 +import com.unascribed.blockrenderer.fabric.client.render.item.DefaultGifItemStackHandler;
@@ -17,6 +18,7 @@
 +import com.unascribed.blockrenderer.fabric.client.render.item.ItemStackRenderer;
 +import com.unascribed.blockrenderer.fabric.client.render.map.DefaultPngMapHandler;
 +import com.unascribed.blockrenderer.fabric.client.render.map.MapRenderer;
++import com.unascribed.blockrenderer.fabric.client.render.request.BulkRenderingRequest;
 +import com.unascribed.blockrenderer.fabric.client.varia.MiscUtils;
 +import com.unascribed.blockrenderer.fabric.client.varia.Strings;
  import com.unascribed.blockrenderer.render.IRequest;

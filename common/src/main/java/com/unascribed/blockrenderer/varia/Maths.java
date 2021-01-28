@@ -36,6 +36,14 @@ public interface Maths {
         }
     }
 
+    static float clamp(float num, float min, float max) {
+        if (num < min) {
+            return min;
+        } else {
+            return Math.min(num, max);
+        }
+    }
+
     static double clamp(double num, double min, double max) {
         if (num < min) {
             return min;
@@ -54,4 +62,8 @@ public interface Maths {
         return i + 1;
     }
 
+    static int ceil(float value) {
+        int i = (int) value;
+        return value > (float) i ? i + 1 : i;
+    }
 }
