@@ -1,35 +1,21 @@
 package com.unascribed.blockrenderer.vendor.gif.api;
 
-import java.util.Objects;
-
 public class Color {
 
-    public final int red;
-    public final int blue;
-    public final int green;
-    public final int alpha;
-
-    public Color(int red, int blue, int green) {
-        this(red, blue, green, 0xFF);
+    public static int r(int color) {
+        return color & 0xFF;
     }
 
-    public Color(int red, int blue, int green, int alpha) {
-        this.red = red;
-        this.blue = blue;
-        this.green = green;
-        this.alpha = alpha;
+    public static int g(int color) {
+        return (color >> 8) & 0xFF;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Color color = (Color) o;
-        return red == color.red && blue == color.blue && green == color.green && alpha == color.alpha;
+    public static int b(int color) {
+        return (color >> 16) & 0xFF;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(red, blue, green, alpha);
+    public static int a(int color) {
+        return (color >> 24) & 0xFF;
     }
+
 }

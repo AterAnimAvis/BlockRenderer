@@ -1,6 +1,6 @@
 package com.unascribed.blockrenderer.vendor.gif.api;
 
-import java.util.function.Consumer;
+import java.util.function.IntConsumer;
 
 public interface IImage {
 
@@ -8,6 +8,6 @@ public interface IImage {
 
     int getHeight();
 
-    void forEach(Consumer<Color> consumer);
+    void forEach(IntConsumer consumer);
 
 }

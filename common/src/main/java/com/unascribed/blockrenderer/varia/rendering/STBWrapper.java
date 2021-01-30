@@ -2,7 +2,6 @@ package com.unascribed.blockrenderer.varia.rendering;
 
 import com.unascribed.blockrenderer.varia.logging.Log;
 import com.unascribed.blockrenderer.varia.logging.Markers;
-import com.unascribed.blockrenderer.vendor.gif.api.Color;
 import com.unascribed.blockrenderer.vendor.gif.api.IImage;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.stb.STBIWriteCallback;
@@ -14,7 +13,7 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.WritableByteChannel;
-import java.util.function.Consumer;
+import java.util.function.IntConsumer;
 
 public class STBWrapper implements IImage {
 
@@ -50,14 +49,10 @@ public class STBWrapper implements IImage {
     }
 
     @Override
-    public void forEach(Consumer<Color> consumer) {
+    public void forEach(IntConsumer consumer) {
         for (int c : buffer) {
-            consumer.accept(wrap(c));
+            consumer.accept(c);
         }
-    }
-
-    private Color wrap(int rgb) {
-        return new Color(rgb & 0xFF, (rgb >> 8) & 0xFF, (rgb >> 16) & 0xFF, (rgb >> 24) & 0xFF);
     }
 
     public int getPixelRGBA(int x, int y) {

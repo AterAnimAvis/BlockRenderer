@@ -25,8 +25,9 @@ package com.unascribed.blockrenderer.vendor.gif.indexed;
 import com.unascribed.blockrenderer.varia.stream.IntegerArrayOutputStream;
 import com.unascribed.blockrenderer.vendor.gif.api.Color;
 import com.unascribed.blockrenderer.vendor.gif.api.IImage;
+import it.unimi.dsi.fastutil.ints.*;
 
-import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class MedianCutColorReducer {
@@ -35,51 +36,46 @@ public class MedianCutColorReducer {
 
     public final int[] paletteData;
 
-    public MedianCutColorReducer(IImage image) {
-        this(image, 0xFF);
-    }
-
     public MedianCutColorReducer(IImage image, int maxPaletteSize) {
-        Set<Color> colors = removeTransparent(extractColors(image));
+        IntSet colors = removeTransparent(extractColors(image));
         palette = reduceColors(colors, maxPaletteSize);
         paletteData = process();
     }
 
-    private Set<Color> removeTransparent(Set<Color> colors) {
-        return colors.stream().filter(color -> color.alpha != 0x00).collect(Collectors.toSet());
+    private IntSet removeTransparent(IntSet colors) {
+        return colors.stream().filter(color -> Color.a(color) != 0x00).collect(Collectors.toCollection(IntOpenHashSet::new));
     }
 
     private int[] process() {
         IntegerArrayOutputStream os = new IntegerArrayOutputStream();
 
-        palette.palette.forEach(color -> {
-            os.write(color.red);
-            os.write(color.green);
-            os.write(color.blue);
+        palette.palette.forEach((int color) -> {
+            os.write(Color.r(color));
+            os.write(Color.g(color));
+            os.write(Color.b(color));
         });
 
         return os.toArray();
     }
 
-    public static Set<Color> extractColors(IImage image) {
-        Set<Color> colors = new HashSet<>();
+    public static IntSet extractColors(IImage image) {
+        IntSet colors = new IntOpenHashSet();
         image.forEach(colors::add);
         return colors;
     }
 
-    public static ReducedColorPalette reduceColors(Set<Color> colors, int maxPaletteSize) {
-        List<Set<Color>> cubes = MedianCut.medianCut(colors, maxPaletteSize);
-        List<Color> palette = new ArrayList<>();
-        Map<Color, Integer> reductions = new HashMap<>();
+    public static ReducedColorPalette reduceColors(IntSet colors, int maxPaletteSize) {
+        List<IntSet> cubes = MedianCut.medianCut(colors, maxPaletteSize);
+        IntList palette = new IntArrayList();
+        Int2IntMap reductions = new Int2IntOpenHashMap();
 
-        palette.add(0, new Color(0x00, 0x00, 0x00, 0x00));
+        palette.add(0, 0x00000000);
 
         cubes.forEach(cube -> {
             if (cube.size() == 0) throw new IllegalStateException();
 
-            Color average = ColorCubes.average(cube);
-            palette.add(average);
-            cube.forEach(color -> reductions.put(color, palette.size() - 1));
+            palette.add(ColorCubes.average(cube));
+            cube.forEach((int color) -> reductions.put(color, palette.size() - 1));
         });
 
         return new ReducedColorPalette(palette, reductions);
@@ -91,7 +87,7 @@ public class MedianCutColorReducer {
         return os.toArray();
     }
 
-    public int map(Color color) {
+    public int map(int color) {
         return palette.indexOfClosestColor(color);
     }
 

@@ -37,6 +37,7 @@ val markers: String by extra
 /* ====================================================================================== Config -> Dependencies ==== */
 val fabricApiVersion: String by extra
 val fabricLoaderVersion: String by extra
+val fastUtilVersion: String by extra
 val log4jApiVersion: String by extra
 val lwjglVersion: String by extra
 val jetbrainsAnnotationVersion: String by extra
@@ -105,6 +106,9 @@ subprojects {
             "implementation"(group = "org.lwjgl", name = "lwjgl", version = lwjglVersion)
             "implementation"(group = "org.lwjgl", name = "lwjgl-opengl", version = lwjglVersion)
             "implementation"(group = "org.lwjgl", name = "lwjgl-stb", version = lwjglVersion)
+
+            /* Fast Math */
+            "implementation"(group = "it.unimi.dsi", name = "fastutil", version = fastUtilVersion)
         }
     }
 }

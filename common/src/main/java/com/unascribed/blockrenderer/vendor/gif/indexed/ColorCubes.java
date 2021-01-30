@@ -23,37 +23,40 @@
 package com.unascribed.blockrenderer.vendor.gif.indexed;
 
 import com.unascribed.blockrenderer.vendor.gif.api.Color;
+import it.unimi.dsi.fastutil.ints.*;
 
-import java.util.*;
-import java.util.function.Function;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class ColorCubes {
 
-    public static List<Set<Color>> divide(Set<Color> colors) {
+    public static List<IntSet> divide(IntSet colors) {
         if (colors.size() == 0) return Collections.emptyList();
 
-        Function<Color, Integer> cut = largestEdge(colors);
-        Integer median = median(colors, cut);
+        Int2IntFunction cut = largestEdge(colors);
+        int median = median(colors, cut);
         return divideBy(colors, cut, median);
     }
 
-    public static Color average(Set<Color> colors) {
+    public static int average(IntSet colors) {
         int sumR = 0;
         int sumG = 0;
         int sumB = 0;
 
-        for (Color color : colors) {
-            sumR += color.red;
-            sumG += color.green;
-            sumB += color.blue;
+        for (int color : colors) {
+            sumR += Color.r(color);
+            sumG += Color.g(color);
+            sumB += Color.b(color);
         }
 
         int size = colors.size();
-        return new Color(sumR / size, sumG / size, sumB / size);
+
+        return (sumR / size & 0xFF) | (sumG / size & 0xFF) << 8 | (sumB / size & 0xFF) << 16 | 0xFF000000;
     }
 
-    public static Function<Color, Integer> largestEdge(Set<Color> colors) {
+    public static Int2IntFunction largestEdge(IntSet colors) {
         int minR = 255;
         int maxR = 0;
         int minG = 255;
@@ -61,13 +64,13 @@ public class ColorCubes {
         int minB = 255;
         int maxB = 0;
 
-        for (Color color : colors) {
-            if (color.red < minR) minR = color.red;
-            if (color.red > maxR) maxR = color.red;
-            if (color.green < minG) minG = color.green;
-            if (color.green > maxG) maxG = color.green;
-            if (color.blue < minB) minB = color.blue;
-            if (color.blue > maxB) maxB = color.blue;
+        for (int color : colors) {
+            if (Color.r(color) < minR) minR = Color.r(color);
+            if (Color.r(color) > maxR) maxR = Color.r(color);
+            if (Color.g(color) < minG) minG = Color.g(color);
+            if (Color.g(color) > maxG) maxG = Color.g(color);
+            if (Color.b(color) < minB) minB = Color.b(color);
+            if (Color.b(color) > maxB) maxB = Color.b(color);
         }
 
         double diffR = (maxR - minR) * 1.0;
@@ -76,29 +79,29 @@ public class ColorCubes {
 
         if (diffG >= diffB) {
             if (diffR >= diffG) {
-                return color -> color.red;
+                return Color::r;
             } else {
-                return color -> color.green;
+                return Color::g;
             }
         } else {
             if (diffR >= diffB) {
-                return color -> color.red;
+                return Color::r;
             } else {
-                return color -> color.blue;
+                return Color::b;
             }
         }
     }
 
-    public static Integer median(Set<Color> colors, Function<Color, Integer> cut) {
-        List<Integer> components = colors.stream().map(cut).collect(Collectors.toList());
+    public static int median(IntSet colors, Int2IntFunction cut) {
+        IntList components = colors.stream().map(cut).collect(Collectors.toCollection(IntArrayList::new));
         return Selection.selectKthElement(components, (int) Math.floor(components.size() / 2.0) + 1);
     }
 
-    public static List<Set<Color>> divideBy(Set<Color> colors, Function<Color, Integer> cut, Integer median) {
-        Set<Color> list0 = new HashSet<>();
-        Set<Color> list1 = new HashSet<>();
-        colors.forEach(color -> {
-            if (cut.apply(color) < median) list0.add(color);
+    public static List<IntSet> divideBy(IntSet colors, Int2IntFunction cut, int median) {
+        IntSet list0 = new IntOpenHashSet();
+        IntSet list1 = new IntOpenHashSet();
+        colors.forEach((int color) -> {
+            if (cut.applyAsInt(color) < median) list0.add(color);
             else list1.add(color);
         });
 

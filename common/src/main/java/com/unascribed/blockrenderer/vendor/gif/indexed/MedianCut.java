@@ -22,26 +22,25 @@
  */
 package com.unascribed.blockrenderer.vendor.gif.indexed;
 
-import com.unascribed.blockrenderer.vendor.gif.api.Color;
+import it.unimi.dsi.fastutil.ints.IntSet;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class MedianCut {
 
-    public static List<Set<Color>> medianCut(Set<Color> colors, int max) {
+    public static List<IntSet> medianCut(IntSet colors, int max) {
         return divideCubesUntil(Collections.singletonList(colors), max);
     }
 
-    public static List<Set<Color>> divideCubesUntil(List<Set<Color>> cubes, int limit) {
+    public static List<IntSet> divideCubesUntil(List<IntSet> cubes, int limit) {
         while (true) {
             if (cubes.size() >= limit) break;
 
-            Set<Color> largestCube = getLargestCube(cubes);
-            List<Set<Color>> divided = ColorCubes.divide(largestCube);
+            IntSet largestCube = getLargestCube(cubes);
+            List<IntSet> divided = ColorCubes.divide(largestCube);
             if (divided.size() < 2) break;
             cubes = Stream.concat(cubes.stream().filter((c) -> !c.equals(largestCube)), divided.stream()).collect(Collectors.toList());
         }
@@ -49,7 +48,7 @@ public class MedianCut {
         return cubes;
     }
 
-    public static Set<Color> getLargestCube(List<Set<Color>> cubes) {
+    public static IntSet getLargestCube(List<IntSet> cubes) {
         return cubes.stream().reduce((a, b) -> a.size() > b.size() ? a : b).orElseThrow(IllegalStateException::new);
     }
 

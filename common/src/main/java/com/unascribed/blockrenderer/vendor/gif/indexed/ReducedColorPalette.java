@@ -23,38 +23,45 @@
 package com.unascribed.blockrenderer.vendor.gif.indexed;
 
 import com.unascribed.blockrenderer.vendor.gif.api.Color;
-
-import java.util.List;
-import java.util.Map;
+import it.unimi.dsi.fastutil.ints.Int2IntMap;
+import it.unimi.dsi.fastutil.ints.IntList;
 
 public class ReducedColorPalette {
 
-    public final List<Color> palette;
-    public final Map<Color, Integer> reductions;
+    public final IntList palette;
+    public final Int2IntMap reductions;
 
-    public ReducedColorPalette(List<Color> palette, Map<Color, Integer> reductions) {
+    public ReducedColorPalette(IntList palette, Int2IntMap reductions) {
         this.palette = palette;
         this.reductions = reductions;
     }
 
-    public int indexOfClosestColor(Color color) {
+    public int indexOfClosestColor(int color) {
         return reductions.computeIfAbsent(color, this::searchClosestColorIndex);
     }
 
-    private int searchClosestColorIndex(Color color) {
+    private int searchClosestColorIndex(int color) {
         int min = 0;
         int closestIndex = -1;
 
         // If the color is fully transparent return Special Index 0
-        if (color.alpha == 0x00) return 0;
+        if (Color.a(color) == 0x00) return 0;
 
         // Skip the first entry as it's the fully transparent one
         for (int i = 1; i < palette.size(); i++) {
-            Color p = palette.get(i);
+            int p = palette.getInt(i);
 
             if (color == p) return i;
 
-            int d = (int) Math.floor(Math.pow(color.red - p.red, 2) + Math.pow(color.green - p.green, 2) + Math.pow(color.blue - p.blue, 2));
+            int cr = Color.r(color);
+            int cg = Color.g(color);
+            int cb = Color.b(color);
+
+            int pr = Color.r(p);
+            int pg = Color.g(p);
+            int pb = Color.b(p);
+
+            int d = (int) Math.floor(Math.pow(cr - pr, 2) + Math.pow(cg - pg, 2) + Math.pow(cb - pb, 2));
 
             if (d == 0) return i;
 

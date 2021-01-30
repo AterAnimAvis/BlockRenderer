@@ -1,18 +1,17 @@
 package com.unascribed.blockrenderer.vendor.gif.impl;
 
-import com.unascribed.blockrenderer.vendor.gif.api.Color;
 import com.unascribed.blockrenderer.vendor.gif.api.IImage;
 
-import java.util.function.Consumer;
+import java.util.function.IntConsumer;
 
 public class Image implements IImage {
 
-    private final Color[][] data;
+    private final int[][] data;
     private final int width;
     private final int height;
 
-    public Image(int width, int height, Color[] data) {
-        this.data = new Color[height][width];
+    public Image(int width, int height, int[] data) {
+        this.data = new int[height][width];
         this.width = width;
         this.height = height;
 
@@ -32,9 +31,9 @@ public class Image implements IImage {
     }
 
     @Override
-    public void forEach(Consumer<Color> consumer) {
-        for (Color[] datum : data) {
-            for (Color color : datum) {
+    public void forEach(IntConsumer consumer) {
+        for (int[] datum : data) {
+            for (int color : datum) {
                 consumer.accept(color);
             }
         }
