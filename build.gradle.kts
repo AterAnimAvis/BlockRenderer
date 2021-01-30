@@ -104,6 +104,7 @@ subprojects {
             /* LWJGL / OpenGL */
             "implementation"(group = "org.lwjgl", name = "lwjgl", version = lwjglVersion)
             "implementation"(group = "org.lwjgl", name = "lwjgl-opengl", version = lwjglVersion)
+            "implementation"(group = "org.lwjgl", name = "lwjgl-stb", version = lwjglVersion)
         }
     }
 }

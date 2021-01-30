@@ -8,4 +8,4 @@
 +import com.unascribed.blockrenderer.fabric.client.varia.Strings;
  import com.unascribed.blockrenderer.render.request.lambda.ImageHandler;
  import com.unascribed.blockrenderer.varia.Files;
- import net.minecraft.item.BlockItem;
+ import com.unascribed.blockrenderer.varia.rendering.STBWrapper;

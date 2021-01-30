@@ -2,11 +2,11 @@ package com.unascribed.blockrenderer.varia;
 
 import com.unascribed.blockrenderer.varia.logging.Log;
 import com.unascribed.blockrenderer.varia.logging.Markers;
+import com.unascribed.blockrenderer.varia.rendering.STBWrapper;
 import org.jetbrains.annotations.Nullable;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 public interface Files {
@@ -27,8 +27,10 @@ public interface Files {
         return getFile(folder, filename, "png");
     }
 
-    static File savePng(File file, BufferedImage image) throws IOException {
-        ImageIO.write(image, "PNG", file);
+    static File savePng(File file, STBWrapper image) throws IOException {
+        try (FileOutputStream fos = new FileOutputStream(file)) {
+            image.write(fos);
+        }
         return file;
     }
 

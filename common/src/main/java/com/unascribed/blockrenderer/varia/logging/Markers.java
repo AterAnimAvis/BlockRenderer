@@ -13,6 +13,7 @@ public class Markers {
     public static final Marker MANAGER = marker("MANAGER");
     public static final Marker PROGRESS = marker("PROGRESS");
     public static final Marker SEARCH = marker("SEARCH");
+    public static final Marker STB = marker("STB");
 
     private static Marker marker() {
         return MarkerManager.getMarker(Reference.NAME);

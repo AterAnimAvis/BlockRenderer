@@ -10,14 +10,12 @@ import com.unascribed.blockrenderer.varia.Time;
 import com.unascribed.blockrenderer.varia.gif.GifWriter;
 import com.unascribed.blockrenderer.varia.logging.Log;
 import com.unascribed.blockrenderer.varia.logging.Markers;
-import com.unascribed.blockrenderer.varia.stream.ImageOutputStreamWrapper;
+import com.unascribed.blockrenderer.varia.rendering.STBWrapper;
 
-import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageOutputStream;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Collection;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -86,7 +84,7 @@ public abstract class BaseRenderManager<Component> implements IRenderManager {
 
     @Override
     public <S, T> void animated(IAnimatedRenderer<S, T> renderer,
-                                Function<T, ImageOutputStream> provider,
+                                Function<T, OutputStream> provider,
                                 Consumer<T> callback,
                                 S params,
                                 int length,
@@ -105,7 +103,7 @@ public abstract class BaseRenderManager<Component> implements IRenderManager {
                     ImageHandler<T> writeFrame = (v, img) -> {
                         try {
                             stream.putNextEntry(new ZipEntry(String.format("%04d.png", frame.getAndIncrement())));
-                            ImageIO.write(img, "PNG", stream);
+                            img.write(stream);
                             stream.closeEntry();
                         } catch (IOException e) {
                             throw new RuntimeException(e);
@@ -117,21 +115,19 @@ public abstract class BaseRenderManager<Component> implements IRenderManager {
                 return;
             }
 
-            try (ImageOutputStream ios = provider.apply(value)) {
-                if (ios == null) return;
+            try (OutputStream os = provider.apply(value)) {
+                if (os == null) return;
 
-                try (ImageOutputStreamWrapper stream = new ImageOutputStreamWrapper(ios)) {
-                    try (GifWriter writer = new GifWriter(stream, Time.MILLIS_PER_TICK, true)) {
-                        ImageHandler<T> writeFrame = (v, img) -> {
-                            try {
-                                writer.writeFrame(img);
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
-                        };
+                try (GifWriter writer = new GifWriter(os, Time.MILLIS_PER_TICK, true)) {
+                    ImageHandler<T> writeFrame = (v, img) -> {
+                        try {
+                            writer.writeFrame(img);
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    };
 
-                        animated(renderer, callback, params, length, loop, value, writeFrame);
-                    }
+                    animated(renderer, callback, params, length, loop, value, writeFrame);
                 }
             }
         } catch (Exception e) {
@@ -145,7 +141,7 @@ public abstract class BaseRenderManager<Component> implements IRenderManager {
     private <S, T> void animated(IAnimatedRenderer<S, T> renderer, Consumer<T> callback, S params, int length, boolean loop, T value, ImageHandler<T> write) throws RuntimeException {
 
         AtomicBoolean isSameAsInitial = new AtomicBoolean(true);
-        AtomicReference<BufferedImage> initial = new AtomicReference<>();
+        AtomicReference<STBWrapper> initial = new AtomicReference<>();
 
         isRendering = true;
         int frame = 0;

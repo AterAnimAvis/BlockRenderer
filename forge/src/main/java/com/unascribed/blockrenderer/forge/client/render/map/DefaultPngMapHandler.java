@@ -2,10 +2,10 @@ package com.unascribed.blockrenderer.forge.client.render.map;
 
 import com.unascribed.blockrenderer.forge.client.render.item.DefaultPngItemStackHandler;
 import com.unascribed.blockrenderer.render.request.lambda.ImageHandler;
+import com.unascribed.blockrenderer.varia.rendering.STBWrapper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.storage.MapData;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.function.Consumer;
 
@@ -25,7 +25,7 @@ public class DefaultPngMapHandler implements ImageHandler<MapData>, Consumer<Map
     }
 
     @Override
-    public void accept(MapData value, BufferedImage image) {
+    public void accept(MapData value, STBWrapper image) {
         delegate.accept(stack, image);
     }
 

@@ -4,12 +4,12 @@ import com.unascribed.blockrenderer.varia.Files;
 import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
-import javax.imageio.stream.FileImageOutputStream;
-import javax.imageio.stream.ImageOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.function.Function;
 
-public class DefaultGifItemStackHandler extends BaseItemStackHandler implements Function<ItemStack, ImageOutputStream> {
+public class DefaultGifItemStackHandler extends BaseItemStackHandler implements Function<ItemStack, OutputStream> {
 
     public DefaultGifItemStackHandler(File folder, int size, boolean useIdentifier, boolean addSize, boolean addDate) {
         super(folder, size, useIdentifier, addSize, addDate);
@@ -17,13 +17,16 @@ public class DefaultGifItemStackHandler extends BaseItemStackHandler implements 
 
     @Override
     @Nullable
-    public ImageOutputStream apply(ItemStack value) {
+    public OutputStream apply(ItemStack value) {
         future = Files.wrap("Exception whilst generating gif", () -> Files.getGif(folder, getFilename(value)));
-        return Files.wrap("Exception whilst generating gif", () -> new FileImageOutputStream(future));
+
+        if (future == null) return null;
+
+        return Files.wrap("Exception whilst generating gif", () -> new FileOutputStream(future));
     }
 
     public void acceptZip(File file) {
         future = file;
     }
-    
+
 }

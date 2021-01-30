@@ -5,9 +5,9 @@ import com.unascribed.blockrenderer.render.IRenderer;
 import com.unascribed.blockrenderer.render.IRequest;
 import com.unascribed.blockrenderer.render.report.BaseReporterBulk;
 import com.unascribed.blockrenderer.render.request.lambda.ImageHandler;
+import com.unascribed.blockrenderer.varia.rendering.STBWrapper;
 import org.jetbrains.annotations.Nullable;
 
-import java.awt.image.BufferedImage;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -77,7 +77,7 @@ public abstract class BaseBulkRenderingRequest<S, T, C> implements IRequest, Ima
     }
 
     @Override
-    public void accept(T value, BufferedImage image) {
+    public void accept(T value, STBWrapper image) {
         register(CompletableFuture.runAsync(() -> {
             handler.accept(value, image);
             reporter.increment();

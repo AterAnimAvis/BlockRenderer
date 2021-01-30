@@ -5,12 +5,10 @@ import com.unascribed.blockrenderer.vendor.gif.api.DisposalMethod;
 import com.unascribed.blockrenderer.vendor.gif.api.IGifExtendedImageOptions;
 import com.unascribed.blockrenderer.vendor.gif.api.IImage;
 import com.unascribed.blockrenderer.vendor.gif.api.IIndexedColorImage;
-import com.unascribed.blockrenderer.vendor.gif.impl.BufferedImageAdapter;
 import com.unascribed.blockrenderer.vendor.gif.impl.GifExtendedImageOptions;
 import com.unascribed.blockrenderer.vendor.gif.impl.IndexedColorImage;
 import com.unascribed.blockrenderer.vendor.gif.indexed.MedianCutColorReducer;
 
-import java.awt.image.BufferedImage;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -29,10 +27,6 @@ public class GifWriter implements Closeable {
         this.options = new GifExtendedImageOptions(0, 0, delayInMS, DisposalMethod.RESTORE_TO_BACKGROUND, 0);
 
         GIF.writeHeader(os);
-    }
-
-    public void writeFrame(BufferedImage image) throws IOException {
-        writeFrame(new BufferedImageAdapter(image));
     }
 
     public void writeFrame(IImage image) throws IOException {

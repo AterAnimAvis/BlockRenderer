@@ -4,8 +4,8 @@ import com.unascribed.blockrenderer.InternalAPI;
 import com.unascribed.blockrenderer.render.IAnimatedRenderer;
 import com.unascribed.blockrenderer.render.IRequest;
 
-import javax.imageio.stream.ImageOutputStream;
 import java.io.File;
+import java.io.OutputStream;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -14,7 +14,7 @@ public class AnimatedRenderingRequest<S, T> implements IRequest {
     private final IAnimatedRenderer<S, T> renderer;
     private final S parameters;
     private final T value;
-    private final Function<T, ImageOutputStream> provider;
+    private final Function<T, OutputStream> provider;
     private final Consumer<T> callback;
     private final int length;
     private final boolean loop;
@@ -27,7 +27,7 @@ public class AnimatedRenderingRequest<S, T> implements IRequest {
                                     T value,
                                     int length,
                                     boolean loop,
-                                    Function<T, ImageOutputStream> provider,
+                                    Function<T, OutputStream> provider,
                                     Consumer<T> callback,
                                     boolean zip,
                                     String zipFile,

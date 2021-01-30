@@ -3,6 +3,7 @@ package com.unascribed.blockrenderer.fabric.client.render.item;
 import com.unascribed.blockrenderer.fabric.client.varia.Strings;
 import com.unascribed.blockrenderer.render.request.lambda.ImageHandler;
 import com.unascribed.blockrenderer.varia.Files;
+import com.unascribed.blockrenderer.varia.rendering.STBWrapper;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -10,7 +11,6 @@ import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 
 public class DefaultPngItemStackHandler extends BaseItemStackHandler implements ImageHandler<ItemStack>, Runnable {
@@ -27,7 +27,7 @@ public class DefaultPngItemStackHandler extends BaseItemStackHandler implements 
     }
 
     @Override
-    public void accept(ItemStack value, BufferedImage image) {
+    public void accept(ItemStack value, STBWrapper image) {
         Files.IOSupplier<File> provider = () -> {
             File file = Files.getPng(folder, getFilename(value));
             return Files.savePng(file, image);

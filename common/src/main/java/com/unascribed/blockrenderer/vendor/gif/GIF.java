@@ -192,6 +192,7 @@ public class GIF {
         writeBlockTerminator(os);
     }
 
+    @SuppressWarnings("ConstantConditions")
     private static void writeDataSubBlocks(OutputStream os, byte[] data) throws IOException {
         int curIdx = 0;
         int blockLastIdx = Math.min(data.length, curIdx + 254);

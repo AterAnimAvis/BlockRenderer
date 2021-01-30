@@ -196,7 +196,7 @@ public class TR implements TileRenderer {
         GL11.glPixelStorei(GL11.GL_PACK_ALIGNMENT, 1);
 
         /* Read the tile into the final image */
-        GL11.glReadPixels(srcX, srcY, srcWidth, srcHeight, GL12.GL_BGRA, GL11.GL_UNSIGNED_BYTE, buffer);
+        GL11.glReadPixels(srcX, srcY, srcWidth, srcHeight, GL12.GL_RGBA, GL11.GL_UNSIGNED_BYTE, buffer);
 
         /* Restore previous glPixelStore Values */
         GL11.glPixelStorei(GL11.GL_PACK_ROW_LENGTH, prevRowLength);
