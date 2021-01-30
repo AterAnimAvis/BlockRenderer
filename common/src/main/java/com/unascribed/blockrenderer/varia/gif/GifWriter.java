@@ -1,88 +1,62 @@
 package com.unascribed.blockrenderer.varia.gif;
 
-import com.unascribed.blockrenderer.varia.Maths;
-import org.w3c.dom.Node;
+import com.unascribed.blockrenderer.vendor.gif.GIF;
+import com.unascribed.blockrenderer.vendor.gif.api.DisposalMethod;
+import com.unascribed.blockrenderer.vendor.gif.api.IGifExtendedImageOptions;
+import com.unascribed.blockrenderer.vendor.gif.api.IImage;
+import com.unascribed.blockrenderer.vendor.gif.api.IIndexedColorImage;
+import com.unascribed.blockrenderer.vendor.gif.impl.BufferedImageAdapter;
+import com.unascribed.blockrenderer.vendor.gif.impl.GifExtendedImageOptions;
+import com.unascribed.blockrenderer.vendor.gif.impl.IndexedColorImage;
+import com.unascribed.blockrenderer.vendor.gif.indexed.MedianCutColorReducer;
 
-import javax.imageio.*;
-import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.metadata.IIOMetadataNode;
-import javax.imageio.stream.ImageOutputStream;
 import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
 import java.io.Closeable;
 import java.io.IOException;
-import java.util.Iterator;
+import java.io.OutputStream;
 
 public class GifWriter implements Closeable {
 
-    protected ImageWriter writer;
-    protected ImageWriteParam parameters;
-    protected IIOMetadata metadata;
+    private final OutputStream os;
+    private final IGifExtendedImageOptions options;
+    private final int repeats;
 
-    public GifWriter(ImageOutputStream stream, int fps, boolean loop) throws IOException {
-        writer = getGifWriter();
-        parameters = writer.getDefaultWriteParam();
+    private boolean first = true;
 
-        ImageTypeSpecifier specifier = ImageTypeSpecifier.createFromBufferedImageType(BufferedImage.TYPE_INT_ARGB);
-        metadata = writer.getDefaultImageMetadata(specifier, parameters);
+    public GifWriter(OutputStream os, int delayInMS, boolean repeats) throws IOException {
+        this.os = os;
+        this.repeats = repeats ? 0x00 : 0x01;
+        this.options = new GifExtendedImageOptions(0, 0, delayInMS, DisposalMethod.RESTORE_TO_BACKGROUND, 0);
 
-        setupMetadata(metadata, 1000 / fps, loop);
-
-        writer.setOutput(stream);
-        writer.prepareWriteSequence(null);
+        GIF.writeHeader(os);
     }
 
-    public void writeFrame(RenderedImage image) throws IOException {
-        writer.writeToSequence(new IIOImage(image, null, metadata), parameters);
+    public void writeFrame(BufferedImage image) throws IOException {
+        writeFrame(new BufferedImageAdapter(image));
+    }
+
+    public void writeFrame(IImage image) throws IOException {
+        MedianCutColorReducer reducer = new MedianCutColorReducer(image, 0xFF - 1);
+
+        writeFrame(new IndexedColorImage(image.getWidth(), image.getHeight(), reducer.remap(image), reducer.paletteData));
+    }
+
+    public void writeFrame(IIndexedColorImage image) throws IOException {
+        if (first) setup(image);
+
+        GIF.writeTableBasedImageWithGraphicControl(os, image, options);
+    }
+
+    private void setup(IIndexedColorImage image) throws IOException {
+        first = false;
+
+        GIF.writeLogicalScreenInfo(os, image.getWidth(), image.getHeight());
+        GIF.writeLoopControl(os, repeats);
     }
 
     @Override
     public void close() throws IOException {
-        writer.endWriteSequence();
-    }
-
-    private static ImageWriter getGifWriter() throws IOException {
-        Iterator<ImageWriter> iter = ImageIO.getImageWritersBySuffix("gif");
-
-        if (iter.hasNext()) return iter.next();
-
-        throw new IOException("No Gif Writers were found");
-    }
-
-    private static void setupMetadata(IIOMetadata metadata, int delayMS, boolean loop) throws IOException {
-        IIOMetadataNode node = (IIOMetadataNode) metadata.getAsTree(metadata.getNativeMetadataFormatName());
-
-        /* https://docs.oracle.com/javase/8/docs/api/javax/imageio/metadata/doc-files/gif_metadata.html */
-
-        /* Setup Graphics */
-        IIOMetadataNode graphics = findOrCreateNode(node, "GraphicControlExtension");
-        graphics.setAttribute("disposalMethod", "restoreToBackgroundColor");
-        graphics.setAttribute("userInputFlag", "FALSE");
-        graphics.setAttribute("transparentColorFlag", "FALSE");
-        graphics.setAttribute("transparentColorIndex", "0");
-
-        /* Setup Delay */
-        graphics.setAttribute("delayTime", String.valueOf(Maths.clamp(delayMS / 10, 0, 65535)));
-
-        /* Setup Looping */
-        IIOMetadataNode extensions = findOrCreateNode(node, "ApplicationExtensions");
-        IIOMetadataNode netscape = findOrCreateNode(extensions, "ApplicationExtension");
-        netscape.setAttribute("applicationID", "NETSCAPE");
-        netscape.setAttribute("authenticationCode", "2.0");
-        netscape.setUserObject(new byte[]{0x1, 0x0, (byte) (loop ? 0x0 : 0x1)});
-
-        metadata.setFromTree(metadata.getNativeMetadataFormatName(), node);
-    }
-
-    private static IIOMetadataNode findOrCreateNode(IIOMetadataNode parent, String name) {
-        for (int i = 0; i < parent.getLength(); i++) {
-            Node child = parent.item(i);
-            if (child.getNodeName().equalsIgnoreCase(name)) return (IIOMetadataNode) child;
-        }
-
-        IIOMetadataNode child = new IIOMetadataNode(name);
-        parent.appendChild(child);
-        return child;
+        GIF.writeTrailer(os);
     }
 
 }

@@ -74,6 +74,10 @@ subprojects {
     /* Generate Package Infos */
     apply(from = "$rootDir/utils.gradle.kts")
 
+    tasks.withType<Test> {
+        useJUnitPlatform()
+    }
+
     /* ============================================================================================ Dependencies ==== */
 
     repositories {

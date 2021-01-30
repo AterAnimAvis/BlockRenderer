@@ -3,6 +3,7 @@ package com.unascribed.blockrenderer.varia;
 public interface Time {
 
     int TICKS_IN_A_SECOND = 20;
+    int MILLIS_PER_TICK = 1000 / 20;
 
     int AUTO_LOOP = 30 * TICKS_IN_A_SECOND;
     int MAX_CONSUME = 30 * TICKS_IN_A_SECOND;

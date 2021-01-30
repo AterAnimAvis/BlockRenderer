@@ -10,6 +10,7 @@ import com.unascribed.blockrenderer.varia.Time;
 import com.unascribed.blockrenderer.varia.gif.GifWriter;
 import com.unascribed.blockrenderer.varia.logging.Log;
 import com.unascribed.blockrenderer.varia.logging.Markers;
+import com.unascribed.blockrenderer.varia.stream.ImageOutputStreamWrapper;
 
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageOutputStream;
@@ -116,19 +117,21 @@ public abstract class BaseRenderManager<Component> implements IRenderManager {
                 return;
             }
 
-            try (ImageOutputStream stream = provider.apply(value)) {
-                if (stream == null) return;
+            try (ImageOutputStream ios = provider.apply(value)) {
+                if (ios == null) return;
 
-                try (GifWriter writer = new GifWriter(stream, Time.TICKS_IN_A_SECOND, true)) {
-                    ImageHandler<T> writeFrame = (v, img) -> {
-                        try {
-                            writer.writeFrame(img);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    };
+                try (ImageOutputStreamWrapper stream = new ImageOutputStreamWrapper(ios)) {
+                    try (GifWriter writer = new GifWriter(stream, Time.MILLIS_PER_TICK, true)) {
+                        ImageHandler<T> writeFrame = (v, img) -> {
+                            try {
+                                writer.writeFrame(img);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        };
 
-                    animated(renderer, callback, params, length, loop, value, writeFrame);
+                        animated(renderer, callback, params, length, loop, value, writeFrame);
+                    }
                 }
             }
         } catch (Exception e) {
