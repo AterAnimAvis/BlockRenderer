@@ -11,11 +11,11 @@ Branches
 ---
 - [Forge 1.14.x](https://github.com/AterAnimAvis/BlockRenderer/tree/1.14)
 - [Forge 1.15.x](https://github.com/AterAnimAvis/BlockRenderer/tree/1.15)
-- [Merged 1.16.x](https://github.com/AterAnimAvis/BlockRenderer/tree/1.16-merged-official) \*\*WARNING OFFICIAL MAPPINGS\*\*
+- [Merged 1.16.x](https://github.com/AterAnimAvis/BlockRenderer/tree/1.16-merged)
 
 Old Branches
 ---
 - [Forge 1.16.1](https://github.com/AterAnimAvis/BlockRenderer/tree/1.16.1-forge)
 - [Forge 1.16.2/3](https://github.com/AterAnimAvis/BlockRenderer/tree/1.16-forge)
 - [Fabric 1.16.x](https://github.com/AterAnimAvis/BlockRenderer/tree/1.16-fabric)
-- [Merged 1.16.x](https://github.com/AterAnimAvis/BlockRenderer/tree/1.16-merged)
+- [Merged 1.16.x](https://github.com/AterAnimAvis/BlockRenderer/tree/1.16-merged-official) \*\*WARNING OFFICIAL MAPPINGS\*\*
