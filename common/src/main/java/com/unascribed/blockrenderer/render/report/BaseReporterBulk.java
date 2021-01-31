@@ -128,7 +128,7 @@ public abstract class BaseReporterBulk<Component> {
             // ...and the subtitle
             if (alpha != 0f) {
                 for (int i = 0; i < subTitlesCount; i++) {
-                    Display.drawCenteredString(subTitles.get(i), displayWidth, displayHeight - (20 * (i + 1)), 0xFFFFFF | a);
+                    Display.drawCenteredString(subTitles.get(i), displayWidth, displayHeight + (20 * (i + 1)), 0xFFFFFF | a);
                 }
             }
 
