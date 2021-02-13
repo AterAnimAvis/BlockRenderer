@@ -25,6 +25,8 @@ public interface GLI {
 
     void loadIdentity();
 
+    void ortho(double left, double right, double bottom, double top, double zNear, double zFar);
+
     /* ========================================================================================= Transformations ==== */
 
     void translate(float x, float y, float z);
@@ -79,6 +81,12 @@ public interface GLI {
 
     int getScaledHeight();
 
+    int getFramebufferWidth();
+
+    int getFramebufferHeight();
+
+    double getScaleFactor();
+
     /* ============================================================================================= Projections ==== */
 
     void matrixModeProjection();
@@ -120,7 +128,17 @@ public interface GLI {
         loadIdentity();
     }
 
-    void setupOverlayRendering();
+    default void setupOverlayRendering() {
+        double scaleFactor = getScaleFactor();
+
+        clearDepthBuffer();
+        matrixModeProjection();
+        loadIdentity();
+        ortho(0.0D, getFramebufferWidth() / scaleFactor, getFramebufferHeight() / scaleFactor, 0.0D, 1000.0D, 3000.0D);
+        matrixModeModelView();
+        loadIdentity();
+        translate(0.0F, 0.0F, -2000.0F);
+    }
 
     /* =============================================================================================== Constants ==== */
 

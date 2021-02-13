@@ -1,6 +1,8 @@
 package com.unascribed.blockrenderer.fabric.client.varia.rendering;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.unascribed.blockrenderer.varia.logging.Log;
+import com.unascribed.blockrenderer.varia.logging.Markers;
 import com.unascribed.blockrenderer.varia.rendering.GLI;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
@@ -8,15 +10,22 @@ import net.minecraft.client.renderer.RenderHelper;
 import org.intellij.lang.annotations.MagicConstant;
 import org.lwjgl.opengl.GL11;
 
-import static org.lwjgl.opengl.GL11.*;
-
 @SuppressWarnings("deprecation")
 public class GL implements GLI {
 
     public static final GLI INSTANCE = new GL();
 
-    Minecraft client = Minecraft.getInstance();
-    MainWindow window = client.getMainWindow();
+    Minecraft client;
+    MainWindow window;
+
+    @SuppressWarnings("ConstantConditions")
+    public GL() {
+        client = Minecraft.getInstance();
+        window = client != null ? client.getMainWindow() : null;
+
+        if (client == null) Log.warn(Markers.ROOT, "Minecraft Instance isn't present. If your not in a data-gen context this is an error!");
+        if (client != null && window == null) throw new AssertionError("Minecraft Instance is present but the Window isn't.");
+    }
 
     /* ================================================================================================== Matrix ==== */
 
@@ -33,6 +42,11 @@ public class GL implements GLI {
     @Override
     public void loadIdentity() {
         RenderSystem.loadIdentity();
+    }
+
+    @Override
+    public void ortho(double left, double right, double bottom, double top, double zNear, double zFar) {
+        RenderSystem.ortho(left, right, bottom, top, zNear, zFar);
     }
 
     /* ========================================================================================= Transformations ==== */
@@ -124,6 +138,21 @@ public class GL implements GLI {
         return window.getScaledHeight();
     }
 
+    @Override
+    public int getFramebufferWidth() {
+        return window.getFramebufferWidth();
+    }
+
+    @Override
+    public int getFramebufferHeight() {
+        return window.getFramebufferHeight();
+    }
+
+    @Override
+    public double getScaleFactor() {
+        return window.getGuiScaleFactor();
+    }
+
     /* ============================================================================================= Projections ==== */
 
     @Override
@@ -136,19 +165,4 @@ public class GL implements GLI {
         RenderSystem.matrixMode(GL11.GL_MODELVIEW);
     }
 
-    @Override
-    public void setupOverlayRendering() {
-        Minecraft client = Minecraft.getInstance();
-        MainWindow window = client.getMainWindow();
-        double scaleFactor = window.getGuiScaleFactor();
-
-        RenderSystem.clear(GL_DEPTH_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC);
-        RenderSystem.matrixMode(GL_PROJECTION);
-        RenderSystem.loadIdentity();
-        RenderSystem.ortho(0.0D, window.getFramebufferWidth() / scaleFactor,
-                window.getFramebufferHeight() / scaleFactor, 0.0D, 1000.0D, 3000.0D);
-        RenderSystem.matrixMode(GL_MODELVIEW);
-        RenderSystem.loadIdentity();
-        RenderSystem.translatef(0.0F, 0.0F, -2000.0F);
-    }
 }
