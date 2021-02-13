@@ -136,10 +136,9 @@ project(":forge") {
         runs {
             config("client", project)
             config("server", project)
-
-//        config("data") {
-//            args("--mod", modId, "--all", "--output", file("src/generated/resources/"))
-//        }
+            config("data", project) {
+                args("--mod", modId, "--all", "--output", file("src/generated/resources/"))
+            }
         }
     }
 
