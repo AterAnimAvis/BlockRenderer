@@ -37,9 +37,7 @@ public class EnterSizeScreen extends BaseItemScreen {
 
         slider.y = height / 6 + 50;
         actualSize.y = height / 6 + 50;
-        actualSize.visible = enableSwitch;
         wikiSize.y = height / 6 + 50;
-        wikiSize.visible = enableSwitch;
 
         addButton(new HoverableTinyButtonWidget(
                         this,
