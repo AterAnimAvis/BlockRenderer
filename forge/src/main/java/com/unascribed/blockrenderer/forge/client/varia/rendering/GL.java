@@ -1,8 +1,6 @@
 package com.unascribed.blockrenderer.forge.client.varia.rendering;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.unascribed.blockrenderer.varia.logging.Log;
-import com.unascribed.blockrenderer.varia.logging.Markers;
 import com.unascribed.blockrenderer.varia.rendering.GLI;
 import net.minecraft.client.MainWindow;
 import net.minecraft.client.Minecraft;
@@ -14,18 +12,6 @@ import org.lwjgl.opengl.GL11;
 public class GL implements GLI {
 
     public static final GLI INSTANCE = new GL();
-
-    Minecraft client;
-    MainWindow window;
-
-    @SuppressWarnings("ConstantConditions")
-    public GL() {
-        client = Minecraft.getInstance();
-        window = client != null ? client.getMainWindow() : null;
-
-        if (client == null) Log.warn(Markers.ROOT, "Minecraft Instance isn't present. If your not in a data-gen context this is an error!");
-        if (client != null && window == null) throw new AssertionError("Minecraft Instance is present but the Window isn't.");
-    }
 
     /* ================================================================================================== Matrix ==== */
 
@@ -115,42 +101,42 @@ public class GL implements GLI {
 
     @Override
     public void unbindFBO() {
-        client.getFramebuffer().unbindFramebuffer();
+        client().getFramebuffer().unbindFramebuffer();
     }
 
     @Override
     public void flipFrame() {
-        window.flipFrame();
+        window().flipFrame();
     }
 
     @Override
     public void rebindFBO() {
-        client.getFramebuffer().bindFramebuffer(false);
+        client().getFramebuffer().bindFramebuffer(false);
     }
 
     @Override
     public int getScaledWidth() {
-        return window.getScaledWidth();
+        return window().getScaledWidth();
     }
 
     @Override
     public int getScaledHeight() {
-        return window.getScaledHeight();
+        return window().getScaledHeight();
     }
 
     @Override
     public int getFramebufferWidth() {
-        return window.getFramebufferWidth();
+        return window().getFramebufferWidth();
     }
 
     @Override
     public int getFramebufferHeight() {
-        return window.getFramebufferHeight();
+        return window().getFramebufferHeight();
     }
 
     @Override
     public double getScaleFactor() {
-        return window.getGuiScaleFactor();
+        return window().getGuiScaleFactor();
     }
 
     /* ============================================================================================= Projections ==== */
@@ -163,6 +149,16 @@ public class GL implements GLI {
     @Override
     public void matrixModeModelView() {
         RenderSystem.matrixMode(GL11.GL_MODELVIEW);
+    }
+
+    /* ================================================================================================= Utility ==== */
+
+    private Minecraft client() {
+        return Minecraft.getInstance();
+    }
+
+    private MainWindow window() {
+        return Minecraft.getInstance().getMainWindow();
     }
 
 }
