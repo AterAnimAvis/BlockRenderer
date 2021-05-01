@@ -4,4 +4,8 @@ public interface IRequest {
 
     boolean render();
 
+    default int priority() {
+        return 0;
+    }
+
 }

@@ -7,6 +7,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.function.Function;
@@ -23,7 +24,7 @@ public class RenderManager extends BaseRenderManager<ITextComponent> {
     public static final BaseRenderManager<ITextComponent> INSTANCE = new RenderManager();
 
     public static boolean isRendering = false;
-    public static Queue<IRequest> requests = new PriorityQueue<>();
+    public static Queue<IRequest> requests = new PriorityQueue<>(Comparator.comparingInt(IRequest::priority));
     @Nullable
     private static IRequest request = null;
 
