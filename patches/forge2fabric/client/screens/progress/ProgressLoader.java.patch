@@ -1,6 +1,6 @@
 --- a/client/screens/progress/ProgressLoader.java
 +++ b/client/screens/progress/ProgressLoader.java
-@@ -1,9 +1,9 @@
+@@ -1,9 +_,9 @@
 -package com.unascribed.blockrenderer.forge.client.screens.progress;
 +package com.unascribed.blockrenderer.fabric.client.screens.progress;
  

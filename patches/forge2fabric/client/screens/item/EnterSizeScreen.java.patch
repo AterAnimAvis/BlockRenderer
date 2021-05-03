@@ -1,6 +1,6 @@
 --- a/client/screens/item/EnterSizeScreen.java
 +++ b/client/screens/item/EnterSizeScreen.java
-@@ -1,8 +1,8 @@
+@@ -1,8 +_,8 @@
 -package com.unascribed.blockrenderer.forge.client.screens.item;
 +package com.unascribed.blockrenderer.fabric.client.screens.item;
  
@@ -13,7 +13,7 @@
  import net.minecraft.client.gui.screen.Screen;
  import net.minecraft.client.gui.widget.button.Button;
  import net.minecraft.item.ItemStack;
-@@ -10,7 +10,7 @@
+@@ -10,7 +_,7 @@
  import net.minecraft.util.text.TranslationTextComponent;
  import org.jetbrains.annotations.Nullable;
  

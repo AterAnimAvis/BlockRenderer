@@ -1,6 +1,6 @@
 --- a/client/screens/item/BaseItemScreen.java
 +++ b/client/screens/item/BaseItemScreen.java
-@@ -1,15 +1,15 @@
+@@ -1,15 +_,15 @@
 -package com.unascribed.blockrenderer.forge.client.screens.item;
 +package com.unascribed.blockrenderer.fabric.client.screens.item;
  

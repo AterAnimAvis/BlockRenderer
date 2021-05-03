@@ -1,6 +1,6 @@
 --- a/client/screens/widgets/ItemButtonMultiWidget.java
 +++ b/client/screens/widgets/ItemButtonMultiWidget.java
-@@ -1,8 +1,8 @@
+@@ -1,8 +_,8 @@
 -package com.unascribed.blockrenderer.forge.client.screens.widgets;
 +package com.unascribed.blockrenderer.fabric.client.screens.widgets;
  

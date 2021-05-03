@@ -1,6 +1,6 @@
 --- a/client/render/Requests.java
 +++ b/client/render/Requests.java
-@@ -1,14 +1,14 @@
+@@ -1,14 +_,14 @@
 -package com.unascribed.blockrenderer.forge.client.render;
 +package com.unascribed.blockrenderer.fabric.client.render;
  

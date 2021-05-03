@@ -1,6 +1,6 @@
 --- a/client/varia/Strings.java
 +++ b/client/varia/Strings.java
-@@ -1,18 +1,19 @@
+@@ -1,18 +_,19 @@
 -package com.unascribed.blockrenderer.forge.client.varia;
 +package com.unascribed.blockrenderer.fabric.client.varia;
  
@@ -22,7 +22,7 @@
  import java.util.Set;
  
  public interface Strings {
-@@ -22,9 +23,9 @@
+@@ -22,9 +_,9 @@
      static String getNamespace(@Nullable ItemStack stack) {
          if (stack == null) return "";
  

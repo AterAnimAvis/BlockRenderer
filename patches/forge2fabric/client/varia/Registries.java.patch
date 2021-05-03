@@ -1,6 +1,6 @@
 --- a/client/varia/Registries.java
 +++ b/client/varia/Registries.java
-@@ -1,27 +1,27 @@
+@@ -1,27 +_,27 @@
 -package com.unascribed.blockrenderer.forge.client.varia;
 +package com.unascribed.blockrenderer.fabric.client.varia;
  
@@ -22,22 +22,26 @@
 -    RegistryObject<Item> EMPTY_MAP = RegistryObject.of(new ResourceLocation("minecraft:map"), ForgeRegistries.ITEMS);
 -    RegistryObject<Item> MAP = RegistryObject.of(new ResourceLocation("minecraft:filled_map"), ForgeRegistries.ITEMS);
 -    RegistryObject<Item> PATTERN = RegistryObject.of(new ResourceLocation("minecraft:mojang_banner_pattern"), ForgeRegistries.ITEMS);
+-
+-    static void clazzLoad() {
+-        // INTENTIONAL LEFT BLANK
+-    }
+-
+-    static <A extends IForgeRegistryEntry<? super A>, B> Supplier<B> mapLazy(RegistryObject<A> lazy, Function<A, B> mapper) {
+-        return lazy.lazyMap(mapper);
+-    }
 +    LazyValue<Item> CUTTER = new LazyValue<>(() -> lookupItem(new ResourceLocation("minecraft:stonecutter")));
 +    LazyValue<Item> DISPENSER = new LazyValue<>(() -> lookupItem(new ResourceLocation("minecraft:dispenser")));
 +    LazyValue<Item> EMPTY_MAP = new LazyValue<>(() -> lookupItem(new ResourceLocation("minecraft:map")));
 +    LazyValue<Item> MAP = new LazyValue<>(() -> lookupItem(new ResourceLocation("minecraft:filled_map")));
 +    LazyValue<Item> PATTERN = new LazyValue<>(() -> lookupItem(new ResourceLocation("minecraft:mojang_banner_pattern")));
- 
--    static void clazzLoad() {
--        // INTENTIONAL LEFT BLANK
++
 +    static Item lookupItem(ResourceLocation identifier) {
 +        return Registry.ITEM.getOrDefault(identifier);
-     }
- 
--    static <A extends IForgeRegistryEntry<? super A>, B> Supplier<B> mapLazy(RegistryObject<A> lazy, Function<A, B> mapper) {
--        return lazy.lazyMap(mapper);
++    }
++
 +    static <A, B> Supplier<B> mapLazy(LazyValue<A> lazy, Function<A, B> mapper) {
 +        return () -> mapper.apply(lazy.getValue());
-     }
++    }
 +
  }

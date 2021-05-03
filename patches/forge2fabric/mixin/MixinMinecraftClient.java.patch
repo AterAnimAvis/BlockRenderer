@@ -1,6 +1,6 @@
 --- /dev/null
 +++ b/mixin/MixinMinecraftClient.java
-@@ -0,0 +1,18 @@
+@@ -1,0 +_,18 @@
 +package com.unascribed.blockrenderer.fabric.mixin;
 +
 +import com.unascribed.blockrenderer.fabric.client.proxy.ClientProxy;

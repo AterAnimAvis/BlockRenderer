@@ -1,6 +1,6 @@
 --- a/BlockRenderer.java
 +++ b/BlockRenderer.java
-@@ -1,41 +1,26 @@
+@@ -1,41 +_,26 @@
 -package com.unascribed.blockrenderer.forge;
 +package com.unascribed.blockrenderer.fabric;
  
@@ -41,12 +41,12 @@
 +    @Override
 +    public void onInitializeClient() {
          Keybindings.register();
-     }
- 
+-    }
+-
 -    private static void onFrameStart(TickEvent.RenderTickEvent e) {
 -        if (e.phase != TickEvent.Phase.START) return;
 -
 -        ClientProxy.onFrameStart();
      }
--
--}
+ 
+ }

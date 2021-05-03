@@ -1,6 +1,6 @@
 --- a/BlockRendererMod.java
 +++ /dev/null
-@@ -1,40 +0,0 @@
+@@ -1,40 +_,0 @@
 -package com.unascribed.blockrenderer.forge;
 -
 -import com.unascribed.blockrenderer.Reference;

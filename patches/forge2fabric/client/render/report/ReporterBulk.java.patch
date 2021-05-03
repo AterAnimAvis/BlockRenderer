@@ -1,6 +1,6 @@
 --- a/client/render/report/ReporterBulk.java
 +++ b/client/render/report/ReporterBulk.java
-@@ -1,8 +1,8 @@
+@@ -1,8 +_,8 @@
 -package com.unascribed.blockrenderer.forge.client.render.report;
 +package com.unascribed.blockrenderer.fabric.client.render.report;
  

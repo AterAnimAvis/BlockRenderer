@@ -1,6 +1,6 @@
 --- a/client/varia/Identifiers.java
 +++ b/client/varia/Identifiers.java
-@@ -1,16 +1,13 @@
+@@ -1,16 +_,13 @@
 -package com.unascribed.blockrenderer.forge.client.varia;
 +package com.unascribed.blockrenderer.fabric.client.varia;
  

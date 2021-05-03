@@ -1,6 +1,6 @@
 --- a/client/init/Keybindings.java
 +++ b/client/init/Keybindings.java
-@@ -1,7 +1,7 @@
+@@ -1,7 +_,7 @@
 -package com.unascribed.blockrenderer.forge.client.init;
 +package com.unascribed.blockrenderer.fabric.client.init;
  
@@ -10,7 +10,7 @@
  import org.lwjgl.glfw.GLFW;
  
  public interface Keybindings {
-@@ -9,7 +9,7 @@
+@@ -9,7 +_,7 @@
      KeyBinding render = new KeyBinding("key.block_renderer.render", GLFW.GLFW_KEY_GRAVE_ACCENT, "key.categories.block_renderer");
  
      static void register() {

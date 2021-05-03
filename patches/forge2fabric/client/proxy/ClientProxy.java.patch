@@ -1,6 +1,6 @@
 --- a/client/proxy/ClientProxy.java
 +++ b/client/proxy/ClientProxy.java
-@@ -1,11 +1,13 @@
+@@ -1,11 +_,13 @@
 -package com.unascribed.blockrenderer.forge.client.proxy;
 +package com.unascribed.blockrenderer.fabric.client.proxy;
  
@@ -21,7 +21,7 @@
  import net.minecraft.client.Minecraft;
  import net.minecraft.client.gui.recipebook.IRecipeShownListener;
  import net.minecraft.client.gui.recipebook.RecipeBookGui;
-@@ -18,7 +20,7 @@
+@@ -18,7 +_,7 @@
  import net.minecraft.item.ItemStack;
  import org.lwjgl.glfw.GLFW;
  
@@ -30,7 +30,7 @@
  
  public class ClientProxy {
  
-@@ -38,10 +40,10 @@
+@@ -38,10 +_,10 @@
          Minecraft client = Minecraft.getInstance();
          Slot hovered = null;
          Screen currentScreen = client.currentScreen;
@@ -43,7 +43,7 @@
  
          if (Screen.hasControlDown()) {
              PlayerEntity player = client.player;
-@@ -117,7 +119,7 @@
+@@ -117,7 +_,7 @@
          }
  
          /* Actually Check to see if the key is down */

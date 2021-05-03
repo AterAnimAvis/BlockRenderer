@@ -1,6 +1,6 @@
 --- a/client/screens/BaseScreen.java
 +++ b/client/screens/BaseScreen.java
-@@ -1,8 +1,8 @@
+@@ -1,8 +_,8 @@
 -package com.unascribed.blockrenderer.forge.client.screens;
 +package com.unascribed.blockrenderer.fabric.client.screens;
  
@@ -12,7 +12,7 @@
  import com.unascribed.blockrenderer.varia.Maths;
  import net.minecraft.client.GameSettings;
  import net.minecraft.client.gui.screen.Screen;
-@@ -12,7 +12,7 @@
+@@ -12,7 +_,7 @@
  import org.jetbrains.annotations.Nullable;
  import org.lwjgl.glfw.GLFW;
  

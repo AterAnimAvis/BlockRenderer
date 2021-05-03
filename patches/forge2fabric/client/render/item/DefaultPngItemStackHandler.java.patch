@@ -1,6 +1,6 @@
 --- a/client/render/item/DefaultPngItemStackHandler.java
 +++ b/client/render/item/DefaultPngItemStackHandler.java
-@@ -1,6 +1,6 @@
+@@ -1,6 +_,6 @@
 -package com.unascribed.blockrenderer.forge.client.render.item;
 +package com.unascribed.blockrenderer.fabric.client.render.item;
  

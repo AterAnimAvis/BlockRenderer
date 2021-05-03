@@ -1,10 +1,8 @@
 --- a/client/init/package-info.java
 +++ b/client/init/package-info.java
-@@ -1,4 +1,4 @@
+@@ -1,4 +_,4 @@
  @NonnullDefault
 -package com.unascribed.blockrenderer.forge.client.init;
-\ No newline at end of file
 +package com.unascribed.blockrenderer.fabric.client.init;
-\ No newline at end of file
  
  import org.lwjgl.system.NonnullDefault;

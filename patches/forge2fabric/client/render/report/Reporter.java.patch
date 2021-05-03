@@ -1,6 +1,6 @@
 --- a/client/render/report/Reporter.java
 +++ b/client/render/report/Reporter.java
-@@ -1,11 +1,11 @@
+@@ -1,11 +_,11 @@
 -package com.unascribed.blockrenderer.forge.client.render.report;
 +package com.unascribed.blockrenderer.fabric.client.render.report;
  

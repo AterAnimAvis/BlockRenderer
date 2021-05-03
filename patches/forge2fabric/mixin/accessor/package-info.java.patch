@@ -1,8 +1,7 @@
 --- /dev/null
 +++ b/mixin/accessor/package-info.java
-@@ -0,0 +1,4 @@
+@@ -1,0 +_,4 @@
 +@NonnullDefault
 +package com.unascribed.blockrenderer.fabric.mixin.accessor;
 +
 +import org.lwjgl.system.NonnullDefault;
-\ No newline at end of file

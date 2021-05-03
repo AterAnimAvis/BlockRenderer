@@ -1,6 +1,6 @@
 --- a/client/screens/item/RenderAnimatedScreen.java
 +++ b/client/screens/item/RenderAnimatedScreen.java
-@@ -1,9 +1,9 @@
+@@ -1,9 +_,9 @@
 -package com.unascribed.blockrenderer.forge.client.screens.item;
 +package com.unascribed.blockrenderer.fabric.client.screens.item;
  
@@ -15,7 +15,7 @@
  import net.minecraft.client.gui.screen.Screen;
  import net.minecraft.client.gui.widget.TextFieldWidget;
  import net.minecraft.client.gui.widget.button.Button;
-@@ -12,7 +12,7 @@
+@@ -12,7 +_,7 @@
  import net.minecraft.util.text.TranslationTextComponent;
  import org.jetbrains.annotations.Nullable;
  

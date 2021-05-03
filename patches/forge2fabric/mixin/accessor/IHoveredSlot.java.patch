@@ -1,6 +1,6 @@
 --- /dev/null
 +++ b/mixin/accessor/IHoveredSlot.java
-@@ -0,0 +1,16 @@
+@@ -1,0 +_,16 @@
 +package com.unascribed.blockrenderer.fabric.mixin.accessor;
 +
 +import net.minecraft.client.gui.screen.inventory.ContainerScreen;

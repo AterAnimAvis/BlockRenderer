@@ -1,6 +1,6 @@
 --- a/client/render/item/ItemStackRenderer.java
 +++ b/client/render/item/ItemStackRenderer.java
-@@ -1,7 +1,7 @@
+@@ -1,7 +_,7 @@
 -package com.unascribed.blockrenderer.forge.client.render.item;
 +package com.unascribed.blockrenderer.fabric.client.render.item;
  

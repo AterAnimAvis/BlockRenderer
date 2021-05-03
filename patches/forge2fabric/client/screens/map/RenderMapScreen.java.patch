@@ -1,6 +1,6 @@
 --- a/client/screens/map/RenderMapScreen.java
 +++ b/client/screens/map/RenderMapScreen.java
-@@ -1,9 +1,9 @@
+@@ -1,9 +_,9 @@
 -package com.unascribed.blockrenderer.forge.client.screens.map;
 +package com.unascribed.blockrenderer.fabric.client.screens.map;
  
@@ -14,7 +14,7 @@
  import com.unascribed.blockrenderer.render.map.MapDecorations;
  import net.minecraft.client.Minecraft;
  import net.minecraft.client.gui.screen.Screen;
-@@ -14,7 +14,7 @@
+@@ -14,7 +_,7 @@
  import net.minecraft.world.storage.MapData;
  import org.jetbrains.annotations.Nullable;
  

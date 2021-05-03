@@ -1,6 +1,6 @@
 --- a/client/render/manager/RenderManager.java
 +++ b/client/render/manager/RenderManager.java
-@@ -1,6 +1,6 @@
+@@ -1,6 +_,6 @@
 -package com.unascribed.blockrenderer.forge.client.render.manager;
 +package com.unascribed.blockrenderer.fabric.client.render.manager;
  
@@ -9,7 +9,7 @@
  import com.unascribed.blockrenderer.render.IRequest;
  import com.unascribed.blockrenderer.render.manager.BaseRenderManager;
  import net.minecraft.util.text.ITextComponent;
-@@ -12,7 +12,7 @@
+@@ -12,7 +_,7 @@
  import java.util.Queue;
  import java.util.function.Function;
  

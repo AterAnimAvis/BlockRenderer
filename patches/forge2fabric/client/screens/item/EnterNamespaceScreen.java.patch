@@ -1,6 +1,6 @@
 --- a/client/screens/item/EnterNamespaceScreen.java
 +++ b/client/screens/item/EnterNamespaceScreen.java
-@@ -1,12 +1,12 @@
+@@ -1,12 +_,12 @@
 -package com.unascribed.blockrenderer.forge.client.screens.item;
 +package com.unascribed.blockrenderer.fabric.client.screens.item;
  
@@ -20,7 +20,7 @@
  import net.minecraft.client.gui.screen.Screen;
  import net.minecraft.client.gui.widget.TextFieldWidget;
  import net.minecraft.client.gui.widget.button.Button;
-@@ -18,7 +18,7 @@
+@@ -18,7 +_,7 @@
  import java.util.Collections;
  import java.util.function.Supplier;
  

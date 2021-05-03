@@ -1,6 +1,6 @@
 --- a/client/varia/rendering/GL.java
 +++ b/client/varia/rendering/GL.java
-@@ -1,4 +1,4 @@
+@@ -1,4 +_,4 @@
 -package com.unascribed.blockrenderer.forge.client.varia.rendering;
 +package com.unascribed.blockrenderer.fabric.client.varia.rendering;
  

@@ -1,6 +1,6 @@
 --- a/client/screens/widgets/options/ExtendedSliderPercentageOption.java
 +++ b/client/screens/widgets/options/ExtendedSliderPercentageOption.java
-@@ -1,4 +1,4 @@
+@@ -1,4 +_,4 @@
 -package com.unascribed.blockrenderer.forge.client.screens.widgets.options;
 +package com.unascribed.blockrenderer.fabric.client.screens.widgets.options;
  

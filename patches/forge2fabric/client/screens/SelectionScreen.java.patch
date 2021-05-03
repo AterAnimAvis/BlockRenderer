@@ -1,6 +1,6 @@
 --- a/client/screens/SelectionScreen.java
 +++ b/client/screens/SelectionScreen.java
-@@ -1,12 +1,12 @@
+@@ -1,12 +_,12 @@
 -package com.unascribed.blockrenderer.forge.client.screens;
 +package com.unascribed.blockrenderer.fabric.client.screens;
  
@@ -20,7 +20,7 @@
  import net.minecraft.client.gui.screen.Screen;
  import net.minecraft.item.Item;
  import net.minecraft.item.ItemStack;
-@@ -16,7 +16,7 @@
+@@ -16,7 +_,7 @@
  
  import java.util.Objects;
  
