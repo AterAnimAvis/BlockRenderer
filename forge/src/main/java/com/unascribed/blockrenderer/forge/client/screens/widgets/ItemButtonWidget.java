@@ -57,11 +57,11 @@ public class ItemButtonWidget extends Button {
 
         if (!active) {
             Minecraft minecraft = Minecraft.getInstance();
-            minecraft.getTextureManager().bindTexture(CUSTOM_WIDGETS);
+            minecraft.getTextureManager().bind(CUSTOM_WIDGETS);
 
             blit(matrix, x + 44, y + 44, 22, 0, 20, 20);
 
-            minecraft.getTextureManager().bindTexture(WIDGETS_LOCATION);
+            minecraft.getTextureManager().bind(WIDGETS_LOCATION);
         }
 
         GL.popMatrix();
@@ -78,9 +78,9 @@ public class ItemButtonWidget extends Button {
         GL.translate(x, y, 32.0f);
         GL.scaleFixedZLevel(scale, -BASE_Z_LEVEL);
 
-        renderer.zLevel = -BASE_Z_LEVEL / 2f;
-        renderer.renderItemAndEffectIntoGUI(stack, 0, 0);
-        renderer.zLevel = 0.0F;
+        renderer.blitOffset = -BASE_Z_LEVEL / 2f;
+        renderer.renderAndDecorateItem(stack, 0, 0);
+        renderer.blitOffset = 0.0F;
         GL.popMatrix();
 
     }

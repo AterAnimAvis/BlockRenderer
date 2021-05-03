@@ -18,42 +18,42 @@ public class UpdateableSliderWidget extends OptionSlider {
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (keyCode == GLFW.GLFW_KEY_UP || keyCode == GLFW.GLFW_KEY_W) {
-            update(option.get(settings) + 1);
+            update(option.get(options) + 1);
         }
 
         if (keyCode == GLFW.GLFW_KEY_DOWN || keyCode == GLFW.GLFW_KEY_S) {
-            update(option.get(settings) - 1);
+            update(option.get(options) - 1);
         }
 
         if (keyCode == GLFW.GLFW_KEY_LEFT || keyCode == GLFW.GLFW_KEY_A) {
-            setSliderValue(sliderValue - (1.0 / (this.width - 8F)));
+            setSliderValue(value - (1.0 / (this.width - 8F)));
         }
 
         if (keyCode == GLFW.GLFW_KEY_RIGHT || keyCode == GLFW.GLFW_KEY_D) {
-            setSliderValue(sliderValue + (1.0 / (this.width - 8F)));
+            setSliderValue(value + (1.0 / (this.width - 8F)));
         }
 
         return false;
     }
 
     public void update(double desired) {
-        sliderValue = option.normalizeValue(desired);
+        value = option.toPct(desired);
 
         /* mcp: applyValue */
-        func_230972_a_();
+        applyValue();
 
         /* mcp: updateMessage */
-        func_230979_b_();
+        updateMessage();
     }
 
     private void setSliderValue(double desiredRatio) {
-        sliderValue = Maths.clamp(desiredRatio, 0.0D, 1.0D);
+        value = Maths.clamp(desiredRatio, 0.0D, 1.0D);
 
         /* mcp: applyValue */
-        func_230972_a_();
+        applyValue();
 
         /* mcp: updateMessage */
-        func_230979_b_();
+        updateMessage();
     }
 
 }

@@ -36,7 +36,7 @@ public class ProgressLoader<S, T> extends LoadingGui implements ILoader {
 
     @Override
     public boolean isCurrent() {
-        return mc.getLoadingGui() == this;
+        return mc.getOverlay() == this;
     }
 
     @Override
@@ -53,9 +53,9 @@ public class ProgressLoader<S, T> extends LoadingGui implements ILoader {
         IRenderer<S, T> renderer = request.getRenderer();
         renderer.setup(request.getParameters());
 
-        long start = Util.milliTime();
+        long start = Util.getMillis();
         tick:
-        while (Util.milliTime() - start < Time.RENDER_TICK_MS) {
+        while (Util.getMillis() - start < Time.RENDER_TICK_MS) {
             /* Process at least 5 before we check the time again */
             for (int i = 0; i < 5; i++) { //TODO: Check Rough Speed Benefits
                 /* No more to process */
@@ -77,7 +77,7 @@ public class ProgressLoader<S, T> extends LoadingGui implements ILoader {
 
     @Override
     public void render(MatrixStack stack, int mouseX, int mouseY, float partialTicks) {
-        long now = Util.milliTime();
+        long now = Util.getMillis();
 
         /* Trigger Fade In */
         if (fadeInStart == -1) fadeInStart = now;
@@ -90,20 +90,20 @@ public class ProgressLoader<S, T> extends LoadingGui implements ILoader {
         float alpha = (fadeOutTime >= 1 ? 1 - clamp(fadeOutTime - 1, 0F, 1F) : clamp(fadeInTime, 0.15F, 1F));
 
         /* Render Underlying Screen if Fading In / Out */
-        if (mc.currentScreen != null && (fadeOutTime >= 1 || fadeInTime < 1)) mc.currentScreen.render(stack, 0, 0, partialTicks);
+        if (mc.screen != null && (fadeOutTime >= 1 || fadeInTime < 1)) mc.screen.render(stack, 0, 0, partialTicks);
 
         /* Render our Screen */
         reporter.render(alpha);
 
         /* Remove this Overlay if Fade Out is done */
-        if (fadeOutTime >= 2) mc.setLoadingGui(null);
+        if (fadeOutTime >= 2) mc.setOverlay(null);
 
         /* Trigger Fade Out */
         if (fadeOutStart == -1 && request.isFinished() && fadeInTime >= 2) {
             request.complete();
             fadeOutStart = now;
             GLI GL = InternalAPI.getGL();
-            if (mc.currentScreen != null) mc.currentScreen.init(mc, GL.getScaledWidth(), GL.getScaledHeight());
+            if (mc.screen != null) mc.screen.init(mc, GL.getScaledWidth(), GL.getScaledHeight());
         }
     }
 

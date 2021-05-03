@@ -39,9 +39,9 @@ public class ItemStackRenderer implements IAnimatedRenderer<ItemStackParameters,
     public void setup(ItemStackParameters parameters) {
         Debug.push("item/setup");
 
-        MainWindow window = Minecraft.getInstance().getMainWindow();
-        int displayWidth = window.getFramebufferWidth();
-        int displayHeight = window.getFramebufferHeight();
+        MainWindow window = Minecraft.getInstance().getWindow();
+        int displayWidth = window.getWidth();
+        int displayHeight = window.getHeight();
 
         int size = Maths.minimum(displayHeight, displayWidth, parameters.size);
         tr = TileRenderer.forSize(parameters.size, size);
@@ -61,10 +61,10 @@ public class ItemStackRenderer implements IAnimatedRenderer<ItemStackParameters,
         GL.scaleFixedZLevel(scale, -BASE_Z_LEVEL);
 
         /* Save old zLevel so we can reset it */
-        zLevel = renderer.zLevel;
+        zLevel = renderer.blitOffset;
 
         /* Modify zLevel */
-        renderer.zLevel = -BASE_Z_LEVEL / 2f;
+        renderer.blitOffset = -BASE_Z_LEVEL / 2f;
 
         Debug.pop();
     }
@@ -80,8 +80,8 @@ public class ItemStackRenderer implements IAnimatedRenderer<ItemStackParameters,
         tr.clearBuffer();
 
         /* Force Glint to be the same between renders by changing nano supplier */
-        LongSupplier oldSupplier = Util.nanoTimeSupplier;
-        Util.nanoTimeSupplier = () -> nano;
+        LongSupplier oldSupplier = Util.timeSource;
+        Util.timeSource = () -> nano;
 
         Minecraft.getInstance().getTextureManager().tick();
 
@@ -93,13 +93,13 @@ public class ItemStackRenderer implements IAnimatedRenderer<ItemStackParameters,
             GL.clearFrameBuffer();
 
             /* Render */
-            renderer.renderItemAndEffectIntoGUI(instance, 0, 0);
+            renderer.renderAndDecorateItem(instance, 0, 0);
 
             GL.popMatrix("item/render");
         } while (tr.endTile());
 
         /* Reset nano supplier */
-        Util.nanoTimeSupplier = oldSupplier;
+        Util.timeSource = oldSupplier;
 
         /* Pass the value and its resulting render to the consumer */
         /* Note: The rendered image needs to be flipped vertically */
@@ -113,7 +113,7 @@ public class ItemStackRenderer implements IAnimatedRenderer<ItemStackParameters,
         Debug.push("item/teardown");
 
         /* Reset zLevel */
-        renderer.zLevel = zLevel;
+        renderer.blitOffset = zLevel;
 
         /* Pop Stack */
         GL.popMatrix("item/teardown");

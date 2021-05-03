@@ -55,9 +55,9 @@ public class ItemButtonMultiWidget extends Button {
         GL.translate(x, y, 32.0f);
         GL.scaleFixedZLevel(scale, -BASE_Z_LEVEL);
 
-        renderer.zLevel = -BASE_Z_LEVEL / 2f;
-        renderer.renderItemAndEffectIntoGUI(stack, 0, 0);
-        renderer.zLevel = 0.0F;
+        renderer.blitOffset = -BASE_Z_LEVEL / 2f;
+        renderer.renderAndDecorateItem(stack, 0, 0);
+        renderer.blitOffset = 0.0F;
         GL.popMatrix();
 
     }

@@ -51,12 +51,12 @@ public class GL implements GLI {
 
     @Override
     public void setupItemStackLighting() {
-        RenderHelper.setupGui3DDiffuseLighting();
+        RenderHelper.setupFor3DItems();
     }
 
     @Override
     public void displayLighting() {
-        RenderHelper.disableStandardItemLighting();
+        RenderHelper.turnOff();
     }
 
     /* =================================================================================================== State ==== */
@@ -89,54 +89,54 @@ public class GL implements GLI {
 
     @Override
     public void clearColorBuffer() {
-        RenderSystem.clear(GL11.GL_COLOR_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC);
+        RenderSystem.clear(GL11.GL_COLOR_BUFFER_BIT, Minecraft.ON_OSX);
     }
 
     @Override
     public void clearDepthBuffer() {
-        RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, Minecraft.IS_RUNNING_ON_MAC);
+        RenderSystem.clear(GL11.GL_DEPTH_BUFFER_BIT, Minecraft.ON_OSX);
     }
 
     /* ================================================================================================== Window ==== */
 
     @Override
     public void unbindFBO() {
-        client().getFramebuffer().unbindFramebuffer();
+        client().getMainRenderTarget().unbindWrite();
     }
 
     @Override
     public void flipFrame() {
-        window().flipFrame();
+        window().updateDisplay();
     }
 
     @Override
     public void rebindFBO() {
-        client().getFramebuffer().bindFramebuffer(false);
+        client().getMainRenderTarget().bindWrite(false);
     }
 
     @Override
     public int getScaledWidth() {
-        return window().getScaledWidth();
+        return window().getGuiScaledWidth();
     }
 
     @Override
     public int getScaledHeight() {
-        return window().getScaledHeight();
+        return window().getGuiScaledHeight();
     }
 
     @Override
     public int getFramebufferWidth() {
-        return window().getFramebufferWidth();
+        return window().getWidth();
     }
 
     @Override
     public int getFramebufferHeight() {
-        return window().getFramebufferHeight();
+        return window().getHeight();
     }
 
     @Override
     public double getScaleFactor() {
-        return window().getGuiScaleFactor();
+        return window().getGuiScale();
     }
 
     /* ============================================================================================= Projections ==== */
@@ -158,7 +158,7 @@ public class GL implements GLI {
     }
 
     private MainWindow window() {
-        return Minecraft.getInstance().getMainWindow();
+        return Minecraft.getInstance().getWindow();
     }
 
 }
