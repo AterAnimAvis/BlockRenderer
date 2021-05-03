@@ -32,10 +32,10 @@ public class BaseItemStackHandler implements Consumer<ItemStack> {
 
     @Override
     public void accept(ItemStack value) {
-        Style open = Style.EMPTY.applyFormatting(TextFormatting.GOLD);
+        Style open = Style.EMPTY.applyFormat(TextFormatting.GOLD);
 
         if (future != null)
-            open = open.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, future.getAbsolutePath()));
+            open = open.withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, future.getAbsolutePath()));
 
         Strings.addMessage(Strings.rawText("> Finished Rendering " + Identifiers.get(value.getItem())).setStyle(open));
     }

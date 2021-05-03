@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Minecraft.class)
 public class MixinMinecraftClient {
 
-    @Inject(method = "runGameLoop(Z)V", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/profiler/IProfiler;endStartSection(Ljava/lang/String;)V", args = "ldc=gameRenderer"), allow = 1)
+    @Inject(method = "runTick(Z)V", at = @At(value = "INVOKE_STRING", target = "Lnet/minecraft/profiler/IProfiler;popPush(Ljava/lang/String;)V", args = "ldc=gameRenderer"), allow = 1)
     public void hookGameRenderer(CallbackInfo ci) {
         ClientProxy.onFrameStart();
     }

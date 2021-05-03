@@ -30,7 +30,7 @@ public class RenderMapScreen extends EnterSizeScreen {
         super(TITLE, old, stack, false);
 
         minecraft = Minecraft.getInstance();
-        data = minecraft.world != null ? FilledMapItem.getMapData(stack, minecraft.world) : null;
+        data = minecraft.level != null ? FilledMapItem.getOrCreateSavedData(stack, minecraft.level) : null;
     }
 
     @Override
@@ -63,21 +63,21 @@ public class RenderMapScreen extends EnterSizeScreen {
 
         super.render(stack, mouseX, mouseY, partialTicks);
 
-        if (minecraft.world == null) return;
+        if (minecraft.level == null) return;
         if (data != null) return;
 
-        drawCenteredString(stack, minecraft.fontRenderer, translate("block_renderer.gui.noMapData"), width / 2, height / 6 + 30, 0xFF5555);
+        drawCenteredString(stack, minecraft.font, translate("block_renderer.gui.noMapData"), width / 2, height / 6 + 30, 0xFF5555);
     }
 
     @Override
     public void onRender(Button button) {
         assert minecraft != null;
 
-        minecraft.displayGuiScreen(old);
-        if (minecraft.world == null) return;
+        minecraft.setScreen(old);
+        if (minecraft.level == null) return;
         if (data == null) return;
 
         //TODO: Map Background Image? "textures/map/map_background.png"
-        RenderManager.push(Requests.single(stack, data, round(size), useId.isChecked(), addSize.isChecked(), decorations));
+        RenderManager.push(Requests.single(stack, data, round(size), useId.selected(), addSize.selected(), decorations));
     }
 }

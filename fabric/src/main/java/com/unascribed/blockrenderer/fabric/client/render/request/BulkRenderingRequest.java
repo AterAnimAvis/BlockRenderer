@@ -16,7 +16,7 @@ import java.util.function.Function;
 
 public class BulkRenderingRequest<S, T> extends BaseBulkRenderingRequest<S, T, ITextComponent> {
 
-    private final Executor BACKGROUND = Util.getServerExecutor();
+    private final Executor BACKGROUND = Util.backgroundExecutor();
 
     public BulkRenderingRequest(IRenderer<S, T> renderer, S parameters, String name, Collection<T> values, Function<T, ITextComponent> asDisplayName, ImageHandler<T> handler, Runnable callback) {
         super(new ReporterBulk(name, values.size()), renderer, parameters, name, values, asDisplayName, handler, callback);
@@ -25,7 +25,7 @@ public class BulkRenderingRequest<S, T> extends BaseBulkRenderingRequest<S, T, I
     @Override
     protected ILoader createAndInstallLoader() {
         ProgressLoader<S, T> overlay = new ProgressLoader<>(this, reporter);
-        Minecraft.getInstance().setLoadingGui(overlay);
+        Minecraft.getInstance().setOverlay(overlay);
         reporter.init();
         return overlay;
     }

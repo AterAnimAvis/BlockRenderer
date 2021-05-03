@@ -48,16 +48,16 @@ public class ItemButtonMultiWidget extends Button {
     }
 
     private void renderItemStack(ItemStack stack, int x, int y, float scale) {
-        int BASE_Z_LEVEL = 100;
+        int BASE_BLIT_OFFSET = 100;
 
         GL.pushMatrix();
 
         GL.translate(x, y, 32.0f);
-        GL.scaleFixedZLevel(scale, -BASE_Z_LEVEL);
+        GL.scaleFixedZLevel(scale, -BASE_BLIT_OFFSET);
 
-        renderer.zLevel = -BASE_Z_LEVEL / 2f;
-        renderer.renderItemAndEffectIntoGUI(stack, 0, 0);
-        renderer.zLevel = 0.0F;
+        renderer.blitOffset = -BASE_BLIT_OFFSET / 2f;
+        renderer.renderAndDecorateItem(stack, 0, 0);
+        renderer.blitOffset = 0.0F;
         GL.popMatrix();
 
     }

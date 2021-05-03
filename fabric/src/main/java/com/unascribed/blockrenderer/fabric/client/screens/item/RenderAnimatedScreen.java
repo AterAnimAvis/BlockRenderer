@@ -33,7 +33,7 @@ public class RenderAnimatedScreen extends EnterSizeScreen {
     @Override
     public void init() {
         assert minecraft != null;
-        minecraft.keyboardListener.enableRepeatEvents(true);
+        minecraft.keyboardHandler.setSendRepeatsToGui(true);
         boolean enabled = enabled();
 
         asZip = addButton(new HoverableCheckboxWidget(this, width / 2 - 100, height / 6 + 166, 98, 20, translate("block_renderer.gui.zip"), translate("block_renderer.gui.zip.tooltip"), false), enabled);
@@ -41,9 +41,9 @@ public class RenderAnimatedScreen extends EnterSizeScreen {
 
         /* Note: This is the initializer, text can be null! */
         @SuppressWarnings("ConstantConditions")
-        String prefill = (length == null ? "20" : length.getText());
+        String prefill = (length == null ? "20" : length.getValue());
 
-        length = addButton(new HoverableTextFieldWidget(this, minecraft.fontRenderer, width / 2 - 100, height / 6 + 74, 200, 20, translate("block_renderer.gui.animatedLength"), translate("block_renderer.gui.animatedLength.tooltip")), enabled);
+        length = addButton(new HoverableTextFieldWidget(this, minecraft.font, width / 2 - 100, height / 6 + 74, 200, 20, translate("block_renderer.gui.animatedLength"), translate("block_renderer.gui.animatedLength.tooltip")), enabled);
         length.setResponder((value) -> {
             isInteger = false;
             try {
@@ -52,9 +52,9 @@ public class RenderAnimatedScreen extends EnterSizeScreen {
             } catch (NumberFormatException ignore) {
             }
         });
-        length.setText(prefill);
-        addListener(length);
-        setFocusedDefault(length);
+        length.setValue(prefill);
+        addWidget(length);
+        setInitialFocus(length);
 
         super.init();
     }
@@ -67,20 +67,20 @@ public class RenderAnimatedScreen extends EnterSizeScreen {
     }
 
     @Override
-    public void closeScreen() {
+    public void onClose() {
         assert minecraft != null;
-        minecraft.keyboardListener.enableRepeatEvents(false);
-        super.closeScreen();
+        minecraft.keyboardHandler.setSendRepeatsToGui(false);
+        super.onClose();
     }
 
     @Override
     public void onRender(Button button) {
         assert minecraft != null;
 
-        minecraft.displayGuiScreen(old);
-        if (minecraft.world == null) return;
+        minecraft.setScreen(old);
+        if (minecraft.level == null) return;
 
-        RenderManager.push(Requests.animated(stack, round(size), useId.isChecked(), addSize.isChecked(), Integer.parseInt(length.getText()), autoLoop.isChecked(), asZip.isChecked()));
+        RenderManager.push(Requests.animated(stack, round(size), useId.selected(), addSize.selected(), Integer.parseInt(length.getValue()), autoLoop.selected(), asZip.selected()));
     }
 
 }

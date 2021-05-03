@@ -15,15 +15,15 @@ You can generate these mappings via [mcp2yarn](https://github.com/AterAnimAvis/m
 
 ###################################################### MCP-Config ######################################################
 mcpType        =release
-mcpVersion     =1.16.4
+mcpVersion     =1.16.5
 
 ####################################################### Mappings #######################################################
-mappingsChannel=snapshot
-mappingsVersion=20201028-1.16.3
+mappingsChannel=official
+mappingsVersion=1.16.5
 
 ######################################################### Yarn #########################################################
-yarnVersion    =1.16.4
-yarnBuild      =9
+yarnVersion    =1.16.5
+yarnBuild      =8
 ```
 
 Clone mcp2yarn, modify the `gradle.properties` to match and then run `gradle install` to generate and install the mappings to your local

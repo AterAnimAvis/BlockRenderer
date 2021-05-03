@@ -37,7 +37,7 @@ public interface Strings {
     }
 
     static void addMessage(ITextComponent text) {
-        Minecraft.getInstance().ingameGUI.getChatGUI().printChatMessage(text);
+        Minecraft.getInstance().gui.getChat().addMessage(text);
     }
 
     static String dateTime() {

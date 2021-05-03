@@ -22,15 +22,15 @@ import java.util.function.LongSupplier;
 public class ItemStackRenderer implements IAnimatedRenderer<ItemStackParameters, ItemStack> {
 
     /**
-     * {@link ItemRenderer#renderItemIntoGUI(ItemStack, int, int)} -> renderItemModelIntoGUI uses 100F as Base Z Level
+     * {@link ItemRenderer#renderGuiItem(ItemStack, int, int)} -> renderGuiItem uses 100F as Base Z Level
      */
-    private static final int BASE_Z_LEVEL = 100;
+    private static final int BASE_BLIT_OFFSET = 100;
     private static final float ITEM_STACK_SIZE = 16;
 
     private final GLI GL = InternalAPI.getGL();
     private final ItemRenderer renderer = Minecraft.getInstance().getItemRenderer();
 
-    private float zLevel;
+    private float blitOffset;
 
     @Nullable
     private TileRenderer tr;
@@ -39,9 +39,9 @@ public class ItemStackRenderer implements IAnimatedRenderer<ItemStackParameters,
     public void setup(ItemStackParameters parameters) {
         Debug.push("item/setup");
 
-        MainWindow window = Minecraft.getInstance().getMainWindow();
-        int displayWidth = window.getFramebufferWidth();
-        int displayHeight = window.getFramebufferHeight();
+        MainWindow window = Minecraft.getInstance().getWindow();
+        int displayWidth = window.getWidth();
+        int displayHeight = window.getHeight();
 
         int size = Maths.minimum(displayHeight, displayWidth, parameters.size);
         tr = TileRenderer.forSize(parameters.size, size);
@@ -58,13 +58,13 @@ public class ItemStackRenderer implements IAnimatedRenderer<ItemStackParameters,
         /* Scale based on desired size */
         // TODO: do we need to scale / translate in z axis
         float scale = parameters.size / ITEM_STACK_SIZE;
-        GL.scaleFixedZLevel(scale, -BASE_Z_LEVEL);
+        GL.scaleFixedZLevel(scale, -BASE_BLIT_OFFSET);
 
-        /* Save old zLevel so we can reset it */
-        zLevel = renderer.zLevel;
+        /* Save old blitOffset so we can reset it */
+        blitOffset = renderer.blitOffset;
 
-        /* Modify zLevel */
-        renderer.zLevel = -BASE_Z_LEVEL / 2f;
+        /* Modify blitOffset */
+        renderer.blitOffset = -BASE_BLIT_OFFSET / 2f;
 
         Debug.pop();
     }
@@ -79,9 +79,9 @@ public class ItemStackRenderer implements IAnimatedRenderer<ItemStackParameters,
         /* Clear Pixel Buffer */
         tr.clearBuffer();
 
-        /* Force Glint to be the same between renders by changing nano supplier */
-        LongSupplier oldSupplier = Util.nanoTimeSupplier;
-        Util.nanoTimeSupplier = () -> nano;
+        /* Force Glint to be the same between renders by changing timeSource */
+        LongSupplier oldSupplier = Util.timeSource;
+        Util.timeSource = () -> nano;
 
         Minecraft.getInstance().getTextureManager().tick();
 
@@ -93,13 +93,13 @@ public class ItemStackRenderer implements IAnimatedRenderer<ItemStackParameters,
             GL.clearFrameBuffer();
 
             /* Render */
-            renderer.renderItemAndEffectIntoGUI(instance, 0, 0);
+            renderer.renderAndDecorateItem(instance, 0, 0);
 
             GL.popMatrix("item/render");
         } while (tr.endTile());
 
-        /* Reset nano supplier */
-        Util.nanoTimeSupplier = oldSupplier;
+        /* Reset timeSource */
+        Util.timeSource = oldSupplier;
 
         /* Pass the value and its resulting render to the consumer */
         /* Note: The rendered image needs to be flipped vertically */
@@ -112,8 +112,8 @@ public class ItemStackRenderer implements IAnimatedRenderer<ItemStackParameters,
     public void teardown() {
         Debug.push("item/teardown");
 
-        /* Reset zLevel */
-        renderer.zLevel = zLevel;
+        /* Reset blitOffset */
+        renderer.blitOffset = blitOffset;
 
         /* Pop Stack */
         GL.popMatrix("item/teardown");

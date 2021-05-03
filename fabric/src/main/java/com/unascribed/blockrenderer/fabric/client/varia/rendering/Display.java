@@ -45,46 +45,46 @@ public class Display implements DisplayI<ITextComponent> {
     }
 
     public static void drawCenteredString(MatrixStack stack, String str, int x, int y, int color) {
-        client.fontRenderer.drawStringWithShadow(stack, str, x - client.fontRenderer.getStringWidth(str) / 2F, y, color);
+        client.font.drawShadow(stack, str, x - client.font.width(str) / 2F, y, color);
     }
 
     public static void renderTooltip(Screen owner, MatrixStack stack, List<ITextComponent> tooltip, int x, int y) {
         helper.init(client, owner.width, owner.height);
-        helper.func_243308_b(stack, tooltip, x, y);
+        helper.renderComponentTooltip(stack, tooltip, x, y);
     }
 
     @Override
     public void drawDirtBackground(int scaledWidth, int scaledHeight, float alpha) {
         Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder bufferbuilder = tessellator.getBuffer();
+        BufferBuilder bufferbuilder = tessellator.getBuilder();
 
-        client.getTextureManager().bindTexture(AbstractGui.BACKGROUND_LOCATION);
+        client.getTextureManager().bind(AbstractGui.BACKGROUND_LOCATION);
 
         GL.color(1.0F, 1.0F, 1.0F, alpha);
         bufferbuilder.begin(7, DefaultVertexFormats.POSITION_COLOR_TEX);
 
         // 0 h
-        bufferbuilder.pos(0.0D, scaledHeight, 0.0D)
+        bufferbuilder.vertex(0.0D, scaledHeight, 0.0D)
                 .color(64, 64, 64, 255)
-                .tex(0.0F, scaledHeight / 32.0F + 0.0F)
+                .uv(0.0F, scaledHeight / 32.0F + 0.0F)
                 .endVertex();
         // w h
-        bufferbuilder.pos(scaledWidth, scaledHeight, 0.0D)
+        bufferbuilder.vertex(scaledWidth, scaledHeight, 0.0D)
                 .color(64, 64, 64, 255)
-                .tex(scaledWidth / 32.0F, scaledHeight / 32.0F + 0.0F)
+                .uv(scaledWidth / 32.0F, scaledHeight / 32.0F + 0.0F)
                 .endVertex();
         // w 0
-        bufferbuilder.pos(scaledWidth, 0.0D, 0.0D)
+        bufferbuilder.vertex(scaledWidth, 0.0D, 0.0D)
                 .color(64, 64, 64, 255)
-                .tex(scaledWidth / 32.0F, 0.0F)
+                .uv(scaledWidth / 32.0F, 0.0F)
                 .endVertex();
         // 0 0
-        bufferbuilder.pos(0.0D, 0.0D, 0.0D)
+        bufferbuilder.vertex(0.0D, 0.0D, 0.0D)
                 .color(64, 64, 64, 255)
-                .tex(0.0F, 0.0F)
+                .uv(0.0F, 0.0F)
                 .endVertex();
 
-        tessellator.draw();
+        tessellator.end();
     }
 
 }

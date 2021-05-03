@@ -25,7 +25,7 @@ import java.util.function.LongSupplier;
 public class MapRenderer implements IRenderer<MapParameters, MapData> {
 
     private static final float MAP_SIZE = 128.0F;
-    
+
     private final GLI GL = InternalAPI.getGL();
 
     @Nullable
@@ -38,9 +38,9 @@ public class MapRenderer implements IRenderer<MapParameters, MapData> {
 
         decorations = parameters.decorations;
 
-        MainWindow window = Minecraft.getInstance().getMainWindow();
-        int displayWidth = window.getFramebufferWidth();
-        int displayHeight = window.getFramebufferHeight();
+        MainWindow window = Minecraft.getInstance().getWindow();
+        int displayWidth = window.getWidth();
+        int displayHeight = window.getHeight();
 
         int size = Maths.minimum(displayHeight, displayWidth, parameters.size);
         tr = TileRenderer.forSize(parameters.size, size);
@@ -71,15 +71,15 @@ public class MapRenderer implements IRenderer<MapParameters, MapData> {
         /* Clear Pixel Buffer */
         tr.clearBuffer();
 
-        /* Force Glint to be the same between renders by changing nano supplier */
-        LongSupplier oldSupplier = Util.nanoTimeSupplier;
-        Util.nanoTimeSupplier = () -> 0;
+        /* Force Glint to be the same between renders by changing timeSource */
+        LongSupplier oldSupplier = Util.timeSource;
+        Util.timeSource = () -> 0;
 
         Minecraft.getInstance().getTextureManager().tick();
 
-        IRenderTypeBuffer.Impl buffers = IRenderTypeBuffer.getImpl(Tessellator.getInstance().getBuffer());
+        IRenderTypeBuffer.Impl buffers = IRenderTypeBuffer.immediate(Tessellator.getInstance().getBuilder());
         try (MapItemRenderer renderer = new MapItemRenderer(Minecraft.getInstance().getTextureManager())) {
-            renderer.updateMapTexture(instance);
+            renderer.update(instance);
 
             do {
                 tr.beginTile();
@@ -89,16 +89,16 @@ public class MapRenderer implements IRenderer<MapParameters, MapData> {
                 GL.clearFrameBuffer();
 
                 /* Render (MatrixStack, Buffers, Data, RenderBorder, LightMap) */
-                renderer.renderMap(new MatrixStack(), buffers, instance, decorations != MapDecorations.ALL, 240);
+                renderer.render(new MatrixStack(), buffers, instance, decorations != MapDecorations.ALL, 240);
 
-                buffers.finish();
+                buffers.endBatch();
 
                 GL.popMatrix("map/render");
             } while (tr.endTile());
         }
 
-        /* Reset nano supplier */
-        Util.nanoTimeSupplier = oldSupplier;
+        /* Reset timeSource */
+        Util.timeSource = oldSupplier;
 
         /* Pass the value and its resulting render to the consumer */
         /* Note: The rendered image needs to be flipped vertically */

@@ -17,11 +17,11 @@ public interface Registries {
     LazyValue<Item> PATTERN = new LazyValue<>(() -> lookupItem(new ResourceLocation("minecraft:mojang_banner_pattern")));
 
     static Item lookupItem(ResourceLocation identifier) {
-        return Registry.ITEM.getOrDefault(identifier);
+        return Registry.ITEM.get(identifier);
     }
 
     static <A, B> Supplier<B> mapLazy(LazyValue<A> lazy, Function<A, B> mapper) {
-        return () -> mapper.apply(lazy.getValue());
+        return () -> mapper.apply(lazy.get());
     }
 
 }

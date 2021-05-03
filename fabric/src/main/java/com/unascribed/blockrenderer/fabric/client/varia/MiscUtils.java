@@ -20,7 +20,7 @@ import java.util.Set;
 public interface MiscUtils {
 
     static boolean isEscapePressed() {
-        return InputMappings.isKeyDown(Minecraft.getInstance().getMainWindow().getHandle(), GLFW.GLFW_KEY_ESCAPE);
+        return InputMappings.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_ESCAPE);
     }
 
     static List<ItemStack> collectStacks(Set<String> namespaces) {
@@ -31,11 +31,11 @@ public interface MiscUtils {
             if (identifier != null && namespaces.contains(identifier.getNamespace()) || namespaces.contains("*")) {
                 list.clear();
 
-                Item item = Registry.ITEM.getOrDefault(identifier);
+                Item item = Registry.ITEM.get(identifier);
                 if (item == Items.AIR) continue;
 
                 try {
-                    item.fillItemGroup(ItemGroup.SEARCH, list);
+                    item.fillItemCategory(ItemGroup.TAB_SEARCH, list);
                 } catch (Throwable t) {
                     Log.error(Markers.SEARCH, "Failed to get render-able items for {}", identifier, t);
                 }

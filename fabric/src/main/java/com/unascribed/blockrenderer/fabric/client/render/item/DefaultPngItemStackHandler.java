@@ -39,8 +39,8 @@ public class DefaultPngItemStackHandler extends BaseItemStackHandler implements 
     @Override
     public void run() {
         Style open = Style.EMPTY
-                .applyFormatting(TextFormatting.GOLD)
-                .setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, folder.getAbsolutePath()));
+                .applyFormat(TextFormatting.GOLD)
+                .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, folder.getAbsolutePath()));
 
         Strings.addMessage(Strings.rawText("> Finished Rendering").setStyle(open));
     }
@@ -51,9 +51,9 @@ public class DefaultPngItemStackHandler extends BaseItemStackHandler implements 
 
         switch (grouped) {
             case 1:
-                ItemGroup group = value.getItem().getGroup();
+                ItemGroup group = value.getItem().getItemCategory();
                 if (group == null) return result;
-                return Strings.sanitize(group.getPath()) + "/" + result;
+                return Strings.sanitize(group.getRecipeFolderName()) + "/" + result;
             case 2:
                 return (value.getItem() instanceof BlockItem ? "blocks" : "items") + "/" + result;
         }

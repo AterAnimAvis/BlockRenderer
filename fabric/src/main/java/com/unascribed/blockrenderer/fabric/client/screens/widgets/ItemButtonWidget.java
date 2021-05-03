@@ -38,7 +38,7 @@ public class ItemButtonWidget extends Button {
         this.owner = owner;
         this.renderer = renderer;
         this.stack = stack;
-        this.isMap = stack.get().getItem() == Registries.MAP.getValue();
+        this.isMap = stack.get().getItem() == Registries.MAP.get();
     }
 
     @Override
@@ -57,18 +57,18 @@ public class ItemButtonWidget extends Button {
 
         if (!active) {
             Minecraft minecraft = Minecraft.getInstance();
-            minecraft.getTextureManager().bindTexture(CUSTOM_WIDGETS);
+            minecraft.getTextureManager().bind(CUSTOM_WIDGETS);
 
             blit(matrix, x + 44, y + 44, 22, 0, 20, 20);
 
-            minecraft.getTextureManager().bindTexture(WIDGETS_LOCATION);
+            minecraft.getTextureManager().bind(WIDGETS_LOCATION);
         }
 
         GL.popMatrix();
     }
 
     private void renderItemStack(ItemStack stack, int x, int y, float scale) {
-        int BASE_Z_LEVEL = 100;
+        int BASE_BLIT_OFFSET = 100;
 
         GL.pushMatrix();
 
@@ -76,11 +76,11 @@ public class ItemButtonWidget extends Button {
         if (isMap) GL.translate(-2f, 0f, 0f);
 
         GL.translate(x, y, 32.0f);
-        GL.scaleFixedZLevel(scale, -BASE_Z_LEVEL);
+        GL.scaleFixedZLevel(scale, -BASE_BLIT_OFFSET);
 
-        renderer.zLevel = -BASE_Z_LEVEL / 2f;
-        renderer.renderItemAndEffectIntoGUI(stack, 0, 0);
-        renderer.zLevel = 0.0F;
+        renderer.blitOffset = -BASE_BLIT_OFFSET / 2f;
+        renderer.renderAndDecorateItem(stack, 0, 0);
+        renderer.blitOffset = 0.0F;
         GL.popMatrix();
 
     }
