@@ -84,7 +84,7 @@ public class GL implements GLI {
 
     @Override
     public void resetClearColor() {
-        RenderSystem.clearColor(0, 0, 0, 0);
+        RenderSystem.clearColor(1F, 1F, 1F, 0F);
     }
 
     @Override

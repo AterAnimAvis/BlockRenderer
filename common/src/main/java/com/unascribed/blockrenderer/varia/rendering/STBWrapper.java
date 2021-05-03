@@ -55,6 +55,10 @@ public class STBWrapper implements IImage {
         }
     }
 
+    public int[] getRawBuffer() {
+        return buffer;
+    }
+
     public int getPixelRGBA(int x, int y) {
         return buffer[x + y * width];
     }
