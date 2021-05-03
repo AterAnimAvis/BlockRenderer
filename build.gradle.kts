@@ -4,17 +4,16 @@ import patches.MakePatches
 /*================================================================================================== BuildScript ==== */
 buildscript {
     repositories {
-        maven(url = "https://files.minecraftforge.net/maven")
+        maven(url = "https://maven.minecraftforge.net")
         maven(url = "https://maven.fabricmc.net")
-        jcenter()
         mavenCentral()
     }
 
     dependencies {
-        classpath(group = "net.minecraftforge.gradle", name = "ForgeGradle", version = "3.+") {
+        classpath(group = "net.minecraftforge.gradle", name = "ForgeGradle", version = "4.1.+") {
             isChanging = true
         }
-        classpath(group = "fabric-loom", name = "fabric-loom.gradle.plugin", version = "0.5.+") {
+        classpath(group = "fabric-loom", name = "fabric-loom.gradle.plugin", version = "0.7.+") {
             isChanging = true
         }
     }
@@ -162,7 +161,7 @@ project(":forge") {
                     "Implementation-Title" to project.name,
                     "Implementation-Version" to project.version,
                     "Implementation-Vendor" to vendor,
-                    "Implementation-Timestamp" to Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+                    "Implementation-Timestamp" to Instant.now().iso8601()
             )
         }
     }
@@ -256,10 +255,10 @@ tasks.create<MakePatches>("generateFabric2ForgePatches") {
 
 /* =================================================================================================== Utilities ==== */
 
-typealias Date = java.util.Date
-typealias SimpleDateFormat = java.text.SimpleDateFormat
+typealias Instant = java.time.Instant
+typealias DateTimeFormatter = java.time.format.DateTimeFormatter
 
-fun Date.format(format: String) = SimpleDateFormat(format).format(this)
+fun Instant.iso8601() = DateTimeFormatter.ISO_INSTANT.format(this)
 
 typealias RunConfig = net.minecraftforge.gradle.common.util.RunConfig
 typealias UserDevExtension = net.minecraftforge.gradle.userdev.UserDevExtension
