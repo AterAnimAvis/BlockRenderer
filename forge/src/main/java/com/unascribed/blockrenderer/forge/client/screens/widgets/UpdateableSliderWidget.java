@@ -39,20 +39,14 @@ public class UpdateableSliderWidget extends OptionSlider {
     public void update(double desired) {
         value = option.toPct(desired);
 
-        /* mcp: applyValue */
         applyValue();
-
-        /* mcp: updateMessage */
         updateMessage();
     }
 
     private void setSliderValue(double desiredRatio) {
         value = Maths.clamp(desiredRatio, 0.0D, 1.0D);
 
-        /* mcp: applyValue */
         applyValue();
-
-        /* mcp: updateMessage */
         updateMessage();
     }
 

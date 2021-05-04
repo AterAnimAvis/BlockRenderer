@@ -25,7 +25,7 @@ import java.util.function.LongSupplier;
 public class MapRenderer implements IRenderer<MapParameters, MapData> {
 
     private static final float MAP_SIZE = 128.0F;
-    
+
     private final GLI GL = InternalAPI.getGL();
 
     @Nullable
@@ -71,7 +71,7 @@ public class MapRenderer implements IRenderer<MapParameters, MapData> {
         /* Clear Pixel Buffer */
         tr.clearBuffer();
 
-        /* Force Glint to be the same between renders by changing nano supplier */
+        /* Force Glint to be the same between renders by changing timeSource */
         LongSupplier oldSupplier = Util.timeSource;
         Util.timeSource = () -> 0;
 
@@ -97,7 +97,7 @@ public class MapRenderer implements IRenderer<MapParameters, MapData> {
             } while (tr.endTile());
         }
 
-        /* Reset nano supplier */
+        /* Reset timeSource */
         Util.timeSource = oldSupplier;
 
         /* Pass the value and its resulting render to the consumer */

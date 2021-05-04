@@ -65,7 +65,7 @@ public class Requests {
                 new ItemStackParameters(size),
                 joined,
                 renders,
-                ItemStack::getDisplayName,
+                ItemStack::getHoverName,
                 handler,
                 handler
         );

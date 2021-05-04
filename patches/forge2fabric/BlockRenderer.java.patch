@@ -1,6 +1,6 @@
 --- a/BlockRenderer.java
 +++ b/BlockRenderer.java
-@@ -1,41 +_,26 @@
+@@ -1,25 +_,18 @@
 -package com.unascribed.blockrenderer.forge;
 +package com.unascribed.blockrenderer.fabric;
  
@@ -13,6 +13,7 @@
 -import com.unascribed.blockrenderer.forge.client.varia.rendering.GL;
 +import com.unascribed.blockrenderer.fabric.client.init.Keybindings;
 +import com.unascribed.blockrenderer.fabric.client.render.manager.RenderManager;
++import com.unascribed.blockrenderer.fabric.client.varia.Registries;
 +import com.unascribed.blockrenderer.fabric.client.varia.rendering.GL;
  import com.unascribed.blockrenderer.varia.logging.Log;
  import com.unascribed.blockrenderer.varia.logging.Markers;
@@ -29,11 +30,10 @@
 -        FMLJavaModLoadingContext.get().getModEventBus().addListener(BlockRenderer::onInitializeClient);
 -        MinecraftForge.EVENT_BUS.addListener(BlockRenderer::onFrameStart);
 -
--        Registries.clazzLoad();
--
-         Log.info(Markers.ROOT, "Running Version: " + Reference.VERSION);
+         Registries.clazzLoad();
  
-         InternalAPI.setGL(GL.INSTANCE);
+         Log.info(Markers.ROOT, "Running Version: " + Reference.VERSION);
+@@ -28,14 +_,9 @@
          InternalAPI.setRenderManager(RenderManager.INSTANCE);
      }
  

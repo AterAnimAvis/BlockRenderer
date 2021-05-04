@@ -1,6 +1,7 @@
 package com.unascribed.blockrenderer.forge.client.varia;
 
 import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -19,6 +20,11 @@ public interface Registries {
 
     static void clazzLoad() {
         // INTENTIONAL LEFT BLANK
+    }
+
+    static Item lookupItem(ResourceLocation identifier) {
+        Item item = ForgeRegistries.ITEMS.getValue(identifier);
+        return item != null ? item : Items.AIR;
     }
 
     static <A extends IForgeRegistryEntry<? super A>, B> Supplier<B> mapLazy(RegistryObject<A> lazy, Function<A, B> mapper) {

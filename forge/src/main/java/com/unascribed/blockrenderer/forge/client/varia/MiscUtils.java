@@ -28,11 +28,11 @@ public interface MiscUtils {
         NonNullList<ItemStack> list = NonNullList.create();
 
         for (ResourceLocation identifier : ForgeRegistries.ITEMS.getKeys()) {
-            if (identifier != null && namespaces.contains(identifier.getNamespace()) || namespaces.contains("*")) {
+            if (identifier != null && (namespaces.contains(identifier.getNamespace()) || namespaces.contains("*"))) {
                 list.clear();
 
-                Item item = ForgeRegistries.ITEMS.getValue(identifier);
-                if (item == null || item == Items.AIR) continue;
+                Item item = Registries.lookupItem(identifier);
+                if (item == Items.AIR) continue;
 
                 try {
                     item.fillItemCategory(ItemGroup.TAB_SEARCH, list);

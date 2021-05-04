@@ -28,10 +28,10 @@ public interface MiscUtils {
         NonNullList<ItemStack> list = NonNullList.create();
 
         for (ResourceLocation identifier : Registry.ITEM.keySet()) {
-            if (identifier != null && namespaces.contains(identifier.getNamespace()) || namespaces.contains("*")) {
+            if (identifier != null && (namespaces.contains(identifier.getNamespace()) || namespaces.contains("*"))) {
                 list.clear();
 
-                Item item = Registry.ITEM.get(identifier);
+                Item item = Registries.lookupItem(identifier);
                 if (item == Items.AIR) continue;
 
                 try {

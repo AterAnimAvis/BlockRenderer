@@ -13,12 +13,3 @@
  import com.unascribed.blockrenderer.varia.rendering.GLI;
  import net.minecraft.client.Minecraft;
  import net.minecraft.client.gui.screen.Screen;
-@@ -38,7 +_,7 @@
-         this.owner = owner;
-         this.renderer = renderer;
-         this.stack = stack;
--        this.isMap = stack.get().getItem() == Registries.MAP.get();
-+        this.isMap = stack.get().getItem() == Registries.MAP.getValue();
-     }
- 
-     @Override

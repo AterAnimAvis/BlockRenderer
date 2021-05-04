@@ -15,19 +15,12 @@
  import org.lwjgl.glfw.GLFW;
  
  import java.util.List;
-@@ -27,12 +_,12 @@
+@@ -27,7 +_,7 @@
          List<ItemStack> stacks = Lists.newArrayList();
          NonNullList<ItemStack> list = NonNullList.create();
  
 -        for (ResourceLocation identifier : ForgeRegistries.ITEMS.getKeys()) {
 +        for (ResourceLocation identifier : Registry.ITEM.keySet()) {
-             if (identifier != null && namespaces.contains(identifier.getNamespace()) || namespaces.contains("*")) {
+             if (identifier != null && (namespaces.contains(identifier.getNamespace()) || namespaces.contains("*"))) {
                  list.clear();
  
--                Item item = ForgeRegistries.ITEMS.getValue(identifier);
--                if (item == null || item == Items.AIR) continue;
-+                Item item = Registry.ITEM.getOrDefault(identifier);
-+                if (item == Items.AIR) continue;
- 
-                 try {
-                     item.fillItemGroup(ItemGroup.SEARCH, list);

@@ -58,7 +58,7 @@ public interface Strings {
 
     static String getFilename(ItemStack value, int size, boolean addDate, boolean addSize, boolean useIdentifier) {
         String sizeString = addSize ? size + "x" + size + "_" : "";
-        String fileName = useIdentifier ? sanitize(Identifiers.get(value.getItem())) : sanitize(value.getDisplayName());
+        String fileName = useIdentifier ? sanitize(Identifiers.get(value.getItem())) : sanitize(value.getHoverName());
 
         return (addDate ? dateTime() + "_" : "") + sizeString + fileName;
     }

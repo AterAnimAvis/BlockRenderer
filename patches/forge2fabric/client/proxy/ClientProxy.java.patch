@@ -33,7 +33,7 @@
 @@ -38,10 +_,10 @@
          Minecraft client = Minecraft.getInstance();
          Slot hovered = null;
-         Screen currentScreen = client.currentScreen;
+         Screen currentScreen = client.screen;
 -        boolean isContainerScreen = currentScreen instanceof ContainerScreen<?>;
 +        boolean isContainerScreen = currentScreen instanceof IHoveredSlot;
  
@@ -51,4 +51,4 @@
 +        InputMappings.Input key = KeyBindingHelper.getBoundKeyOf(Keybindings.render);
  
          if (key.getType() == InputMappings.Type.MOUSE) {
-             return GLFW.glfwGetMouseButton(client.getMainWindow().getHandle(), key.getKeyCode()) == GLFW.GLFW_PRESS;
+             return GLFW.glfwGetMouseButton(client.getWindow().getWindow(), key.getValue()) == GLFW.GLFW_PRESS;

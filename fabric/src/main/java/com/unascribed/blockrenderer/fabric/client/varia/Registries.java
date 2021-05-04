@@ -16,6 +16,10 @@ public interface Registries {
     LazyValue<Item> MAP = new LazyValue<>(() -> lookupItem(new ResourceLocation("minecraft:filled_map")));
     LazyValue<Item> PATTERN = new LazyValue<>(() -> lookupItem(new ResourceLocation("minecraft:mojang_banner_pattern")));
 
+    static void clazzLoad() {
+        // INTENTIONAL LEFT BLANK
+    }
+
     static Item lookupItem(ResourceLocation identifier) {
         return Registry.ITEM.get(identifier);
     }
