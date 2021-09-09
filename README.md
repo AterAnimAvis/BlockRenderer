@@ -11,7 +11,7 @@ Branches
 ---
 - [Forge 1.14.x](https://github.com/AterAnimAvis/BlockRenderer/tree/1.14) [MCP Mappings]
 - [Forge 1.15.x](https://github.com/AterAnimAvis/BlockRenderer/tree/1.15) [MCP Mappings]
-- [Merged 1.16.x](https://github.com/AterAnimAvis/BlockRenderer/tree/1.16-merged) [MCP Mappings]
+- [Merged 1.16.x](https://github.com/AterAnimAvis/BlockRenderer/tree/1.16-merged) **[MCP Mappings/OFFICIAL Mappings]**
 
 Old Branches
 ---
