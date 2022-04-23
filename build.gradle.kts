@@ -4,16 +4,16 @@ import patches.MakePatches
 /*================================================================================================== BuildScript ==== */
 buildscript {
     repositories {
-        maven(url = "https://maven.minecraftforge.net")
+        maven(url = "https://maven.minecraftforge.net/")
         maven(url = "https://maven.fabricmc.net")
         mavenCentral()
     }
 
     dependencies {
-        classpath(group = "net.minecraftforge.gradle", name = "ForgeGradle", version = "4.1.+") {
+        classpath(group = "net.minecraftforge.gradle", name = "ForgeGradle", version = "5.1.+") {
             isChanging = true
         }
-        classpath(group = "fabric-loom", name = "fabric-loom.gradle.plugin", version = "0.7.+") {
+        classpath(group = "fabric-loom", name = "fabric-loom.gradle.plugin", version = "0.12.+") {
             isChanging = true
         }
     }
@@ -61,10 +61,10 @@ subprojects {
     project.group = modGroup
     project.version = "$minecraftVersion-$modVersion"
 
-    /* Java 8 Target + Parameter Names */
+    /* Java 17 Target + Parameter Names */
     tasks.withType<JavaCompile> {
-        sourceCompatibility = "1.8"
-        targetCompatibility = "1.8"
+        sourceCompatibility = "17"
+        targetCompatibility = "17"
         options.compilerArgs.add("-parameters")
     }
 
@@ -126,8 +126,8 @@ project(":forge") {
     /* =============================================================================================== Minecraft ==== */
 
     minecraft {
-        mappingChannel = mappingsChannel
-        mappingVersion = mappingsVersion
+
+        mappings("${mappingsChannel}", "${mappingsVersion}")
 
         runs {
             config("client", project)
