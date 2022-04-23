@@ -4,7 +4,7 @@ import patches.MakePatches
 /*================================================================================================== BuildScript ==== */
 buildscript {
     repositories {
-        maven(url = "https://maven.minecraftforge.net/")
+        maven(url = "https://maven.minecraftforge.net")
         maven(url = "https://maven.fabricmc.net")
         mavenCentral()
     }
@@ -127,7 +127,7 @@ project(":forge") {
 
     minecraft {
 
-        mappings("${mappingsChannel}", "${mappingsVersion}")
+        mappings(mappingsChannel, mappingsVersion)
 
         runs {
             config("client", project)
